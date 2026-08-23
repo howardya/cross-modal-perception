@@ -11,3 +11,6 @@ dist/
 
 # Harness-managed worktrees
 .claude/worktrees/
+
+# Papers fetched locally, not committed
+papers/*.pdf
