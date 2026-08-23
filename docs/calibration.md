@@ -369,7 +369,7 @@ it did not on the hero note. Nothing was changed to achieve that.
 Caveat §6.7 said the constructed stimulus "makes the effect larger than it would
 be on an arbitrary document." This measures how much larger. On a note written to
 divide these readers, they share 37.5% of what they dwell on; on a note that was
-not, 50%. The dramatic 0/8 — a risk officer and a retail investor with nothing in
+not, 50%. The dramatic 0/8 — an equity PM and a retail investor with nothing in
 common — is a property of the hero note, not of the four mandates. On ordinary
 prose the mandates still separate, reliably and in the direction the literature
 predicts, but by roughly a third less.
