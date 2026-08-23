@@ -1,0 +1,897 @@
+<title>Behind Someone Else's Eyes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   The daylight companion to the demo.
+
+   Same three faces and the same blue↔orange data axis, on a light
+   ground — a report gets read and printed; the demo is an optical
+   booth. In dark mode the tokens resolve to the demo's own palette,
+   so the two pages read as one system rather than two projects.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --ground:  #EDEFF2;
+  --surface: #FFFFFF;
+  --sunken:  #E3E7EC;
+  --ink:     #12161D;
+  --muted:   #5B6472;
+  --rule:    #D5DAE1;
+
+  /* The one data axis, used for every valence figure on the page. */
+  --cold:    #1D5FA8;
+  --warm:    #B15A10;
+  /* Chrome only — never a data value. */
+  --accent:  #0E7C6B;
+
+  --display: "Fraunces", Georgia, serif;
+  --text:    "Newsreader", Georgia, serif;
+  --data:    "IBM Plex Mono", ui-monospace, monospace;
+  --measure: 38rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:  #0C0F16;
+    --surface: #141926;
+    --sunken:  #10141F;
+    --ink:     #E9E5DB;
+    --muted:   #8A94A6;
+    --rule:    #232A3A;
+    --cold:    #6BB3EE;
+    --warm:    #F0A055;
+    --accent:  #7FD1C1;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:  #0C0F16;
+  --surface: #141926;
+  --sunken:  #10141F;
+  --ink:     #E9E5DB;
+  --muted:   #8A94A6;
+  --rule:    #232A3A;
+  --cold:    #6BB3EE;
+  --warm:    #F0A055;
+  --accent:  #7FD1C1;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 1.06rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem; }
+.wrap--wide { max-width: 54rem; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; }
+h1 {
+  font-size: clamp(2.3rem, 6vw, 3.6rem);
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  font-variation-settings: "SOFT" 20, "WONK" 1, "opsz" 110;
+  text-wrap: balance;
+}
+h2 {
+  font-size: clamp(1.55rem, 3.4vw, 2.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  font-variation-settings: "SOFT" 16, "WONK" 1, "opsz" 70;
+  text-wrap: balance;
+  margin-bottom: 0.9rem;
+}
+h3 {
+  font-size: 1.16rem;
+  font-variation-settings: "SOFT" 10, "WONK" 0, "opsz" 28;
+  margin-bottom: 0.4rem;
+}
+
+p { margin: 0 0 1.05rem; }
+.lede { font-size: 1.18rem; color: color-mix(in oklab, var(--ink), var(--muted) 30%); }
+.small { font-size: 0.93rem; color: var(--muted); }
+strong { font-weight: 600; }
+em { font-style: italic; }
+
+.eyebrow {
+  font-family: var(--data);
+  font-size: 0.66rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+section { padding: 3.25rem 0; }
+section + section { border-top: 1px solid var(--rule); }
+
+/* Numbered because the method genuinely is a sequence — each step
+   consumes the previous one's output. */
+.step-n {
+  font-family: var(--data);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+/* ── header ──────────────────────────────────────────────── */
+
+header { padding: 4.5rem 0 3rem; }
+header h1 { margin-bottom: 1.4rem; }
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 2rem;
+  font-family: var(--data);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+.meta b { color: var(--ink); font-weight: 500; }
+
+/* ── the dot array: the page's recurring figure ──────────── */
+
+.dots {
+  display: inline-flex;
+  gap: 3px;
+  vertical-align: -1px;
+  margin-right: 0.45rem;
+}
+.dots i {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+  display: block;
+}
+.dots i.on { background: var(--ink); border-color: var(--ink); }
+.dots--warn i.on { background: var(--cold); border-color: var(--cold); }
+
+/* ── tables ──────────────────────────────────────────────── */
+
+.tbl-scroll { overflow-x: auto; margin: 1.5rem 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.94rem;
+  background: var(--surface);
+}
+caption {
+  caption-side: top;
+  text-align: left;
+  font-family: var(--data);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 0.6rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+thead th {
+  font-family: var(--data);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+tbody tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-family: var(--data); font-variant-numeric: tabular-nums; font-size: 0.86rem; }
+td.role { white-space: nowrap; }
+tr.hi td { background: color-mix(in oklab, var(--surface), var(--accent) 8%); }
+.cold { color: var(--cold); font-family: var(--data); font-variant-numeric: tabular-nums; }
+.warm { color: var(--warm); font-family: var(--data); font-variant-numeric: tabular-nums; font-weight: 500; }
+
+/* ── callouts ────────────────────────────────────────────── */
+
+.finding {
+  background: var(--surface);
+  border-left: 2px solid var(--accent);
+  padding: 1.1rem 1.35rem;
+  margin: 1.5rem 0;
+}
+.finding p:last-child { margin-bottom: 0; }
+.finding h3 { margin-bottom: 0.35rem; }
+
+.pull {
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 2.9vw, 1.6rem);
+  line-height: 1.3;
+  font-variation-settings: "SOFT" 14, "WONK" 1, "opsz" 48;
+  margin: 2rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--warm);
+  text-wrap: balance;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 1.75rem 0;
+}
+.cell { background: var(--surface); padding: 1.15rem 1.25rem; }
+.cell .k {
+  font-family: var(--data);
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.cell .v {
+  font-family: var(--display);
+  font-size: 2rem;
+  line-height: 1;
+  font-variation-settings: "opsz" 60, "WONK" 0;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.cell p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+/* ── decode list ─────────────────────────────────────────── */
+
+.decode { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 1.75rem 0; }
+.decode > div { background: var(--surface); padding: 1.1rem 1.25rem; }
+.decode .name {
+  font-family: var(--data);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.decode p { margin: 0 0 0.5rem; font-size: 0.95rem; }
+.decode p:last-child { margin-bottom: 0; }
+.decode .eg {
+  font-size: 0.88rem;
+  color: var(--muted);
+  border-top: 1px dashed var(--rule);
+  padding-top: 0.55rem;
+  margin-top: 0.6rem;
+}
+
+/* ── figure ──────────────────────────────────────────────── */
+
+figure { margin: 2rem 0; }
+figure svg { display: block; width: 100%; max-width: 100%; height: auto; }
+figcaption {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── misc ────────────────────────────────────────────────── */
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible, :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+code {
+  font-family: var(--data);
+  font-size: 0.86em;
+  background: var(--sunken);
+  padding: 0.1em 0.35em;
+  border-radius: 2px;
+}
+pre {
+  background: var(--sunken);
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  font-family: var(--data);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  margin: 1.25rem 0;
+}
+pre code { background: none; padding: 0; }
+
+ol.plain, ul.plain { padding-left: 1.15rem; margin: 0 0 1.05rem; }
+ol.plain li, ul.plain li { margin-bottom: 0.6rem; }
+
+.tag {
+  font-family: var(--data);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.tag--yes { background: color-mix(in oklab, var(--surface), var(--accent) 20%); color: var(--accent); }
+.tag--no  { background: color-mix(in oklab, var(--surface), var(--warm) 18%);   color: var(--warm); }
+
+footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
+
+@media (max-width: 640px) {
+  section { padding: 2.5rem 0; }
+  header { padding: 3rem 0 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+
+<header>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Results summary · perceptual expertise in financial text</p>
+    <h1>Behind someone else's eyes</h1>
+    <p class="lede">
+      Four professional mandates were applied to the same page of financial text,
+      five independent times each, and checked against constraints taken from the
+      eye-tracking literature. This is what the numbers are, how they were
+      produced, and how much weight they will bear.
+    </p>
+    <div class="meta">
+      <span><b>2</b> documents · 30 and 20 clauses</span>
+      <span><b>4</b> reader mandates</span>
+      <span><b>60</b> independent scoring runs</span>
+      <span><b>198</b> tests</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══ 1. THE RESULT ═════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">One · The result</p>
+    <h2>Experts do not disagree about the news. They disagree about where to look.</h2>
+
+    <p>
+      The project was built to show a credit analyst and an equity manager reading
+      the same sentence in opposite directions. Scored independently, that conflict
+      did not appear — the three professionals agreed with each other on essentially
+      every judgement. What separated them was <em>attention</em>. And the one place
+      genuine disagreement did appear was not between professionals at all.
+    </p>
+
+    <div class="grid">
+      <div class="cell">
+        <span class="k">Attention shared</span>
+        <span class="v">0–6<span style="font-size:1rem;color:var(--muted)"> of 8</span></span>
+        <p>Between the four readers, of the clauses each dwells on most. An equity
+        manager and an untrained reader shared none.</p>
+      </div>
+      <div class="cell">
+        <span class="k">Conflicts among experts</span>
+        <span class="v">0</span>
+        <p>Clauses the three professionals read in opposite directions, across the
+        whole document.</p>
+      </div>
+      <div class="cell">
+        <span class="k">Reproducibility</span>
+        <span class="v">0.83–0.97</span>
+        <p>Krippendorff's alpha across five blind runs per reader, on both documents.</p>
+      </div>
+    </div>
+
+    <p class="pull">
+      The two sentences an untrained investor likes most in this document are the
+      two that every professional treats as a warning.
+    </p>
+
+    <div class="tbl-scroll">
+      <table>
+        <caption>Valence, hero note — negative is bad news to that reader</caption>
+        <thead>
+          <tr>
+            <th>Clause</th>
+            <th class="num">Credit</th><th class="num">Equity</th>
+            <th class="num">Risk</th><th class="num">Retail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>“$300m share repurchase … funded from the revolving credit facility”</td>
+            <td class="num cold">−0.90</td><td class="num cold">−0.70</td>
+            <td class="num cold">−0.85</td><td class="num warm">+0.60</td>
+          </tr>
+          <tr>
+            <td>“The quarterly dividend was raised 8% to 27 cents”</td>
+            <td class="num cold">−0.50</td><td class="num cold">−0.20</td>
+            <td class="num cold">−0.50</td><td class="num warm">+0.90</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small">
+      Not because the untrained reader is careless. Those sentences are written to
+      sound like generosity, and it is knowing where the money comes from — a
+      revolving credit facility, at 4.1× leverage — that inverts them. That
+      knowledge is invisible from outside.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 2. METHOD ═════════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Two · Method</p>
+    <h2>How the numbers were made</h2>
+
+    <p>
+      Each reader is defined as a <strong>mandate</strong>, not a personality: an
+      objective, a time horizon, a loss function, and the things it reads for. This
+      follows Haider &amp; Frensch's finding that how much a reader discards depends
+      on the task they believe they are doing. A credit analyst is “paid a coupon and
+      can lose the principal”; nothing is said about temperament.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 900 380" role="img"
+           aria-label="The scoring pipeline: published research derives acceptance constraints that gate the output; a role mandate is scored by five independent runs that cannot see each other, aggregated by median into a perceptual field, then checked. Passing output becomes the fixture behind the page; failing output loops back to tighten the prompt, which happened once.">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+          <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--warm)"/>
+          </marker>
+        </defs>
+
+        <g fill="none" stroke="currentColor" stroke-width="1.25">
+          <rect x="234" y="26" width="150" height="44" rx="2"/>
+          <rect x="452" y="26" width="164" height="44" rx="2"/>
+          <rect x="14"  y="139" width="118" height="48" rx="2"/>
+          <rect x="330" y="139" width="104" height="48" rx="2"/>
+          <rect x="478" y="133" width="112" height="60" rx="2"/>
+          <rect x="650" y="139" width="124" height="48" rx="2"/>
+        </g>
+
+        <!-- five blind runs -->
+        <g fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 2">
+          <rect x="170" y="96"  width="92" height="22" rx="2"/>
+          <rect x="170" y="124" width="92" height="22" rx="2"/>
+          <rect x="170" y="152" width="92" height="22" rx="2"/>
+          <rect x="170" y="180" width="92" height="22" rx="2"/>
+          <rect x="170" y="208" width="92" height="22" rx="2"/>
+        </g>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">
+          <text x="309" y="44" text-anchor="middle">published</text>
+          <text x="309" y="59" text-anchor="middle">research</text>
+          <text x="534" y="44" text-anchor="middle">acceptance</text>
+          <text x="534" y="59" text-anchor="middle">constraints</text>
+          <text x="73"  y="159" text-anchor="middle">role mandate</text>
+          <text x="73"  y="175" text-anchor="middle">+ quota</text>
+          <text x="382" y="159" text-anchor="middle">perceptual</text>
+          <text x="382" y="175" text-anchor="middle">field</text>
+          <text x="534" y="160" text-anchor="middle">does it match</text>
+          <text x="534" y="176" text-anchor="middle">the evidence?</text>
+          <text x="712" y="159" text-anchor="middle">fixture</text>
+          <text x="712" y="175" text-anchor="middle">→ the page</text>
+        </g>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity="0.75">
+          <text x="216" y="111" text-anchor="middle">run 1</text>
+          <text x="216" y="139" text-anchor="middle">run 2</text>
+          <text x="216" y="167" text-anchor="middle">run 3</text>
+          <text x="216" y="195" text-anchor="middle">run 4</text>
+          <text x="216" y="223" text-anchor="middle">run 5</text>
+          <text x="216" y="252" text-anchor="middle">blind to each other</text>
+        </g>
+
+        <!-- flows -->
+        <g fill="none" stroke="currentColor" stroke-width="1.25" marker-end="url(#ar)">
+          <line x1="384" y1="48" x2="446" y2="48"/>
+          <line x1="534" y1="70" x2="534" y2="127"/>
+          <line x1="132" y1="163" x2="164" y2="108"/>
+          <line x1="132" y1="163" x2="164" y2="136"/>
+          <line x1="132" y1="163" x2="164" y2="163"/>
+          <line x1="132" y1="163" x2="164" y2="190"/>
+          <line x1="132" y1="163" x2="164" y2="218"/>
+          <line x1="262" y1="108" x2="324" y2="158"/>
+          <line x1="262" y1="136" x2="324" y2="160"/>
+          <line x1="262" y1="163" x2="324" y2="163"/>
+          <line x1="262" y1="190" x2="324" y2="167"/>
+          <line x1="262" y1="218" x2="324" y2="169"/>
+          <line x1="434" y1="163" x2="472" y2="163"/>
+          <line x1="590" y1="163" x2="644" y2="163"/>
+        </g>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor">
+          <text x="415" y="42" text-anchor="middle">derives</text>
+          <text x="546" y="102">gates</text>
+          <text x="294" y="86" text-anchor="middle">median of 5</text>
+          <text x="617" y="155" text-anchor="middle">pass</text>
+        </g>
+
+        <!-- the failure loop: the element the argument turns on -->
+        <g fill="none" stroke="var(--warm)" stroke-width="1.5" marker-end="url(#arw)">
+          <polyline points="534,193 534,320 512,320"/>
+          <polyline points="300,320 73,320 73,193"/>
+        </g>
+        <rect x="300" y="298" width="212" height="44" rx="2"
+              fill="none" stroke="var(--warm)" stroke-width="1.5"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--warm)">
+          <text x="406" y="316" text-anchor="middle">tighten the constraint</text>
+          <text x="406" y="332" text-anchor="middle">and score again</text>
+          <text x="546" y="243">fail</text>
+        </g>
+      </svg>
+      <figcaption>
+        The published research does not decorate the output — it <em>gates</em> it.
+        The orange path is the part that matters: the check can reject, and it did,
+        once. Section four is what that rejection taught.
+      </figcaption>
+    </figure>
+
+    <h3><span class="step-n">Step 01</span>Turn the literature into tests</h3>
+    <p>
+      Published effect sizes become constraints the output must satisfy: an expert
+      must attend more than a novice to task-relevant clauses, less to irrelevant
+      ones, and its attention must be more concentrated. These run as an automated
+      check, not as a guideline.
+    </p>
+
+    <h3><span class="step-n">Step 02</span>Score each reader five times, blind</h3>
+    <p>
+      Every reader scores every clause on four attributes — how strongly it pulls
+      attention, whether it is good or bad news <em>to them</em>, which clauses they
+      read as one idea, and how much alarm it raises. Each of the five runs happens
+      in a separate session that cannot see the other four. Without that
+      independence, no agreement statistic means anything.
+    </p>
+
+    <h3><span class="step-n">Step 03</span>Aggregate by median</h3>
+    <p>
+      The five runs combine by median rather than mean, so one wild sample cannot
+      drag a clause. Grouping labels combine by mode instead, since they are labels
+      and averaging them would be meaningless.
+    </p>
+
+    <h3><span class="step-n">Step 04</span>Check, and be willing to fail</h3>
+    <p>
+      The aggregate is tested against step one. A failing run is reported, not
+      quietly fixed — the whole point of building the check first was to be able to
+      fail it.
+    </p>
+
+    <h3><span class="step-n">Step 05</span>Repeat on a document never seen before</h3>
+    <p>
+      Anything tuned during steps one to four was tuned on one document. A second
+      note, held back from every decision, tests whether the method transfers or
+      merely fits.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 3. HOW TO READ ════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Three · Interpretation</p>
+    <h2>How to read each number</h2>
+    <p class="lede">
+      Four statistics carry the results. All are standard, computed exactly, and
+      unit-tested against hand-worked values. The arithmetic is not where the
+      uncertainty lives.
+    </p>
+
+    <div class="decode">
+      <div>
+        <span class="name">TOP-8 SHARED &nbsp;— the headline</span>
+        <p>
+          Of the eight clauses each reader spends most attention on, how many are the
+          same. It answers the question a heat-map overlay answers, and needs no
+          explanation to a non-specialist.
+        </p>
+        <p class="eg">
+          <span class="dots" data-n="1"></span><strong>1 / 8</strong> — a credit analyst
+          and an untrained reader dwell on almost entirely different sentences.
+          <br>
+          <span class="dots" data-n="6"></span><strong>6 / 8</strong> — a credit analyst
+          and a risk officer are reading nearly the same document.
+        </p>
+      </div>
+      <div>
+        <span class="name">CONCENTRATION &nbsp;— 0 to 1</span>
+        <p>
+          How focused a reader's attention is. Zero means spread perfectly evenly;
+          higher means more of the attention lands on fewer clauses. The literature
+          predicts experts score higher than novices, and here they always do.
+        </p>
+        <p class="eg">
+          The useful reading is the <em>ratio</em>, not the absolute value: a credit
+          analyst at 0.062 against an untrained reader at 0.023 is roughly 2.7× more
+          concentrated on the same page.
+        </p>
+      </div>
+      <div>
+        <span class="name">VALENCE CONFLICT</span>
+        <p>
+          A clause where two readers both feel strongly and disagree in sign — one
+          reads it as good news, the other as bad. Weak disagreements are excluded
+          deliberately; noise is not conflict.
+        </p>
+        <p class="eg">
+          Five in the hero note, <strong>every one of them professional versus
+          lay</strong>. Zero among the three professionals.
+        </p>
+      </div>
+      <div>
+        <span class="name">KRIPPENDORFF'S ALPHA &nbsp;— reproducibility</span>
+        <p>
+          How closely the five blind runs agree. Above 0.80 by convention supports
+          firm conclusions. <strong>It measures consistency, not correctness</strong>
+          — a reader could be reproducibly wrong and score just as well.
+        </p>
+        <p class="eg">
+          One trap worth knowing: Alpha divides by the spread of scores across clauses,
+          so a reader attending near-uniformly — correct behaviour for a novice — can
+          score near zero while agreeing perfectly. The analysis reads alpha alongside
+          concentration to tell “diffuse” apart from “erratic”.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4. RESULTS ════════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Four · Results</p>
+    <h2>The hero note, thirty clauses</h2>
+
+    <div class="tbl-scroll">
+      <table>
+        <caption>Attention shared between each pair</caption>
+        <thead>
+          <tr><th>Pair</th><th>Top-8 shared</th><th class="num">Conflicts</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi"><td class="role">equity PM · retail investor</td>
+            <td><span class="dots dots--warn" data-n="0"></span>0 / 8</td><td class="num">1</td></tr>
+          <tr><td class="role">credit analyst · retail investor</td>
+            <td><span class="dots" data-n="1"></span>1 / 8</td><td class="num">2</td></tr>
+          <tr><td class="role">risk officer · retail investor</td>
+            <td><span class="dots" data-n="1"></span>1 / 8</td><td class="num">2</td></tr>
+          <tr><td class="role">credit analyst · equity PM</td>
+            <td><span class="dots" data-n="5"></span>5 / 8</td><td class="num">0</td></tr>
+          <tr><td class="role">equity PM · risk officer</td>
+            <td><span class="dots" data-n="5"></span>5 / 8</td><td class="num">0</td></tr>
+          <tr><td class="role">credit analyst · risk officer</td>
+            <td><span class="dots" data-n="6"></span>6 / 8</td><td class="num">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The shape of that table is the finding. The three professionals cluster at
+      5/8 and 6/8 — they are reading the same document as each other. The untrained
+      reader sits at 0/8 and 1/8 against all three. Every valence conflict in the
+      note falls on the rows where a professional meets a layperson.
+    </p>
+
+    <div class="tbl-scroll">
+      <table>
+        <caption>Per reader — reproducibility and focus</caption>
+        <thead>
+          <tr><th>Reader</th><th class="num">alpha</th><th class="num">Concentration</th><th>Literature check</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="role">credit analyst</td><td class="num">0.972</td><td class="num">0.062</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">risk officer</td><td class="num">0.936</td><td class="num">0.043</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">equity PM</td><td class="num">0.880</td><td class="num">0.042</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">retail investor</td><td class="num">0.944</td><td class="num">0.023</td><td class="small">baseline</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5. HELD OUT ═══════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Five · Validation</p>
+    <h2>The held-out document, and what it cost the headline</h2>
+
+    <p>
+      One constraint in the method was tightened after watching a run fail, which
+      leaves an obvious objection: the readers may look expert because they were
+      told what expert looks like, on the one document the telling was tuned to. So
+      the whole pipeline was run again, untouched, on a second note held back from
+      every decision — different sector, different document type, 20 clauses rather
+      than 30, so the constraint rescaled itself without being edited.
+    </p>
+
+    <div class="finding">
+      <h3>It passed, first time</h3>
+      <p>
+        Every literature check, every reader, alpha between 0.826 and 0.961. The method
+        is not fitted to one page. The suppression asymmetry — reported but not
+        gated — even came out on the predicted side here, which it had not on the
+        hero note, with nothing changed to achieve it.
+      </p>
+    </div>
+
+    <div class="tbl-scroll">
+      <table>
+        <caption>Hero note versus held-out note</caption>
+        <thead>
+          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out <span class="small">(never seen)</span></th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td></tr>
+          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td></tr>
+          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td></tr>
+          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="pull">
+      The hero note was written to divide these readers. The held-out note was not.
+      The effect survives — and it is about a third smaller.
+    </p>
+
+    <p>
+      This is the number a sceptic should ask for, so it belongs in the summary
+      rather than a footnote. The dramatic <span class="dots dots--warn" data-n="0"></span>0/8
+      is a property of the constructed document, not of the four mandates. On
+      ordinary prose the readers still separate, reliably and in the direction the
+      literature predicts, but less theatrically.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 6. WHAT WENT WRONG ════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Six · Corrections</p>
+    <h2>Three things that were wrong, and what fixing them showed</h2>
+    <p class="lede">
+      These are errors in the project's own design, found only by running it. They
+      are here because each one is more useful than the result it was blocking.
+    </p>
+
+    <div class="finding">
+      <h3>Prose does not constrain a model. Arithmetic does.</h3>
+      <p>
+        Told in words that “your attention is a finite budget”, the model marked
+        almost every clause important. The equity manager came out at concentration
+        <strong>0.017</strong> — essentially uniform, and <em>flatter than the
+        untrained reader</em>, inverting the finding the project rests on.
+      </p>
+      <p>
+        Replacing the sentence with a countable rule — at most 8 of 30 clauses may
+        score high, at least 12 must be actively ignored — fixed it immediately, and
+        the runs reported hitting the quota exactly. A model's default is to be
+        comprehensive, and comprehensiveness is the precise opposite of expertise.
+        This is the most transferable thing here.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>The novice needed a different rule, or the contrast vanished</h3>
+      <p>
+        Applying the expert quota to the untrained reader would have made the novice
+        as focused as the expert and erased the very thing being measured. The lay
+        reader gets a deliberately looser bound, because the literature's claim
+        <em>is</em> that experts concentrate and novices do not.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>The first headline statistic said the opposite of the truth</h3>
+      <p>
+        The original measure scored every pair of readers at <strong>83–94%
+        similar</strong> — arithmetically correct, and rhetorically fatal. It reads
+        as <em>these people broadly agree</em>. The statistic simply compresses
+        everything into a narrow band on a long document. Replacing it with top-8
+        overlap separated the readers properly and made the result legible.
+      </p>
+    </div>
+
+    <p>
+      The failed run is kept in the repository alongside the successful ones, so the
+      before-and-after is auditable rather than asserted.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 7. LIMITS ═════════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Seven · Limits</p>
+    <h2>What this does not show</h2>
+
+    <ol class="plain">
+      <li>
+        <strong>No human has validated any of it.</strong> The tooling to compare a
+        real practitioner's markup against the reader claiming to represent them
+        exists and has never been run against a real practitioner. Three people and
+        one afternoon would close it, and a <em>mismatch</em> would be the most
+        informative result this project could produce. This is the single largest
+        outstanding gap.
+      </li>
+      <li>
+        <strong>No published study measures these roles.</strong> Nothing compares a
+        credit analyst, an equity manager, a risk officer and a retail investor
+        reading the same document; it appears not to exist. The differences here are
+        argued from mandates, not measured from people.
+      </li>
+      <li>
+        <strong>The effect sizes come from other fields</strong> — medicine, sport,
+        aviation, music — and are assumed to transfer to financial prose. No study
+        licenses that.
+      </li>
+      <li>
+        <strong>Two calibration constants are unverified</strong>, taken from
+        secondary sources because the source paper is paywalled.
+      </li>
+      <li>
+        <strong>A language model is not an expert.</strong> Sampling five times
+        bounds the variance. Nothing here bounds the bias.
+      </li>
+    </ol>
+
+    <p class="small">
+      Everything above is modelled unless stated otherwise. Two things on the
+      companion page are genuinely measured on people: the bouba/kiki result (72%
+      across 917 participants and 25 languages, not the ~95% usually quoted) and the
+      synaesthete's advantage on a digit-search task (41.4% against 31.5% — real,
+      but not the instant pop-out it is usually described as).
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap wrap--wide">
+    <h3>Reproducing it</h3>
+    <p class="small">
+      Every sample from all three scoring runs is committed, including the failed
+      one. The visualization holds no scores of its own — it renders whatever the
+      pipeline emitted, so re-scoring and rebuilding is the entire update path.
+    </p>
+    <pre><code>cd pipeline &amp;&amp; uv sync &amp;&amp; uv run pytest        # 198 tests, no network
+uv run python -m cmp.from_samples scored/subagent-run2    meridian-q4
+uv run python -m cmp.from_samples scored/subagent-heldout aldercroft-h1
+python3 ../viz/build.py</code></pre>
+    <p class="small" style="margin-top:1.5rem">
+      Next: the same method applied to musical notation, where the literature is
+      stronger — expert sight-readers lead the hand by 1.73–6.8 notes against
+      0.52–3.69 for novices, and a 12-study meta-analysis puts the fixation-duration
+      effect at <em>g</em> = −0.72 with no heterogeneity.
+    </p>
+  </div>
+</footer>
+
+<script>
+// The dot array is the page's recurring figure; written once here rather
+// than eight spans at every call site.
+for (const el of document.querySelectorAll(".dots")) {
+  const n = Number(el.dataset.n) || 0;
+  el.setAttribute("role", "img");
+  el.setAttribute("aria-label", `${n} of 8 shared`);
+  for (let i = 0; i < 8; i++) {
+    const d = document.createElement("i");
+    if (i < n) d.className = "on";
+    el.appendChild(d);
+  }
+}
+</script>
