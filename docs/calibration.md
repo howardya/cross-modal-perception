@@ -11,9 +11,10 @@
 > automatically. That is a defensible way to build an illustration. It is not
 > evidence about how credit analysts read.
 >
-> What *is* measured is that the readings are reproducible: five independent
-> runs per persona agree at alpha 0.88 to 0.97. Reproducible is not the same as
-> right — see §6.6.
+> What *is* measured is that the readings are reproducible, and that they
+> transfer: five independent runs per persona agree at alpha 0.83 to 0.97, and the
+> whole method passes unchanged on a note held out from every fitting decision
+> (§7.5). Reproducible is not the same as right — see §6.6.
 
 Written for someone who wants to disbelieve the demo. Section 6 is the list of
 reasons they would be right to.
@@ -194,19 +195,22 @@ In descending order of seriousness.
    and aggregation bound the variance; nothing here bounds the bias.
 
 7. **The stimulus is constructed.** The hero note is written to contain clauses
-   that invert across roles. That makes the effect legible, and also makes it
-   larger than it would be on an arbitrary document. Note the irony: it was
-   constructed to make *credit and equity* diverge, and when scored cold they
-   did not (§7.4). The construction did not get what it was built for.
+   that invert across roles, which makes the effect larger than it would be on an
+   arbitrary document. §7.5 now measures by how much: readers share 37.5% of what
+   they dwell on here against 50% on a note that was not built to divide them.
+   Note also the irony — it was constructed to make *credit and equity* diverge,
+   and when scored cold they did not (§7.4). The construction did not get what it
+   was built for.
 
 8. **No human has validated any of it** (§3). This is now the only remaining
    gap of the original three, and by some distance the most important.
 
-9. **The salience quota was fitted to the acceptance test** (§7.3). It was added
-   after a first run failed, and it has not yet been checked on the held-out
-   stimulus. Until it is, the possibility that the model is producing
-   expert-shaped output because it was told the shape, rather than because the
-   mandate implies it, is not excluded.
+9. **The salience quota was fitted to the acceptance test** (§7.3) — added after
+   watching a run fail. This is the weakest link in the method, and it is the one
+   objection that has now been tested: the quota transfers unchanged to a held-out
+   note it was never fitted to, rescaling itself for a shorter document, and every
+   check passes first time (§7.5). That does not make the quota principled, but it
+   does rule out the simplest version of the objection.
 
 ---
 
@@ -327,6 +331,53 @@ That is a sharper claim than the symmetric credit-versus-equity conflict the
 project set out to show, it is closer to the information-reduction hypothesis it
 is built on, and unlike the original it was not authored by hand.
 
+### 7.5 Held-out validation: it transfers, and the hero note exaggerates by about a third
+
+The quota in §7.3 was fitted after watching a run fail on the hero note, which
+leaves the obvious objection: the model may be producing expert-shaped output
+because it was told the shape, on the one document the shape was tuned to.
+
+So the whole pipeline was run again, unchanged, on `aldercroft-h1` — a note held
+out from every fitting decision. Different sector (software, not logistics),
+different document type (trading update, not results summary), different length
+(20 clauses, not 30, so the quota rescaled itself to 5-above / 8-below without
+being touched). 20 fresh subagent runs.
+
+**It passed.** Every L1 check, on every expert, first time.
+
+| Persona | alpha | Concentration | vs novice 0.028 |
+|---|---|---|---|
+| equity PM | 0.953 | 0.072 | 2.6x |
+| credit analyst | 0.940 | 0.060 | 2.1x |
+| risk officer | 0.826 | 0.045 | 1.6x |
+| retail investor | 0.961 | 0.028 | baseline |
+
+Notably the suppression asymmetry — reported but not gated, for the reasons in
+§7.1 — came out **above 1 for all three experts** here (1.26, 1.15, 1.06), which
+it did not on the hero note. Nothing was changed to achieve that.
+
+**But the effect is materially weaker, and that is the useful part of this run.**
+
+| | Hero note (quota fitted here) | Held-out note (never seen) |
+|---|---|---|
+| L1 acceptance | pass | pass |
+| Reliability alpha | 0.88 – 0.97 | 0.83 – 0.96 |
+| Top-8 clauses shared, range | 0/8 – 6/8 | 3/8 – 5/8 |
+| Mean top-k overlap | **37.5%** | **50.0%** |
+| Valence conflicts, whole document | 5 | 1 |
+
+Caveat §6.7 said the constructed stimulus "makes the effect larger than it would
+be on an arbitrary document." This measures how much larger. On a note written to
+divide these readers, they share 37.5% of what they dwell on; on a note that was
+not, 50%. The dramatic 0/8 — a risk officer and a retail investor with nothing in
+common — is a property of the hero note, not of the four mandates. On ordinary
+prose the mandates still separate, reliably and in the direction the literature
+predicts, but by roughly a third less.
+
+Both readings should be in the demo, and both now are. The phenomenon is real and
+reproduces out of sample; the headline number is the best case, not the typical
+one.
+
 ---
 
 ## 8. What would fix it
@@ -334,8 +385,12 @@ is built on, and unlike the original it was not authored by hand.
 Roughly in order of value per unit of effort:
 
 1. Run the face-validity check with 3–5 practitioners per role. One afternoon.
+   **This is now the only one of the original gaps still open, and by a distance
+   the most valuable.**
 2. Obtain the paywalled meta-analysis and verify the two constants.
-3. Run the held-out validation on a second stimulus and publish the result.
-4. Compare against a real analyst note rather than only a constructed one.
+3. ~~Run the held-out validation and publish the result.~~ Done — §7.5.
+4. Compare against a real analyst note rather than only a constructed one. §7.5
+   goes part of the way (a second constructed note, not built to divide readers)
+   but a genuine filing would be better.
 5. Actual eye-tracking of 5 practitioners per role. This is the real study, and it
    appears not to exist. If someone wants a research project, that is it.
