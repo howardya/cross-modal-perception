@@ -32,8 +32,12 @@ including the two results that contradicted what it set out to show.
 ```
 pipeline/     Python (uv). Persona scoring → calibration → JSON. No rendering.
   scored/     Every sample from all three runs, including the failed one.
-viz/          One self-contained page built from the fixture. No LLM knowledge.
-fixtures/     The contract between the two halves.
+viz/
+  template.html   The demo. Numbers injected from the fixture at build time.
+  report.html     The results summary. Numbers written into the prose, so
+                  tests/test_report_figures.py asserts them against the
+                  fixtures — it is the one page that could otherwise drift.
+fixtures/     The contract between pipeline and pages.
 docs/         The four documents above.
 ```
 
