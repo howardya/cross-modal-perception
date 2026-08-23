@@ -8,3 +8,6 @@ dist/
 .vite/
 .pytest_cache/
 .ruff_cache/
+
+# Harness-managed worktrees
+.claude/worktrees/
