@@ -10,6 +10,10 @@
 > published research on *other* domains, and checked against those constraints
 > automatically. That is a defensible way to build an illustration. It is not
 > evidence about how credit analysts read.
+>
+> What *is* measured is that the readings are reproducible: five independent
+> runs per persona agree at alpha 0.88 to 0.97. Reproducible is not the same as
+> right — see §6.6.
 
 Written for someone who wants to disbelieve the demo. Section 6 is the list of
 reasons they would be right to.
@@ -21,7 +25,7 @@ reasons they would be right to.
 | The demo shows | The honest claim behind it |
 |---|---|
 | Four professionals attending to different clauses | Four *mandates*, applied to the same text by a language model |
-| A clause turning green for one role and red for another | A modelled valence judgment; the underlying conflict of interest is real, the specific score is not measured |
+| A clause reading warm to one reader and cold to another | A modelled valence judgment. The conflict of interest underneath is real; the specific score is not measured. Note that when scored cold, the three experts stopped disagreeing with each other entirely — see §7.4 |
 | "They share 2 of the 8 clauses they attend to most" | Top-k overlap between two modelled attention distributions, computed exactly |
 | "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose — and **not** enforced by the model, for the reasons in §7.1 |
 | The bouba/kiki result | Measured, on 917 people across 25 languages. Real. |
@@ -128,7 +132,7 @@ If this remains unrun at demo time, the demo must say so.
 | Valence conflicts | Count of clauses where two personas' valence signs oppose and both exceed 0.5 | Clauses read in genuinely opposite directions |
 | Chunk agreement | Adjusted Rand index between chunk partitions | Chance-corrected; ~0 means unrelated groupings |
 | Concentration | 1 − normalised Shannon entropy of salience | 0 attention spread evenly, 1 all on one clause |
-| Reliability (alpha) | Krippendorff's alpha, interval, across k samples | Agreement of a persona with itself |
+| Reliability (alpha) | Krippendorff's alpha, interval, across k independent runs | Agreement of a persona with itself. 0.88–0.97 here |
 
 All are standard statistics, computed exactly, unit-tested against hand-computed
 values. **The arithmetic is not where the uncertainty lives — the inputs are.**
@@ -191,17 +195,27 @@ In descending order of seriousness.
 
 7. **The stimulus is constructed.** The hero note is written to contain clauses
    that invert across roles. That makes the effect legible, and also makes it
-   larger than it would be on an arbitrary document.
+   larger than it would be on an arbitrary document. Note the irony: it was
+   constructed to make *credit and equity* diverge, and when scored cold they
+   did not (§7.4). The construction did not get what it was built for.
 
-8. **No human has validated any of it** (§3).
+8. **No human has validated any of it** (§3). This is now the only remaining
+   gap of the original three, and by some distance the most important.
+
+9. **The salience quota was fitted to the acceptance test** (§7.3). It was added
+   after a first run failed, and it has not yet been checked on the held-out
+   stimulus. Until it is, the possibility that the model is producing
+   expert-shaped output because it was told the shape, rather than because the
+   mandate implies it, is not excluded.
 
 ---
 
 ## 7. Changes forced by actually running the model
 
-Three things only became visible once real scores existed. All three were errors
-in this project's own design, not in the literature, and all three are recorded
-here rather than quietly corrected.
+Four things only became visible once real scores existed. The first three were
+errors in this project's own design rather than in the literature; the fourth
+overturned the claim the project was built to make. All are recorded here rather
+than quietly corrected.
 
 ### 7.1 The suppression-asymmetry gate was mis-specified
 
@@ -252,21 +266,66 @@ The ordering is also a mild internal validity check: the retail investor lands
 closest to the equity PM (both read for headline growth) and shares nothing at
 all with the risk officer. Nobody designed that; it fell out of the mandates.
 
-### 7.3 The current hero fixture was scored inline, and has no reliability figure
+### 7.3 Prose did not constrain the model; arithmetic did
 
-No API credentials were available, so the shipped fixture was scored by Claude
-Opus 5 **inside a single Claude Code session**, one pass per persona, applying the
-same mandates the API prompt uses. It passes every L1 check.
+The shipped fixture is now scored by **20 independent subagent runs** — five per
+persona, each a fresh model context that could not see the others. That makes the
+samples independent, so reliability is measurable. It took two attempts.
 
-What it cannot have is a reliability figure. Samples drawn in one conversation
-are not independent — later personas were scored with earlier ones in context —
-so Krippendorff's alpha would be meaningless. The fixture therefore carries
-`reliability_measured: false`, and the calibration report prints "NOT MEASURED"
-where an alpha would go.
+**Run 1 failed, and failed informatively.** Reliability was excellent
+(alpha 0.94–0.98) and every expertise check failed. The model had marked almost
+everything salient: the equity PM came out at concentration **0.017**, essentially
+uniform and *flatter than the untrained reader*, inverting the very finding the
+project rests on. Telling the model in prose that "your attention is a finite
+budget" did nothing.
 
-This is the single most valuable thing still outstanding. Running
-`python -m cmp calibrate meridian-q4 --k 5` with credentials produces independent
-samples and a real alpha, and would either confirm these fields or overturn them.
+**Run 2 replaced the prose with a quota it could count against**: for an expert,
+at most 8 of the 30 clauses may score above 0.55 and at least 12 must fall below
+0.25. The lay reader gets a deliberately looser bound (at most 15 above, only 4
+below) — imposing the expert quota there would make the novice as concentrated as
+the expert and erase the contrast being measured. Every run reported hitting its
+quota exactly, and every L1 check passed.
+
+| Persona | alpha | Concentration | Run 1 concentration |
+|---|---|---|---|
+| credit analyst | 0.972 | 0.062 | 0.039 |
+| retail investor | 0.944 | 0.023 | 0.049 |
+| risk officer | 0.936 | 0.043 | 0.027 |
+| equity PM | 0.880 | 0.042 | 0.017 |
+
+**Disclosure that matters:** the quota was added *after* seeing run 1 fail. That
+is what the L3 layer is for, but it is still a parameter fitted to the acceptance
+test, and the honest way to check it is the held-out stimulus
+(`aldercroft-h1`), which has not yet been scored. Both sample sets are kept in
+`pipeline/scored/subagent-run1/` and `run2/` so the comparison is auditable.
+
+### 7.4 The experts agree about good and bad. They disagree about where to look.
+
+The largest surprise. When the personas were scored independently, **valence
+conflicts between the three experts fell to zero.** All three read the debt-funded
+buyback as bad news (−0.90, −0.70, −0.85) and the dividend rise as bad
+(−0.50, −0.20, −0.50).
+
+An earlier hand-scored fixture had the equity PM at **+0.70** on that buyback, on
+the conventional "capital returned to shareholders" reading. Scored cold, the
+model judged that borrowing at 4.1x leverage to repurchase stock, while cash
+conversion is collapsing, is bad capital allocation for the residual claimant too.
+That is the better reading, and it means the hand-scored version was wrong.
+
+So the fault line is not credit-versus-equity. It is **professional versus lay**:
+
+| Clause | Credit | Equity | Risk | Retail |
+|---|---|---|---|---|
+| $300m buyback funded from the revolver | −0.90 | −0.70 | −0.85 | **+0.60** |
+| Dividend raised 8% | −0.50 | −0.20 | −0.50 | **+0.90** |
+
+The two sentences an untrained reader likes most are the two every professional
+treats as a warning. What separates the three experts from each other is not
+judgment but **attention** — 0/8 to 6/8 shared among the top eight clauses.
+
+That is a sharper claim than the symmetric credit-versus-equity conflict the
+project set out to show, it is closer to the information-reduction hypothesis it
+is built on, and unlike the original it was not authored by hand.
 
 ---
 
