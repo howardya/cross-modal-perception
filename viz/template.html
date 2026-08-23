@@ -1,0 +1,1238 @@
+<title>Someone Else's Eyes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Someone Else's Eyes
+   Committed dark ground: salience is encoded as luminance, and
+   on a light ground "less attended" would mean washing out.
+   On dark it means receding into shadow, which is what an
+   unattended clause actually feels like.
+
+   ONE colour code, learned once: hue carries valence only
+   (cold blue = bad news for this reader, warm amber = good).
+   Personas carry no colour — a second chromatic code would
+   compete with the first and break under colour-vision
+   deficiency. Personas are identified by name and position.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --ground:        #0C0F16;
+  --ground-lift:   #141926;
+  --ground-edge:   #202737;
+  --paper:         #E9E5DB;
+  --muted:         #737E93;
+  --muted-bright:  #9AA6BB;
+
+  /* The single encoding axis. Blue↔orange survives the common
+     colour-vision deficiencies; red/green does not. */
+  --cold:          #6BB3EE;
+  --warm:          #F0A055;
+
+  /* Chrome only. Never applied to note content, so it can never
+     be mistaken for a valence reading. */
+  --signal:        #7FD1C1;
+
+  --display: "Fraunces", Georgia, serif;
+  --text:    "Newsreader", Georgia, serif;
+  --data:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --measure: 34rem;
+  --ease:    cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--paper);
+  font-family: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient depth — the page reads as a dark booth with the
+   document lit inside it, not as a dark-mode dashboard. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(127,209,193,0.05), transparent 60%),
+    radial-gradient(90% 60% at 50% 100%, rgba(107,179,238,0.04), transparent 60%);
+}
+
+main { position: relative; z-index: 1; }
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.wrap--wide { max-width: 58rem; }
+
+/* ── shared type ─────────────────────────────────────────── */
+
+.eyebrow {
+  font-family: var(--data);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; }
+
+h1 {
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-variation-settings: "SOFT" 22, "WONK" 1, "opsz" 120;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 18, "WONK" 1, "opsz" 80;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.28rem;
+  font-variation-settings: "SOFT" 12, "WONK" 0, "opsz" 30;
+  margin-bottom: 0.5rem;
+}
+
+p { margin: 0 0 1.1rem; }
+.lede { font-size: 1.2rem; color: #C8C4BA; }
+.small { font-size: 0.92rem; color: var(--muted-bright); }
+
+em { font-style: italic; }
+strong { font-weight: 600; color: #FFFBF2; }
+
+section { padding: 6.5rem 0; position: relative; }
+.rule { height: 1px; background: var(--ground-edge); border: 0; margin: 0; }
+
+/* ── hero ────────────────────────────────────────────────── */
+
+.hero {
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 0 4rem;
+}
+.hero h1 { margin-bottom: 1.75rem; }
+.hero .lede { max-width: 30rem; }
+
+/* The hero's thesis, stated as the thing the page does:
+   one sentence, read two ways, live. */
+.thesis {
+  margin: 2.5rem 0 0;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid var(--ground-edge);
+  font-family: var(--text);
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+.thesis-line { display: block; margin-bottom: 0.9rem; }
+.thesis-tag {
+  font-family: var(--data);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.thesis .cold { color: var(--cold); }
+.thesis .warm { color: var(--warm); }
+
+/* ── act 1: bouba / kiki ─────────────────────────────────── */
+
+.shapes {
+  display: flex;
+  gap: clamp(1.5rem, 6vw, 4rem);
+  justify-content: center;
+  margin: 2.5rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+.shape-btn {
+  background: none;
+  border: 1px solid var(--ground-edge);
+  border-radius: 3px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  color: inherit;
+  font-family: var(--data);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.shape-btn:hover { border-color: var(--signal); }
+.shape-btn[aria-pressed="true"] {
+  border-color: var(--signal);
+  background: rgba(127,209,193,0.07);
+}
+.shape-btn svg { display: block; width: clamp(110px, 26vw, 168px); height: auto; }
+.shape-btn span { display: block; margin-top: 0.9rem; color: var(--muted); }
+.shape-btn[aria-pressed="true"] span { color: var(--signal); }
+
+.verdict {
+  min-height: 4.5rem;
+  margin-top: 1.25rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.verdict.is-shown { opacity: 1; transform: none; }
+
+/* ── act 1: the search task ──────────────────────────────── */
+
+.grid-task {
+  font-family: var(--data);
+  font-size: clamp(0.85rem, 2.4vw, 1.15rem);
+  line-height: 1.5;
+  letter-spacing: 0.34em;
+  background: var(--ground-lift);
+  border: 1px solid var(--ground-edge);
+  border-radius: 3px;
+  padding: 1.5rem 1.25rem;
+  margin: 2rem 0 1.25rem;
+  user-select: none;
+  overflow-x: auto;
+  white-space: pre;
+  color: #B9C0CE;
+}
+.grid-task .target { color: #B9C0CE; }
+.grid-task.is-colourised .target { color: var(--warm); }
+.grid-task.is-colourised .filler { color: #46506B; }
+
+.controls { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+
+button.ui {
+  font-family: var(--data);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--muted-bright);
+  border: 1px solid var(--ground-edge);
+  border-radius: 3px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease);
+}
+button.ui:hover { border-color: var(--signal); color: var(--paper); }
+button.ui[aria-pressed="true"] {
+  border-color: var(--signal);
+  color: var(--signal);
+  background: rgba(127,209,193,0.07);
+}
+
+:where(button, [tabindex], a):focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+/* ── act 2: the instrument bar ───────────────────────────── */
+
+.rail {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(12,15,22,0.93);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--ground-edge);
+  border-bottom: 1px solid var(--ground-edge);
+  padding: 0.7rem 0;
+  margin-bottom: 3rem;
+}
+.rail-inner {
+  max-width: 58rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.rail-label {
+  font-family: var(--data);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 0.5rem;
+}
+.rail-spacer { flex: 1 1 auto; }
+
+/* Declared here rather than inline, so the narrow-screen rule
+   below can switch it to nowrap — an inline style would win. */
+#persona-buttons { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+/* Anchor scrolling must clear the sticky rail. */
+#note, .note-frame { scroll-margin-top: 5rem; }
+
+.persona-btn {
+  font-family: var(--data);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  background: transparent;
+  color: var(--muted-bright);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+  white-space: nowrap;
+}
+.persona-btn:hover { color: var(--paper); }
+.persona-btn[aria-pressed="true"] {
+  color: var(--ground);
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+/* ── act 2: the note ─────────────────────────────────────── */
+
+.note-frame {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2.75rem 2rem 3rem;
+  background:
+    linear-gradient(180deg, rgba(233,229,219,0.028), rgba(233,229,219,0.012));
+  border: 1px solid var(--ground-edge);
+  border-radius: 4px;
+  position: relative;
+}
+.note-head {
+  font-family: var(--data);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 1rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--ground-edge);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.note { margin: 0; }
+
+/* The signature.
+   Salience drives optical size, weight, contrast and focus at
+   once, so an ignored clause genuinely recedes out of easy
+   reading. Hover or focus restores any clause completely —
+   you can always look, but you have to choose to. The expert
+   does not have to choose. */
+.clause {
+  --s: 0.5;      /* salience  0..1 */
+  --v: 0;        /* valence  -1..1 */
+  --vabs: 0;     /* |valence| */
+  --a: 0;        /* arousal   0..1 */
+  --hue: var(--paper);
+
+  display: inline;
+  font-family: var(--text);
+  font-size: calc(0.80rem + var(--s) * 0.66rem);
+  font-variation-settings:
+    "opsz" calc(10 + var(--s) * 32),
+    "wght" calc(280 + var(--s) * 320);
+  color: color-mix(in oklab, var(--paper), var(--hue) calc(var(--vabs) * 68%));
+  opacity: calc(0.30 + var(--s) * 0.70);
+  filter: blur(calc((1 - var(--s)) * (1 - var(--s)) * 1.5px));
+  text-shadow: 0 0 calc((1 - var(--a)) * 10px) rgba(233,229,219,calc(0.05 + (1 - var(--a)) * 0.06));
+  border-radius: 2px;
+  padding: 0.05em 0.12em;
+  cursor: default;
+  transition:
+    font-size 0.85s var(--ease),
+    font-variation-settings 0.85s var(--ease),
+    opacity 0.85s var(--ease),
+    filter 0.85s var(--ease),
+    color 0.85s var(--ease),
+    background 0.4s var(--ease);
+}
+
+.clause[data-sign="-1"] { --hue: var(--cold); }
+.clause[data-sign="1"]  { --hue: var(--warm); }
+
+/* Arousal → edge quality, borrowing the bouba/kiki
+   correspondence: calm clauses stay soft, alarming ones
+   acquire a hard edge underneath. */
+.clause[data-aroused="1"] {
+  box-shadow: inset 0 -1px 0 0 color-mix(in oklab, transparent, var(--hue) 55%);
+}
+
+/* Chunk banding: clauses read as one idea share a tint.
+   An expert produces a few wide bands; a novice reading
+   clause by clause produces many narrow stripes. The
+   contrast between those two textures IS the chunking
+   literature, so the tint is deliberately near-invisible
+   individually and obvious in aggregate.
+
+   Declared BEFORE the hover rule: both are one class plus
+   one attribute, so on equal specificity the later rule
+   wins, and hover must be the one that wins. */
+.clause[data-band="1"] { background: rgba(233,229,219,0.035); }
+
+.clause:hover,
+.clause:focus-visible {
+  opacity: 1;
+  filter: none;
+  background: rgba(233,229,219,0.09);
+}
+
+/* Attention-ordered reveal: on switching mind, clauses
+   arrive in the order that reader reaches them. This is the
+   scanpath, felt in time rather than drawn as a line. */
+.clause.is-arriving { opacity: 0 !important; transform: translateY(2px); }
+
+/* Conflict mode isolates the inversions and nothing else. */
+.note.is-conflict .clause { opacity: 0.06; filter: blur(2px); }
+.note.is-conflict .clause[data-conflict="1"] {
+  opacity: 1;
+  filter: none;
+  font-size: 1.35rem;
+  font-variation-settings: "opsz" 40, "wght" 480;
+}
+
+/* Marking mode: the viewer's own pass, before any persona. */
+.note.is-marking .clause {
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-variation-settings: "opsz" 22, "wght" 380;
+  opacity: 0.72;
+  filter: none;
+  color: var(--paper);
+  background: transparent;
+  box-shadow: none;
+}
+.note.is-marking .clause:hover { background: rgba(127,209,193,0.10); }
+.note.is-marking .clause[data-marked="1"] {
+  opacity: 1;
+  color: #FFFBF2;
+  background: rgba(127,209,193,0.16);
+  box-shadow: inset 0 -1px 0 0 var(--signal);
+}
+
+/* ── readout ─────────────────────────────────────────────── */
+
+.readout {
+  max-width: var(--measure);
+  margin: 1.75rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 1px;
+  background: var(--ground-edge);
+  border: 1px solid var(--ground-edge);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.stat { background: var(--ground); padding: 1rem 1.1rem; }
+.stat-k {
+  font-family: var(--data);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.45rem;
+}
+.stat-v {
+  font-family: var(--display);
+  font-size: 1.85rem;
+  line-height: 1;
+  font-variation-settings: "opsz" 60, "wght" 400, "WONK" 0;
+  color: var(--paper);
+}
+.stat-v small {
+  font-family: var(--data);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-left: 0.15rem;
+}
+
+.compare-line {
+  max-width: var(--measure);
+  margin: 1.1rem auto 0;
+  font-size: 0.95rem;
+  color: var(--muted-bright);
+  min-height: 3rem;
+}
+.compare-line b { color: var(--paper); font-weight: 600; }
+
+/* ── placement result ────────────────────────────────────── */
+
+.placement { margin-top: 1.5rem; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr 3.2rem;
+  gap: 0.85rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  font-family: var(--data);
+  font-size: 0.72rem;
+  color: var(--muted-bright);
+}
+/* Both are spans, so they need an explicit box — width and height
+   do nothing on a non-replaced inline element. */
+.bar-track {
+  display: block;
+  height: 7px;
+  background: var(--ground-lift);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--signal);
+  border-radius: 99px;
+  width: 0;
+  transition: width 1s var(--ease);
+}
+.bar-row.is-top { color: var(--paper); }
+.bar-row.is-top .bar-fill { background: var(--paper); }
+.bar-num { text-align: right; }
+
+/* ── honesty ─────────────────────────────────────────────── */
+
+.honesty {
+  background: var(--ground-lift);
+  border-top: 1px solid var(--ground-edge);
+}
+.honesty h2 { margin-bottom: 1.5rem; }
+.honesty .cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.honesty h3 { color: var(--paper); }
+.claim-list { list-style: none; padding: 0; margin: 0; }
+.claim-list li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--ground-edge);
+  font-size: 0.92rem;
+  color: var(--muted-bright);
+  display: flex;
+  gap: 0.7rem;
+}
+.claim-list li:last-child { border-bottom: 0; }
+.tag {
+  font-family: var(--data);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.4rem;
+  border-radius: 2px;
+  height: fit-content;
+  white-space: nowrap;
+  flex: none;
+  margin-top: 0.15rem;
+}
+.tag--measured { background: rgba(127,209,193,0.15); color: var(--signal); }
+.tag--modelled { background: rgba(240,160,85,0.13);  color: var(--warm); }
+
+.footnote {
+  font-family: var(--data);
+  font-size: 0.68rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ground-edge);
+}
+
+/* ── legend ──────────────────────────────────────────────── */
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-family: var(--data);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.5rem auto 0;
+  max-width: var(--measure);
+}
+.legend i { font-style: normal; }
+.legend .sw { display: inline-block; width: 1.6rem; height: 2px; vertical-align: middle; margin-right: 0.4rem; }
+
+@media (max-width: 720px) {
+  section { padding: 4.5rem 0; }
+  .note-frame { padding: 2rem 1.15rem 2.25rem; }
+  .bar-row { grid-template-columns: 7rem 1fr 2.8rem; }
+
+  /* The rail wrapped to three rows and swallowed a third of a phone
+     screen. One scrolling row instead, with the label dropped — the
+     active button already says what you are reading as. */
+  .rail-inner {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 0.3rem;
+    padding: 0 1rem;
+  }
+  .rail-inner::-webkit-scrollbar { display: none; }
+  .rail-label, .rail-spacer { display: none; }
+  #persona-buttons { flex-wrap: nowrap; }
+  .persona-btn, .rail .ui { white-space: nowrap; flex: none; padding: 0.4rem 0.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .clause { filter: none !important; }
+}
+</style>
+
+<main>
+
+<!-- ══ HERO ═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Cross-modal perception · perceptual expertise</p>
+    <h1>Someone else's eyes</h1>
+    <p class="lede">
+      You cannot see your own way of seeing. It is the thing doing the looking.
+      This page lends you four other ways, one at a time, over a single page of text.
+    </p>
+
+    <div class="thesis">
+      <span class="thesis-line">
+        <span class="thesis-tag">One sentence from the note below</span>
+        “The board approved a $300m share repurchase programme, to be funded from
+        the revolving credit facility.”
+      </span>
+      <span class="thesis-line">
+        <span class="thesis-tag">To an equity portfolio manager</span>
+        <span class="warm">Good news. Capital returned to me.</span>
+      </span>
+      <span class="thesis-line">
+        <span class="thesis-tag">To a credit analyst</span>
+        <span class="cold">Bad news. My collateral, leaving on borrowed money.</span>
+      </span>
+      <p class="small" style="margin-top:1.4rem;max-width:28rem">
+        Neither has misread it. They hold different claims on the same company, so
+        the sentence genuinely means opposite things. Scroll.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ ACT ONE ════════════════════════════════════════════ -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Act one · Perception is built, not received</p>
+    <h2>Two questions before we start</h2>
+    <p class="lede">
+      Both are about your senses, not your knowledge. Neither has a right answer,
+      but the answers are not random either.
+    </p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h3>1 &nbsp;One of these is called <em>bouba</em>. Which?</h3>
+    <div class="shapes">
+      <button class="shape-btn" id="shape-round" aria-pressed="false">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <path fill="#E9E5DB" d="M60 8c22 0 30 14 40 26s16 20 12 36-20 22-34 30-26 14-40 6S16 78 12 62 20 30 32 20 44 8 60 8z"/>
+        </svg>
+        <span>This one</span>
+      </button>
+      <button class="shape-btn" id="shape-spiky" aria-pressed="false">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <path fill="#E9E5DB" d="M60 6l14 26 30-14-12 30 30 12-30 12 12 30-30-14-14 26-14-26-30 14 12-30L-2 60l30-12L16 18l30 14z" transform="translate(4,0)"/>
+        </svg>
+        <span>This one</span>
+      </button>
+    </div>
+    <div class="verdict" id="bouba-verdict"></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h3>2 &nbsp;There is a triangle of <em>2</em>s hidden in these <em>5</em>s. Find it.</h3>
+    <p class="small">Take as long as you need. Then press the button.</p>
+    <div class="grid-task" id="grid-task" aria-label="A grid of digits containing a hidden triangle of twos"></div>
+    <div class="controls">
+      <button class="ui" id="colourise" aria-pressed="false">Show a synaesthete's version</button>
+    </div>
+    <div class="verdict" id="grid-verdict"></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Both of those were about the senses.<br>Now the same idea, learned.</h2>
+    <p class="lede">
+      A grapheme–colour synaesthete has a head start on that grid because the digits
+      arrive already sorted. A credit analyst has a head start on a financial document
+      for the same structural reason — years of practice have made some sentences
+      loud and the rest quiet.
+    </p>
+    <p>
+      The mechanism is not sharper sight. It is <strong>learned neglect</strong>. The
+      strongest finding in the expertise literature is not that experts look harder at
+      what matters; it is that they stop seeing what doesn't. That is what the rest of
+      this page shows, and it is why parts of the text below will be hard to read.
+    </p>
+    <p class="small">
+      Nothing is ever actually hidden from you. Hover or tab to any clause and it
+      returns to full clarity. You can always choose to look. The expert doesn't have
+      to choose — that is the whole difference.
+    </p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ ACT TWO ════════════════════════════════════════════ -->
+<section style="padding-bottom:2rem">
+  <div class="wrap">
+    <p class="eyebrow">Act two · The same note, four minds</p>
+    <h2 id="act2-title">First, read it as yourself</h2>
+    <p class="lede" id="act2-lede">
+      Below is a quarterly results summary. Read it, and click the sentences that
+      strike you as mattering. There is no correct set. When you're done, press
+      <em>Done — show me the others</em>.
+    </p>
+  </div>
+</section>
+
+<div class="rail" id="rail" hidden>
+  <div class="rail-inner">
+    <span class="rail-label">Reading as</span>
+    <div id="persona-buttons"></div>
+    <span class="rail-spacer"></span>
+    <button class="ui" id="conflict-toggle" aria-pressed="false">Conflicts only</button>
+  </div>
+</div>
+
+<section style="padding-top:0">
+  <div class="note-frame">
+    <div class="note-head">
+      <span id="note-title">Meridian Logistics — Q4 results summary</span>
+      <span id="note-mode">Your reading</span>
+    </div>
+    <p class="note is-marking" id="note"></p>
+  </div>
+
+  <div class="legend" id="legend" hidden>
+    <i><span class="sw" style="background:var(--cold)"></span>bad news to this reader</i>
+    <i><span class="sw" style="background:var(--warm)"></span>good news to this reader</i>
+    <i><span class="sw" style="background:var(--paper)"></span>size &amp; clarity = attention</i>
+  </div>
+
+  <div class="readout" id="readout" hidden></div>
+  <p class="compare-line" id="compare-line"></p>
+
+  <div class="wrap" style="margin-top:2rem">
+    <div class="controls">
+      <button class="ui" id="done-marking">Done — show me the others</button>
+      <button class="ui" id="replay" hidden>Replay their reading order</button>
+      <button class="ui" id="remark" hidden>Mark it again</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLACEMENT ══════════════════════════════════════════ -->
+<section id="placement-section" hidden>
+  <div class="wrap">
+    <p class="eyebrow">And you</p>
+    <h2 id="placement-title">Where your reading landed</h2>
+    <p class="lede" id="placement-lede"></p>
+    <div class="placement" id="placement"></div>
+    <p class="small" style="margin-top:1.5rem">
+      Measured the same way as every other pair on this page: of the eight clauses
+      each of you dwelt on most, how many are the same.
+    </p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ HONESTY ════════════════════════════════════════════ -->
+<section class="honesty">
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">How much of this to believe</p>
+    <h2>What is measured, and what is modelled</h2>
+    <p class="lede" style="max-width:34rem">
+      Most of this page is a model, not a measurement. Here is the line, drawn
+      where it actually falls rather than where it would flatter the work.
+    </p>
+
+    <ul class="claim-list" style="margin-top:2rem">
+      <li>
+        <span class="tag tag--measured">measured</span>
+        <span>The bouba/kiki result: <strong>72%</strong> congruent across 917 people,
+        25 languages and 10 writing systems (Ćwiek et al. 2022). Not the ~95% usually
+        quoted, and it falls below chance in Romanian, Mandarin and Turkish.</span>
+      </li>
+      <li>
+        <span class="tag tag--measured">measured</span>
+        <span>The synaesthete's advantage on the digit grid: <strong>41.4% against
+        31.5%</strong> correct (Ward et al. 2010). The same authors concluded it is
+        <em>not</em> pre-attentive pop-out, and one study failed to replicate it at all.
+        A head start, not magic.</span>
+      </li>
+      <li>
+        <span class="tag tag--measured">measured</span>
+        <span>Expertise suppresses the irrelevant more strongly than it enhances the
+        relevant (r = −0.43 against r = +0.27, Gegenfurtner et al. 2011). Those two
+        numbers came from a secondary source; the paper is paywalled and they are
+        unverified.</span>
+      </li>
+      <li>
+        <span class="tag tag--modelled">modelled</span>
+        <span>Everything the four readers do. Each is a <em>mandate</em> — an objective,
+        a time horizon, a loss function — applied to this note by a language model, then
+        checked against the constraints above. No expert's gaze was recorded.</span>
+      </li>
+      <li>
+        <span class="tag tag--modelled">modelled</span>
+        <span>The note itself is constructed, not real, and deliberately dense with
+        clauses that invert between mandates. That makes the effect legible, and it
+        also makes it larger than it would be on an arbitrary document.</span>
+      </li>
+    </ul>
+
+    <div class="cols">
+      <div>
+        <h3>The largest weakness</h3>
+        <p class="small">
+          No published eye-tracking study compares a credit analyst, an equity PM, a
+          risk officer and a retail investor reading the same document. It appears not
+          to exist. The differences between these four readers are argued from their
+          mandates, not measured. The expert-versus-novice structure is borrowed from a
+          meta-analysis of medicine, sport and aviation, and applying it to financial
+          prose is an assumption no study licenses.
+        </p>
+      </div>
+      <div>
+        <h3>What is missing</h3>
+        <p class="small">
+          No reliability figure. Scoring runs drawn inside a single session are not
+          independent, so the agreement statistic that would tell you whether these
+          readings are stable could not be computed. No human has validated any of it —
+          the comparison tooling for that exists and has never been run. Both gaps are
+          cheap to close and neither has been closed.
+        </p>
+      </div>
+    </div>
+
+    <p class="footnote" id="provenance"></p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   Data comes from the pipeline. This file does no scoring and
+   knows nothing about language models; it renders a contract.
+   ───────────────────────────────────────────────────────────── */
+const DATA = /*__FIELD_DATA__*/;
+
+const LABELS = {
+  "credit-analyst":  "credit analyst",
+  "equity-pm":       "equity PM",
+  "risk-officer":    "risk officer",
+  "retail-investor": "retail investor",
+};
+
+const BLURB = {
+  "credit-analyst":  "Paid a coupon, can lose the principal. Reads for whether the money comes back.",
+  "equity-pm":       "Holds the residual claim. Reads for whether value compounds from here.",
+  "risk-officer":    "Judged only on losses nobody flagged. Reads for what could go wrong.",
+  "retail-investor": "No training, limited time, no model to check against. Reads for the story.",
+};
+
+const $  = (s) => document.querySelector(s);
+const el = (t, c) => { const n = document.createElement(t); if (c) n.className = c; return n; };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ── Act one: bouba / kiki ──────────────────────────────── */
+(() => {
+  const round = $("#shape-round"), spiky = $("#shape-spiky"), out = $("#bouba-verdict");
+  let answered = false;
+
+  const answer = (isRound, btn) => {
+    if (answered) return;
+    answered = true;
+    btn.setAttribute("aria-pressed", "true");
+    [round, spiky].forEach(b => { if (b !== btn) b.disabled = true; });
+
+    out.innerHTML = isRound
+      ? `<p><strong>So did about 72% of people.</strong> Across 917 participants,
+         25 languages and 10 writing systems, the rounded shape gets called
+         <em>bouba</em> far more often than chance. Nobody taught you that. The sound
+         of the word and the shape of the object are wired together somewhere below
+         the level you have access to.</p>
+         <p class="small">The figure usually quoted for this is 95%. It is wrong —
+         the real number is 72%, and in Romanian, Mandarin and Turkish the effect
+         reverses.</p>`
+      : `<p><strong>You are in the other 28% — and that is the more interesting
+         answer.</strong> About 72% of 917 people across 25 languages picked the
+         rounded shape. You did not. The effect also reverses in Romanian, Mandarin
+         and Turkish, so this is a real split, not an error.</p>
+         <p class="small">Which is the point of the whole page, arrived at ten seconds
+         in: the person next to you just had a different experience of the same two
+         shapes, and neither of you can see the difference from the inside.</p>`;
+    out.classList.add("is-shown");
+  };
+
+  round.addEventListener("click", () => answer(true, round));
+  spiky.addEventListener("click", () => answer(false, spiky));
+})();
+
+/* ── Act one: the digit grid ────────────────────────────── */
+(() => {
+  const host = $("#grid-task"), btn = $("#colourise"), out = $("#grid-verdict");
+  const COLS = 26, ROWS = 11;
+
+  // A triangle of 2s, offset so it is not centred.
+  const inTriangle = (r, c) => {
+    const top = 2, left = 9, height = 7;
+    if (r < top || r >= top + height) return false;
+    const half = r - top;
+    return c >= left - half && c <= left + half;
+  };
+
+  let html = "";
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const isTarget = inTriangle(r, c);
+      html += `<span class="${isTarget ? "target" : "filler"}">${isTarget ? "2" : "5"}</span>`;
+    }
+    if (r < ROWS - 1) html += "\n";
+  }
+  host.innerHTML = html;
+
+  btn.addEventListener("click", () => {
+    const on = host.classList.toggle("is-colourised");
+    btn.setAttribute("aria-pressed", String(on));
+    btn.textContent = on ? "Hide the synaesthete's version" : "Show a synaesthete's version";
+    if (!on) return;
+    out.innerHTML =
+      `<p><strong>That is roughly what a grapheme–colour synaesthete reports.</strong>
+       The digits do not change; the sorting arrives for free.</p>
+       <p class="small">Be careful with how much that image claims. When this was
+       tested properly, synaesthetes got <strong>41.4%</strong> of these grids right
+       against <strong>31.5%</strong> for everyone else — real, but far short of the
+       shape simply appearing, and one study found no advantage at all. The colour
+       above is an illustration of what people report experiencing, not a simulation
+       of how well they perform. A head start, not a superpower — which is exactly
+       what expertise turns out to be too.</p>`;
+    out.classList.add("is-shown");
+  });
+})();
+
+/* ── Act two ────────────────────────────────────────────── */
+const note      = $("#note");
+const rail      = $("#rail");
+const readout   = $("#readout");
+const legend    = $("#legend");
+const noteMode  = $("#note-mode");
+const compareLine = $("#compare-line");
+
+const texts   = DATA.stimulus.texts;
+const fields  = Object.fromEntries(DATA.fields.map(f => [f.persona_id, f]));
+const order   = DATA.fields.map(f => f.persona_id);
+const TOP_K   = DATA.comparisons[0]?.top_k ?? 8;
+
+let current   = null;      // active persona id, or null while marking
+let marking   = true;
+let marked    = new Set();
+let conflictWith = null;
+
+/* Build the clause spans once. */
+texts.forEach((t, i) => {
+  const s = el("span", "clause");
+  s.dataset.i = String(i);
+  s.tabIndex = 0;
+  s.textContent = t + " ";
+  note.appendChild(s);
+});
+const clauses = [...note.querySelectorAll(".clause")];
+
+/* Marking mode ------------------------------------------------ */
+clauses.forEach(c => {
+  const toggle = () => {
+    if (!marking) return;
+    const i = Number(c.dataset.i);
+    if (marked.has(i)) { marked.delete(i); c.dataset.marked = "0"; }
+    else { marked.add(i); c.dataset.marked = "1"; }
+  };
+  c.addEventListener("click", toggle);
+  c.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+  });
+});
+
+/* Rendering a persona ----------------------------------------- */
+function render(personaId, { animate = true } = {}) {
+  const f = fields[personaId];
+  const conflicts = conflictSet(personaId, conflictWith);
+
+  clauses.forEach((c, i) => {
+    const u = f.units[i];
+    const sign = u.valence > 0.08 ? 1 : u.valence < -0.08 ? -1 : 0;
+    c.style.setProperty("--s", u.salience.toFixed(3));
+    c.style.setProperty("--v", u.valence.toFixed(3));
+    c.style.setProperty("--vabs", Math.abs(u.valence).toFixed(3));
+    c.style.setProperty("--a", u.arousal.toFixed(3));
+    c.dataset.sign = String(sign);
+    c.dataset.aroused = u.arousal >= 0.6 ? "1" : "0";
+    c.dataset.band = (u.chunk % 2 === 0) ? "1" : "0";
+    c.dataset.conflict = conflicts.has(i) ? "1" : "0";
+  });
+
+  if (animate && !reduced) revealInOrder(f);
+}
+
+/* The scanpath, felt in time: clauses arrive in the order this
+   reader reaches them, fastest first. */
+function revealInOrder(f) {
+  const byOrder = f.units
+    .map((u, i) => ({ i, o: u.order }))
+    .sort((a, b) => a.o - b.o);
+
+  clauses.forEach(c => c.classList.add("is-arriving"));
+  byOrder.forEach(({ i }, rank) => {
+    setTimeout(() => clauses[i].classList.remove("is-arriving"),
+      60 + rank * (900 / clauses.length));
+  });
+}
+
+function conflictSet(a, b) {
+  if (!a || !b) return new Set();
+  const c = DATA.comparisons.find(x =>
+    x.personas.includes(a) && x.personas.includes(b));
+  return new Set(c ? c.valence_conflicts : []);
+}
+
+/* Readout ------------------------------------------------------ */
+function updateReadout(personaId) {
+  const f = fields[personaId];
+  const others = order.filter(p => p !== personaId);
+  const cmps = others.map(p => ({
+    other: p,
+    c: DATA.comparisons.find(x => x.personas.includes(p) && x.personas.includes(personaId)),
+  }));
+
+  const nearest  = cmps.reduce((m, x) => x.c.top_k_overlap > m.c.top_k_overlap ? x : m);
+  const furthest = cmps.reduce((m, x) => x.c.top_k_overlap < m.c.top_k_overlap ? x : m);
+
+  readout.innerHTML = "";
+  const stat = (k, v, sub) => {
+    const d = el("div", "stat");
+    d.innerHTML = `<span class="stat-k">${k}</span>
+      <span class="stat-v">${v}${sub ? `<small>${sub}</small>` : ""}</span>`;
+    readout.appendChild(d);
+  };
+
+  stat("Dwells on", `${f.top_attention.length}`, `of ${texts.length} clauses`);
+  stat("Closest to", sharedLabel(nearest), "");
+  stat("Furthest from", sharedLabel(furthest), "");
+  stat("Focus", f.concentration.toFixed(3), "concentration");
+
+  compareLine.innerHTML =
+    `Of the ${TOP_K} clauses the <b>${LABELS[personaId]}</b> dwells on most, they share
+     <b>${nearest.c.shared_top.length}</b> with the ${LABELS[nearest.other]} —
+     and only <b>${furthest.c.shared_top.length}</b> with the ${LABELS[furthest.other]}.
+     ${BLURB[personaId]}`;
+}
+
+function sharedLabel(x) {
+  return `${x.c.shared_top.length}/${x.c.top_k} <small>${LABELS[x.other]}</small>`;
+}
+
+/* Persona rail -------------------------------------------------- */
+const personaButtons = $("#persona-buttons");
+order.forEach(pid => {
+  const b = el("button", "persona-btn");
+  b.type = "button";
+  b.textContent = LABELS[pid];
+  b.setAttribute("aria-pressed", "false");
+  b.addEventListener("click", () => select(pid));
+  personaButtons.appendChild(b);
+});
+
+function select(pid) {
+  current = pid;
+  [...personaButtons.children].forEach((b, i) =>
+    b.setAttribute("aria-pressed", String(order[i] === pid)));
+  noteMode.textContent = `Reading as the ${LABELS[pid]}`;
+  $("#act2-title").textContent = `Now read it as the ${LABELS[pid]}`;
+  $("#act2-lede").textContent = BLURB[pid];
+
+  if (conflictWith === pid) conflictWith = null;
+  render(pid);
+  updateReadout(pid);
+  updateConflictButton();
+}
+
+/* Conflicts ----------------------------------------------------- */
+const conflictBtn = $("#conflict-toggle");
+conflictBtn.addEventListener("click", () => {
+  if (!current) return;
+  if (conflictWith) { conflictWith = null; }
+  else {
+    // Pair against whichever reader this one conflicts with most.
+    const best = order
+      .filter(p => p !== current)
+      .map(p => ({ p, c: DATA.comparisons.find(x => x.personas.includes(p) && x.personas.includes(current)) }))
+      .reduce((m, x) => x.c.valence_conflicts.length > m.c.valence_conflicts.length ? x : m);
+    conflictWith = best.c.valence_conflicts.length ? best.p : null;
+  }
+  render(current, { animate: false });
+  updateConflictButton();
+});
+
+function updateConflictButton() {
+  const on = Boolean(conflictWith);
+  note.classList.toggle("is-conflict", on);
+  conflictBtn.setAttribute("aria-pressed", String(on));
+  conflictBtn.textContent = on ? "Show the whole note" : "Conflicts only";
+  if (on) {
+    const n = conflictSet(current, conflictWith).size;
+    compareLine.innerHTML =
+      `<b>${n} sentence${n === 1 ? "" : "s"}</b> that the <b>${LABELS[current]}</b> and the
+       <b>${LABELS[conflictWith]}</b> read in opposite directions. Not a
+       disagreement about the facts — a disagreement about what the facts are
+       <em>for</em>.`;
+  } else if (current) {
+    updateReadout(current);
+  }
+}
+
+/* Finishing the marking pass ------------------------------------ */
+$("#done-marking").addEventListener("click", () => {
+  marking = false;
+  note.classList.remove("is-marking");
+  rail.hidden = false;
+  readout.hidden = false;
+  legend.hidden = false;
+  $("#done-marking").hidden = true;
+  $("#replay").hidden = false;
+  $("#remark").hidden = false;
+  placeViewer();
+  select(order[0]);
+  rail.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+});
+
+$("#replay").addEventListener("click", () => {
+  if (current) revealInOrder(fields[current]);
+});
+
+$("#remark").addEventListener("click", () => {
+  marking = true;
+  current = null;
+  conflictWith = null;
+  note.classList.add("is-marking");
+  note.classList.remove("is-conflict");
+  clauses.forEach(c => { c.dataset.marked = marked.has(Number(c.dataset.i)) ? "1" : "0"; });
+  noteMode.textContent = "Your reading";
+  $("#act2-title").textContent = "Read it as yourself";
+  $("#done-marking").hidden = false;
+  $("#replay").hidden = true;
+  $("#remark").hidden = true;
+  [...personaButtons.children].forEach(b => b.setAttribute("aria-pressed", "false"));
+});
+
+/* Placing the viewer -------------------------------------------- */
+function topIndices(salience, k) {
+  return salience
+    .map((s, i) => [s, i])
+    .sort((a, b) => b[0] - a[0] || a[1] - b[1])
+    .slice(0, k)
+    .map(x => x[1]);
+}
+
+function placeViewer() {
+  const section = $("#placement-section");
+  const host = $("#placement");
+  section.hidden = false;
+  host.innerHTML = "";
+
+  if (marked.size === 0) {
+    $("#placement-title").textContent = "You didn't mark anything";
+    $("#placement-lede").textContent =
+      "Which is a legitimate reading — it means the note gave you no purchase, " +
+      "and that is roughly the position most people are in with a document like " +
+      "this. Press “Mark it again” to try, or just carry on through the four readers.";
+    return;
+  }
+
+  // The viewer's markup as a salience vector: marked clauses carry
+  // attention, unmarked ones keep a small baseline, because they
+  // were still read.
+  const mine = texts.map((_, i) => marked.has(i) ? 1.0 : 0.15);
+  const k = Math.min(TOP_K, marked.size);
+  const mineTop = new Set(topIndices(mine, k));
+
+  const rows = order.map(pid => {
+    const theirs = new Set(topIndices(fields[pid].units.map(u => u.salience), k));
+    let shared = 0;
+    mineTop.forEach(i => { if (theirs.has(i)) shared++; });
+    return { pid, shared, k, frac: shared / k };
+  }).sort((a, b) => b.frac - a.frac);
+
+  const best = rows[0], worst = rows[rows.length - 1];
+
+  $("#placement-title").textContent =
+    best.frac === 0
+      ? "You read it like none of them"
+      : `You read it most like the ${LABELS[best.pid]}`;
+
+  $("#placement-lede").innerHTML = best.frac === 0
+    ? `You marked ${marked.size} sentence${marked.size === 1 ? "" : "s"}, and not one of
+       them is among the top ${k} for any of the four. That is a real result, not a
+       failure — it means you were reading for something none of these four mandates
+       is looking for.`
+    : `You marked ${marked.size} sentence${marked.size === 1 ? "" : "s"}. Of your top
+       ${k}, you share <b>${best.shared}</b> with the ${LABELS[best.pid]}
+       and <b>${worst.shared}</b> with the ${LABELS[worst.pid]}.`;
+
+  rows.forEach((r, idx) => {
+    const row = el("div", "bar-row" + (idx === 0 && r.frac > 0 ? " is-top" : ""));
+    row.innerHTML =
+      `<span>${LABELS[r.pid]}</span>
+       <span class="bar-track"><span class="bar-fill"></span></span>
+       <span class="bar-num">${r.shared}/${r.k}</span>`;
+    host.appendChild(row);
+    requestAnimationFrame(() => {
+      row.querySelector(".bar-fill").style.width = `${Math.round(r.frac * 100)}%`;
+    });
+  });
+}
+
+/* Provenance ---------------------------------------------------- */
+$("#provenance").textContent =
+  DATA.provenance.summary + " " + DATA.provenance.method;
+</script>
