@@ -23,10 +23,14 @@ from collections.abc import Sequence
 import numpy as np
 
 __all__ = [
+    "DEFAULT_TOP_K",
     "attention_divergence",
     "chunk_agreement",
     "perceptual_overlap",
     "salience_concentration",
+    "shared_top_attention",
+    "top_attention",
+    "top_k_overlap",
     "valence_conflicts",
 ]
 
@@ -135,3 +139,41 @@ def chunk_agreement(a: Sequence[int], b: Sequence[int]) -> float:
     if maximum == expected:
         return 1.0
     return float((index - expected) / (maximum - expected))
+
+
+DEFAULT_TOP_K = 8
+
+
+def top_attention(salience: Sequence[float], k: int = DEFAULT_TOP_K) -> list[int]:
+    """Indices of the k most-attended units, most attended first.
+
+    Ties break by index so the result is deterministic and the demo does not
+    reshuffle between runs.
+    """
+    n = len(salience)
+    if k < 1:
+        raise ValueError(f"k must be at least 1, got {k}")
+    if k > n:
+        raise ValueError(f"k of {k} exceeds the {n} units available")
+    return sorted(range(n), key=lambda i: (-salience[i], i))[:k]
+
+
+def shared_top_attention(
+    a: Sequence[float], b: Sequence[float], k: int = DEFAULT_TOP_K
+) -> list[int]:
+    """Units that appear in both readers' top k, in index order."""
+    if len(a) != len(b):
+        raise ValueError("salience vectors must have the same length")
+    return sorted(set(top_attention(a, k)) & set(top_attention(b, k)))
+
+
+def top_k_overlap(
+    a: Sequence[float], b: Sequence[float], k: int = DEFAULT_TOP_K
+) -> float:
+    """Share of each reader's k most-attended units that the other also prioritises.
+
+    This is the headline number. Unlike 1 - JSD it separates readers sharply on a
+    long document, and it answers the question a heat-map comparison answers:
+    of the handful of clauses each dwells on, how many are the same?
+    """
+    return len(shared_top_attention(a, b, k)) / k

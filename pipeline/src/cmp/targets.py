@@ -8,10 +8,32 @@ The central claim being enforced is the suppression asymmetry — expertise is
 learned neglect of the irrelevant more than it is sharper attention to the
 relevant (note claims 1, 2 and 4).
 
-Deliberately, the exact magnitude is **reported but not gated**. Two of the three
-numbers behind the 1.70 target are flagged unverified in note §2.1, so requiring
-the model to hit it would claim more precision than the evidence supports. What
-is gated is direction and ordering, which the evidence does support.
+**What is gated** is direction only, which is what the evidence supports:
+
+1. the expert attends more than the novice to task-relevant units (r = +0.27),
+2. the expert attends less than the novice to task-redundant units (r = -0.43),
+3. the expert's attention is more concentrated (information reduction).
+
+**What is reported but NOT gated** is the suppression asymmetry. Gating it was a
+mis-specification, found by scoring a real 30-clause note and watching a
+well-formed field fail. Two reasons it does not work:
+
+- The published numbers are standardised mean differences (d). Re-expressing
+  them as a ratio of normalised attention shares is not a faithful translation,
+  and the result is sensitive to the novice baseline's own tilt in a way the
+  d values are not.
+- Under a fixed attention budget the totals must balance: the attention moved
+  *into* relevant clauses equals the attention moved *out of* irrelevant ones.
+  When irrelevant clauses outnumber relevant ones — the realistic case — each
+  irrelevant clause therefore loses less share than each relevant clause gains.
+  Making |log suppression| exceed |log enhancement| then requires driving
+  irrelevant clauses to near zero: for the hero note, roughly a 45:1 salience
+  ratio. No real reader is that extreme, so the constraint was demanding an
+  artefact rather than testing a finding.
+
+The asymmetry is still computed and displayed, because its *value* is
+informative when read against the relevant/irrelevant balance. It is simply no
+longer allowed to fail a run.
 """
 
 from __future__ import annotations
@@ -145,12 +167,6 @@ def check_expertise_signature(
         reasons.append(
             f"Expert fails to suppress task-irrelevant units "
             f"(suppression {sig.suppression:.2f}, expected below 1.0)."
-        )
-    elif sig.asymmetry <= 1.0:
-        reasons.append(
-            f"Expert enhances the relevant more than it suppresses the irrelevant "
-            f"(asymmetry {sig.asymmetry:.2f}, expected above 1.0). The literature "
-            f"describes expertise as learned neglect first."
         )
     if sig.expert_concentration <= sig.novice_concentration:
         reasons.append(

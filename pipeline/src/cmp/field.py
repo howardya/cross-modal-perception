@@ -17,9 +17,13 @@ from itertools import combinations
 from typing import Any
 
 from cmp.metrics import (
+    DEFAULT_TOP_K,
     chunk_agreement,
     perceptual_overlap,
     salience_concentration,
+    shared_top_attention,
+    top_attention,
+    top_k_overlap,
     valence_conflicts,
 )
 
@@ -33,6 +37,10 @@ PROVENANCE_SUMMARY = (
     "published effect sizes. They are not measured recordings of real experts' "
     "attention. No eye-tracking study compares these roles on the same document."
 )
+
+#: Overridden per field set. A fixture must be able to state its own method, so
+#: the demo's honesty panel cannot drift away from how the data was actually made.
+DEFAULT_METHOD = "unspecified"
 
 
 def _check_range(value: float, low: float, high: float, name: str) -> float:
@@ -112,9 +120,11 @@ class PerceptualField:
         return salience_concentration(self.salience())
 
     def to_dict(self) -> dict[str, Any]:
+        k = min(DEFAULT_TOP_K, len(self.units))
         return {
             "persona_id": self.persona_id,
             "concentration": self.concentration(),
+            "top_attention": top_attention(self.salience(), k),
             "units": [u.to_dict() for u in self.units],
         }
 
@@ -133,6 +143,8 @@ class StimulusFieldSet:
     stimulus: Stimulus
     fields: list[PerceptualField]
     valence_threshold: float = 0.5
+    method: str = DEFAULT_METHOD
+    reliability_measured: bool = False
 
     def __post_init__(self) -> None:
         if len(self.fields) < 2:
@@ -153,9 +165,16 @@ class StimulusFieldSet:
     def comparisons(self) -> list[dict[str, Any]]:
         out = []
         for a, b in combinations(self.fields, 2):
+            k = min(DEFAULT_TOP_K, len(self.stimulus.texts))
             out.append(
                 {
                     "personas": [a.persona_id, b.persona_id],
+                    # The headline. See cmp.metrics.top_k_overlap for why this,
+                    # and not 1 - JSD, is what the demo quotes.
+                    "top_k": k,
+                    "top_k_overlap": top_k_overlap(a.salience(), b.salience(), k),
+                    "shared_top": shared_top_attention(a.salience(), b.salience(), k),
+                    # Retained as the continuous measure; poor as a headline.
                     "overlap": perceptual_overlap(a.salience(), b.salience()),
                     "valence_conflicts": valence_conflicts(
                         a.valence(), b.valence(), threshold=self.valence_threshold
@@ -174,14 +193,19 @@ class StimulusFieldSet:
             "provenance": {
                 "measured": False,
                 "summary": PROVENANCE_SUMMARY,
+                "method": self.method,
+                "reliability_measured": self.reliability_measured,
             },
         }
 
     @classmethod
     def from_dict(cls, raw: dict[str, Any]) -> StimulusFieldSet:
+        provenance = raw.get("provenance", {})
         return cls(
             stimulus=Stimulus.from_dict(raw["stimulus"]),
             fields=[PerceptualField.from_dict(f) for f in raw["fields"]],
+            method=provenance.get("method", DEFAULT_METHOD),
+            reliability_measured=provenance.get("reliability_measured", False),
         )
 
 

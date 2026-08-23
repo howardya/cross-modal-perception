@@ -95,10 +95,26 @@ def test_a_passing_check_reports_no_reasons():
     assert check_expertise_signature(EXPERT_LIKE, UNIFORM, MASK).reasons == []
 
 
-def test_field_that_enhances_without_suppressing_is_rejected():
+def test_asymmetry_is_reported_but_never_fails_a_run():
+    """Gating on asymmetry was a mis-specification. See the module docstring.
+
+    ENHANCES_ONLY has asymmetry below 1, which the earlier gate rejected. Under a
+    fixed budget with a minority relevant mask, that condition demands a ~45:1
+    salience ratio no real reader has, so it tested an artefact rather than a
+    finding. The value is still computed and shown.
+    """
     result = check_expertise_signature(ENHANCES_ONLY, UNIFORM, MASK)
+    assert result.signature.asymmetry < 1.0
+    assert result.passed
+    assert not any("asymmetry" in r.lower() for r in result.reasons)
+
+
+def test_a_field_that_attends_less_to_the_relevant_is_still_rejected():
+    """Direction is gated even though magnitude is not."""
+    inattentive = [1, 1, 9, 9, 9, 9, 9, 9, 9, 9]
+    result = check_expertise_signature(inattentive, UNIFORM, MASK)
     assert not result.passed
-    assert any("suppress" in r.lower() for r in result.reasons)
+    assert any("relevant" in r.lower() for r in result.reasons)
 
 
 def test_field_less_concentrated_than_novice_is_rejected():

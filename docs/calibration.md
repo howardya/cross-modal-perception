@@ -22,8 +22,8 @@ reasons they would be right to.
 |---|---|
 | Four professionals attending to different clauses | Four *mandates*, applied to the same text by a language model |
 | A clause turning green for one role and red for another | A modelled valence judgment; the underlying conflict of interest is real, the specific score is not measured |
-| "They overlap on 31% of this note" | A Jensen-Shannon divergence between two modelled distributions, computed exactly |
-| "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose |
+| "They share 2 of the 8 clauses they attend to most" | Top-k overlap between two modelled attention distributions, computed exactly |
+| "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose — and **not** enforced by the model, for the reasons in §7.1 |
 | The bouba/kiki result | Measured, on 917 people across 25 languages. Real. |
 | The synaesthesia illustration | An illustration of *reported experience*. The measured advantage is much smaller — see §5 |
 
@@ -45,22 +45,28 @@ satisfy. A field pair passes only if all of the following hold:
 |---|---|
 | Expert attends *more* to task-relevant units than novice | Gegenfurtner et al. 2011 (r = 0.27) |
 | Expert attends *less* to task-irrelevant units than novice | Gegenfurtner et al. 2011 (r = −0.43) |
-| Suppression of the irrelevant *dominates* enhancement of the relevant | The asymmetry between those two |
 | Expert salience is more concentrated than novice salience | Information-reduction hypothesis |
 
-**What is deliberately not gated.** The exact magnitude. The literature target is
-an asymmetry ratio of ≈ 1.70, and the code reports the distance from it, but does
-not fail a field for missing it. Two of the three numbers behind 1.70 are
-unverified (§6.3); gating on it would claim precision the evidence does not have.
+**What is deliberately not gated.** Magnitude, in either form. Two of the three
+numbers behind the ≈ 1.70 asymmetry target are unverified (§6.3), so gating on
+the value would claim precision the evidence does not have — and, as §7.1
+records, gating on the *ordering* turned out to be mis-specified as well. The
+asymmetry is computed and displayed; it cannot fail a run.
 
 **A modelling subtlety worth stating.** Salience is normalised to a fixed budget,
-because Sirois et al. measured attention as zero-sum within a document. Under a
-fixed budget with equal numbers of relevant and irrelevant units, enhancement and
-suppression sum to 2 — each is then merely a restatement of the other, and the
-asymmetry constraint is vacuous. It only carries information when irrelevant
-units outnumber relevant ones. That is also the realistic shape of a document,
-so the constraint does real work on real stimuli, but it would silently do
-nothing on a toy one.
+because Sirois et al. measured attention as zero-sum within a document. That
+normalisation has consequences at both extremes of the relevant/irrelevant
+balance, and both bit during development:
+
+- With an **equal** split, enhancement and suppression sum to 2 — each is merely a
+  restatement of the other, so any constraint relating them is vacuous.
+- With a **minority** relevant mask (the realistic case), each irrelevant clause
+  necessarily loses less attention share than each relevant clause gains, because
+  the totals must balance across unequal counts.
+
+Neither is a flaw in the evidence; both are consequences of modelling attention
+as a fixed budget, which the evidence requires. They are why the gate covers
+direction only.
 
 ### L2 — Persona scoring
 
@@ -117,7 +123,8 @@ If this remains unrun at demo time, the demo must say so.
 
 | Number | Definition | Interpretation |
 |---|---|---|
-| Perceptual overlap | 1 − Jensen-Shannon divergence (base 2) between normalised salience | 1.0 identical attention, 0.0 completely disjoint |
+| **Top-k shared** (headline) | Of the k clauses each reader attends to most, how many are the same | 8/8 identical priorities, 0/8 no shared priorities |
+| Perceptual overlap | 1 − Jensen-Shannon divergence (base 2) between normalised salience | 1.0 identical attention, 0.0 completely disjoint. Retained as the continuous measure; a poor headline — see §7.2 |
 | Valence conflicts | Count of clauses where two personas' valence signs oppose and both exceed 0.5 | Clauses read in genuinely opposite directions |
 | Chunk agreement | Adjusted Rand index between chunk partitions | Chance-corrected; ~0 means unrelated groupings |
 | Concentration | 1 − normalised Shannon entropy of salience | 0 attention spread evenly, 1 all on one clause |
@@ -190,7 +197,80 @@ In descending order of seriousness.
 
 ---
 
-## 7. What would fix it
+## 7. Changes forced by actually running the model
+
+Three things only became visible once real scores existed. All three were errors
+in this project's own design, not in the literature, and all three are recorded
+here rather than quietly corrected.
+
+### 7.1 The suppression-asymmetry gate was mis-specified
+
+The L1 layer originally *failed* any field whose suppression of the irrelevant
+did not dominate its enhancement of the relevant, expressed as
+|log suppression| > |log enhancement|. Scoring the real 30-clause note made a
+well-formed credit-analyst field fail that test. Two reasons it was wrong:
+
+- The published values are standardised mean differences (d). Re-expressing them
+  as a ratio of normalised attention *shares* is not a faithful translation, and
+  the result depends on the novice baseline's own tilt in a way the d values do
+  not. The lay reader already under-weights the technical clauses, which is
+  correct behaviour and which the ratio then penalises.
+- Under a fixed budget the totals must balance: attention moved into relevant
+  clauses equals attention moved out of irrelevant ones. When irrelevant clauses
+  outnumber relevant ones — the realistic case, and the one §2 already requires —
+  each irrelevant clause necessarily loses less share than each relevant clause
+  gains. Satisfying the condition on the hero note needs roughly a **45:1**
+  salience ratio between relevant and irrelevant clauses. No real reader is that
+  extreme.
+
+The gate now covers direction only, which is all the evidence supports. The
+asymmetry is still computed and displayed, because its value is informative when
+read against the relevant/irrelevant balance. It can no longer fail a run.
+
+### 7.2 The headline metric was the wrong statistic
+
+The intended headline was "these two attend to the same X% of the note",
+computed as 1 − JSD. On real data every pair scored **83–94%**. That is arithmetically
+correct and rhetorically fatal: it says *these people broadly agree*, which is
+the opposite of what the fields show. JSD over thirty smooth bins only approaches
+1 for near-disjoint support, so it compresses everything into a narrow high band.
+
+The headline is now **top-k attention overlap** — of the eight clauses each reader
+dwells on most, how many are shared. It is the comparison a heat-map overlay
+actually makes, it needs no explanation, and it separates the personas properly:
+
+| Pair | Top-8 shared | 1 − JSD |
+|---|---|---|
+| Risk officer vs retail investor | **0/8** | 90.4% |
+| Credit analyst vs retail investor | 1/8 | 83.4% |
+| Credit analyst vs equity PM | 2/8 | 85.1% |
+| Equity PM vs risk officer | 2/8 | 89.1% |
+| Credit analyst vs risk officer | 4/8 | 91.5% |
+| Equity PM vs retail investor | 5/8 | 94.2% |
+
+The ordering is also a mild internal validity check: the retail investor lands
+closest to the equity PM (both read for headline growth) and shares nothing at
+all with the risk officer. Nobody designed that; it fell out of the mandates.
+
+### 7.3 The current hero fixture was scored inline, and has no reliability figure
+
+No API credentials were available, so the shipped fixture was scored by Claude
+Opus 5 **inside a single Claude Code session**, one pass per persona, applying the
+same mandates the API prompt uses. It passes every L1 check.
+
+What it cannot have is a reliability figure. Samples drawn in one conversation
+are not independent — later personas were scored with earlier ones in context —
+so Krippendorff's alpha would be meaningless. The fixture therefore carries
+`reliability_measured: false`, and the calibration report prints "NOT MEASURED"
+where an alpha would go.
+
+This is the single most valuable thing still outstanding. Running
+`python -m cmp calibrate meridian-q4 --k 5` with credentials produces independent
+samples and a real alpha, and would either confirm these fields or overturn them.
+
+---
+
+## 8. What would fix it
 
 Roughly in order of value per unit of effort:
 

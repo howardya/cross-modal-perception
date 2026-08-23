@@ -139,6 +139,27 @@ def test_export_declares_provenance_so_the_demo_can_be_honest():
     assert "modelled" in payload["provenance"]["summary"].lower()
 
 
+def test_export_records_how_the_scores_were_produced():
+    """A fixture must carry its own method, so the panel cannot drift from the truth."""
+    payload = _two_persona_set().to_dict()
+    assert payload["provenance"]["method"]
+
+
+def test_provenance_method_can_be_set_per_field_set():
+    stim = _stimulus(3)
+    a = PerceptualField(persona_id="a", units=_units([0.1, 0.2, 0.3]))
+    b = PerceptualField(persona_id="b", units=_units([0.3, 0.2, 0.1]))
+    field_set = StimulusFieldSet(
+        stimulus=stim, fields=[a, b], method="scored by hand for a unit test"
+    )
+    assert field_set.to_dict()["provenance"]["method"] == "scored by hand for a unit test"
+
+
+def test_provenance_records_whether_reliability_was_measurable():
+    payload = _two_persona_set().to_dict()
+    assert "reliability_measured" in payload["provenance"]
+
+
 def test_export_is_json_serialisable_without_custom_encoders():
     json.dumps(_two_persona_set().to_dict())
 
