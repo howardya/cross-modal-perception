@@ -1,0 +1,73 @@
+{
+  "stimulus_id": "meridian-q4",
+  "method": "Scored inline by Claude Opus 5 within a single Claude Code session, one pass per persona, applying each persona's mandate from cmp.personas. NOT produced by the k-sample API pipeline. Because all four personas were scored inside one conversation, the samples are not independent and inter-run reliability (Krippendorff's alpha) could not be measured. Re-run `python -m cmp calibrate meridian-q4 --k 5` with API credentials to obtain independent samples and a real reliability figure.",
+  "reliability_measured": false,
+  "scores": {
+    "credit-analyst": {
+      "salience": [0.25, 0.10, 0.08, 0.35, 0.20, 0.75, 0.88, 0.95, 0.85, 0.82,
+                   0.60, 0.95, 0.98, 0.70, 0.90, 0.55, 0.45, 0.38, 0.06, 0.88,
+                   0.80, 0.12, 0.15, 0.08, 0.12, 0.10, 0.45, 0.20, 0.18, 0.15],
+      "valence":  [0.20, 0.10, 0.05, -0.50, -0.20, -0.40, -0.70, -0.85, -0.80, -0.75,
+                   -0.60, -0.85, -0.60, -0.50, -0.90, -0.60, -0.55, -0.35, 0.00, -0.50,
+                   0.45, 0.15, 0.10, 0.10, 0.20, 0.00, 0.50, 0.15, -0.30, -0.35],
+      "chunk":    [0, 0, 0, 1, 1, 1, 1, 2, 2, 2,
+                   3, 3, 3, 3, 4, 4, 5, 5, 5, 6,
+                   6, 7, 7, 7, 8, 8, 8, 8, 9, 9],
+      "arousal":  [0.10, 0.10, 0.10, 0.35, 0.30, 0.50, 0.75, 0.80, 0.75, 0.70,
+                   0.50, 0.80, 0.90, 0.45, 0.85, 0.50, 0.50, 0.35, 0.15, 0.60,
+                   0.30, 0.10, 0.20, 0.10, 0.15, 0.15, 0.25, 0.20, 0.30, 0.35]
+    },
+    "equity-pm": {
+      "salience": [0.85, 0.40, 0.80, 0.92, 0.35, 0.88, 0.72, 0.50, 0.55, 0.30,
+                   0.25, 0.40, 0.25, 0.08, 0.88, 0.35, 0.78, 0.40, 0.10, 0.12,
+                   0.18, 0.28, 0.72, 0.22, 0.20, 0.25, 0.68, 0.78, 0.25, 0.20],
+      "valence":  [0.80, 0.65, 0.75, -0.70, 0.10, -0.60, -0.50, -0.50, -0.45, -0.40,
+                   -0.25, -0.35, 0.50, -0.20, 0.70, 0.50, -0.50, -0.30, 0.10, -0.15,
+                   0.25, 0.45, 0.65, 0.40, 0.40, 0.35, 0.45, 0.60, -0.35, -0.30],
+      "chunk":    [0, 0, 0, 1, 1, 1, 1, 2, 2, 2,
+                   3, 3, 3, 3, 4, 4, 5, 5, 5, 6,
+                   6, 7, 7, 7, 8, 8, 8, 9, 9, 9],
+      "arousal":  [0.30, 0.20, 0.30, 0.70, 0.40, 0.65, 0.50, 0.50, 0.45, 0.40,
+                   0.30, 0.40, 0.35, 0.15, 0.50, 0.25, 0.65, 0.45, 0.20, 0.20,
+                   0.15, 0.20, 0.35, 0.20, 0.25, 0.25, 0.40, 0.45, 0.40, 0.35]
+    },
+    "risk-officer": {
+      "salience": [0.15, 0.20, 0.25, 0.30, 0.45, 0.40, 0.92, 0.65, 0.80, 0.85,
+                   0.40, 0.55, 0.88, 0.35, 0.60, 0.35, 0.95, 0.85, 0.55, 0.75,
+                   0.50, 0.20, 0.70, 0.45, 0.30, 0.35, 0.40, 0.45, 0.80, 0.85],
+      "valence":  [0.10, -0.20, 0.05, -0.40, -0.45, -0.40, -0.85, -0.60, -0.70, -0.75,
+                   -0.40, -0.55, -0.75, -0.30, -0.60, -0.35, -0.90, -0.70, -0.50, -0.60,
+                   0.30, 0.10, -0.55, -0.35, -0.20, -0.20, -0.40, -0.30, -0.70, -0.80],
+      "chunk":    [0, 0, 0, 1, 10, 1, 1, 2, 2, 2,
+                   3, 3, 3, 3, 4, 4, 5, 5, 10, 6,
+                   6, 7, 7, 10, 8, 8, 8, 9, 9, 9],
+      "arousal":  [0.15, 0.25, 0.15, 0.40, 0.50, 0.45, 0.85, 0.60, 0.70, 0.75,
+                   0.40, 0.55, 0.80, 0.35, 0.60, 0.35, 0.90, 0.70, 0.55, 0.60,
+                   0.30, 0.15, 0.60, 0.45, 0.30, 0.30, 0.40, 0.35, 0.70, 0.75]
+    },
+    "retail-investor": {
+      "salience": [0.80, 0.60, 0.55, 0.30, 0.30, 0.45, 0.25, 0.35, 0.20, 0.25,
+                   0.45, 0.30, 0.20, 0.15, 0.65, 0.70, 0.35, 0.25, 0.30, 0.20,
+                   0.35, 0.40, 0.45, 0.40, 0.30, 0.45, 0.25, 0.55, 0.40, 0.35],
+      "valence":  [0.85, 0.70, 0.70, -0.30, 0.10, 0.20, -0.10, -0.40, -0.10, 0.00,
+                   0.20, -0.20, 0.00, -0.10, 0.75, 0.85, -0.20, -0.10, 0.55, -0.10,
+                   0.50, 0.40, 0.60, 0.60, -0.20, 0.60, -0.10, 0.60, -0.40, -0.30],
+      "chunk":    [0, 0, 1, 2, 3, 4, 5, 6, 7, 8,
+                   9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+                   19, 20, 21, 22, 23, 24, 25, 26, 27, 27],
+      "arousal":  [0.20, 0.15, 0.20, 0.30, 0.25, 0.25, 0.20, 0.40, 0.20, 0.25,
+                   0.35, 0.30, 0.25, 0.20, 0.25, 0.15, 0.35, 0.25, 0.15, 0.25,
+                   0.15, 0.20, 0.20, 0.15, 0.40, 0.20, 0.25, 0.20, 0.45, 0.40]
+    }
+  },
+  "scoring_notes": {
+    "12": "The covenant amendment. Credit reads it as -0.60: relief was granted, but only because a breach was in prospect, and the price was 75bp. Equity reads the same clause as +0.50: a constraint on capital returns has been removed and refinancing risk deferred. Both readings are correct from where they stand. This is the clause the demo is built around.",
+    "14": "Buyback funded from the revolver. Credit -0.90 (cash leaving a 4.1x-levered balance sheet to the residual claimant, using committed liquidity), equity +0.70 (accretive), retail +0.75 (buybacks are widely reported as shareholder-friendly). The sharpest three-way split in the note.",
+    "15": "Dividend raised. Retail +0.85 and salience 0.70 — concrete, personal, and the thing a private investor actually receives. Credit -0.60. Retail's single strongest positive is one of credit's clearer negatives.",
+    "18": "'Constructive' renewal pipeline. Risk officer -0.50: an unfalsifiable hedge word attached to 41% of revenue. Retail +0.55: it simply reads as reassurance. Credit 0.00 and salience 0.06 — skipped entirely as content-free.",
+    "22": "Synergy target raised from $28m to $40m before delivery. Equity +0.65 (value creation), risk officer -0.55 (raising a target ahead of evidence is an optimism signal), credit +0.10 (unrealised synergies are discounted to near zero).",
+    "6": "Third consecutive year of 'non-recurring' transformation costs. Risk officer's highest-arousal clause after concentration (0.85) and credit's second-highest salience: it inflates the covenant EBITDA denominator. Retail salience 0.25 — the sentence is dense and reads as boilerplate.",
+    "29": "No named successor to the departing CFO. Risk officer salience 0.85; every other persona below 0.40. A governance gap is only visible to the mandate that is looking for one.",
+    "chunking": "Expert personas group into roughly ten chunks of two to four clauses, organised by their own model of the business. The risk officer additionally maintains a non-contiguous 'management language' chunk (clauses 4, 18, 23) which no other persona forms. The retail investor reads almost clause by clause, 28 chunks over 30 clauses, joining only the obvious pairs. That contrast is the chunking literature made visible."
+  }
+}

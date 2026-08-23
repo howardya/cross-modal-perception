@@ -116,14 +116,20 @@ class CalibrationReport:
             "",
             "## Pairwise divergence",
             "",
-            "| Persona A | Persona B | Perceptual overlap | Valence conflicts | Chunk agreement |",
-            "|---|---|---|---|---|",
+            "`Top-k shared` is the headline: of the clauses each reader attends to most,",
+            "how many are the same. `1 - JSD` is the continuous measure and is retained,",
+            "but it compresses badly over a long document — see cmp.metrics.top_k_overlap.",
+            "",
+            "| Persona A | Persona B | Top-k shared | 1 - JSD | Valence conflicts | Chunk agreement |",
+            "|---|---|---|---|---|---|",
         ]
         for c in self.comparisons:
             a, b = c["personas"]
+            shared = len(c["shared_top"])
             lines.append(
-                f"| `{a}` | `{b}` | {c['overlap']:.1%} | "
-                f"{len(c['valence_conflicts'])} | {c['chunk_agreement']:.2f} |"
+                f"| `{a}` | `{b}` | **{shared}/{c['top_k']}** ({c['top_k_overlap']:.0%}) | "
+                f"{c['overlap']:.1%} | {len(c['valence_conflicts'])} | "
+                f"{c['chunk_agreement']:.2f} |"
             )
 
         return "\n".join(lines) + "\n"
