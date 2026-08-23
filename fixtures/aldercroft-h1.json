@@ -1,0 +1,767 @@
+{
+  "schema_version": 1,
+  "stimulus": {
+    "id": "aldercroft-h1",
+    "title": "Aldercroft Software \u2014 H1 trading update",
+    "texts": [
+      "Aldercroft Software reported first-half recurring revenue of $312m, up 11%.",
+      "Net revenue retention fell to 104% from 118%.",
+      "Gross new customer additions were 214, against 340 in the comparable period.",
+      "Churn was concentrated in the small business tier.",
+      "Management is repositioning toward enterprise accounts.",
+      "Enterprise now represents 58% of recurring revenue.",
+      "Average contract length extended from 18 months to 31 months.",
+      "Deferred revenue rose 22% to $198m.",
+      "Sales and marketing spend fell from 41% to 34% of revenue.",
+      "The company reported its first positive operating income of $9m.",
+      "Free cash flow was $41m, ahead of operating income owing to the deferred revenue build.",
+      "Share-based compensation of $58m is excluded from adjusted figures.",
+      "Diluted share count increased 6% year on year.",
+      "The company holds $420m of cash and has no drawn debt.",
+      "A $150m convertible note matures in September 2027.",
+      "The conversion price sits 40% above the current share price.",
+      "Two of the four named executive officers joined within the past nine months.",
+      "The company disclosed a security incident affecting a single-tenant deployment, since remediated.",
+      "No customer data was exfiltrated, according to a third-party forensic review.",
+      "Full-year guidance was narrowed to 9 to 11% recurring revenue growth, from 9 to 13%."
+    ]
+  },
+  "fields": [
+    {
+      "persona_id": "credit-analyst",
+      "concentration": 0.06002281527082387,
+      "top_attention": [
+        14,
+        13,
+        10,
+        15,
+        1,
+        7,
+        9,
+        19
+      ],
+      "units": [
+        {
+          "salience": 0.32,
+          "valence": 0.3,
+          "chunk": 0,
+          "arousal": 0.15,
+          "order": 8
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.5,
+          "chunk": 0,
+          "arousal": 0.5,
+          "order": 4
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.3,
+          "chunk": 0,
+          "arousal": 0.3,
+          "order": 14
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.1,
+          "chunk": 0,
+          "arousal": 0.15,
+          "order": 17
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.15,
+          "order": 16
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.3,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 11
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.4,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 10
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.3,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 5
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.2,
+          "chunk": 2,
+          "arousal": 0.15,
+          "order": 13
+        },
+        {
+          "salience": 0.42,
+          "valence": 0.4,
+          "chunk": 2,
+          "arousal": 0.2,
+          "order": 6
+        },
+        {
+          "salience": 0.72,
+          "valence": 0.45,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 2
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.3,
+          "chunk": 3,
+          "arousal": 0.25,
+          "order": 9
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.05,
+          "chunk": 3,
+          "arousal": 0.1,
+          "order": 19
+        },
+        {
+          "salience": 0.78,
+          "valence": 0.85,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 1
+        },
+        {
+          "salience": 0.8,
+          "valence": -0.4,
+          "chunk": 4,
+          "arousal": 0.6,
+          "order": 0
+        },
+        {
+          "salience": 0.68,
+          "valence": -0.55,
+          "chunk": 4,
+          "arousal": 0.55,
+          "order": 3
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.2,
+          "order": 15
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.25,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 12
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.2,
+          "chunk": 6,
+          "arousal": 0.12,
+          "order": 18
+        },
+        {
+          "salience": 0.38,
+          "valence": -0.35,
+          "chunk": 7,
+          "arousal": 0.35,
+          "order": 7
+        }
+      ]
+    },
+    {
+      "persona_id": "equity-pm",
+      "concentration": 0.07177983931746479,
+      "top_attention": [
+        1,
+        11,
+        12,
+        8,
+        19,
+        10,
+        2,
+        9
+      ],
+      "units": [
+        {
+          "salience": 0.45,
+          "valence": 0.2,
+          "chunk": 0,
+          "arousal": 0.25,
+          "order": 8
+        },
+        {
+          "salience": 0.92,
+          "valence": -0.85,
+          "chunk": 0,
+          "arousal": 0.8,
+          "order": 0
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.6,
+          "chunk": 0,
+          "arousal": 0.6,
+          "order": 7
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.1,
+          "chunk": 0,
+          "arousal": 0.3,
+          "order": 13
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 11
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.35,
+          "chunk": 1,
+          "arousal": 0.15,
+          "order": 10
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.5,
+          "chunk": 1,
+          "arousal": 0.15,
+          "order": 14
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.3,
+          "chunk": 1,
+          "arousal": 0.25,
+          "order": 9
+        },
+        {
+          "salience": 0.68,
+          "valence": -0.3,
+          "chunk": 2,
+          "arousal": 0.55,
+          "order": 3
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.4,
+          "chunk": 2,
+          "arousal": 0.2,
+          "order": 6
+        },
+        {
+          "salience": 0.54,
+          "valence": 0.2,
+          "chunk": 2,
+          "arousal": 0.35,
+          "order": 5
+        },
+        {
+          "salience": 0.75,
+          "valence": -0.7,
+          "chunk": 3,
+          "arousal": 0.55,
+          "order": 1
+        },
+        {
+          "salience": 0.72,
+          "valence": -0.75,
+          "chunk": 3,
+          "arousal": 0.55,
+          "order": 2
+        },
+        {
+          "salience": 0.18,
+          "valence": 0.4,
+          "chunk": 4,
+          "arousal": 0.1,
+          "order": 15
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.1,
+          "chunk": 4,
+          "arousal": 0.25,
+          "order": 12
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.25,
+          "chunk": 4,
+          "arousal": 0.2,
+          "order": 17
+        },
+        {
+          "salience": 0.16,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.3,
+          "order": 16
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.15,
+          "chunk": 6,
+          "arousal": 0.15,
+          "order": 18
+        },
+        {
+          "salience": 0.06,
+          "valence": 0.1,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 19
+        },
+        {
+          "salience": 0.65,
+          "valence": -0.5,
+          "chunk": 7,
+          "arousal": 0.55,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "persona_id": "risk-officer",
+      "concentration": 0.044764748094068385,
+      "top_attention": [
+        17,
+        18,
+        14,
+        5,
+        10,
+        15,
+        19,
+        1
+      ],
+      "units": [
+        {
+          "salience": 0.15,
+          "valence": 0.1,
+          "chunk": 0,
+          "arousal": 0.1,
+          "order": 18
+        },
+        {
+          "salience": 0.45,
+          "valence": -0.6,
+          "chunk": 0,
+          "arousal": 0.45,
+          "order": 7
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.4,
+          "chunk": 0,
+          "arousal": 0.25,
+          "order": 15
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 9
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.25,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 14
+        },
+        {
+          "salience": 0.62,
+          "valence": -0.5,
+          "chunk": 1,
+          "arousal": 0.6,
+          "order": 3
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.15,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 13
+        },
+        {
+          "salience": 0.35,
+          "valence": -0.2,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 10
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.3,
+          "chunk": 3,
+          "arousal": 0.25,
+          "order": 16
+        },
+        {
+          "salience": 0.14,
+          "valence": 0.1,
+          "chunk": 3,
+          "arousal": 0.15,
+          "order": 19
+        },
+        {
+          "salience": 0.58,
+          "valence": -0.4,
+          "chunk": 3,
+          "arousal": 0.55,
+          "order": 4
+        },
+        {
+          "salience": 0.35,
+          "valence": -0.4,
+          "chunk": 3,
+          "arousal": 0.3,
+          "order": 11
+        },
+        {
+          "salience": 0.16,
+          "valence": -0.3,
+          "chunk": 3,
+          "arousal": 0.2,
+          "order": 17
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.5,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 12
+        },
+        {
+          "salience": 0.72,
+          "valence": -0.5,
+          "chunk": 4,
+          "arousal": 0.6,
+          "order": 2
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.5,
+          "chunk": 4,
+          "arousal": 0.5,
+          "order": 5
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.4,
+          "chunk": 5,
+          "arousal": 0.45,
+          "order": 8
+        },
+        {
+          "salience": 0.85,
+          "valence": -0.8,
+          "chunk": 6,
+          "arousal": 0.85,
+          "order": 0
+        },
+        {
+          "salience": 0.78,
+          "valence": -0.6,
+          "chunk": 6,
+          "arousal": 0.8,
+          "order": 1
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.4,
+          "chunk": 7,
+          "arousal": 0.42,
+          "order": 6
+        }
+      ]
+    },
+    {
+      "persona_id": "retail-investor",
+      "concentration": 0.02774084558546419,
+      "top_attention": [
+        9,
+        0,
+        17,
+        13,
+        10,
+        19,
+        18,
+        2
+      ],
+      "units": [
+        {
+          "salience": 0.85,
+          "valence": 0.7,
+          "chunk": 0,
+          "arousal": 0.15,
+          "order": 1
+        },
+        {
+          "salience": 0.45,
+          "valence": -0.4,
+          "chunk": 1,
+          "arousal": 0.5,
+          "order": 10
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.6,
+          "chunk": 2,
+          "arousal": 0.5,
+          "order": 7
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.25,
+          "chunk": 1,
+          "arousal": 0.35,
+          "order": 13
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.3,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 11
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.3,
+          "chunk": 2,
+          "arousal": 0.15,
+          "order": 14
+        },
+        {
+          "salience": 0.38,
+          "valence": 0.4,
+          "chunk": 2,
+          "arousal": 0.15,
+          "order": 15
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.4,
+          "chunk": 3,
+          "arousal": 0.2,
+          "order": 8
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.25,
+          "chunk": 3,
+          "arousal": 0.2,
+          "order": 16
+        },
+        {
+          "salience": 0.95,
+          "valence": 0.9,
+          "chunk": 4,
+          "arousal": 0.1,
+          "order": 0
+        },
+        {
+          "salience": 0.7,
+          "valence": 0.6,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 4
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.25,
+          "chunk": 5,
+          "arousal": 0.3,
+          "order": 18
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.3,
+          "chunk": 5,
+          "arousal": 0.3,
+          "order": 17
+        },
+        {
+          "salience": 0.75,
+          "valence": 0.8,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 3
+        },
+        {
+          "salience": 0.45,
+          "valence": -0.2,
+          "chunk": 6,
+          "arousal": 0.45,
+          "order": 12
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 19
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.3,
+          "chunk": 7,
+          "arousal": 0.5,
+          "order": 9
+        },
+        {
+          "salience": 0.8,
+          "valence": -0.6,
+          "chunk": 8,
+          "arousal": 0.8,
+          "order": 2
+        },
+        {
+          "salience": 0.65,
+          "valence": 0.5,
+          "chunk": 8,
+          "arousal": 0.4,
+          "order": 6
+        },
+        {
+          "salience": 0.7,
+          "valence": -0.5,
+          "chunk": 9,
+          "arousal": 0.55,
+          "order": 5
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "personas": [
+        "credit-analyst",
+        "equity-pm"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        1,
+        9,
+        10,
+        19
+      ],
+      "overlap": 0.8690724265550056,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.8323529411764706
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "risk-officer"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.625,
+      "shared_top": [
+        1,
+        10,
+        14,
+        15,
+        19
+      ],
+      "overlap": 0.9130253242760791,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.535251798561151
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        9,
+        10,
+        13,
+        19
+      ],
+      "overlap": 0.9215554746326724,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.6135593220338983
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "risk-officer"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        1,
+        10,
+        19
+      ],
+      "overlap": 0.8236626389562947,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.5899280575539567
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        2,
+        9,
+        10,
+        19
+      ],
+      "overlap": 0.8813414492817291,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.5491525423728814
+    },
+    {
+      "personas": [
+        "risk-officer",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        10,
+        17,
+        18,
+        19
+      ],
+      "overlap": 0.9275129266281841,
+      "valence_conflicts": [
+        18
+      ],
+      "chunk_agreement": 0.3418013856812933
+    }
+  ],
+  "provenance": {
+    "measured": false,
+    "summary": "Persona differences are modelled from role mandates and calibrated against published effect sizes. They are not measured recordings of real experts' attention. No eye-tracking study compares these roles on the same document.",
+    "method": "Scored by Claude Opus 5 via 5 independent subagent runs per persona (20 runs total). Each run was a fresh model context that could not see the others, so the samples are independent and inter-run reliability is measurable. Aggregated by median; chunk labels by mode.",
+    "reliability_measured": true
+  }
+}
