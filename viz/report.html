@@ -160,6 +160,94 @@ header h1 { margin-bottom: 1.4rem; }
 .dots i.on { background: var(--ink); border-color: var(--ink); }
 .dots--warn i.on { background: var(--cold); border-color: var(--cold); }
 
+/* ── the lead figure ─────────────────────────────────────── */
+
+.aha { margin: 2.25rem 0; }
+.aha-scroll { overflow-x: auto; padding-bottom: 0.4rem; }
+.aha-inner { min-width: 40rem; }
+
+.aha-head {
+  font-family: var(--data);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.9rem;
+  padding-left: 9.5rem;
+}
+.aha-group {
+  font-family: var(--data);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+  padding-left: 9.5rem;
+}
+.aha-rule { border: 0; border-top: 1px solid var(--rule); margin: 1rem 0; }
+
+.strip-row {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.strip-label {
+  font-family: var(--data);
+  font-size: 0.7rem;
+  text-align: right;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.strip-label--faint { color: var(--muted); font-size: 0.62rem; }
+
+/* Thirty sentences, one column each, in document order. */
+.strip-cells { display: grid; grid-template-columns: repeat(30, 1fr); gap: 2px; }
+.strip-cells i {
+  display: block;
+  height: 22px;
+  border-radius: 1px;
+  background: color-mix(in oklab, var(--surface), var(--ink) 9%);
+}
+.strip-cells i.on { background: var(--ink); }
+
+/* Drawn absence: the four sentences every professional stops at, shown
+   empty on the untrained reader's row. The claim is what is missing, so
+   the missing thing gets a mark of its own. */
+.strip-cells i.ghost {
+  background: none;
+  border: 1px dashed color-mix(in oklab, var(--muted), transparent 35%);
+}
+
+/* Where all three professionals land. Marked, not coloured — hue on this
+   page means valence, and this is attention. */
+.strip-cells--caret i { height: 9px; background: none; }
+.strip-cells--caret i.on {
+  background: none;
+  border-top: 5px solid var(--muted);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  height: 0;
+  margin: 0 auto;
+  width: 0;
+}
+
+/* The two conflict sentences. Hue here IS valence, so it is consistent. */
+.strip-cells--tick i { height: 16px; background: none; }
+.strip-cells--tick i.cold { background: var(--cold); border-radius: 1px; }
+.strip-cells--tick i.warm { background: var(--warm); border-radius: 1px; }
+
+.key {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 1px;
+  margin: 0 0.3rem 0 0.5rem;
+  vertical-align: 0;
+}
+.key--cold { background: var(--cold); }
+.key--warm { background: var(--warm); }
+
 /* ── tables ──────────────────────────────────────────────── */
 
 .tbl-scroll { overflow-x: auto; margin: 1.5rem 0; }
@@ -327,6 +415,24 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 @media (max-width: 640px) {
   section { padding: 2.5rem 0; }
   header { padding: 3rem 0 2rem; }
+
+  /* The figure's whole argument is the vertical alignment of thirty
+     columns. A left label gutter costs a third of a phone screen and
+     pushes two-thirds of the columns out of view, so the labels move
+     above their strips and all thirty columns stay on screen. */
+  .aha-inner { min-width: 0; }
+  .aha-head, .aha-group { padding-left: 0; }
+  .aha-head { white-space: normal; }
+  .strip-row {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    margin-bottom: 0.6rem;
+  }
+  .strip-label { text-align: left; font-size: 0.66rem; }
+  .strip-cells { gap: 1px; }
+  .strip-cells i { height: 26px; }
+  .strip-cells--caret i { height: 8px; }
+  .strip-cells--tick i { height: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
@@ -365,6 +471,70 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       every judgement. What separated them was <em>attention</em>. And the one place
       genuine disagreement did appear was not between professionals at all.
     </p>
+
+    <!-- The figure the page exists to deliver. Thirty sentences across, four
+         readers down, each reader's eight most-attended marked. Binary rather
+         than a heat map on purpose: alignment is the claim, and alignment reads
+         instantly in filled/empty and muddily in shades. -->
+    <figure class="aha">
+      <div class="aha-scroll">
+        <div class="aha-inner">
+
+          <p class="aha-head">Meridian Logistics Q4 — all thirty sentences, in order →</p>
+
+          <p class="aha-group">The three professionals</p>
+          <div class="strip-row">
+            <span class="strip-label">credit analyst</span>
+            <div class="strip-cells" data-top="6,7,8,10,11,12,14,19"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label">equity PM</span>
+            <div class="strip-cells" data-top="3,6,7,11,12,14,16,26"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label">risk officer</span>
+            <div class="strip-cells" data-top="6,8,11,12,14,16,19,28"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label strip-label--faint">all three stop here</span>
+            <div class="strip-cells strip-cells--caret" data-top="6,11,12,14"></div>
+          </div>
+
+          <hr class="aha-rule">
+
+          <p class="aha-group">No training</p>
+          <div class="strip-row">
+            <span class="strip-label">retail investor</span>
+            <div class="strip-cells" data-top="0,1,2,10,15,25,27,28"
+                 data-ghost="6,11,12,14"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label"></span>
+            <div class="strip-cells strip-cells--tick" data-cold="14" data-warm="15"></div>
+          </div>
+        </div>
+      </div>
+
+      <figcaption>
+        <p>
+          Each filled square is one of the eight sentences that reader dwells on
+          most. <strong>The three professionals converge on the middle of the
+          document. The untrained reader is at the two ends.</strong> All three
+          professionals stop at the same four sentences, and the untrained reader
+          stops at <em>none</em> of them — the empty intersection behind the 0/8
+          in the tables below.
+        </p>
+        <p style="margin-bottom:0">
+          The two marks under the last row are the sharpest version of it.
+          <span class="key key--cold"></span><strong>Sentence 15, the buyback:</strong>
+          every professional stops here, and all three read it as bad news.
+          <span class="key key--warm"></span><strong>Sentence 16, the dividend:</strong>
+          the untrained reader stops here instead, and calls it the best news in the
+          document. Adjacent sentences — and neither reader is looking at the
+          other's.
+        </p>
+      </figcaption>
+    </figure>
 
     <div class="grid">
       <div class="cell">
@@ -882,8 +1052,41 @@ python3 ../viz/build.py</code></pre>
 </footer>
 
 <script>
-// The dot array is the page's recurring figure; written once here rather
-// than eight spans at every call site.
+// The lead figure: 30 cells per row, filled where that reader dwells.
+// Rendered from the index lists in the markup so the data stays readable
+// and testable rather than being 120 hand-written elements.
+const CLAUSES = 30;
+
+for (const row of document.querySelectorAll(".strip-cells")) {
+  const on = new Set(
+    (row.dataset.top || "").split(",").filter(Boolean).map(Number)
+  );
+  const ghost = new Set(
+    (row.dataset.ghost || "").split(",").filter(Boolean).map(Number)
+  );
+  const cold = Number(row.dataset.cold);
+  const warm = Number(row.dataset.warm);
+
+  for (let i = 0; i < CLAUSES; i++) {
+    const cell = document.createElement("i");
+    if (ghost.has(i)) cell.className = "ghost";
+    if (on.has(i)) cell.className = "on";
+    if (i === cold) cell.className = "cold";
+    if (i === warm) cell.className = "warm";
+    row.appendChild(cell);
+  }
+
+  if (on.size) {
+    row.setAttribute("role", "img");
+    row.setAttribute(
+      "aria-label",
+      `Dwells on sentences ${[...on].map(i => i + 1).join(", ")} of ${CLAUSES}`
+    );
+  }
+}
+
+// The dot array is the page's other recurring figure; written once here
+// rather than eight spans at every call site.
 for (const el of document.querySelectorAll(".dots")) {
   const n = Number(el.dataset.n) || 0;
   el.setAttribute("role", "img");

@@ -146,3 +146,98 @@ def test_report_uses_no_external_resources_beyond_google_fonts(html):
     urls = re.findall(r'https?://[^\s"\'<>)]+', html)
     for u in urls:
         assert "fonts.googleapis.com" in u or "fonts.gstatic.com" in u, u
+
+
+# --- the lead figure ----------------------------------------------------------------
+
+
+def _strip_rows(html: str) -> list[list[int]]:
+    """The data-top index lists driving the attention strip, in page order."""
+    return [
+        [int(n) for n in m.split(",") if n]
+        for m in re.findall(r'class="strip-cells"[^>]*data-top="([^"]*)"', html)
+    ]
+
+
+def _consensus(hero: dict) -> set:
+    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
+    return by_id["credit-analyst"] & by_id["equity-pm"] & by_id["risk-officer"]
+
+
+def test_the_figure_marks_come_from_the_fixture(html, hero):
+    """Every filled square must be a real top-8 index, not a typed one."""
+    by_id = {f["persona_id"]: f for f in hero["fields"]}
+    order = ["credit-analyst", "equity-pm", "risk-officer", "retail-investor"]
+    rows = _strip_rows(html)
+    assert len(rows) == 4, f"expected four reader rows, found {len(rows)}"
+    for pid, marks in zip(order, rows):
+        assert sorted(marks) == sorted(by_id[pid]["top_attention"]), pid
+
+
+def test_every_row_marks_exactly_eight_sentences(html):
+    for marks in _strip_rows(html):
+        assert len(marks) == 8
+
+
+def test_the_caret_row_is_the_real_expert_consensus(html, hero):
+    m = re.search(r'strip-cells--caret"[^>]*data-top="([^"]*)"', html)
+    assert m, "caret row missing"
+    assert sorted(int(n) for n in m.group(1).split(",")) == sorted(_consensus(hero))
+
+
+def test_the_untrained_reader_shares_none_of_the_consensus(hero):
+    """The claim the figure is built to make."""
+    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
+    consensus = _consensus(hero)
+    assert consensus, "experts share nothing, so the figure has no claim to make"
+    assert not (consensus & by_id["retail-investor"])
+
+
+def test_the_two_ticked_sentences_are_real_conflicts(html, hero):
+    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
+    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
+    conflicts = {i for c in hero["comparisons"] for i in c["valence_conflicts"]}
+    assert cold in conflicts, f"clause {cold} is not a valence conflict"
+    assert warm in conflicts, f"clause {warm} is not a valence conflict"
+
+
+def test_the_cold_tick_is_where_every_professional_dwells(html, hero):
+    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
+    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
+    for pid in ("credit-analyst", "equity-pm", "risk-officer"):
+        assert cold in by_id[pid], pid
+    assert cold not in by_id["retail-investor"]
+
+
+def test_the_warm_tick_is_where_the_untrained_reader_dwells(html, hero):
+    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
+    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
+    assert warm in by_id["retail-investor"]
+
+
+def test_the_two_ticked_sentences_are_adjacent(html):
+    """The caption says 'adjacent sentences'; it must stay true."""
+    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
+    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
+    assert abs(cold - warm) == 1
+
+
+def test_the_ticked_sentences_read_in_opposite_directions(html, hero):
+    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
+    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
+    by_id = {f["persona_id"]: f for f in hero["fields"]}
+    for pid in ("credit-analyst", "equity-pm", "risk-officer"):
+        assert by_id[pid]["units"][cold]["valence"] < 0, pid
+    assert by_id["retail-investor"]["units"][warm]["valence"] > 0
+
+
+def test_the_ghost_cells_mark_the_consensus_the_lay_reader_misses(html, hero):
+    """The figure draws the absence, so the absence must be the real one."""
+    m = re.search(r'data-ghost="([^"]*)"', html)
+    assert m, "ghost cells missing from the untrained reader's row"
+    ghost = sorted(int(n) for n in m.group(1).split(",") if n)
+    assert ghost == sorted(_consensus(hero))
+    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
+    assert not (set(ghost) & by_id["retail-investor"]), (
+        "a ghost cell would be drawn over a filled one"
+    )
