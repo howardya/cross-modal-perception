@@ -23,12 +23,19 @@ from dataclasses import dataclass
 import numpy as np
 
 __all__ = [
+    "DIFFUSE_CONCENTRATION",
     "RELIABILITY_TENTATIVE",
     "RELIABILITY_THRESHOLD",
+    "ReliabilityDiagnosis",
     "ReliabilityVerdict",
+    "diagnose_reliability",
     "krippendorff_alpha_interval",
     "reliability_verdict",
 ]
+
+#: Below this concentration a persona is attending near-uniformly, and alpha's
+#: denominator is too small for the statistic to mean much either way.
+DIFFUSE_CONCENTRATION = 0.05
 
 #: Krippendorff's own convention for drawing firm conclusions.
 RELIABILITY_THRESHOLD = 0.80
@@ -108,3 +115,63 @@ def reliability_verdict(alpha: float) -> ReliabilityVerdict:
         )
 
     return ReliabilityVerdict(alpha=alpha, usable=usable, tentative=tentative, summary=body)
+
+
+@dataclass(frozen=True)
+class ReliabilityDiagnosis:
+    """Alpha read alongside concentration, so a low score can be interpreted."""
+
+    alpha: float
+    concentration: float
+    diffuse: bool
+    erratic: bool
+    summary: str
+
+    @property
+    def reliable(self) -> bool:
+        """True unless the persona genuinely contradicts itself between runs.
+
+        A diffuse persona is not marked unreliable: attending evenly is the
+        correct behaviour for a novice reader, and alpha cannot measure
+        agreement when there is almost no between-unit signal to agree about.
+        """
+        return not self.erratic
+
+
+def diagnose_reliability(alpha: float, concentration: float) -> ReliabilityDiagnosis:
+    """Separate "attends uniformly" from "picks different clauses each run"."""
+    if not 0.0 <= concentration <= 1.0:
+        raise ValueError(f"concentration must lie in [0, 1], got {concentration}")
+
+    weak = alpha < RELIABILITY_THRESHOLD
+    diffuse = weak and concentration < DIFFUSE_CONCENTRATION
+    erratic = weak and not diffuse
+
+    if not weak:
+        summary = (
+            f"Runs agree at alpha = {alpha:.2f}, above the "
+            f"{RELIABILITY_THRESHOLD:.2f} convention."
+        )
+    elif diffuse:
+        summary = (
+            f"Alpha is {alpha:.2f}, but attention is near-uniform "
+            f"(concentration {concentration:.3f}). Alpha is unstable when there is "
+            f"little between-clause variation to agree about, so this reads as a "
+            f"diffuse reader rather than an inconsistent one. Treat the low alpha "
+            f"as uninformative here, not as a failure."
+        )
+    else:
+        summary = (
+            f"Alpha is {alpha:.2f} while attention is concentrated "
+            f"(concentration {concentration:.3f}). The persona is focusing on "
+            f"different clauses on different runs, which is erratic rather than "
+            f"diffuse. This is a real reliability failure."
+        )
+
+    return ReliabilityDiagnosis(
+        alpha=alpha,
+        concentration=concentration,
+        diffuse=diffuse,
+        erratic=erratic,
+        summary=summary,
+    )
