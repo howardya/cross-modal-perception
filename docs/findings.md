@@ -214,6 +214,91 @@ not authored by hand.
 
 ---
 
+## 5b. Is there a "DNA" for each role?
+
+Asked directly: can the four readers be reduced to a compact profile that means
+something, rather than a 30-clause fingerprint of one document?
+
+The question has a sharp test in it. **A fingerprint identifies; DNA generates.**
+A trait is only a property of the *role* if it survives changing the document —
+and with two independently-scored notes that is falsifiable. Six traits were
+computed on both (`pipeline/src/cmp/signature.py`, report via
+`python -m cmp.dna`).
+
+| Trait | Asks | Spread ÷ drift | Ordering holds? |
+|---|---|---|---|
+| **Threat pull** | Does bad news pull the eye, or good news? | 3.98 | **yes** |
+| Chunking | How many sentences read as one idea? | 6.32 | no |
+| Focus | How narrowly is attention spent? | 4.09 | no |
+| Baseline mood | What does this reader expect to find? | 3.37 | no |
+| Alarm | How much unease does the document raise? | 1.95 | no |
+| Reading position | Where in the document does attention land? | 1.35 | no |
+
+### The one that works
+
+**Threat pull** — the correlation between how much a clause pulls the eye and how
+*bad* it is — is the only trait whose ordering across all four readers survives
+the change of document. It also flips sign, which is what makes it interpretable
+rather than merely different:
+
+| | Hero note | Held-out note |
+|---|---|---|
+| risk officer | +0.83 | +0.68 |
+| equity PM | +0.83 | +0.65 |
+| credit analyst | +0.78 | **−0.07** |
+| retail investor | **−0.56** | **−0.35** |
+
+Positive means attention is dragged toward bad news; negative means toward good
+news. **The untrained reader is negative on both documents; two of the three
+professionals are strongly positive on both.** That is the mechanism underneath
+§2.2 — it is *why* the two sentences a layperson likes best are the two every
+professional flags. Their attention is wired to opposite signs.
+
+It is also the trait the prompt did **not** specify. The mandates say what each
+role reads *for* — covenants, tail events, headline numbers — never which
+direction of news should attract attention. Meanwhile alarm, which the risk
+officer's mandate does imply, failed the stability test. So the signature is not
+simply recovering its own instructions, which was the obvious objection.
+
+### Three honest limits
+
+**The credit analyst breaks it.** Its threat pull collapses from +0.78 to −0.07 on
+the unseen note. The professional/lay separation rests on two roles out of three.
+
+**On the held-out note the axis inverts.** There, the three professionals differ
+from *each other* (spread 0.75) more than the least threat-driven of them differs
+from the layperson (gap 0.28). On the tuned note the group split dominates; on the
+unseen one it does not. This is the strongest single caution against treating
+these six numbers as settled.
+
+**Two documents cannot establish a fine structure.** Several traits order the
+three professionals identically on both — threat, alarm and reading position all
+put the risk officer at one end, most alarmed and reading latest in the document,
+which is a satisfying story about a role that hunts for governance items buried at
+the end. But with two documents, "consistent twice" is a coin landing the same way
+twice, and on the hero note the credit/equity gaps are 0.78 vs 0.83 and 0.40 vs
+0.41 — noise. Direction only; no magnitude claimed.
+
+### What can be said
+
+> There is **one axis with real support: trained versus untrained**, carried by
+> which direction of news captures attention. Within the professionals the
+> differences are consistent in direction and slight in size, and two documents
+> is not enough to call them role identities. There is no evidence here for four
+> distinct genomes.
+
+That is a smaller claim than "each role has a DNA", and it is the one the data
+carries. The fix is cheap and obvious: more documents. Each additional stimulus
+scored the same way turns a coin-flip into a trend, and the machinery to do it is
+already built.
+
+Also worth noting against §2.1: **reading position is the weakest trait of the
+six.** The "professionals in the middle, untrained at the ends" pattern visible in
+the lead figure is a property of the hero note, not of the roles. The figure is
+labelled with its document for that reason.
+
+---
+
 ## 6. What is still unknown
 
 1. **No human has validated any of it.** `pipeline/src/cmp/human.py` ranks a real
