@@ -241,3 +241,47 @@ def test_the_ghost_cells_mark_the_consensus_the_lay_reader_misses(html, hero):
     assert not (set(ghost) & by_id["retail-investor"]), (
         "a ghost cell would be drawn over a filled one"
     )
+
+
+# --- the threat-pull axis figure ------------------------------------------------------
+
+
+def _dumbbells(html: str) -> list[tuple[float, float]]:
+    return [
+        (float(a), float(b))
+        for a, b in re.findall(
+            r'class="dumb-track" data-hero="(-?[\d.]+)" data-held="(-?[\d.]+)"', html
+        )
+    ]
+
+
+def test_the_threat_axis_values_come_from_the_fixtures(html):
+    """Hardcoded in the page because they sit in prose; pinned here so they
+    cannot drift away from the data."""
+    from cmp.dna import collect
+
+    data = collect()
+    order = ["risk-officer", "equity-pm", "credit-analyst", "retail-investor"]
+    rows = _dumbbells(html)
+    assert len(rows) == 4, f"expected four roles, found {len(rows)}"
+    for pid, (hero, held) in zip(order, rows):
+        assert hero == pytest.approx(data["hero"]["threat"][pid], abs=0.005), pid
+        assert held == pytest.approx(data["held-out"]["threat"][pid], abs=0.005), pid
+
+
+def test_the_axis_is_ordered_most_to_least_threat_driven(html):
+    heroes = [h for h, _ in _dumbbells(html)]
+    assert heroes == sorted(heroes, reverse=True)
+
+
+def test_the_untrained_reader_is_the_only_role_left_of_zero_on_both(html):
+    rows = _dumbbells(html)
+    left_on_both = [i for i, (h, k) in enumerate(rows) if h < 0 and k < 0]
+    assert left_on_both == [3], "the retail investor should be the only one"
+
+
+def test_the_credit_analyst_has_the_longest_bar(html):
+    """The instability the caption calls out must be the visible one."""
+    rows = _dumbbells(html)
+    swings = [abs(h - k) for h, k in rows]
+    assert swings.index(max(swings)) == 2, "credit analyst should swing furthest"

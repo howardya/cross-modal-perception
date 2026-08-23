@@ -248,6 +248,84 @@ header h1 { margin-bottom: 1.4rem; }
 .key--cold { background: var(--cold); }
 .key--warm { background: var(--warm); }
 
+/* ── the threat-pull axis ────────────────────────────────── */
+
+.dumb { margin: 0.5rem 0 0; }
+.dumb-axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--data);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.7rem;
+  padding-left: 9.5rem;
+}
+.dumb-row {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+.dumb-track { position: relative; height: 26px; }
+
+/* Halves tinted by what they mean. Being pulled toward bad news IS the cold
+   direction, so this is the page's one colour code, not a second one. */
+.dumb-track::before {
+  content: "";
+  position: absolute;
+  inset: 3px 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    color-mix(in oklab, var(--surface), var(--warm) 14%),
+    color-mix(in oklab, var(--surface), var(--warm) 4%) 48%,
+    color-mix(in oklab, var(--surface), var(--cold) 4%) 52%,
+    color-mix(in oklab, var(--surface), var(--cold) 14%)
+  );
+}
+/* Zero: the line where attention changes which way it leans. */
+.dumb-track::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--muted);
+  opacity: 0.5;
+}
+.dumb-bar {
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--ink);
+  opacity: 0.45;
+}
+.dumb-dot {
+  position: absolute;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.dumb-dot--hero { background: var(--ink); }
+.dumb-dot--held { background: var(--surface); border: 2px solid var(--ink); }
+.dumb-key {
+  font-family: var(--data);
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin: 0.9rem 0 0;
+  padding-left: 9.5rem;
+  display: flex;
+  align-items: center;
+}
+
 /* ── tables ──────────────────────────────────────────────── */
 
 .tbl-scroll { overflow-x: auto; margin: 1.5rem 0; }
@@ -433,6 +511,13 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
   .strip-cells i { height: 26px; }
   .strip-cells--caret i { height: 8px; }
   .strip-cells--tick i { height: 12px; }
+
+  /* The threat axis keeps its labels beside the tracks — four short role
+     names fit — but the gutter shrinks so the tracks keep their width,
+     which is where the reading happens. */
+  .dumb-row { grid-template-columns: 6.5rem 1fr; gap: 0.6rem; }
+  .dumb-axis, .dumb-key { padding-left: 0; }
+  .dumb-axis { font-size: 0.56rem; gap: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
@@ -929,10 +1014,112 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
   </div>
 </section>
 
-<!-- ══ 6. WHAT WENT WRONG ════════════════════════════════ -->
+<!-- ══ 6. ROLE SIGNATURES ════════════════════════════════ -->
 <section>
   <div class="wrap wrap--wide">
-    <p class="eyebrow">Six · Corrections</p>
+    <p class="eyebrow">Six · Role signatures</p>
+    <h2>Is there a “DNA” for each reader?</h2>
+
+    <p>
+      A fingerprint identifies; DNA generates. The per-sentence scores above are a
+      fingerprint — they describe how one reader met one document. A trait only
+      belongs to the <em>role</em> if it survives changing the document, and with
+      two independently scored notes that is a question with an answer.
+    </p>
+    <p>
+      Six traits were computed on both. One survives cleanly.
+      <strong>Threat pull</strong> — whether attention is dragged toward bad news
+      or toward good news — is the only one whose ordering across all four readers
+      holds on both documents. It also changes sign, which is what makes it mean
+      something rather than merely differ.
+    </p>
+
+    <figure class="aha">
+      <div class="dumb">
+        <p class="dumb-axis">
+          <span>← drawn to good news</span><span>drawn to bad news →</span>
+        </p>
+
+        <div class="dumb-row">
+          <span class="strip-label">risk officer</span>
+          <div class="dumb-track" data-hero="0.83" data-held="0.68"></div>
+        </div>
+        <div class="dumb-row">
+          <span class="strip-label">equity PM</span>
+          <div class="dumb-track" data-hero="0.83" data-held="0.65"></div>
+        </div>
+        <div class="dumb-row">
+          <span class="strip-label">credit analyst</span>
+          <div class="dumb-track" data-hero="0.78" data-held="-0.07"></div>
+        </div>
+        <div class="dumb-row">
+          <span class="strip-label">retail investor</span>
+          <div class="dumb-track" data-hero="-0.56" data-held="-0.35"></div>
+        </div>
+
+        <p class="dumb-key">
+          <span class="dumb-dot dumb-dot--hero" style="position:static;margin:0 0.3rem 0 0"></span>hero note
+          <span class="dumb-dot dumb-dot--held" style="position:static;margin:0 0.3rem 0 1rem"></span>held-out note
+        </p>
+      </div>
+
+      <figcaption>
+        <p>
+          <strong>The untrained reader sits on the good-news side of zero on both
+          documents. Two of the three professionals sit firmly on the bad-news
+          side of both.</strong> That is the mechanism under the headline finding:
+          their attention is wired to opposite signs, so the same sentence catches
+          one reader and slides past the other.
+        </p>
+        <p style="margin-bottom:0">
+          The long line is the honest part. <strong>The credit analyst does not
+          hold the pattern</strong> — its threat pull collapses from +0.78 to
+          −0.07 on the unseen note, so the separation rests on two roles out of
+          three. Worse, on that note the three professionals differ from each
+          other more than the least threat-driven of them differs from the
+          layperson. On the document the method was tuned to, the group split
+          dominates. On the one it had never seen, it does not.
+        </p>
+      </figcaption>
+    </figure>
+
+    <div class="finding">
+      <h3>What can honestly be claimed</h3>
+      <p>
+        <strong>One axis with real support — trained versus untrained</strong> —
+        carried by which direction of news captures attention. Within the
+        professionals the differences are consistent in direction and slight in
+        size: threat, alarm and reading position all put the risk officer at the
+        same end, most on edge and reading latest in the document. But two
+        documents is a coin landing the same way twice, and on the hero note the
+        credit-versus-equity gaps are 0.78 against 0.83 — noise.
+      </p>
+      <p>
+        So: direction only, no magnitudes, and <strong>no evidence for four
+        distinct genomes.</strong> The fix is cheap and obvious — more documents.
+        Each one scored the same way turns a coin flip into a trend, and the
+        machinery already exists.
+      </p>
+    </div>
+
+    <p class="small">
+      One more thing this run settled. <strong>Reading position was the weakest of
+      the six traits.</strong> The “professionals in the middle, untrained reader at
+      the ends” pattern in the opening figure is a property of that document, not
+      of the roles — which is why the figure carries its document's name.
+      Meanwhile the trait that <em>did</em> survive is the one the instructions
+      never specified: the mandates say what each role reads for, never which
+      direction of news should attract the eye. Alarm, which the risk officer's
+      mandate does imply, failed. The signature is not merely reciting its own
+      prompt.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 7. WHAT WENT WRONG ════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Seven · Corrections</p>
     <h2>Three things that were wrong, and what fixing them showed</h2>
     <p class="lede">
       These are errors in the project's own design, found only by running it. They
@@ -987,7 +1174,7 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 <!-- ══ 7. LIMITS ═════════════════════════════════════════ -->
 <section>
   <div class="wrap wrap--wide">
-    <p class="eyebrow">Seven · Limits</p>
+    <p class="eyebrow">Eight · Limits</p>
     <h2>What this does not show</h2>
 
     <ol class="plain">
@@ -1083,6 +1270,37 @@ for (const row of document.querySelectorAll(".strip-cells")) {
       `Dwells on sentences ${[...on].map(i => i + 1).join(", ")} of ${CLAUSES}`
     );
   }
+}
+
+// The threat-pull axis. Two dots per role, one per document, joined by a bar
+// whose length is how far the trait moved when the document changed — so
+// instability is visible rather than buried in a table.
+const pct = (v) => ((Math.max(-1, Math.min(1, v)) + 1) / 2) * 100;
+
+for (const track of document.querySelectorAll(".dumb-track")) {
+  const hero = Number(track.dataset.hero);
+  const held = Number(track.dataset.held);
+  const a = pct(hero);
+  const b = pct(held);
+
+  const bar = document.createElement("span");
+  bar.className = "dumb-bar";
+  bar.style.left = `${Math.min(a, b)}%`;
+  bar.style.width = `${Math.abs(a - b)}%`;
+  track.appendChild(bar);
+
+  for (const [v, cls] of [[b, "held"], [a, "hero"]]) {
+    const dot = document.createElement("span");
+    dot.className = `dumb-dot dumb-dot--${cls}`;
+    dot.style.left = `${v}%`;
+    track.appendChild(dot);
+  }
+
+  track.setAttribute("role", "img");
+  track.setAttribute(
+    "aria-label",
+    `Threat pull ${hero.toFixed(2)} on the hero note, ${held.toFixed(2)} on the held-out note`
+  );
 }
 
 // The dot array is the page's other recurring figure; written once here
