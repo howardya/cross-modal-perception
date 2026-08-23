@@ -38,10 +38,20 @@ def test_prompt_includes_the_actual_stimulus_text():
     assert "Leverage reached 4.1x." in prompt
 
 
-def test_prompt_says_attention_is_a_finite_budget():
-    """Research note claims 9 and 10: attention is zero-sum and dilutes."""
-    prompt = build_scoring_prompt(CREDIT, STIM).lower()
-    assert "budget" in prompt or "cannot mark everything" in prompt
+def test_prompt_bounds_attention_arithmetically_not_just_in_prose():
+    """Research note claims 9 and 10: attention is zero-sum and dilutes.
+
+    This was originally asserted as prose about a "finite budget". Run 1 of the
+    independent scoring showed prose does not hold — the model marked nearly
+    every clause salient regardless. The prompt now carries a countable quota,
+    so the test checks for that instead. See tests/test_salience_quota.py.
+    """
+    from cmp.anthropic_client import salience_quota
+
+    q = salience_quota(CREDIT, n_units=len(STIM.texts))
+    prompt = build_scoring_prompt(CREDIT, STIM)
+    assert str(q.max_high) in prompt
+    assert str(q.min_low) in prompt
 
 
 def test_prompt_asks_for_valence_from_the_persona_point_of_view():

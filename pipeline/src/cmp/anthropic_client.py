@@ -13,6 +13,8 @@ everything important and the fields stop being distinguishable.
 from __future__ import annotations
 
 import json
+import math
+from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
@@ -24,11 +26,58 @@ from cmp.scoring import RawScores
 __all__ = [
     "SCORING_SCHEMA",
     "AnthropicScoringClient",
+    "SalienceQuota",
     "build_scoring_prompt",
     "parse_scores",
+    "salience_quota",
 ]
 
 DEFAULT_MODEL = "claude-opus-5"
+
+HIGH = 0.55
+LOW = 0.25
+
+#: Share of clauses an expert may mark strongly salient, and the share it must
+#: actively ignore. Derived from the shape of the literature's task-relevant
+#: areas of interest, which are always a minority of the display.
+EXPERT_HIGH_SHARE, EXPERT_LOW_SHARE = 0.27, 0.40
+
+#: A lay reader spreads attention: it may mark more things salient and is not
+#: required to ignore much. Applying the expert quota here would make the novice
+#: as concentrated as the expert and erase the contrast being measured.
+LAY_HIGH_SHARE, LAY_LOW_SHARE = 0.50, 0.15
+
+
+@dataclass(frozen=True)
+class SalienceQuota:
+    """An arithmetic constraint the model can check its own output against."""
+
+    max_high: int
+    min_low: int
+    high: float = HIGH
+    low: float = LOW
+
+
+def salience_quota(persona: Persona, n_units: int) -> SalienceQuota:
+    """How concentrated this persona's attention is permitted to be.
+
+    Prose alone did not hold. Run 1 of the independent scoring told the model
+    that attention was a finite budget and it marked nearly every clause
+    salient anyway — the equity PM came out at concentration 0.017, flatter
+    than the lay reader. A number the model can count against does hold.
+    """
+    if n_units < 2:
+        raise ValueError(f"a quota needs at least two clauses, got {n_units}")
+
+    high_share, low_share = (
+        (EXPERT_HIGH_SHARE, EXPERT_LOW_SHARE) if persona.expert
+        else (LAY_HIGH_SHARE, LAY_LOW_SHARE)
+    )
+    max_high = max(1, math.floor(n_units * high_share))
+    min_low = math.floor(n_units * low_share)
+    # Leave the two bounds room to coexist.
+    min_low = min(min_low, n_units - max_high)
+    return SalienceQuota(max_high=max_high, min_low=min_low)
 
 SCORING_SCHEMA: dict[str, Any] = {
     "type": "object",
@@ -74,9 +123,39 @@ SCORING_SCHEMA: dict[str, Any] = {
 }
 
 
+def _quota_text(persona: Persona, n_units: int) -> str:
+    """The salience constraint, stated as arithmetic rather than as advice."""
+    q = salience_quota(persona, n_units)
+
+    if persona.expert:
+        return f"""  HARD CONSTRAINT, and the one most often got wrong: **at most {q.max_high}**
+  of the {n_units} clauses may score above {q.high}, and **at least {q.min_low}**
+  must score below {q.low}. Count them before you answer. If you are over the
+  ceiling, you are describing what a careful generalist would find interesting
+  rather than what your role would actually stop on.
+
+  The second number matters more than the first. Expertise is mostly learned
+  neglect: years of practice have taught you to ignore whole categories of
+  true, interesting, well-written material because it does not bear on your
+  mandate. A low score does not mean the clause is unimportant to anyone — it
+  means you would skim straight past it."""
+
+    return f"""  You have no filter, so your attention is broad and shallow rather than
+  targeted. Most clauses land somewhere in the middle: you read them, none of
+  them tells you much. At most {q.max_high} of the {n_units} clauses should score
+  above {q.high} — reserve those for the few that genuinely grab you, usually
+  the big round numbers and anything that sounds like good or bad news in plain
+  language. Only about {q.min_low} should fall below {q.low}, and those are the
+  ones so technical that your eye slides off them entirely.
+
+  Do not impose an expert's discipline on this. Reading everything a bit is the
+  point."""
+
+
 def build_scoring_prompt(persona: Persona, stimulus: Stimulus) -> str:
     """The instruction handed to the model for one scoring sample."""
     numbered = "\n".join(f"[{i}] {text}" for i, text in enumerate(stimulus.texts))
+    quota_text = _quota_text(persona, len(stimulus.texts))
 
     return f"""{persona.brief()}
 
@@ -91,12 +170,7 @@ Document: {stimulus.title}
 For each clause give four numbers.
 
 salience (0-1): how strongly the clause pulls your attention.
-  Your attention is a finite budget. You cannot mark everything important — if
-  most clauses score high, you have not done the task. Real readers of your role
-  fixate on a small number of clauses and skim the rest, including clauses that
-  are objectively interesting but irrelevant to your mandate. Scoring something
-  low means you would genuinely skim past it, not that it does not matter to
-  anyone.
+{quota_text}
 
 valence (-1 to +1): whether this is good news or bad news *for you*, given your
   mandate. This is the score most likely to differ from another role's. The same

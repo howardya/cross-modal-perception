@@ -624,16 +624,21 @@ button.ui[aria-pressed="true"] {
         the revolving credit facility.”
       </span>
       <span class="thesis-line">
-        <span class="thesis-tag">To an equity portfolio manager</span>
-        <span class="warm">Good news. Capital returned to me.</span>
+        <span class="thesis-tag">To someone without training</span>
+        <span class="warm">Good news. They're giving money back to shareholders.</span>
       </span>
       <span class="thesis-line">
-        <span class="thesis-tag">To a credit analyst</span>
-        <span class="cold">Bad news. My collateral, leaving on borrowed money.</span>
+        <span class="thesis-tag">To every professional who read it</span>
+        <span class="cold">Bad news. Borrowing, at 4.1x leverage, to buy its own stock.</span>
       </span>
-      <p class="small" style="margin-top:1.4rem;max-width:28rem">
-        Neither has misread it. They hold different claims on the same company, so
-        the sentence genuinely means opposite things. Scroll.
+      <p class="small" style="margin-top:1.4rem;max-width:29rem">
+        Same words. The untrained reader is not being careless — that sentence is
+        written to sound like generosity. Knowing where the money comes from is
+        what flips it, and that knowledge is invisible from the outside.
+      </p>
+      <p class="small" style="max-width:29rem">
+        This page has four professionals read the whole document. What separates
+        them is not what they think of it. It is what they can see. Scroll.
       </p>
     </div>
   </div>
@@ -814,6 +819,25 @@ button.ui[aria-pressed="true"] {
         checked against the constraints above. No expert's gaze was recorded.</span>
       </li>
       <li>
+        <span class="tag tag--measured">measured</span>
+        <span>These readings are <strong>reproducible</strong>. Each reader scored the
+        note five times, in five separate sessions that could not see one another.
+        Agreement between those runs, as Krippendorff's alpha:
+        <strong>0.97</strong> credit analyst, <strong>0.94</strong> retail investor,
+        <strong>0.94</strong> risk officer, <strong>0.88</strong> equity PM — all above
+        the 0.80 convention. That measures consistency, not correctness: a reader could
+        be reproducibly wrong and score just as well.</span>
+      </li>
+      <li>
+        <span class="tag tag--modelled">modelled</span>
+        <span>The first attempt <em>failed</em>. Told in prose that attention was
+        finite, the model marked almost every clause important — the equity PM came out
+        flatter than the untrained reader, inverting the finding the page is built on.
+        It took an arithmetic quota (at most 8 of 30 clauses strongly salient, at least
+        12 actively ignored) to produce expert-shaped attention. That constraint was
+        added after seeing the failure, which is worth knowing.</span>
+      </li>
+      <li>
         <span class="tag tag--modelled">modelled</span>
         <span>The note itself is constructed, not real, and deliberately dense with
         clauses that invert between mandates. That makes the effect legible, and it
@@ -836,11 +860,12 @@ button.ui[aria-pressed="true"] {
       <div>
         <h3>What is missing</h3>
         <p class="small">
-          No reliability figure. Scoring runs drawn inside a single session are not
-          independent, so the agreement statistic that would tell you whether these
-          readings are stable could not be computed. No human has validated any of it —
-          the comparison tooling for that exists and has never been run. Both gaps are
-          cheap to close and neither has been closed.
+          No human has validated any of it. The tooling to compare a real
+          practitioner's markup against the reader claiming to represent them exists,
+          and has never been run against a real practitioner. Three people and one
+          afternoon would close it, and a <em>mismatch</em> would be the most
+          informative result this project could produce. Until then, every
+          professional reading here is a language model's idea of a profession.
         </p>
       </div>
     </div>
