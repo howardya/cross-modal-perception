@@ -1,0 +1,61 @@
+{
+  "id": "meridian-q4",
+  "title": "Meridian Logistics — Q4 results summary",
+  "role": "hero",
+  "note": "Constructed, not real. Written so that a substantial number of clauses invert in valence between a credit and an equity mandate — leverage taken on to fund a buyback, growth bought with margin, a covenant amendment, deteriorating cash conversion, and rising customer concentration. Using a constructed note makes the effect legible and sidesteps licensing; it also makes the effect larger than it would be on an arbitrary document, which is recorded in docs/calibration.md section 6.7.",
+  "texts": [
+    "Meridian Logistics reported fourth-quarter revenue of $1.42bn, up 19% year on year.",
+    "This is the eighth consecutive quarter of double-digit top-line growth.",
+    "Growth was led by the Freight Solutions segment, which grew 31%.",
+    "Gross margin declined 240 basis points to 22.1%.",
+    "Management attributes the margin decline to onboarding costs on new enterprise contracts.",
+    "Adjusted EBITDA of $196m was broadly flat against the prior year.",
+    "The adjustment adds back $34m of transformation costs, the third consecutive year such costs have been described as non-recurring.",
+    "Operating cash flow fell to $88m from $141m.",
+    "Days sales outstanding extended from 47 days to 63 days.",
+    "The company noted it has offered extended payment terms to secure several large contracts.",
+    "Net debt rose to $2.1bn following the acquisition of Kestrel Freight in October.",
+    "Net leverage stands at 4.1x adjusted EBITDA, against 2.9x a year ago.",
+    "In November the company agreed an amendment with its lending syndicate, raising the maximum permitted leverage covenant from 4.0x to 4.75x through to December 2027.",
+    "The amendment carries a 75 basis point increase in margin on the term loan.",
+    "The board approved a $300m share repurchase programme, to be funded from the revolving credit facility.",
+    "The quarterly dividend was raised 8% to 27 cents.",
+    "The company's three largest customers now represent 41% of group revenue, up from 29%.",
+    "The largest of these contracts is due for renewal in the second half of 2027.",
+    "Management described the renewal pipeline as constructive.",
+    "$1.4bn of the term loan matures in March 2028.",
+    "The company holds $210m of cash and has $340m undrawn on its revolving credit facility.",
+    "Kestrel Freight contributed $61m of revenue in the quarter.",
+    "Kestrel is expected to deliver $40m of annual run-rate synergies by 2028, raised from $28m at the time of announcement.",
+    "Integration is described as ahead of schedule.",
+    "Headcount reduced by 4% during the quarter.",
+    "The company opened its automated hub in Rotterdam, its largest capital project to date.",
+    "Capital expenditure guidance for next year was reduced from $240m to $185m.",
+    "Management reiterated full-year guidance of 15 to 17% revenue growth.",
+    "The Chief Financial Officer announced she will step down in March, after six years in the role.",
+    "A successor has not yet been named."
+  ],
+  "relevance_note": "Author-assigned, applying each persona's stated mandate to each clause. Deliberately independent of the model's scoring, so the L1 check in cmp.targets is a genuine external test rather than a restatement of the model's own output. These masks are a judgment, not a measurement. IMPORTANT: 'relevant' here means the minority of clauses this role would actually fixate on — the ones that drive the decision — not every clause that bears on the mandate. The first draft used the looser reading and marked 17 of 30 clauses relevant for the credit analyst; a majority mask makes the suppression-asymmetry constraint vacuous under a fixed attention budget (see docs/calibration.md section 2), and it also misreads the literature, whose 'task-relevant areas' are always a minority of the display.",
+  "relevance": {
+    "credit-analyst": [
+      false, false, false, false, false, true, true, true, true, true,
+      false, true, true, true, true, false, false, false, false, true,
+      true, false, false, false, false, false, false, false, false, false
+    ],
+    "equity-pm": [
+      true, false, true, true, false, true, true, false, true, false,
+      false, false, false, false, true, false, true, false, false, false,
+      false, false, true, false, false, false, true, true, false, false
+    ],
+    "risk-officer": [
+      false, false, false, false, false, false, true, false, true, true,
+      false, false, true, false, false, false, true, true, false, true,
+      false, false, true, false, false, false, false, false, true, true
+    ],
+    "retail-investor": [
+      true, true, true, false, false, true, false, false, false, false,
+      true, false, false, false, true, true, false, false, false, false,
+      false, true, true, false, false, true, false, true, false, false
+    ]
+  }
+}

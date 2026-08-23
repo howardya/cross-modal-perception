@@ -1,0 +1,47 @@
+{
+  "id": "aldercroft-h1",
+  "title": "Aldercroft Software — H1 trading update",
+  "role": "held-out",
+  "note": "Held out from any parameter fitting. Used once, to check whether the calibration established on the hero note transfers to a stimulus it has never seen. Deliberately a different sector, a different document type, and a different balance of good and bad news, so transfer is a real test rather than a rehearsal. Whether it holds is reported either way.",
+  "texts": [
+    "Aldercroft Software reported first-half recurring revenue of $312m, up 11%.",
+    "Net revenue retention fell to 104% from 118%.",
+    "Gross new customer additions were 214, against 340 in the comparable period.",
+    "Churn was concentrated in the small business tier.",
+    "Management is repositioning toward enterprise accounts.",
+    "Enterprise now represents 58% of recurring revenue.",
+    "Average contract length extended from 18 months to 31 months.",
+    "Deferred revenue rose 22% to $198m.",
+    "Sales and marketing spend fell from 41% to 34% of revenue.",
+    "The company reported its first positive operating income of $9m.",
+    "Free cash flow was $41m, ahead of operating income owing to the deferred revenue build.",
+    "Share-based compensation of $58m is excluded from adjusted figures.",
+    "Diluted share count increased 6% year on year.",
+    "The company holds $420m of cash and has no drawn debt.",
+    "A $150m convertible note matures in September 2027.",
+    "The conversion price sits 40% above the current share price.",
+    "Two of the four named executive officers joined within the past nine months.",
+    "The company disclosed a security incident affecting a single-tenant deployment, since remediated.",
+    "No customer data was exfiltrated, according to a third-party forensic review.",
+    "Full-year guidance was narrowed to 9 to 11% recurring revenue growth, from 9 to 13%."
+  ],
+  "relevance_note": "Author-assigned, same method and same strict definition as the hero note — the minority of clauses this role would fixate on, not every clause bearing on the mandate. See that file's relevance_note.",
+  "relevance": {
+    "credit-analyst": [
+      false, true, false, false, false, false, false, true, false, true,
+      true, false, false, true, true, true, false, false, false, true
+    ],
+    "equity-pm": [
+      true, true, true, false, false, true, true, false, true, true,
+      false, true, true, false, false, false, false, false, false, false
+    ],
+    "risk-officer": [
+      false, true, false, true, false, false, false, false, false, false,
+      false, true, false, false, true, true, true, true, true, true
+    ],
+    "retail-investor": [
+      true, false, false, false, false, false, false, false, false, true,
+      false, false, false, true, false, false, false, true, true, true
+    ]
+  }
+}
