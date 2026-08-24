@@ -363,10 +363,14 @@ header h1 { margin-bottom: 1.4rem; }
 .dna-bar--c i { background: var(--muted); }
 .dna-bar--d i { background: color-mix(in oklab, var(--surface), var(--muted) 32%);
                 border: 1.5px solid var(--muted); }
+.dna-bar--e i { background: repeating-linear-gradient(45deg,
+                  var(--muted) 0 2px, transparent 2px 4.5px);
+                border: 1px solid var(--muted); }
 .dna-bar i.down { background: none; border: 1.5px solid var(--muted); }
 .dna-bar--a i.down { background: color-mix(in oklab, var(--surface), var(--muted) 28%); border: 0; }
 .dna-bar--c i.down { background: color-mix(in oklab, var(--surface), var(--muted) 45%); border: 0; }
 .dna-bar--d i.down { background: none; border: 1.5px dashed var(--muted); }
+.dna-bar--e i.down { background: none; border: 1px dotted var(--muted); }
 
 /* Which bar is which document. Ambiguous with two and unreadable with three,
    so it is drawn from the data rather than written down. */
@@ -382,6 +386,7 @@ header h1 { margin-bottom: 1.4rem; }
 .dna-key i.k-b { background: none; border: 1.5px solid var(--ink); }
 .dna-key i.k-c { background: var(--muted); }
 .dna-key i.k-d { background: color-mix(in oklab, var(--surface), var(--muted) 32%); border: 1.5px solid var(--muted); }
+.dna-key i.k-e { background: repeating-linear-gradient(45deg, var(--muted) 0 2px, transparent 2px 4.5px); border: 1px solid var(--muted); }
 
 .dna-axis {
   display: grid;
@@ -1117,23 +1122,23 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <div class="tbl-scroll">
       <table>
-        <caption>Two notes we wrote, and two we did not</caption>
+        <caption>Two notes we wrote, and three we did not</caption>
         <thead>
-          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out <span class="small">(never seen)</span></th><th>Whirlpool <span class="small">(real)</span></th><th>Alamo <span class="small">(real)</span></th></tr>
+          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out</th><th>Whirlpool <span class="small">(real)</span></th><th>Alamo <span class="small">(real)</span></th><th>Jazz <span class="small">(real)</span></th></tr>
         </thead>
         <tbody>
-          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--no">fail</span> <span class="small">risk officer</span></td><td><span class="tag tag--yes">pass</span></td></tr>
-          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td><td>0.92 – 0.94</td><td>0.91 – 0.97</td></tr>
-          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td><td>2/8 – 6/8</td><td>0/8 – 5/8</td></tr>
-          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td><td><strong>52.1%</strong></td><td><strong>31.2%</strong></td></tr>
-          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--no">fail</span> <span class="small">risk officer</span></td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td><td>0.92 – 0.94</td><td>0.91 – 0.97</td><td>0.87 – 0.95</td></tr>
+          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td><td>2/8 – 6/8</td><td>0/8 – 5/8</td><td>2/8 – 5/8</td></tr>
+          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td><td><strong>52.1%</strong></td><td><strong>31.2%</strong></td><td><strong>47.9%</strong></td></tr>
+          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
         </tbody>
       </table>
     </div>
 
     <p class="pull">
-      Two of these we wrote. Two are real SEC filings. The readers separate on all
-      four — but by amounts that have far more to do with the document than with
+      Two of these we wrote. Three are real SEC filings. The readers separate on all
+      five — but by amounts that have far more to do with the document than with
       whether anyone wrote it to divide them.
     </p>
 
@@ -1155,13 +1160,13 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       </p>
       <p>
         <strong>With one real filing this section said the true overlap was 52.1%
-        and that the hero note exaggerated by about a third. The second real filing
-        came in at 31.2% — below the hero note.</strong> Real documents turn out to
-        span a wider range than the gap the constructed pair was supposed to
-        demonstrate. What can honestly be said is narrower than what one filing
-        seemed to show: how much two readers share depends mostly on the document,
-        the constructed notes sit inside the range real ones cover, and a single
-        headline percentage is not a property of the four mandates at all.
+        and that the hero note exaggerated by about a third. The second came in at
+        31.2%, below the hero note; the third at 47.9%.</strong> Real documents span
+        a wider range than the gap the constructed pair was supposed to demonstrate,
+        and the constructed notes sit inside that range rather than to one side of
+        it. What can honestly be said is narrower than what one filing seemed to
+        show: how much two readers share depends mostly on the document, and a
+        single headline percentage is not a property of the four mandates at all.
       </p>
       <p>
         <strong>The valence divide is the hero note's alone.</strong> Five conflicts
@@ -1254,8 +1259,8 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
     </p>
     <p>
       Above the line means this reader spends more of their attention there than
-      the others do. Below means less. <strong>The four bars per topic are the four
-      documents</strong>, which share no subject matter and two of which are real
+      the others do. Below means less. <strong>The five bars per topic are the five
+      documents</strong>, which share no subject matter and three of which are real
       SEC filings — so where they agree, the
       shape belongs to the reader.
     </p>
@@ -1277,15 +1282,52 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         </p>
         <p style="margin-bottom:0">
           The risk officer's signature is an absence — <em>performance</em> is its
-          deepest bar on all four documents, both real filings included. It is the
-          only reader defined mainly by what it refuses to look at, and it is the
-          half of that reader's signature that survived contact with real filings
-          when the reassurance half did not. The equity PM is the least stable of
-          the four (profile correlation +0.54 against +0.92, +0.81 and +0.80), and
-          the honest reading is that its shape is not yet established.
+          deepest bar on all five documents, every real filing included, and on the
+          pharmaceutical filing it is the deepest bar anywhere in the study. It is
+          the only reader defined mainly by what it refuses to look at — and that
+          turns out to be why it travels. The correlations now read +0.74 for the
+          risk officer, +0.58 for the untrained reader, +0.52 for the credit analyst
+          and +0.50 for the equity PM, whose shape is the weakest of the four
+          and not yet established. The next panel is about why three of those four fell.
         </p>
       </figcaption>
     </figure>
+
+    <div class="finding">
+      <h3>Take away a specialist's subject and the specialist reads like an amateur</h3>
+      <p>
+        The fifth document is a pharmaceutical company's results release. It
+        discusses trial readouts, regulatory dates and product sales, and — despite
+        the company carrying $3.3bn of long-term debt — <strong>it does not mention
+        borrowings once</strong>. Two of the seven topics have no sentences at all in
+        it: what is owed, and cash.
+      </p>
+      <p>
+        The credit analyst is the reader defined by those two topics. On the four
+        other documents <em>what is owed</em> is its tallest bar and <em>how it did</em>
+        its deepest. Here its tallest bar is <em>how it did</em> — the topic it is
+        otherwise defined by skipping — and it shares five of its top eight sentences
+        with the untrained reader, more than with any professional. Its profile
+        correlation falls from +0.92 to +0.52.
+      </p>
+      <p>
+        <strong>The risk officer is untouched.</strong> Its correlation holds at +0.74
+        and <em>how it did</em> is its deepest bar on this document by the widest
+        margin anywhere in the study. The difference is what the two signatures are
+        made of: the credit analyst's is a thing it looks <em>for</em>, and a document
+        can simply fail to contain it. The risk officer's is a thing it refuses to
+        look at, and a reader can refuse to read the results of any company at all.
+      </p>
+      <p style="margin-bottom:0">
+        <strong>Signatures built from an absence travel further than signatures built
+        from a presence.</strong> That was not designed, predicted, or visible until a
+        document arrived that could not express half the taxonomy. How much of the
+        fall is mechanical — two topics pinned at zero for every reader compress the
+        correlation on their own — and how much is the real limit of a taxonomy
+        derived from industrial filings cannot be separated with one pharmaceutical
+        document. Both readings are in <code>calibration.md</code> §7.8.
+      </p>
+    </div>
 
     <h2 style="margin-top:2.5rem">Every blind spot is somebody else's specialism</h2>
     <p>
@@ -1316,18 +1358,18 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <p>
         This is a signature, not a genome. It says what kind of sentence each
         reader stops at, well enough to predict them on a page they have not seen —
-        and the themes hold across four documents that share no subject matter, two
-        of them real SEC filings that no one involved here wrote. Two documents was
-        a coin landing the same way twice. Four, half of them written by strangers
-        for another purpose, is the part of this study that has strengthened every
-        time it was tested: the correlations went up, not down, as the documents got
-        less like each other.
+        and the themes held across four documents that share no subject matter, two
+        of them real SEC filings that no one involved here wrote. A fifth document
+        found the edge of that. <strong>The signatures travel across documents that
+        talk about money owed, and do not travel to one that does not.</strong> That
+        is a smaller claim than the one this section made a document ago, and it is
+        the one the evidence supports.
       </p>
       <p style="margin-bottom:0">
         It does not say these are <em>real</em> professionals. Every reader here is a
-        language model given a mandate, and four documents is still a small basis
-        for any claim about stability — and one of those four failed the literature
-        checks for one reader. What would settle it is the thing still missing from
+        language model given a mandate, and five documents is still a small basis
+        for any claim about stability — one of them failed the literature checks for
+        one reader, and another cannot express two of the seven topics at all. What would settle it is the thing still missing from
         this whole project: a real credit analyst, marking up the same page.
       </p>
     </div>
@@ -1501,7 +1543,7 @@ const DNA_TOPICS = DATA.topics.map((t) => [t.key, t.label]);
 const DNA = DATA.profiles.map((p) => [p.label, p.gloss || "", p.series]);
 //: One class per document, in DOCUMENTS order. Adding a fourth document means
 //: adding a fourth style beside .dna-bar--c; the loop below needs no change.
-const DNA_SERIES = ["a", "b", "c", "d"];
+const DNA_SERIES = ["a", "b", "c", "d", "e"];
 const DNA_MAX = DATA.scale.profile_max;
 
 (() => {
