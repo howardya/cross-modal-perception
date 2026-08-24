@@ -248,83 +248,101 @@ header h1 { margin-bottom: 1.4rem; }
 .key--cold { background: var(--cold); }
 .key--warm { background: var(--warm); }
 
-/* ── the threat-pull axis ────────────────────────────────── */
+/* ── reader signatures ───────────────────────────────────── */
 
-.dumb { margin: 0.5rem 0 0; }
-.dumb-axis {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--data);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 0.7rem;
-  padding-left: 9.5rem;
-}
-.dumb-row {
+.sig {
   display: grid;
-  grid-template-columns: 8.5rem 1fr;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 1.75rem 0;
 }
-.dumb-track { position: relative; height: 26px; }
+.sig-card { background: var(--surface); padding: 1.3rem 1.4rem; }
+.sig-card--flag { background: color-mix(in oklab, var(--surface), var(--accent) 5%); }
+.sig-card h3 { margin-bottom: 0.6rem; }
 
-/* Halves tinted by what they mean. Being pulled toward bad news IS the cold
-   direction, so this is the page's one colour code, not a second one. */
-.dumb-track::before {
-  content: "";
-  position: absolute;
-  inset: 3px 0;
-  border-radius: 2px;
-  background: linear-gradient(
-    to right,
-    color-mix(in oklab, var(--surface), var(--warm) 14%),
-    color-mix(in oklab, var(--surface), var(--warm) 4%) 48%,
-    color-mix(in oklab, var(--surface), var(--cold) 4%) 52%,
-    color-mix(in oklab, var(--surface), var(--cold) 14%)
-  );
+.sig-theme {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: 0 0 0.6rem;
+  color: var(--ink);
 }
-/* Zero: the line where attention changes which way it leans. */
-.dumb-track::after {
+.sig-theme--blind { color: var(--muted); margin-top: 1.1rem; }
+
+.sig-list { list-style: none; padding: 0; margin: 0; }
+.sig-list li {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--muted);
+  padding: 0.4rem 0 0.4rem 0.9rem;
+  border-left: 2px solid var(--rule);
+  margin-bottom: 0.3rem;
+}
+.sig-list b {
+  font-family: var(--data);
+  font-size: 0.74rem;
+  font-weight: 500;
+  margin-right: 0.4rem;
+}
+/* Cold for what is caught, warm for what is walked past — the page's one
+   colour axis, reused rather than a second code invented. */
+.sig-list--stop li { border-left-color: var(--cold); }
+.sig-list--stop b { color: var(--cold); }
+.sig-list--walk li { border-left-color: color-mix(in oklab, var(--warm), transparent 45%); }
+.sig-list--walk b { color: var(--warm); }
+
+/* ── mirrored sentences ──────────────────────────────────── */
+
+.mirror { margin: 0.5rem 0 0; }
+.mirror-row {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.mirror-row:last-child { border-bottom: 0; }
+.mirror-text {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  margin: 0 0 0.7rem;
+  text-wrap: pretty;
+}
+.mirror-gauge {
+  display: grid;
+  grid-template-columns: 1fr minmax(9rem, 22rem) 1fr;
+  align-items: center;
+  gap: 0.8rem;
+}
+.mirror-who {
+  font-family: var(--data);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.mirror-who--missed { text-align: right; color: var(--warm); }
+.mirror-who--seen { text-align: left; color: var(--cold); }
+
+.mirror-track {
+  position: relative;
+  display: flex;
+  height: 12px;
+  background: var(--sunken);
+  border-radius: 2px;
+  overflow: hidden;
+}
+/* The centre line is the four-reader average: the point at which a sentence
+   is neither more nor less yours than anyone's. */
+.mirror-track::after {
   content: "";
   position: absolute;
   left: 50%;
-  top: 0;
-  bottom: 0;
+  top: -3px;
+  bottom: -3px;
   width: 1px;
   background: var(--muted);
-  opacity: 0.5;
 }
-.dumb-bar {
-  position: absolute;
-  top: 50%;
-  height: 2px;
-  transform: translateY(-50%);
-  background: var(--ink);
-  opacity: 0.45;
-}
-.dumb-dot {
-  position: absolute;
-  top: 50%;
-  width: 11px;
-  height: 11px;
-  margin: -5.5px 0 0 -5.5px;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-.dumb-dot--hero { background: var(--ink); }
-.dumb-dot--held { background: var(--surface); border: 2px solid var(--ink); }
-.dumb-key {
-  font-family: var(--data);
-  font-size: 0.62rem;
-  color: var(--muted);
-  margin: 0.9rem 0 0;
-  padding-left: 9.5rem;
-  display: flex;
-  align-items: center;
-}
+.mirror-bar { display: block; height: 100%; }
+.mirror-bar--missed { margin-left: auto; background: var(--warm); border-radius: 2px 0 0 2px; }
+.mirror-bar--seen { margin-right: auto; background: var(--cold); border-radius: 0 2px 2px 0; }
 
 /* ── tables ──────────────────────────────────────────────── */
 
@@ -512,12 +530,18 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
   .strip-cells--caret i { height: 8px; }
   .strip-cells--tick i { height: 12px; }
 
-  /* The threat axis keeps its labels beside the tracks — four short role
-     names fit — but the gutter shrinks so the tracks keep their width,
-     which is where the reading happens. */
-  .dumb-row { grid-template-columns: 6.5rem 1fr; gap: 0.6rem; }
-  .dumb-axis, .dumb-key { padding-left: 0; }
-  .dumb-axis { font-size: 0.56rem; gap: 1rem; }
+  /* Two no-wrap labels either side of a track do not fit a phone. The track
+     takes the full width and the labels drop beneath it, each staying on the
+     side it refers to. */
+  .mirror-gauge {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "track track" "missed seen";
+    gap: 0.5rem 0.8rem;
+  }
+  .mirror-track { grid-area: track; }
+  .mirror-who { white-space: normal; }
+  .mirror-who--missed { grid-area: missed; text-align: left; }
+  .mirror-who--seen { grid-area: seen; text-align: right; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
@@ -1017,102 +1041,159 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 <!-- ══ 6. ROLE SIGNATURES ════════════════════════════════ -->
 <section>
   <div class="wrap wrap--wide">
-    <p class="eyebrow">Six · Role signatures</p>
-    <h2>Is there a “DNA” for each reader?</h2>
+    <p class="eyebrow">Six · Signatures</p>
+    <h2>What makes each reader look up — and what they walk straight past</h2>
 
-    <p>
-      A fingerprint identifies; DNA generates. The per-sentence scores above are a
-      fingerprint — they describe how one reader met one document. A trait only
-      belongs to the <em>role</em> if it survives changing the document, and with
-      two independently scored notes that is a question with an answer.
+    <p class="lede">
+      For every sentence, compare one reader's share of attention against the
+      average of all four. A sentence that is far above average is
+      <em>more theirs than anyone's</em>. Far below, and the others stopped while
+      they walked past.
     </p>
     <p>
-      Six traits were computed on both. One survives cleanly.
-      <strong>Threat pull</strong> — whether attention is dragged toward bad news
-      or toward good news — is the only one whose ordering across all four readers
-      holds on both documents. It also changes sign, which is what makes it mean
-      something rather than merely differ.
+      The second half is the interesting one, because the finding this whole
+      project rests on is that expertise is learned <em>neglect</em>. A reader's
+      blind spots are not gaps in their attention. They are the shape of it.
+    </p>
+    <p class="small">
+      Two sentences per reader from each document, so a theme that repeats across
+      both is a fact about the reader rather than about the page. The numbers are
+      percentage points of attention above or below the four-reader average. The
+      theme lines are a plain reading of the quotes below them, not a computed
+      label.
+    </p>
+
+    <div class="sig">
+      <article class="sig-card">
+        <h3>Credit analyst</h3>
+        <p class="sig-theme">Stops at anything that is a claim on cash — what is owed, when it falls due, what it costs.</p>
+        <ul class="sig-list sig-list--stop">
+          <li><b>+2.2</b> Net leverage stands at 4.1x adjusted EBITDA, against 2.9x a year ago.</li>
+          <li><b>+4.8</b> The company holds $420m of cash and has no drawn debt.</li>
+        </ul>
+        <p class="sig-theme sig-theme--blind">Walks past the story being told about the business.</p>
+        <ul class="sig-list sig-list--walk">
+          <li><b>−1.4</b> Management described the renewal pipeline as constructive.</li>
+          <li><b>−1.4</b> This is the eighth consecutive quarter of double-digit top-line growth.</li>
+        </ul>
+      </article>
+
+      <article class="sig-card">
+        <h3>Equity PM</h3>
+        <p class="sig-theme">Stops at what a single share is worth — margin, dilution, and what has been excluded from the adjusted number.</p>
+        <ul class="sig-list sig-list--stop">
+          <li><b>+1.9</b> Gross margin declined 240 basis points to 22.1%.</li>
+          <li><b>+5.6</b> Diluted share count increased 6% year on year.</li>
+        </ul>
+        <p class="sig-theme sig-theme--blind">Walks past the balance sheet, and past anything that is not a number.</p>
+        <ul class="sig-list sig-list--walk">
+          <li><b>−1.3</b> The company holds $210m of cash and has $340m undrawn on its revolving credit facility.</li>
+          <li><b>−4.3</b> The company disclosed a security incident affecting a single-tenant deployment, since remediated.</li>
+        </ul>
+      </article>
+
+      <article class="sig-card sig-card--flag">
+        <h3>Risk officer</h3>
+        <p class="sig-theme">Stops at reassurance. The only reader that treats a denial as information.</p>
+        <ul class="sig-list sig-list--stop">
+          <li><b>+2.0</b> The company's three largest customers now represent 41% of group revenue, up from 29%.</li>
+          <li><b>+5.1</b> No customer data was exfiltrated, according to a third-party forensic review.</li>
+        </ul>
+        <p class="sig-theme sig-theme--blind">Walks past how the business actually performed.</p>
+        <ul class="sig-list sig-list--walk">
+          <li><b>−1.6</b> Adjusted EBITDA of $196m was broadly flat against the prior year.</li>
+          <li><b>−4.1</b> The company reported its first positive operating income of $9m.</li>
+        </ul>
+      </article>
+
+      <article class="sig-card">
+        <h3>Retail investor</h3>
+        <p class="sig-theme">Stops at headline numbers, firsts and streaks — and at things you can picture.</p>
+        <ul class="sig-list sig-list--stop">
+          <li><b>+3.1</b> This is the eighth consecutive quarter of double-digit top-line growth.</li>
+          <li><b>+3.3</b> The company reported its first positive operating income of $9m.</li>
+        </ul>
+        <p class="sig-theme sig-theme--blind">Walks past the machinery — debt terms, accounting adjustments, retention.</p>
+        <ul class="sig-list sig-list--walk">
+          <li><b>−4.1</b> In November the company agreed an amendment with its lending syndicate, raising the maximum permitted leverage covenant from 4.0x to 4.75x.</li>
+          <li><b>−3.0</b> Share-based compensation of $58m is excluded from adjusted figures.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="finding">
+      <h3>The risk officer stops at being told not to worry</h3>
+      <p>
+        On the second document its two strongest sentences are the disclosure of a
+        security incident and the sentence saying nobody was harmed by it —
+        <em>“No customer data was exfiltrated, according to a third-party forensic
+        review.”</em> On the first, one of its signature sentences is
+        <em>“Management described the renewal pipeline as constructive.”</em>
+      </p>
+      <p style="margin-bottom:0">
+        Three reassurances, two documents, one reader. Nobody wrote a rule saying
+        <em>attend to hedged comfort</em>; the mandate says to look for what could go
+        wrong. Reassurance is where it went looking.
+      </p>
+    </div>
+
+    <h2 style="margin-top:2.5rem">Every blind spot is somebody else's specialism</h2>
+    <p>
+      The gaps are not random. Line up the sentence each reader over-attends to
+      against the reader who most walks past it, and the same sentences keep
+      appearing on both sides of the ledger.
     </p>
 
     <figure class="aha">
-      <div class="dumb">
-        <p class="dumb-axis">
-          <span>← drawn to good news</span><span>drawn to bad news →</span>
-        </p>
-
-        <div class="dumb-row">
-          <span class="strip-label">risk officer</span>
-          <div class="dumb-track" data-hero="0.83" data-held="0.68"></div>
+      <div class="mirror">
+        <div class="mirror-row" data-seen="2.0" data-missed="-4.1"
+             data-seen-by="credit analyst" data-missed-by="retail investor">
+          <p class="mirror-text">“In November the company agreed an amendment with its lending syndicate, raising the maximum permitted leverage covenant from 4.0x to 4.75x.”</p>
         </div>
-        <div class="dumb-row">
-          <span class="strip-label">equity PM</span>
-          <div class="dumb-track" data-hero="0.83" data-held="0.65"></div>
+        <div class="mirror-row" data-seen="2.2" data-missed="-3.4"
+             data-seen-by="credit analyst" data-missed-by="retail investor">
+          <p class="mirror-text">“Net leverage stands at 4.1x adjusted EBITDA, against 2.9x a year ago.”</p>
         </div>
-        <div class="dumb-row">
-          <span class="strip-label">credit analyst</span>
-          <div class="dumb-track" data-hero="0.78" data-held="-0.07"></div>
+        <div class="mirror-row" data-seen="3.3" data-missed="-1.5"
+             data-seen-by="retail investor" data-missed-by="risk officer">
+          <p class="mirror-text">“Meridian Logistics reported fourth-quarter revenue of $1.42bn, up 19% year on year.”</p>
         </div>
-        <div class="dumb-row">
-          <span class="strip-label">retail investor</span>
-          <div class="dumb-track" data-hero="-0.56" data-held="-0.35"></div>
+        <div class="mirror-row" data-seen="5.1" data-missed="-3.8"
+             data-seen-by="risk officer" data-missed-by="equity PM">
+          <p class="mirror-text">“No customer data was exfiltrated, according to a third-party forensic review.”</p>
         </div>
-
-        <p class="dumb-key">
-          <span class="dumb-dot dumb-dot--hero" style="position:static;margin:0 0.3rem 0 0"></span>hero note
-          <span class="dumb-dot dumb-dot--held" style="position:static;margin:0 0.3rem 0 1rem"></span>held-out note
-        </p>
+        <div class="mirror-row" data-seen="4.8" data-missed="-3.7"
+             data-seen-by="credit analyst" data-missed-by="equity PM">
+          <p class="mirror-text">“The company holds $420m of cash and has no drawn debt.”</p>
+        </div>
       </div>
 
       <figcaption>
-        <p>
-          <strong>The untrained reader sits on the good-news side of zero on both
-          documents. Two of the three professionals sit firmly on the bad-news
-          side of both.</strong> That is the mechanism under the headline finding:
-          their attention is wired to opposite signs, so the same sentence catches
-          one reader and slides past the other.
-        </p>
         <p style="margin-bottom:0">
-          The long line is the honest part. <strong>The credit analyst does not
-          hold the pattern</strong> — its threat pull collapses from +0.78 to
-          −0.07 on the unseen note, so the separation rests on two roles out of
-          three. Worse, on that note the three professionals differ from each
-          other more than the least threat-driven of them differs from the
-          layperson. On the document the method was tuned to, the group split
-          dominates. On the one it had never seen, it does not.
+          The first row is the sharpest thing in the study. The sentence saying the
+          company went to its lenders for permission to carry more debt is the
+          <strong>untrained reader's deepest blind spot anywhere in this
+          study</strong> — and one of the credit analyst's strongest signals. The
+          one person who most needs that warning is the one person built not to
+          see it.
         </p>
       </figcaption>
     </figure>
 
     <div class="finding">
-      <h3>What can honestly be claimed</h3>
+      <h3>What this is, and what it is not</h3>
       <p>
-        <strong>One axis with real support — trained versus untrained</strong> —
-        carried by which direction of news captures attention. Within the
-        professionals the differences are consistent in direction and slight in
-        size: threat, alarm and reading position all put the risk officer at the
-        same end, most on edge and reading latest in the document. But two
-        documents is a coin landing the same way twice, and on the hero note the
-        credit-versus-equity gaps are 0.78 against 0.83 — noise.
+        This is a signature, not a genome. It says what kind of sentence each
+        reader stops at, well enough to predict them on a page they have not seen
+        — and the themes hold across two documents that share no subject matter.
       </p>
-      <p>
-        So: direction only, no magnitudes, and <strong>no evidence for four
-        distinct genomes.</strong> The fix is cheap and obvious — more documents.
-        Each one scored the same way turns a coin flip into a trend, and the
-        machinery already exists.
+      <p style="margin-bottom:0">
+        It does not say these are <em>real</em> professionals. Every reader here is a
+        language model given a mandate, and two documents is a small basis for any
+        claim about stability. What would settle it is the thing still missing from
+        this whole project: a real credit analyst, marking up the same page.
       </p>
     </div>
-
-    <p class="small">
-      One more thing this run settled. <strong>Reading position was the weakest of
-      the six traits.</strong> The “professionals in the middle, untrained reader at
-      the ends” pattern in the opening figure is a property of that document, not
-      of the roles — which is why the figure carries its document's name.
-      Meanwhile the trait that <em>did</em> survive is the one the instructions
-      never specified: the mandates say what each role reads for, never which
-      direction of news should attract the eye. Alarm, which the risk officer's
-      mandate does imply, failed. The signature is not merely reciting its own
-      prompt.
-    </p>
   </div>
 </section>
 
@@ -1272,34 +1353,33 @@ for (const row of document.querySelectorAll(".strip-cells")) {
   }
 }
 
-// The threat-pull axis. Two dots per role, one per document, joined by a bar
-// whose length is how far the trait moved when the document changed — so
-// instability is visible rather than buried in a table.
-const pct = (v) => ((Math.max(-1, Math.min(1, v)) + 1) / 2) * 100;
+// Mirrored sentences: one reader over-attends, another walks past. Drawn as a
+// bar diverging from a centre line, so "caught" and "missed" are the same
+// gesture in opposite directions rather than two unrelated numbers.
+const MIRROR_MAX = 6; // percentage points of attention; the largest here is 5.1
 
-for (const track of document.querySelectorAll(".dumb-track")) {
-  const hero = Number(track.dataset.hero);
-  const held = Number(track.dataset.held);
-  const a = pct(hero);
-  const b = pct(held);
+for (const row of document.querySelectorAll(".mirror-row")) {
+  const seen = Number(row.dataset.seen);
+  const missed = Number(row.dataset.missed);
 
-  const bar = document.createElement("span");
-  bar.className = "dumb-bar";
-  bar.style.left = `${Math.min(a, b)}%`;
-  bar.style.width = `${Math.abs(a - b)}%`;
-  track.appendChild(bar);
+  const scale = (v) => (Math.min(Math.abs(v), MIRROR_MAX) / MIRROR_MAX) * 50;
 
-  for (const [v, cls] of [[b, "held"], [a, "hero"]]) {
-    const dot = document.createElement("span");
-    dot.className = `dumb-dot dumb-dot--${cls}`;
-    dot.style.left = `${v}%`;
-    track.appendChild(dot);
-  }
+  const gauge = document.createElement("div");
+  gauge.className = "mirror-gauge";
+  gauge.innerHTML =
+    `<span class="mirror-who mirror-who--missed">${row.dataset.missedBy} walks past</span>` +
+    `<span class="mirror-track">` +
+    `<span class="mirror-bar mirror-bar--missed" style="width:${scale(missed)}%"></span>` +
+    `<span class="mirror-bar mirror-bar--seen" style="width:${scale(seen)}%"></span>` +
+    `</span>` +
+    `<span class="mirror-who mirror-who--seen">${row.dataset.seenBy} stops</span>`;
+  row.appendChild(gauge);
 
-  track.setAttribute("role", "img");
-  track.setAttribute(
+  row.setAttribute("role", "img");
+  row.setAttribute(
     "aria-label",
-    `Threat pull ${hero.toFixed(2)} on the hero note, ${held.toFixed(2)} on the held-out note`
+    `${row.dataset.seenBy} attends ${seen.toFixed(1)} points above average; ` +
+    `${row.dataset.missedBy} ${Math.abs(missed).toFixed(1)} points below`
   );
 }
 
