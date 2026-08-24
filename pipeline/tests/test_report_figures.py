@@ -356,3 +356,104 @@ def test_no_mirror_bar_overflows_its_scale(html):
     for seen, missed, _, _ in _mirror_rows(html):
         assert abs(float(seen)) <= 6
         assert abs(float(missed)) <= 6
+
+
+# --- the topic-profile figure ---------------------------------------------------------
+
+
+def _dna_rows(html: str):
+    """The four DNA arrays embedded in the page, in page order."""
+    block = html[html.index("const DNA = ["):]
+    block = block[: block.index("\n];")]
+    rows = re.findall(
+        r'\["([^"]+)",\s*"[^"]*",\s*\[([^\]]+)\],\s*\[([^\]]+)\]\]', block
+    )
+    return [
+        (name, [float(x) for x in a.split(",")], [float(x) for x in b.split(",")])
+        for name, a, b in rows
+    ]
+
+
+def _fixture_lift(name: str):
+    import json
+    from pathlib import Path
+
+    from cmp.topics import CATEGORIES, labels_for, topic_lift
+
+    root = Path(__file__).resolve().parents[2]
+    raw = json.loads((root / "fixtures" / f"{name}.json").read_text())
+    lift = topic_lift(raw["fields"], labels_for(name))
+    return {p: [lift[p][c] for c in CATEGORIES] for p in lift}
+
+
+PAGE_TO_ID = {
+    "credit analyst": "credit-analyst",
+    "risk officer": "risk-officer",
+    "equity PM": "equity-pm",
+    "retail investor": "retail-investor",
+}
+
+
+def test_the_figure_has_a_row_per_reader(html):
+    assert len(_dna_rows(html)) == 4
+
+
+def test_every_plotted_value_matches_the_fixture(html):
+    hero = _fixture_lift("meridian-q4")
+    held = _fixture_lift("aldercroft-h1")
+    for name, a, b in _dna_rows(html):
+        pid = PAGE_TO_ID[name]
+        assert a == pytest.approx(hero[pid], abs=0.06), f"{name} hero"
+        assert b == pytest.approx(held[pid], abs=0.06), f"{name} held-out"
+
+
+def test_every_row_covers_all_seven_topics(html):
+    from cmp.topics import CATEGORIES
+
+    for _, a, b in _dna_rows(html):
+        assert len(a) == len(CATEGORIES)
+        assert len(b) == len(CATEGORIES)
+
+
+def test_no_bar_overflows_the_figure_scale(html):
+    """DNA_MAX in the page is 15; anything larger would silently clip."""
+    for _, a, b in _dna_rows(html):
+        assert max(abs(v) for v in a + b) <= 15
+
+
+def test_the_mirror_the_caption_claims_is_real(html):
+    """Credit's tallest is debt and deepest is performance; retail the reverse."""
+    from cmp.topics import CATEGORIES
+
+    hero = _fixture_lift("meridian-q4")
+    debt, perform = CATEGORIES.index("debt"), CATEGORIES.index("perform")
+    credit, retail = hero["credit-analyst"], hero["retail-investor"]
+
+    assert credit.index(max(credit)) == debt
+    assert credit.index(min(credit)) == perform
+    assert retail.index(max(retail)) == perform
+    assert retail.index(min(retail)) == debt
+    assert "photographic negatives" in html
+
+
+def test_the_risk_officer_dips_on_performance_in_both_documents(html):
+    from cmp.topics import CATEGORIES
+
+    perform = CATEGORIES.index("perform")
+    for doc in ("meridian-q4", "aldercroft-h1"):
+        row = _fixture_lift(doc)["risk-officer"]
+        assert row.index(min(row)) == perform, doc
+    assert "signature is an absence" in html
+
+
+def test_the_page_admits_the_equity_pm_is_the_weakest(html):
+    """It is the one profile that does not travel, and the caption says so."""
+    import numpy as np
+
+    hero, held = _fixture_lift("meridian-q4"), _fixture_lift("aldercroft-h1")
+    rs = {
+        p: float(np.corrcoef(hero[p], held[p])[0, 1])
+        for p in hero
+    }
+    assert min(rs, key=rs.get) == "equity-pm"
+    assert "least settled" in html or "not yet established" in html

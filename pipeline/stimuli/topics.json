@@ -1,0 +1,28 @@
+{
+  "note": "What each sentence is ABOUT. Assigned by hand from the sentence alone, before looking at any reader's score, using the same seven categories on both documents. This is an author taxonomy and it is a judgment: clause 6 of the hero note ('the third consecutive year such costs have been described as non-recurring') could reasonably be filed under performance rather than language, and clause 15 of the held-out note (a convertible's conversion price) under shareholder rather than debt. The test of whether the taxonomy is doing real work is that reader profiles built on it hold across two unrelated documents — an arbitrary labelling would not survive that.",
+  "categories": {
+    "debt": "What is owed — leverage, covenants, maturities, facilities, drawn and undrawn",
+    "cash": "Cash generation and working capital — conversion, receivables, deferred revenue",
+    "perform": "How the business did — revenue, margin, earnings, growth, guidance",
+    "share": "What accrues to a share — buybacks, dividends, dilution, compensation",
+    "depend": "Who the revenue depends on — concentration, renewal, retention, churn",
+    "language": "How management characterises things — hedges, denials, adjustments called non-recurring",
+    "events": "Things that happened — people, incidents, acquisitions, projects"
+  },
+  "stimuli": {
+    "meridian-q4": [
+      "perform", "perform", "perform", "perform", "language",
+      "perform", "language", "cash", "cash", "cash",
+      "debt", "debt", "debt", "debt", "share",
+      "share", "depend", "depend", "language", "debt",
+      "debt", "events", "events", "language", "events",
+      "events", "perform", "perform", "events", "events"
+    ],
+    "aldercroft-h1": [
+      "perform", "depend", "depend", "depend", "language",
+      "depend", "depend", "cash", "perform", "perform",
+      "cash", "share", "share", "debt", "debt",
+      "debt", "events", "events", "language", "perform"
+    ]
+  }
+}

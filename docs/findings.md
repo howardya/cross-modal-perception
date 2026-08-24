@@ -261,6 +261,50 @@ Its blind spots are the mirror of that: adjusted EBITDA (−1.6), revenue (−1.
 the company's first-ever positive operating income (−4.1). **It does not care how
 the business did.**
 
+### The reader drawn as a shape
+
+Give every sentence a topic — what it is *about*, assigned before any score was
+looked at, seven categories used identically on both documents — and a reader's
+attention becomes a profile over **topics** rather than over one document's
+layout. That is the fix for the trait that failed earlier: reading position was
+document-specific because its axis was position. Topic is not; "what is owed"
+exists in any filing.
+
+The profiles travel:
+
+| Reader | Profile correlation across the two documents | Signs agree |
+|---|---|---|
+| credit analyst | **+0.90** | 6 / 7 |
+| risk officer | +0.79 | 6 / 7 |
+| retail investor | +0.78 | 6 / 7 |
+| equity PM | +0.54 | 4 / 7 |
+
+And they are readable as shapes. Lift in points of attention above or below the
+four-reader average, hero note first:
+
+| Reader | Strongest topic | Weakest topic |
+|---|---|---|
+| credit analyst | **what is owed** (+9.6, +13.8) | how it did (−5.4, −3.4) |
+| retail investor | **how it did** (+10.6, +5.0) | what is owed (−11.2, −4.2) |
+| risk officer | what happened / how it is described | **how it did (−7.9, −9.7)** |
+| equity PM | how it did, per share | what happened |
+
+**The credit analyst and the untrained reader are photographic negatives.** One
+reads what the company owes and skips how it did; the other reads how it did and
+skips what it owes. Their strongest and weakest topics are each other's, on both
+documents.
+
+**The risk officer's signature is an absence.** *How it did* is its deepest bar on
+both documents — it is the only reader defined chiefly by what it refuses to look
+at, which is exactly what the information-reduction hypothesis predicts an expert
+would look like.
+
+The equity PM is the weakest of the four and its shape should not be treated as
+established. The taxonomy is an author judgment, recorded in
+`pipeline/stimuli/topics.json` with its two most arguable calls named; the check
+that it is not simply encoding the answer is that the profiles survive a change
+of document, which an arbitrary labelling would not.
+
 ### Every blind spot is somebody else's specialism
 
 The gaps are not random. Line each reader's over-attended sentence up against the
