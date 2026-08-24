@@ -360,8 +360,28 @@ header h1 { margin-bottom: 1.4rem; }
   background: none;
   border: 1.5px solid var(--ink);
 }
+.dna-bar--c i { background: var(--muted); }
+.dna-bar--d i { background: color-mix(in oklab, var(--surface), var(--muted) 32%);
+                border: 1.5px solid var(--muted); }
 .dna-bar i.down { background: none; border: 1.5px solid var(--muted); }
 .dna-bar--a i.down { background: color-mix(in oklab, var(--surface), var(--muted) 28%); border: 0; }
+.dna-bar--c i.down { background: color-mix(in oklab, var(--surface), var(--muted) 45%); border: 0; }
+.dna-bar--d i.down { background: none; border: 1.5px dashed var(--muted); }
+
+/* Which bar is which document. Ambiguous with two and unreadable with three,
+   so it is drawn from the data rather than written down. */
+.dna-key {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.3rem 1.1rem; margin: 0 0 .9rem 10rem;
+  font-family: var(--data); color: var(--muted);
+}
+.dna-key span { display: inline-flex; align-items: center; gap: .4rem; font-size: 0.68rem; }
+.dna-key span.dna-note { margin-left: auto; }
+.dna-key i { width: 9px; height: 14px; display: block; }
+.dna-key i.k-a { background: var(--ink); }
+.dna-key i.k-b { background: none; border: 1.5px solid var(--ink); }
+.dna-key i.k-c { background: var(--muted); }
+.dna-key i.k-d { background: color-mix(in oklab, var(--surface), var(--muted) 32%); border: 1.5px solid var(--muted); }
 
 .dna-axis {
   display: grid;
@@ -379,24 +399,6 @@ header h1 { margin-bottom: 1.4rem; }
   color: var(--muted);
   text-align: center;
 }
-.dna-key {
-  font-family: var(--data);
-  font-size: 0.62rem;
-  color: var(--muted);
-  margin: 1rem 0 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.3rem 0.5rem;
-}
-.dna-swatch {
-  display: inline-block;
-  width: 9px; height: 9px;
-  background: var(--ink);
-  margin-left: 0.6rem;
-}
-.dna-swatch--b { background: none; border: 1.5px solid var(--ink); }
-.dna-note { margin-left: auto; }
 
 /* ── mirrored sentences ──────────────────────────────────── */
 
@@ -1115,23 +1117,24 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <div class="tbl-scroll">
       <table>
-        <caption>Hero note versus held-out note</caption>
+        <caption>Two notes we wrote, and two we did not</caption>
         <thead>
-          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out <span class="small">(never seen)</span></th></tr>
+          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out <span class="small">(never seen)</span></th><th>Whirlpool <span class="small">(real)</span></th><th>Alamo <span class="small">(real)</span></th></tr>
         </thead>
         <tbody>
-          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td></tr>
-          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td></tr>
-          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td></tr>
-          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td></tr>
-          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td></tr>
+          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--no">fail</span> <span class="small">risk officer</span></td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td><td>0.92 – 0.94</td><td>0.91 – 0.97</td></tr>
+          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td><td>2/8 – 6/8</td><td>0/8 – 5/8</td></tr>
+          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td><td><strong>52.1%</strong></td><td><strong>31.2%</strong></td></tr>
+          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td><td>0</td><td>1</td></tr>
         </tbody>
       </table>
     </div>
 
     <p class="pull">
-      The hero note was written to divide these readers. The held-out note was not.
-      The effect survives — and it is about a third smaller.
+      Two of these we wrote. Two are real SEC filings. The readers separate on all
+      four — but by amounts that have far more to do with the document than with
+      whether anyone wrote it to divide them.
     </p>
 
     <p>
@@ -1141,6 +1144,42 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       ordinary prose the readers still separate, reliably and in the direction the
       literature predicts, but less theatrically.
     </p>
+
+    <div class="finding">
+      <h3>There is no "true number", and finding that out took two filings</h3>
+      <p>
+        Both real documents are quarterly results releases filed with the SEC, taken
+        verbatim from EDGAR and picked by a rule fixed in advance — first
+        non-financial issuer in a dated list, inside a revenue band, carrying debt —
+        so that no filing could be chosen for flattering the result.
+      </p>
+      <p>
+        <strong>With one real filing this section said the true overlap was 52.1%
+        and that the hero note exaggerated by about a third. The second real filing
+        came in at 31.2% — below the hero note.</strong> Real documents turn out to
+        span a wider range than the gap the constructed pair was supposed to
+        demonstrate. What can honestly be said is narrower than what one filing
+        seemed to show: how much two readers share depends mostly on the document,
+        the constructed notes sit inside the range real ones cover, and a single
+        headline percentage is not a property of the four mandates at all.
+      </p>
+      <p>
+        <strong>The valence divide is the hero note's alone.</strong> Five conflicts
+        there; one, one and zero everywhere else. The two sentences an ordinary
+        investor loves and every professional reads as a warning were sentences
+        <em>we wrote</em>. That divide is real when a document contains such a
+        sentence — real filings mostly do not, and the honest claim is about how
+        rare they are rather than that professionals and amateurs never disagree.
+      </p>
+      <p style="margin-bottom:0">
+        <strong>One of the two fails, and the pair together say why.</strong> On
+        Whirlpool the risk officer attends no more than the untrained reader to the
+        clauses its mask predicts. That mask was built from this reader's own
+        published signature. On Alamo, where the mask was written from its
+        <em>mandate</em> instead, the same reader passes comfortably. The reader was
+        never the problem; the description of it was.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1185,6 +1224,25 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         <em>attend to hedged comfort</em>; the mandate says to look for what could go
         wrong. Reassurance is where it went looking.
       </p>
+      <p style="margin-bottom:0">
+        <strong>Then we gave it a real filing, and this stopped being true.</strong>
+        On Whirlpool's results release the four reassurance sentences rank 23rd,
+        24th, 25th and 26th of 31 — the reader walked straight past all of them and
+        went to the balance sheet instead. It is the one claim on this page that an
+        out-of-sample test refuted. The likeliest reason is dosage: a quarter of
+        that filing is management framing, and when every sentence is reassurance,
+        reassurance stops being a signal.
+      </p>
+      <p style="margin-bottom:0">
+        A second real filing settled which half was wrong. Its mask was written from
+        this reader's <em>mandate</em> — concentration, hedged characterisation,
+        what an adjustment leaves out — rather than from the signature above, and
+        the reader passed every check on it, attending 1.8 times harder than the
+        untrained reader to what the mandate predicts. So the mandate describes it
+        and the sentence <em>"stops at reassurance"</em> did not. That sentence was
+        written by reading two documents this project wrote, which is exactly the
+        kind of claim a real filing exists to catch.
+      </p>
     </div>
 
     <h2 style="margin-top:2.5rem">The same four readers, drawn as shapes</h2>
@@ -1196,8 +1254,9 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
     </p>
     <p>
       Above the line means this reader spends more of their attention there than
-      the others do. Below means less. <strong>The two bars per topic are the two
-      documents</strong>, which share no subject matter — so where they agree, the
+      the others do. Below means less. <strong>The four bars per topic are the four
+      documents</strong>, which share no subject matter and two of which are real
+      SEC filings — so where they agree, the
       shape belongs to the reader.
     </p>
 
@@ -1205,11 +1264,6 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <div class="dna-scroll">
         <div class="dna-inner">
           <div class="dna" id="dna"></div>
-          <p class="dna-key">
-            <span class="dna-swatch dna-swatch--a"></span>Meridian Logistics
-            <span class="dna-swatch dna-swatch--b"></span>Aldercroft Software
-            <span class="dna-note">bars are points of attention above / below the four-reader average</span>
-          </p>
         </div>
       </div>
 
@@ -1223,10 +1277,12 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         </p>
         <p style="margin-bottom:0">
           The risk officer's signature is an absence — <em>performance</em> is its
-          deepest bar on both documents. It is the only reader defined mainly by
-          what it refuses to look at. The equity PM is the least stable of the four
-          (profile correlation +0.54 against +0.90, +0.79 and +0.78), and the
-          honest reading is that its shape is not yet established.
+          deepest bar on all four documents, both real filings included. It is the
+          only reader defined mainly by what it refuses to look at, and it is the
+          half of that reader's signature that survived contact with real filings
+          when the reassurance half did not. The equity PM is the least stable of
+          the four (profile correlation +0.54 against +0.92, +0.81 and +0.80), and
+          the honest reading is that its shape is not yet established.
         </p>
       </figcaption>
     </figure>
@@ -1243,12 +1299,14 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
       <figcaption>
         <p style="margin-bottom:0">
-          The first row is the sharpest thing in the study. The sentence saying the
-          company went to its lenders for permission to carry more debt is the
-          <strong>untrained reader's deepest blind spot anywhere in this
-          study</strong> — and one of the credit analyst's strongest signals. The
-          one person who most needs that warning is the one person built not to
-          see it.
+          The <strong>untrained reader's deepest blind spot anywhere in this
+          study</strong> is now a sentence from a real filing: Alamo Group reporting
+          that six months of operations produced $22.7 million of cash while
+          investing consumed $171.6 million, with $37.3 million borrowed to bridge
+          the gap. A company spending seven times what it earned, funded from
+          outside — and the reader least able to absorb that outcome is the one who
+          skips the sentence. Nobody wrote that sentence to catch anyone out. It is
+          just how a results release reports its own cash flow.
         </p>
       </figcaption>
     </figure>
@@ -1257,13 +1315,19 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <h3>What this is, and what it is not</h3>
       <p>
         This is a signature, not a genome. It says what kind of sentence each
-        reader stops at, well enough to predict them on a page they have not seen
-        — and the themes hold across two documents that share no subject matter.
+        reader stops at, well enough to predict them on a page they have not seen —
+        and the themes hold across four documents that share no subject matter, two
+        of them real SEC filings that no one involved here wrote. Two documents was
+        a coin landing the same way twice. Four, half of them written by strangers
+        for another purpose, is the part of this study that has strengthened every
+        time it was tested: the correlations went up, not down, as the documents got
+        less like each other.
       </p>
       <p style="margin-bottom:0">
         It does not say these are <em>real</em> professionals. Every reader here is a
-        language model given a mandate, and two documents is a small basis for any
-        claim about stability. What would settle it is the thing still missing from
+        language model given a mandate, and four documents is still a small basis
+        for any claim about stability — and one of those four failed the literature
+        checks for one reader. What would settle it is the thing still missing from
         this whole project: a real credit analyst, marking up the same page.
       </p>
     </div>
@@ -1434,14 +1498,25 @@ for (const row of document.querySelectorAll(".strip-cells")) {
 const DATA = /*__REPORT_DATA__*/;
 
 const DNA_TOPICS = DATA.topics.map((t) => [t.key, t.label]);
-const DNA = DATA.profiles.map((p) => [p.label, p.gloss || "", ...p.series]);
+const DNA = DATA.profiles.map((p) => [p.label, p.gloss || "", p.series]);
+//: One class per document, in DOCUMENTS order. Adding a fourth document means
+//: adding a fourth style beside .dna-bar--c; the loop below needs no change.
+const DNA_SERIES = ["a", "b", "c", "d"];
 const DNA_MAX = DATA.scale.profile_max;
 
 (() => {
   const host = document.getElementById("dna");
   if (!host) return;
 
-  for (const [name, gloss, hero, held] of DNA) {
+  const key = document.createElement("div");
+  key.className = "dna-key";
+  key.innerHTML = DATA.documents.map((d, i) =>
+    `<span><i class="k-${DNA_SERIES[i] || "d"}"></i>${d.title}</span>`).join("") +
+    `<span class="dna-note">bars are points of attention above / below the ` +
+    `${DATA.readers.length}-reader average</span>`;
+  host.parentElement.insertBefore(key, host);
+
+  for (const [name, gloss, series] of DNA) {
     const row = document.createElement("div");
     row.className = "dna-row";
     row.innerHTML = `<span class="dna-name">${name}<small>${gloss}</small></span>`;
@@ -1455,7 +1530,8 @@ const DNA_MAX = DATA.scale.profile_max;
       const pair = document.createElement("div");
       pair.className = "dna-pair";
 
-      for (const [vals, cls] of [[hero, "a"], [held, "b"]]) {
+      series.forEach((vals, si) => {
+        const cls = DNA_SERIES[si] || "c";
         const v = vals[i];
         const h = (Math.min(Math.abs(v), DNA_MAX) / DNA_MAX) * 50;
         const bar = document.createElement("span");
@@ -1471,7 +1547,7 @@ const DNA_MAX = DATA.scale.profile_max;
         }
         bar.appendChild(fill);
         pair.appendChild(bar);
-      }
+      });
       cell.appendChild(pair);
       plot.appendChild(cell);
     });
@@ -1482,7 +1558,7 @@ const DNA_MAX = DATA.scale.profile_max;
       "aria-label",
       `${name}: ` +
         DNA_TOPICS.map(([, label], i) =>
-          `${label} ${hero[i] > 0 ? "above" : "below"} average`).join(", ")
+          `${label} ${series[0][i] > 0 ? "above" : "below"} average`).join(", ")
     );
     host.appendChild(row);
   }

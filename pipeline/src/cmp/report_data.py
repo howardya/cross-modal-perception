@@ -33,7 +33,14 @@ FIXTURES = ROOT / "fixtures"
 DOCUMENTS = [
     ("meridian-q4", "Meridian Logistics"),
     ("aldercroft-h1", "Aldercroft Software"),
+    ("whirlpool-q2", "Whirlpool Corporation"),
+    ("alamo-q2", "Alamo Group"),
 ]
+
+#: Documents that did not pass the L1 acceptance check, and for which reader.
+#: They stay in the study -- the failure is the result, see docs/calibration.md
+#: section 7.6 -- but every figure drawing on them has to say so.
+L1_FAILURES = {"whirlpool-q2": ["risk-officer"]}
 
 #: Display order for readers, and the short label the figures use. Adding a
 #: reader means adding it here and re-running; nothing else is hard-coded.
@@ -91,8 +98,27 @@ def _load(stimulus_id: str) -> dict:
     return json.loads((FIXTURES / f"{stimulus_id}.json").read_text())
 
 
-def _profile_correlation(a: list[float], b: list[float]) -> float:
-    return float(np.corrcoef(a, b)[0, 1])
+def _profile_stability(series: list[list[float]]) -> float | None:
+    """How well a reader's topic profile travels across documents.
+
+    The mean Pearson correlation over every pair of documents. With two
+    documents that is just the correlation between them, which is what the
+    study shipped with and what its published figures quote; with more, it is
+    the average agreement between any two readings of the same reader, so one
+    document that disagrees with the rest pulls it down rather than being
+    silently dropped.
+
+    None below two documents: a profile cannot be shown to travel on the
+    strength of the only place it has been seen.
+    """
+    if len(series) < 2:
+        return None
+    rs = [
+        float(np.corrcoef(series[i], series[j])[0, 1])
+        for i in range(len(series))
+        for j in range(i + 1, len(series))
+    ]
+    return float(np.mean(rs))
 
 
 def build_report_data() -> dict[str, Any]:
@@ -122,7 +148,7 @@ def build_report_data() -> dict[str, Any]:
     profiles = []
     for pid, label in READERS:
         series = [[lifts[sid][pid][c] for c in CATEGORIES] for sid, _ in DOCUMENTS]
-        r = _profile_correlation(series[0], series[1]) if len(series) == 2 else None
+        r = _profile_stability(series)
         strongest = CATEGORIES[int(np.argmax(series[0]))]
         weakest = CATEGORIES[int(np.argmin(series[0]))]
         profiles.append(
@@ -206,7 +232,7 @@ def build_report_data() -> dict[str, Any]:
         "mirrors": mirrors,
         "pairs": pairs,
         "scale": {
-            "profile_max": 15,
+            "profile_max": 16,
             "mirror_max": 6,
         },
     }

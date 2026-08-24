@@ -1,0 +1,1192 @@
+{
+  "schema_version": 1,
+  "stimulus": {
+    "id": "alamo-q2",
+    "title": "Alamo Group Inc. \u2014 Q2 2026 results release",
+    "texts": [
+      "ALAMO GROUP ANNOUNCES FINANCIAL RESULTS FOR THE SECOND QUARTER 2026",
+      "SEGUIN, Texas, August 3, 2026 -- Alamo Group Inc. (NYSE: ALG) today reported results for the second quarter of 2026.",
+      "Net sales were $450.7 million, up 7.6% compared to the second quarter of 2025",
+      "Net income was $30.9 million and adjusted net income was $34.2 million",
+      "Fully diluted EPS was $2.55 per share, nearly flat compared to $2.57 per share in the second quarter of 2025",
+      "Adjusted fully diluted EPS was $2.82 per share, an increase of 7.2% compared to $2.63 per share in the second quarter of 2025",
+      "Adjusted EBITDA of $63.9 million was 14.2% of net sales, up 8.7% compared to the second quarter of 2025",
+      "Net sales in the Industrial Equipment Division were $271.6 million, up 12.8% compared to the second quarter of 2025",
+      "Net sales in the Vegetation Management Division were $179.1 million, up 0.4% compared to the second quarter of 2025",
+      "The Company renewed its credit facility in May 2026 with improved terms and preserved $602.5 million of committed capacity, including a $400.0 million revolver and $202.5 million term loan facility",
+      "On June 30, 2026, cash was $195.0 million and total debt was $262.7 million",
+      "Returned $19.0 million to stockholders in the first six months of 2026, including $10.8 million of share repurchases and $8.2 million of dividends",
+      "Robert Hureau, Alamo Group's President and Chief Executive Officer, commented, \"Our second quarter results reflect continued execution across the business, highlighted by strong sales growth in our Industrial Equipment Division, improved adjusted earnings, and solid adjusted EBITDA performance.",
+      "Conditions across our end markets remain mixed, and our teams continue to focus on operational improvement, and disciplined execution of our strategic priorities.\"",
+      "Net sales for the second quarter of 2026 were $450.7 million, an increase of 7.6% compared to $419.1 million for the second quarter of 2025.",
+      "Net income for the second quarter of 2026 was $30.9 million, or $2.55 per fully diluted share compared to $31.1 million, or $2.57 per fully diluted share for the second quarter of 2025.",
+      "The Company also reported adjusted net income of $34.2 million, or $2.82 per fully diluted share, for the second quarter of 2026 compared to adjusted net income of $31.9 million, or $2.63 per fully diluted share for the second quarter of 2025.",
+      "Adjusted EBITDA for the second quarter of 2026 was $63.9 million, or 14.2% of net sales, compared to $58.8 million, or 14.0% of net sales, for the second quarter of 2025.",
+      "Net sales in the Industrial Equipment Division were $271.6 million, an increase of 12.8% compared to $240.7 million for the second quarter of 2025.",
+      "The year-over-year increase in Industrial Equipment Division sales reflected organic demand and the contribution from Petersen.",
+      "Adjusted EBITDA in the Industrial Equipment Division for the second quarter of 2026 was $45.3 million, or 16.7% of net sales, compared to $40.3 million, or 16.8% of net sales, in the second quarter of 2025.",
+      "Net sales in the Vegetation Management Division were $179.1 million, an increase of 0.4% compared to $178.4 million in the second quarter of 2025.",
+      "Adjusted EBITDA in the Vegetation Management Division for the second quarter of 2026 was $18.6 million, or 10.4% of net sales, compared to $18.5 million, or 10.4% of net sales, in the second quarter of 2025.",
+      "Robert Hureau, Alamo Group's President and Chief Executive Officer, commented, \"Our Industrial Equipment Division delivered a strong quarter, with sales growth and solid profitability, including a meaningful contribution from Petersen following its acquisition earlier this year.",
+      "In the Vegetation Management Division, sales were relatively stable compared to the prior year despite pressure in certain end markets.",
+      "We are continuing to focus on improving margins through operational execution, cost discipline and targeted actions across the portfolio.\"",
+      "For the six months ended June 30, 2026, cash flow provided by operations was $22.7 million, investing cash outflow was $171.6 million, and financing cash inflow was $37.3 million.",
+      "In May 2026, the Company renewed its credit facility on improved terms across the facility, further strengthening its liquidity profile and financial flexibility.",
+      "The successful renewal provides $602.5 million of committed capacity, including a $400.0 million revolving credit facility and a $202.5 million term loan facility, supporting ongoing capital deployment priorities, working capital needs and long-term growth initiatives.",
+      "During the first six months of 2026, the Company funded the acquisition of Petersen, repurchased $10.8 million of its common stock and paid $8.2 million of dividends while maintaining a strong balance sheet.",
+      "At June 30, 2026, cash was $195.0 million and total debt was $262.7 million.",
+      "Mr. Hureau added, \u201cWe ended the quarter with a strong liquidity position, supported by substantial cash balances and available borrowing capacity under our recently renewed credit facility.",
+      "That flexibility allowed us to invest in organic growth, fund the Petersen acquisition and repurchase shares opportunistically during the first half of the year.",
+      "We remain committed to a balanced capital allocation approach that prioritizes investment in organic growth and strategic acquisitions while returning capital to shareholders.",
+      "We look forward to discussing our results and outlook in greater detail during our upcoming Earnings Conference Call.\u201d"
+    ]
+  },
+  "fields": [
+    {
+      "persona_id": "credit-analyst",
+      "concentration": 0.0870887819514381,
+      "top_attention": [
+        26,
+        10,
+        9,
+        30,
+        27,
+        28,
+        29,
+        11
+      ],
+      "units": [
+        {
+          "salience": 0.06,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 32
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 33
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.25,
+          "chunk": 1,
+          "arousal": 0.15,
+          "order": 13
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.15,
+          "chunk": 1,
+          "arousal": 0.18,
+          "order": 15
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.05,
+          "chunk": 1,
+          "arousal": 0.12,
+          "order": 28
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.05,
+          "chunk": 1,
+          "arousal": 0.14,
+          "order": 29
+        },
+        {
+          "salience": 0.52,
+          "valence": 0.4,
+          "chunk": 1,
+          "arousal": 0.2,
+          "order": 9
+        },
+        {
+          "salience": 0.18,
+          "valence": 0.15,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 21
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.1,
+          "chunk": 1,
+          "arousal": 0.2,
+          "order": 19
+        },
+        {
+          "salience": 0.88,
+          "valence": 0.7,
+          "chunk": 2,
+          "arousal": 0.35,
+          "order": 2
+        },
+        {
+          "salience": 0.9,
+          "valence": 0.55,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 1
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.35,
+          "chunk": 2,
+          "arousal": 0.4,
+          "order": 8
+        },
+        {
+          "salience": 0.08,
+          "valence": 0.05,
+          "chunk": 3,
+          "arousal": 0.1,
+          "order": 30
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.25,
+          "chunk": 3,
+          "arousal": 0.32,
+          "order": 17
+        },
+        {
+          "salience": 0.28,
+          "valence": 0.2,
+          "chunk": 4,
+          "arousal": 0.12,
+          "order": 14
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.05,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 24
+        },
+        {
+          "salience": 0.16,
+          "valence": 0.05,
+          "chunk": 4,
+          "arousal": 0.18,
+          "order": 22
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.35,
+          "chunk": 4,
+          "arousal": 0.2,
+          "order": 10
+        },
+        {
+          "salience": 0.14,
+          "valence": 0.15,
+          "chunk": 5,
+          "arousal": 0.1,
+          "order": 25
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 5,
+          "arousal": 0.18,
+          "order": 18
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.15,
+          "chunk": 5,
+          "arousal": 0.12,
+          "order": 16
+        },
+        {
+          "salience": 0.14,
+          "valence": -0.1,
+          "chunk": 6,
+          "arousal": 0.18,
+          "order": 26
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 6,
+          "arousal": 0.15,
+          "order": 20
+        },
+        {
+          "salience": 0.08,
+          "valence": 0.05,
+          "chunk": 7,
+          "arousal": 0.1,
+          "order": 31
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.15,
+          "chunk": 7,
+          "arousal": 0.22,
+          "order": 23
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.05,
+          "chunk": 7,
+          "arousal": 0.15,
+          "order": 27
+        },
+        {
+          "salience": 0.94,
+          "valence": -0.7,
+          "chunk": 8,
+          "arousal": 0.8,
+          "order": 0
+        },
+        {
+          "salience": 0.8,
+          "valence": 0.65,
+          "chunk": 9,
+          "arousal": 0.3,
+          "order": 4
+        },
+        {
+          "salience": 0.76,
+          "valence": 0.55,
+          "chunk": 9,
+          "arousal": 0.28,
+          "order": 5
+        },
+        {
+          "salience": 0.75,
+          "valence": -0.3,
+          "chunk": 10,
+          "arousal": 0.55,
+          "order": 6
+        },
+        {
+          "salience": 0.85,
+          "valence": 0.55,
+          "chunk": 10,
+          "arousal": 0.3,
+          "order": 3
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.35,
+          "chunk": 11,
+          "arousal": 0.3,
+          "order": 7
+        },
+        {
+          "salience": 0.44,
+          "valence": -0.3,
+          "chunk": 11,
+          "arousal": 0.4,
+          "order": 11
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.35,
+          "chunk": 11,
+          "arousal": 0.42,
+          "order": 12
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 12,
+          "arousal": 0.05,
+          "order": 34
+        }
+      ]
+    },
+    {
+      "persona_id": "equity-pm",
+      "concentration": 0.06610077240253986,
+      "top_attention": [
+        26,
+        4,
+        19,
+        8,
+        5,
+        11,
+        22,
+        29
+      ],
+      "units": [
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.03,
+          "order": 32
+        },
+        {
+          "salience": 0.03,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.03,
+          "order": 33
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.35,
+          "chunk": 1,
+          "arousal": 0.2,
+          "order": 9
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 13
+        },
+        {
+          "salience": 0.82,
+          "valence": -0.45,
+          "chunk": 1,
+          "arousal": 0.6,
+          "order": 1
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.2,
+          "chunk": 1,
+          "arousal": 0.35,
+          "order": 5
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.3,
+          "chunk": 1,
+          "arousal": 0.25,
+          "order": 10
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.4,
+          "chunk": 2,
+          "arousal": 0.25,
+          "order": 11
+        },
+        {
+          "salience": 0.68,
+          "valence": -0.45,
+          "chunk": 2,
+          "arousal": 0.5,
+          "order": 3
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.15,
+          "chunk": 3,
+          "arousal": 0.15,
+          "order": 25
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.15,
+          "chunk": 3,
+          "arousal": 0.2,
+          "order": 17
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.1,
+          "chunk": 4,
+          "arousal": 0.35,
+          "order": 7
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.0,
+          "chunk": 5,
+          "arousal": 0.15,
+          "order": 28
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.35,
+          "order": 21
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.25,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 27
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.35,
+          "chunk": 6,
+          "arousal": 0.35,
+          "order": 16
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.1,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 20
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.2,
+          "chunk": 6,
+          "arousal": 0.2,
+          "order": 12
+        },
+        {
+          "salience": 0.26,
+          "valence": 0.3,
+          "chunk": 7,
+          "arousal": 0.15,
+          "order": 15
+        },
+        {
+          "salience": 0.74,
+          "valence": -0.2,
+          "chunk": 7,
+          "arousal": 0.55,
+          "order": 2
+        },
+        {
+          "salience": 0.52,
+          "valence": -0.15,
+          "chunk": 7,
+          "arousal": 0.35,
+          "order": 8
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.35,
+          "chunk": 8,
+          "arousal": 0.25,
+          "order": 22
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.1,
+          "chunk": 8,
+          "arousal": 0.35,
+          "order": 6
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 9,
+          "arousal": 0.2,
+          "order": 23
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.25,
+          "chunk": 9,
+          "arousal": 0.3,
+          "order": 19
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.05,
+          "chunk": 9,
+          "arousal": 0.25,
+          "order": 24
+        },
+        {
+          "salience": 0.85,
+          "valence": -0.7,
+          "chunk": 10,
+          "arousal": 0.75,
+          "order": 0
+        },
+        {
+          "salience": 0.1,
+          "valence": 0.15,
+          "chunk": 11,
+          "arousal": 0.1,
+          "order": 30
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.1,
+          "chunk": 11,
+          "arousal": 0.1,
+          "order": 29
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.1,
+          "chunk": 12,
+          "arousal": 0.45,
+          "order": 4
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.1,
+          "chunk": 12,
+          "arousal": 0.15,
+          "order": 26
+        },
+        {
+          "salience": 0.1,
+          "valence": 0.05,
+          "chunk": 13,
+          "arousal": 0.1,
+          "order": 31
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.05,
+          "chunk": 13,
+          "arousal": 0.25,
+          "order": 18
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.1,
+          "chunk": 13,
+          "arousal": 0.2,
+          "order": 14
+        },
+        {
+          "salience": 0.02,
+          "valence": 0.0,
+          "chunk": 13,
+          "arousal": 0.02,
+          "order": 34
+        }
+      ]
+    },
+    {
+      "persona_id": "risk-officer",
+      "concentration": 0.06445862134296354,
+      "top_attention": [
+        26,
+        24,
+        13,
+        19,
+        29,
+        9,
+        28,
+        10
+      ],
+      "units": [
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 33
+        },
+        {
+          "salience": 0.06,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 32
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.12,
+          "order": 28
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.1,
+          "chunk": 1,
+          "arousal": 0.18,
+          "order": 27
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.25,
+          "order": 17
+        },
+        {
+          "salience": 0.19,
+          "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 22
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.0,
+          "chunk": 1,
+          "arousal": 0.18,
+          "order": 26
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.1,
+          "chunk": 2,
+          "arousal": 0.25,
+          "order": 19
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.5,
+          "chunk": 2,
+          "arousal": 0.5,
+          "order": 10
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.2,
+          "chunk": 3,
+          "arousal": 0.5,
+          "order": 6
+        },
+        {
+          "salience": 0.58,
+          "valence": 0.05,
+          "chunk": 3,
+          "arousal": 0.42,
+          "order": 7
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.2,
+          "chunk": 3,
+          "arousal": 0.25,
+          "order": 21
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.1,
+          "chunk": 4,
+          "arousal": 0.2,
+          "order": 25
+        },
+        {
+          "salience": 0.68,
+          "valence": -0.6,
+          "chunk": 4,
+          "arousal": 0.65,
+          "order": 2
+        },
+        {
+          "salience": 0.1,
+          "valence": 0.05,
+          "chunk": 5,
+          "arousal": 0.1,
+          "order": 31
+        },
+        {
+          "salience": 0.16,
+          "valence": -0.15,
+          "chunk": 5,
+          "arousal": 0.2,
+          "order": 23
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.3,
+          "order": 24
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.0,
+          "chunk": 5,
+          "arousal": 0.15,
+          "order": 30
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.05,
+          "chunk": 6,
+          "arousal": 0.2,
+          "order": 29
+        },
+        {
+          "salience": 0.66,
+          "valence": -0.45,
+          "chunk": 6,
+          "arousal": 0.6,
+          "order": 3
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.1,
+          "chunk": 6,
+          "arousal": 0.2,
+          "order": 20
+        },
+        {
+          "salience": 0.45,
+          "valence": -0.45,
+          "chunk": 7,
+          "arousal": 0.45,
+          "order": 11
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.15,
+          "chunk": 7,
+          "arousal": 0.25,
+          "order": 16
+        },
+        {
+          "salience": 0.42,
+          "valence": -0.3,
+          "chunk": 8,
+          "arousal": 0.44,
+          "order": 12
+        },
+        {
+          "salience": 0.72,
+          "valence": -0.65,
+          "chunk": 8,
+          "arousal": 0.7,
+          "order": 1
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.25,
+          "chunk": 8,
+          "arousal": 0.32,
+          "order": 15
+        },
+        {
+          "salience": 0.9,
+          "valence": -0.8,
+          "chunk": 9,
+          "arousal": 0.85,
+          "order": 0
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.15,
+          "chunk": 10,
+          "arousal": 0.45,
+          "order": 9
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.05,
+          "chunk": 10,
+          "arousal": 0.45,
+          "order": 5
+        },
+        {
+          "salience": 0.64,
+          "valence": -0.5,
+          "chunk": 11,
+          "arousal": 0.6,
+          "order": 4
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.05,
+          "chunk": 11,
+          "arousal": 0.45,
+          "order": 8
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.2,
+          "chunk": 12,
+          "arousal": 0.4,
+          "order": 13
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.3,
+          "chunk": 12,
+          "arousal": 0.45,
+          "order": 14
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.15,
+          "chunk": 12,
+          "arousal": 0.25,
+          "order": 18
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 12,
+          "arousal": 0.08,
+          "order": 34
+        }
+      ]
+    },
+    {
+      "persona_id": "retail-investor",
+      "concentration": 0.018319406489970436,
+      "top_attention": [
+        2,
+        3,
+        4,
+        11,
+        5,
+        12,
+        7,
+        23
+      ],
+      "units": [
+        {
+          "salience": 0.62,
+          "valence": 0.15,
+          "chunk": 0,
+          "arousal": 0.3,
+          "order": 8
+        },
+        {
+          "salience": 0.34,
+          "valence": 0.05,
+          "chunk": 0,
+          "arousal": 0.15,
+          "order": 27
+        },
+        {
+          "salience": 0.85,
+          "valence": 0.7,
+          "chunk": 1,
+          "arousal": 0.2,
+          "order": 0
+        },
+        {
+          "salience": 0.8,
+          "valence": 0.5,
+          "chunk": 1,
+          "arousal": 0.25,
+          "order": 1
+        },
+        {
+          "salience": 0.75,
+          "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.45,
+          "order": 2
+        },
+        {
+          "salience": 0.7,
+          "valence": 0.5,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 4
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.35,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 21
+        },
+        {
+          "salience": 0.68,
+          "valence": 0.6,
+          "chunk": 2,
+          "arousal": 0.2,
+          "order": 6
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.25,
+          "chunk": 2,
+          "arousal": 0.45,
+          "order": 10
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.2,
+          "chunk": 3,
+          "arousal": 0.3,
+          "order": 28
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.3,
+          "chunk": 3,
+          "arousal": 0.3,
+          "order": 16
+        },
+        {
+          "salience": 0.72,
+          "valence": 0.6,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 3
+        },
+        {
+          "salience": 0.7,
+          "valence": 0.55,
+          "chunk": 5,
+          "arousal": 0.2,
+          "order": 5
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.35,
+          "chunk": 5,
+          "arousal": 0.55,
+          "order": 11
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.5,
+          "chunk": 6,
+          "arousal": 0.15,
+          "order": 18
+        },
+        {
+          "salience": 0.55,
+          "valence": -0.15,
+          "chunk": 6,
+          "arousal": 0.4,
+          "order": 15
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.4,
+          "chunk": 6,
+          "arousal": 0.25,
+          "order": 25
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.3,
+          "chunk": 6,
+          "arousal": 0.25,
+          "order": 31
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.5,
+          "chunk": 7,
+          "arousal": 0.15,
+          "order": 20
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.4,
+          "chunk": 7,
+          "arousal": 0.3,
+          "order": 17
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.15,
+          "chunk": 7,
+          "arousal": 0.3,
+          "order": 32
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.15,
+          "chunk": 8,
+          "arousal": 0.4,
+          "order": 23
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 8,
+          "arousal": 0.3,
+          "order": 33
+        },
+        {
+          "salience": 0.64,
+          "valence": 0.6,
+          "chunk": 9,
+          "arousal": 0.2,
+          "order": 7
+        },
+        {
+          "salience": 0.56,
+          "valence": -0.3,
+          "chunk": 9,
+          "arousal": 0.5,
+          "order": 14
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.2,
+          "chunk": 9,
+          "arousal": 0.3,
+          "order": 22
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.2,
+          "chunk": 10,
+          "arousal": 0.45,
+          "order": 29
+        },
+        {
+          "salience": 0.35,
+          "valence": 0.3,
+          "chunk": 11,
+          "arousal": 0.25,
+          "order": 26
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.2,
+          "chunk": 11,
+          "arousal": 0.25,
+          "order": 34
+        },
+        {
+          "salience": 0.61,
+          "valence": 0.55,
+          "chunk": 12,
+          "arousal": 0.2,
+          "order": 9
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.25,
+          "chunk": 12,
+          "arousal": 0.25,
+          "order": 24
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.5,
+          "chunk": 13,
+          "arousal": 0.2,
+          "order": 12
+        },
+        {
+          "salience": 0.47,
+          "valence": 0.45,
+          "chunk": 13,
+          "arousal": 0.2,
+          "order": 19
+        },
+        {
+          "salience": 0.58,
+          "valence": 0.5,
+          "chunk": 13,
+          "arousal": 0.15,
+          "order": 13
+        },
+        {
+          "salience": 0.25,
+          "valence": 0.05,
+          "chunk": 14,
+          "arousal": 0.15,
+          "order": 30
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "personas": [
+        "credit-analyst",
+        "equity-pm"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        11,
+        26,
+        29
+      ],
+      "overlap": 0.8385513096634742,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.796812749003984
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "risk-officer"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.625,
+      "shared_top": [
+        9,
+        10,
+        26,
+        28,
+        29
+      ],
+      "overlap": 0.9157190832283586,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.8278777898929659
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.125,
+      "shared_top": [
+        11
+      ],
+      "overlap": 0.842503201283221,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7987436578883789
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "risk-officer"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        19,
+        26,
+        29
+      ],
+      "overlap": 0.869880667186056,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.9704347826086956
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        4,
+        5,
+        11
+      ],
+      "overlap": 0.908882575746853,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.8535885167464115
+    },
+    {
+      "personas": [
+        "risk-officer",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.0,
+      "shared_top": [],
+      "overlap": 0.8847626145658474,
+      "valence_conflicts": [
+        29
+      ],
+      "chunk_agreement": 0.8261389294727055
+    }
+  ],
+  "provenance": {
+    "measured": false,
+    "summary": "Persona differences are modelled from role mandates and calibrated against published effect sizes. They are not measured recordings of real experts' attention. No eye-tracking study compares these roles on the same document.",
+    "method": "Scored by Claude Opus 5 via 5 independent subagent runs per persona (20 runs total). Each run was a fresh model context that could not see the others, so the samples are independent and inter-run reliability is measurable. Aggregated by median; chunk labels by mode.",
+    "reliability_measured": true
+  }
+}

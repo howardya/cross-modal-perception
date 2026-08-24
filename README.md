@@ -46,7 +46,7 @@ docs/         The four documents above.
 ## Running it
 
 ```bash
-cd pipeline && uv sync && uv run pytest     # 297 tests, no network needed
+cd pipeline && uv sync && uv run pytest     # 319 tests, no network needed
 cd .. && python3 viz/build.py               # fixtures → both pages
 open viz/dist/report.html
 ```

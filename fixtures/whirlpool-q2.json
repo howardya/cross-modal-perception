@@ -1,0 +1,1085 @@
+{
+  "schema_version": 1,
+  "stimulus": {
+    "id": "whirlpool-q2",
+    "title": "Whirlpool Corporation \u2014 Q2 2026 results release",
+    "texts": [
+      "Q2 performance in line with expectations, delivering sequential margin improvement",
+      "Successfully executed previously announced pricing actions in North America, with the support of successful new product launches; announced price increases in Latin America",
+      "Completed the transition to a $2 billion asset based lending facility and issued $2 billion in secured bonds, clearing debt maturities until 2028 and creating financial flexibility",
+      "Q2 GAAP net earnings margin of 2.1%; GAAP earnings per diluted share of $1.15",
+      "Q2 ongoing (non-GAAP) EBIT margin(2) of 1.8%; ongoing earnings (loss) per diluted share(3) of $(0.21)",
+      "BENTON HARBOR, Mich., August 3, 2026 - Whirlpool Corporation (NYSE: WHR), today reported second-quarter financial results.",
+      "\u201cWe are encouraged by the sequential margin expansion achieved in Q2, driven by price increase execution, progress with our cost take-out program and key product innovation.",
+      "These decisive actions position our business for sustained performance improvement.\" MARC BITZER, CHAIRMAN AND CHIEF EXECUTIVE OFFICER",
+      "\u201cWe have taken proactive steps to strengthen our balance sheet and optimize our capital structure.",
+      "By completing the $2B ABL facility and successfully issuing $2B in secured bonds, we have significantly extended our debt maturity profile and created financial flexibility to support our strategic priorities.\u201d ROXANNE WARNER, CHIEF FINANCIAL OFFICER",
+      "MDA NORTH AMERICA",
+      "Strong sequential net sales growth of 8% with EBIT margin improvement of 240 bps, primarily driven by successful execution of previously announced pricing actions",
+      "Excluding currency, net sales decreased 1.5% year-over-year driven by lower volume resulting from industry decline, partially offset by favorable price/mix",
+      "EBIT margin(5) decreased year-over-year, pressured by volume decline and the unfavorable impact of tariff, raw material inflation and fuel costs, partially offset by favorable price/mix",
+      "MDA LATIN AMERICA",
+      "Excluding currency, net sales decreased 1.7% year-over-year due to negative price mix in Brazil, despite volume increase",
+      "EBIT margin(5) impacted by unfavorable price/mix, partially supported by favorable Brazil tax-case related gain",
+      "Announced price increase and structural cost actions to restore margins in Brazil",
+      "SDA GLOBAL",
+      "Excluding currency, net sales decreased 1.2% year-over-year driven by lower retailer inventory despite strong sell-out",
+      "EBIT margin(5) in line with expectations, impacted by planned marketing investments and supported by new product launches and direct-to-consumer expansion",
+      "Underlying demand is positive, with strong sell-out and share gains globally",
+      "On a full year basis in 2026, our operational outlook is unchanged.",
+      "EPS is revised to reflect the new interest expense.",
+      "Net sales of approximately $15.0 billion; approximately 1.5% growth vs. 2025 like-for-like(6) net sales of approximately $14.7 billion",
+      "GAAP net earnings margin of 1.0% and ongoing (non-GAAP) EBIT margin of approximately 4.0%, driven by our largest price increase in over a decade",
+      "Structural cost take out to deliver over $150 million or 100 basis points of margin expansion",
+      "GAAP earnings per diluted share of $2.25 to $2.75 and full-year ongoing earnings per diluted share(3) of $2.50 to $3.00",
+      "2026 GAAP tax rate of approximately 20% and adjusted (non-GAAP) tax rate of 25%",
+      "Cash provided by operating activities of approximately $700 million and free cash flow(4) of over $300 million",
+      "Net debt below $5.0 billion at year end"
+    ]
+  },
+  "fields": [
+    {
+      "persona_id": "credit-analyst",
+      "concentration": 0.07969840236049686,
+      "top_attention": [
+        2,
+        30,
+        29,
+        9,
+        4,
+        23,
+        26,
+        25
+      ],
+      "units": [
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 0,
+          "arousal": 0.2,
+          "order": 20
+        },
+        {
+          "salience": 0.35,
+          "valence": 0.2,
+          "chunk": 0,
+          "arousal": 0.3,
+          "order": 11
+        },
+        {
+          "salience": 0.95,
+          "valence": -0.15,
+          "chunk": 1,
+          "arousal": 0.82,
+          "order": 0
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.1,
+          "chunk": 2,
+          "arousal": 0.45,
+          "order": 9
+        },
+        {
+          "salience": 0.78,
+          "valence": -0.7,
+          "chunk": 2,
+          "arousal": 0.72,
+          "order": 4
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 3,
+          "arousal": 0.05,
+          "order": 27
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.05,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 25
+        },
+        {
+          "salience": 0.1,
+          "valence": 0.0,
+          "chunk": 4,
+          "arousal": 0.18,
+          "order": 26
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.05,
+          "chunk": 5,
+          "arousal": 0.45,
+          "order": 12
+        },
+        {
+          "salience": 0.85,
+          "valence": -0.1,
+          "chunk": 5,
+          "arousal": 0.72,
+          "order": 3
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 6,
+          "arousal": 0.03,
+          "order": 30
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.3,
+          "chunk": 6,
+          "arousal": 0.25,
+          "order": 13
+        },
+        {
+          "salience": 0.28,
+          "valence": -0.3,
+          "chunk": 6,
+          "arousal": 0.35,
+          "order": 18
+        },
+        {
+          "salience": 0.42,
+          "valence": -0.4,
+          "chunk": 6,
+          "arousal": 0.45,
+          "order": 8
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 7,
+          "arousal": 0.03,
+          "order": 29
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.25,
+          "chunk": 7,
+          "arousal": 0.28,
+          "order": 21
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.3,
+          "chunk": 7,
+          "arousal": 0.42,
+          "order": 15
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.15,
+          "chunk": 7,
+          "arousal": 0.3,
+          "order": 16
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 8,
+          "arousal": 0.03,
+          "order": 28
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.15,
+          "chunk": 8,
+          "arousal": 0.22,
+          "order": 22
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.05,
+          "chunk": 8,
+          "arousal": 0.2,
+          "order": 23
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.1,
+          "chunk": 8,
+          "arousal": 0.15,
+          "order": 24
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.1,
+          "chunk": 9,
+          "arousal": 0.35,
+          "order": 17
+        },
+        {
+          "salience": 0.7,
+          "valence": -0.6,
+          "chunk": 9,
+          "arousal": 0.68,
+          "order": 5
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.05,
+          "chunk": 10,
+          "arousal": 0.25,
+          "order": 14
+        },
+        {
+          "salience": 0.45,
+          "valence": -0.15,
+          "chunk": 10,
+          "arousal": 0.48,
+          "order": 7
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.3,
+          "chunk": 10,
+          "arousal": 0.4,
+          "order": 6
+        },
+        {
+          "salience": 0.38,
+          "valence": -0.1,
+          "chunk": 10,
+          "arousal": 0.4,
+          "order": 10
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.0,
+          "chunk": 10,
+          "arousal": 0.18,
+          "order": 19
+        },
+        {
+          "salience": 0.88,
+          "valence": -0.3,
+          "chunk": 11,
+          "arousal": 0.7,
+          "order": 2
+        },
+        {
+          "salience": 0.9,
+          "valence": -0.25,
+          "chunk": 11,
+          "arousal": 0.6,
+          "order": 1
+        }
+      ]
+    },
+    {
+      "persona_id": "equity-pm",
+      "concentration": 0.060444517516157426,
+      "top_attention": [
+        4,
+        2,
+        23,
+        27,
+        25,
+        29,
+        12,
+        13
+      ],
+      "units": [
+        {
+          "salience": 0.2,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.25,
+          "order": 23
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.45,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 13
+        },
+        {
+          "salience": 0.75,
+          "valence": -0.35,
+          "chunk": 2,
+          "arousal": 0.7,
+          "order": 1
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.1,
+          "chunk": 3,
+          "arousal": 0.45,
+          "order": 12
+        },
+        {
+          "salience": 0.9,
+          "valence": -0.85,
+          "chunk": 3,
+          "arousal": 0.82,
+          "order": 0
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 4,
+          "arousal": 0.05,
+          "order": 30
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.1,
+          "chunk": 5,
+          "arousal": 0.25,
+          "order": 21
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.1,
+          "chunk": 5,
+          "arousal": 0.2,
+          "order": 26
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.05,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 24
+        },
+        {
+          "salience": 0.45,
+          "valence": -0.35,
+          "chunk": 6,
+          "arousal": 0.5,
+          "order": 14
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 7,
+          "arousal": 0.05,
+          "order": 29
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.45,
+          "chunk": 7,
+          "arousal": 0.3,
+          "order": 9
+        },
+        {
+          "salience": 0.62,
+          "valence": -0.5,
+          "chunk": 7,
+          "arousal": 0.5,
+          "order": 6
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.55,
+          "chunk": 7,
+          "arousal": 0.55,
+          "order": 7
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 8,
+          "arousal": 0.05,
+          "order": 28
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.4,
+          "chunk": 8,
+          "arousal": 0.4,
+          "order": 17
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.3,
+          "chunk": 8,
+          "arousal": 0.35,
+          "order": 19
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.2,
+          "chunk": 8,
+          "arousal": 0.3,
+          "order": 18
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 9,
+          "arousal": 0.05,
+          "order": 27
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.2,
+          "chunk": 9,
+          "arousal": 0.25,
+          "order": 20
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.0,
+          "chunk": 9,
+          "arousal": 0.2,
+          "order": 22
+        },
+        {
+          "salience": 0.32,
+          "valence": 0.3,
+          "chunk": 9,
+          "arousal": 0.22,
+          "order": 15
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.1,
+          "chunk": 10,
+          "arousal": 0.35,
+          "order": 16
+        },
+        {
+          "salience": 0.74,
+          "valence": -0.6,
+          "chunk": 10,
+          "arousal": 0.7,
+          "order": 2
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.1,
+          "chunk": 11,
+          "arousal": 0.35,
+          "order": 10
+        },
+        {
+          "salience": 0.65,
+          "valence": 0.05,
+          "chunk": 11,
+          "arousal": 0.55,
+          "order": 4
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.4,
+          "chunk": 11,
+          "arousal": 0.4,
+          "order": 11
+        },
+        {
+          "salience": 0.7,
+          "valence": -0.2,
+          "chunk": 11,
+          "arousal": 0.6,
+          "order": 3
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.0,
+          "chunk": 12,
+          "arousal": 0.15,
+          "order": 25
+        },
+        {
+          "salience": 0.65,
+          "valence": -0.3,
+          "chunk": 13,
+          "arousal": 0.6,
+          "order": 5
+        },
+        {
+          "salience": 0.55,
+          "valence": -0.3,
+          "chunk": 13,
+          "arousal": 0.5,
+          "order": 8
+        }
+      ]
+    },
+    {
+      "persona_id": "risk-officer",
+      "concentration": 0.06119184384138676,
+      "top_attention": [
+        2,
+        4,
+        13,
+        16,
+        23,
+        30,
+        9,
+        29
+      ],
+      "units": [
+        {
+          "salience": 0.15,
+          "valence": -0.1,
+          "chunk": 0,
+          "arousal": 0.2,
+          "order": 26
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.2,
+          "chunk": 0,
+          "arousal": 0.35,
+          "order": 9
+        },
+        {
+          "salience": 0.85,
+          "valence": -0.6,
+          "chunk": 1,
+          "arousal": 0.75,
+          "order": 0
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.0,
+          "chunk": 2,
+          "arousal": 0.35,
+          "order": 16
+        },
+        {
+          "salience": 0.78,
+          "valence": -0.75,
+          "chunk": 2,
+          "arousal": 0.72,
+          "order": 1
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 3,
+          "arousal": 0.05,
+          "order": 27
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.15,
+          "chunk": 4,
+          "arousal": 0.25,
+          "order": 25
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.25,
+          "chunk": 4,
+          "arousal": 0.3,
+          "order": 24
+        },
+        {
+          "salience": 0.28,
+          "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.35,
+          "order": 17
+        },
+        {
+          "salience": 0.62,
+          "valence": -0.5,
+          "chunk": 1,
+          "arousal": 0.6,
+          "order": 7
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 6,
+          "arousal": 0.05,
+          "order": 30
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.05,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 19
+        },
+        {
+          "salience": 0.35,
+          "valence": -0.4,
+          "chunk": 6,
+          "arousal": 0.45,
+          "order": 11
+        },
+        {
+          "salience": 0.72,
+          "valence": -0.7,
+          "chunk": 6,
+          "arousal": 0.75,
+          "order": 2
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 7,
+          "arousal": 0.05,
+          "order": 29
+        },
+        {
+          "salience": 0.33,
+          "valence": -0.35,
+          "chunk": 7,
+          "arousal": 0.4,
+          "order": 12
+        },
+        {
+          "salience": 0.68,
+          "valence": -0.6,
+          "chunk": 7,
+          "arousal": 0.65,
+          "order": 3
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.3,
+          "chunk": 7,
+          "arousal": 0.4,
+          "order": 13
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 8,
+          "arousal": 0.05,
+          "order": 28
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.4,
+          "chunk": 8,
+          "arousal": 0.4,
+          "order": 14
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.1,
+          "chunk": 8,
+          "arousal": 0.25,
+          "order": 22
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.1,
+          "chunk": 8,
+          "arousal": 0.22,
+          "order": 23
+        },
+        {
+          "salience": 0.35,
+          "valence": -0.3,
+          "chunk": 9,
+          "arousal": 0.4,
+          "order": 10
+        },
+        {
+          "salience": 0.66,
+          "valence": -0.6,
+          "chunk": 9,
+          "arousal": 0.65,
+          "order": 5
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.1,
+          "chunk": 10,
+          "arousal": 0.3,
+          "order": 20
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.45,
+          "chunk": 9,
+          "arousal": 0.55,
+          "order": 8
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.25,
+          "chunk": 9,
+          "arousal": 0.35,
+          "order": 15
+        },
+        {
+          "salience": 0.28,
+          "valence": -0.2,
+          "chunk": 9,
+          "arousal": 0.38,
+          "order": 18
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.1,
+          "chunk": 9,
+          "arousal": 0.2,
+          "order": 21
+        },
+        {
+          "salience": 0.62,
+          "valence": -0.5,
+          "chunk": 10,
+          "arousal": 0.66,
+          "order": 6
+        },
+        {
+          "salience": 0.66,
+          "valence": -0.55,
+          "chunk": 10,
+          "arousal": 0.65,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "persona_id": "retail-investor",
+      "concentration": 0.018434152948778593,
+      "top_attention": [
+        4,
+        3,
+        24,
+        27,
+        25,
+        0,
+        11,
+        2
+      ],
+      "units": [
+        {
+          "salience": 0.7,
+          "valence": 0.35,
+          "chunk": 0,
+          "arousal": 0.3,
+          "order": 5
+        },
+        {
+          "salience": 0.57,
+          "valence": 0.4,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 15
+        },
+        {
+          "salience": 0.65,
+          "valence": 0.1,
+          "chunk": 2,
+          "arousal": 0.55,
+          "order": 7
+        },
+        {
+          "salience": 0.75,
+          "valence": 0.45,
+          "chunk": 3,
+          "arousal": 0.3,
+          "order": 2
+        },
+        {
+          "salience": 0.78,
+          "valence": -0.6,
+          "chunk": 3,
+          "arousal": 0.75,
+          "order": 0
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.05,
+          "chunk": 4,
+          "arousal": 0.1,
+          "order": 25
+        },
+        {
+          "salience": 0.65,
+          "valence": 0.45,
+          "chunk": 5,
+          "arousal": 0.25,
+          "order": 8
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.45,
+          "chunk": 5,
+          "arousal": 0.2,
+          "order": 10
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.3,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 20
+        },
+        {
+          "salience": 0.55,
+          "valence": 0.15,
+          "chunk": 6,
+          "arousal": 0.4,
+          "order": 17
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.0,
+          "chunk": 7,
+          "arousal": 0.1,
+          "order": 29
+        },
+        {
+          "salience": 0.7,
+          "valence": 0.55,
+          "chunk": 7,
+          "arousal": 0.2,
+          "order": 6
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.35,
+          "chunk": 7,
+          "arousal": 0.45,
+          "order": 19
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.45,
+          "chunk": 7,
+          "arousal": 0.55,
+          "order": 18
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.0,
+          "chunk": 8,
+          "arousal": 0.1,
+          "order": 27
+        },
+        {
+          "salience": 0.42,
+          "valence": -0.3,
+          "chunk": 8,
+          "arousal": 0.4,
+          "order": 22
+        },
+        {
+          "salience": 0.22,
+          "valence": -0.15,
+          "chunk": 8,
+          "arousal": 0.4,
+          "order": 28
+        },
+        {
+          "salience": 0.44,
+          "valence": 0.2,
+          "chunk": 8,
+          "arousal": 0.35,
+          "order": 21
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.0,
+          "chunk": 9,
+          "arousal": 0.1,
+          "order": 26
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.15,
+          "chunk": 9,
+          "arousal": 0.35,
+          "order": 23
+        },
+        {
+          "salience": 0.35,
+          "valence": 0.1,
+          "chunk": 9,
+          "arousal": 0.25,
+          "order": 24
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.55,
+          "chunk": 9,
+          "arousal": 0.2,
+          "order": 12
+        },
+        {
+          "salience": 0.55,
+          "valence": 0.3,
+          "chunk": 10,
+          "arousal": 0.3,
+          "order": 16
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.4,
+          "chunk": 10,
+          "arousal": 0.6,
+          "order": 11
+        },
+        {
+          "salience": 0.75,
+          "valence": 0.45,
+          "chunk": 11,
+          "arousal": 0.2,
+          "order": 3
+        },
+        {
+          "salience": 0.72,
+          "valence": 0.3,
+          "chunk": 11,
+          "arousal": 0.4,
+          "order": 4
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.45,
+          "chunk": 11,
+          "arousal": 0.25,
+          "order": 9
+        },
+        {
+          "salience": 0.75,
+          "valence": 0.5,
+          "chunk": 10,
+          "arousal": 0.3,
+          "order": 1
+        },
+        {
+          "salience": 0.18,
+          "valence": 0.0,
+          "chunk": 12,
+          "arousal": 0.15,
+          "order": 30
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.4,
+          "chunk": 11,
+          "arousal": 0.25,
+          "order": 13
+        },
+        {
+          "salience": 0.58,
+          "valence": 0.0,
+          "chunk": 11,
+          "arousal": 0.5,
+          "order": 14
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "personas": [
+        "credit-analyst",
+        "equity-pm"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.625,
+      "shared_top": [
+        2,
+        4,
+        23,
+        25,
+        29
+      ],
+      "overlap": 0.9718645790785532,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.9329004329004329
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "risk-officer"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.75,
+      "shared_top": [
+        2,
+        4,
+        9,
+        23,
+        29,
+        30
+      ],
+      "overlap": 0.9798880429771355,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7709641669745105
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        2,
+        4,
+        25
+      ],
+      "overlap": 0.9288113608220296,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7461443974341477
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "risk-officer"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.625,
+      "shared_top": [
+        2,
+        4,
+        13,
+        23,
+        29
+      ],
+      "overlap": 0.9698690167105619,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7296511627906976
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        2,
+        4,
+        25,
+        27
+      ],
+      "overlap": 0.9589120465847367,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7987012987012987
+    },
+    {
+      "personas": [
+        "risk-officer",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.25,
+      "shared_top": [
+        2,
+        4
+      ],
+      "overlap": 0.9334068271656557,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7137052087181381
+    }
+  ],
+  "provenance": {
+    "measured": false,
+    "summary": "Persona differences are modelled from role mandates and calibrated against published effect sizes. They are not measured recordings of real experts' attention. No eye-tracking study compares these roles on the same document.",
+    "method": "Scored by Claude Opus 5 via 5 independent subagent runs per persona (20 runs total). Each run was a fresh model context that could not see the others, so the samples are independent and inter-run reliability is measurable. Aggregated by median; chunk labels by mode.",
+    "reliability_measured": true
+  }
+}

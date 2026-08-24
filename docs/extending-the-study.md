@@ -16,19 +16,26 @@ viz/report.template.html + cmp.report_data (all fixtures) → viz/dist/report.ht
 
 ## Which should you add first?
 
-**A document, and preferably a real one.**
+**A document, and preferably another real one.**
 
-The signature claim currently rests on two documents. With two, "the profile held
-both times" is a coin landing the same way twice — the correlations of +0.90,
-+0.79 and +0.78 in [`findings.md`](findings.md) are suggestive and not much more.
-A third and fourth document is the cheapest thing that turns them into a trend.
+The signature claim rests on three documents, one of them a real SEC filing
+(`whirlpool-q2`). The correlations are +0.91, +0.78, +0.76 and +0.54 and they
+barely moved when the third arrived, which is the first real evidence that the
+profiles belong to the readers rather than to the pages.
 
-More specifically, the single most valuable text you could add is **a real
-filing**. Every document so far is constructed, and §7.5 of
-[`calibration.md`](calibration.md) already measures what that costs: readers
-share 37.5% of their attention on the note built to divide them against 50% on
-the one that was not. A genuine filing is the only way to find out where the true
-number sits.
+**The next most valuable text is a second real filing.** §7.6 of
+[`calibration.md`](calibration.md) rests on exactly one genuine document, and one
+document is a data point rather than a distribution. It put the true attention
+overlap at 52.1% — against 37.5% on the note built to divide readers and 50% on
+the one that was not — and produced *zero* valence conflicts where the
+constructed notes produced five and one. Whether that is what real filings look
+like, or what this filing looks like, is unanswerable with n = 1.
+
+Pick it the way `whirlpool-q2` was picked: **write the selection rule down before
+you read any candidates**, and record the rule and the rejections in the
+stimulus's `note`. Choosing a filing after reading it reintroduces exactly the
+construction bias the real filing exists to measure. A rule that enumerates
+EDGAR in a fixed order costs nothing and makes the result defensible.
 
 Adding a reader is worth doing too, but it is a smaller gain and it carries a
 cost the next section explains.
@@ -44,7 +51,9 @@ cost the next section explains.
 
    The `note` field is not decoration — record there whether the text is
    constructed or real, and whether it was written to divide readers. That
-   caveat has to travel with the data.
+   caveat has to travel with the data. For a real filing it also has to carry
+   the provenance (accession number, URL, date) and the selection rule, since
+   neither is recoverable from the text. See `whirlpool-q2.json` for the shape.
 
 2. **Label every sentence by topic** in `pipeline/stimuli/topics.json`, using the
    same seven categories. This is the step people skip and it is the one that
@@ -56,6 +65,16 @@ cost the next section explains.
    the taxonomy, not a licence to invent an eighth quietly. Widening the taxonomy
    changes every profile in the study, so it is the same kind of decision as
    adding a reader.
+
+   Real filings strain the seven in ways constructed notes do not, and
+   `topics.json` now records three such strains from `whirlpool-q2` — section
+   headers that are structural labels rather than statements, a tax rate with no
+   home, and a distribution so lopsided (13 of 31 clauses on performance, one
+   each on cash, per share and dependency) that three of the seven bars rest on a
+   single clause. **Record the strain and file the clause under its nearest
+   category.** The lopsidedness is itself a result: the even spread the
+   constructed notes have across the taxonomy is a property of documents written
+   by someone who knew what the readers were for.
 
 3. **Score it.** Either through the API:
 
@@ -76,9 +95,24 @@ cost the next section explains.
 
 4. **Check it passed.** The command exits non-zero if the run fails the
    literature checks. Do not tune the personas until it passes — a failure is a
-   result, and §7.3 of `calibration.md` is where the last one is written up.
+   result. §7.3 of `calibration.md` writes up the first one and §7.6 the latest,
+   where the real filing failed on the risk officer and the failure turned out to
+   be the most informative thing in the run.
+
+   A failing document can still go into the study, as `whirlpool-q2` did, but
+   then `cmp.report_data.L1_FAILURES` has to name it and the page has to say so
+   beside every figure that draws on it.
 
 5. **List it** in `cmp.report_data.DOCUMENTS` and run `python3 viz/build.py`.
+
+6. **Give it a bar style.** The topic figure draws one bar per document per topic,
+   and the classes are listed in `DNA_SERIES` in `viz/report.template.html` with
+   `.dna-bar--a` through `--d` beside them in the CSS. A fifth document needs a
+   fifth style or it silently reuses the fourth. The legend builds itself from
+   `DATA.documents`, so it needs nothing. **Render the page and look at it** —
+   the figure was hard-coded to two documents for a long time and drew the third
+   nowhere, without erroring, without failing a test, and without any hint on the
+   page that a document was missing.
 
 The salience quota rescales itself for document length, so nothing needs tuning
 for a shorter or longer text.
@@ -142,7 +176,7 @@ computations, and both say so where they live.
 ## Full rebuild
 
 ```bash
-cd pipeline && uv sync && uv run pytest     # 297 tests, no network
+cd pipeline && uv sync && uv run pytest     # 319 tests, no network
 cd .. && python3 viz/build.py               # both pages
 open viz/dist/report.html
 ```
