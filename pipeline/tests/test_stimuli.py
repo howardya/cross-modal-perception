@@ -14,7 +14,7 @@ from cmp.stimuli import available_stimuli, load_stimulus
 #: Every stimulus in the study. The mask-shape rules below are properties of
 #: any stimulus, not of the hero note -- they were written when only one
 #: existed, so a later document that quietly broke them could not be caught.
-STIMULI = ("meridian-q4", "aldercroft-h1", "whirlpool-q2")
+STIMULI = ("meridian-q4", "aldercroft-h1", "whirlpool-q2", "alamo-q2")
 
 
 def test_the_hero_stimulus_loads():
