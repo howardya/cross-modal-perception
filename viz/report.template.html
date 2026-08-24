@@ -370,8 +370,13 @@ header h1 { margin-bottom: 1.4rem; }
 
 /* Which bar is which document. Ambiguous with two and unreadable with three,
    so it is drawn from the data rather than written down. */
-.dna-key { display: flex; flex-wrap: wrap; gap: 1.1rem; margin: 0 0 .9rem 10rem; }
-.dna-key span { display: inline-flex; align-items: center; gap: .4rem; font-size: .78rem; color: var(--muted); }
+.dna-key {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.3rem 1.1rem; margin: 0 0 .9rem 10rem;
+  font-family: var(--data); color: var(--muted);
+}
+.dna-key span { display: inline-flex; align-items: center; gap: .4rem; font-size: 0.68rem; }
+.dna-key span.dna-note { margin-left: auto; }
 .dna-key i { width: 9px; height: 14px; display: block; }
 .dna-key i.k-a { background: var(--ink); }
 .dna-key i.k-b { background: none; border: 1.5px solid var(--ink); }
@@ -394,24 +399,6 @@ header h1 { margin-bottom: 1.4rem; }
   color: var(--muted);
   text-align: center;
 }
-.dna-key {
-  font-family: var(--data);
-  font-size: 0.62rem;
-  color: var(--muted);
-  margin: 1rem 0 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.3rem 0.5rem;
-}
-.dna-swatch {
-  display: inline-block;
-  width: 9px; height: 9px;
-  background: var(--ink);
-  margin-left: 0.6rem;
-}
-.dna-swatch--b { background: none; border: 1.5px solid var(--ink); }
-.dna-note { margin-left: auto; }
 
 /* ── mirrored sentences ──────────────────────────────────── */
 
@@ -1277,11 +1264,6 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <div class="dna-scroll">
         <div class="dna-inner">
           <div class="dna" id="dna"></div>
-          <p class="dna-key">
-            <span class="dna-swatch dna-swatch--a"></span>Meridian Logistics
-            <span class="dna-swatch dna-swatch--b"></span>Aldercroft Software
-            <span class="dna-note">bars are points of attention above / below the four-reader average</span>
-          </p>
         </div>
       </div>
 
@@ -1529,7 +1511,9 @@ const DNA_MAX = DATA.scale.profile_max;
   const key = document.createElement("div");
   key.className = "dna-key";
   key.innerHTML = DATA.documents.map((d, i) =>
-    `<span><i class="k-${DNA_SERIES[i] || "c"}"></i>${d.title}</span>`).join("");
+    `<span><i class="k-${DNA_SERIES[i] || "d"}"></i>${d.title}</span>`).join("") +
+    `<span class="dna-note">bars are points of attention above / below the ` +
+    `${DATA.readers.length}-reader average</span>`;
   host.parentElement.insertBefore(key, host);
 
   for (const [name, gloss, series] of DNA) {
