@@ -35,6 +35,7 @@ DOCUMENTS = [
     ("aldercroft-h1", "Aldercroft Software"),
     ("whirlpool-q2", "Whirlpool Corporation"),
     ("alamo-q2", "Alamo Group"),
+    ("jazz-q2", "Jazz Pharmaceuticals"),
 ]
 
 #: Documents that did not pass the L1 acceptance check, and for which reader.

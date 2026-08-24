@@ -18,10 +18,12 @@ viz/report.template.html + cmp.report_data (all fixtures) → viz/dist/report.ht
 
 **A document, and it should be a real one.**
 
-The signature claim rests on four documents, two of them real SEC filings. The
-correlations are +0.92, +0.81, +0.80 and +0.54, and they went *up* as the
-documents became less like each other — which is the opposite of what a fitted
-artefact does, and the most robust thing in the study.
+The signature claim rests on five documents, three of them real SEC filings. The
+correlations rose as the documents became less like each other — right up to the
+fifth, a pharmaceutical release that never mentions borrowings, where three of the
+four fell hard (+0.92 to +0.52 for the credit analyst). They now read +0.74, +0.58,
++0.52 and +0.50. The claim that survives is narrower: **the signatures travel
+across documents that talk about money owed, and not to one that does not.**
 
 **Everything else is less settled than three documents made it look.** §7.6 of
 [`calibration.md`](calibration.md) drew a conclusion from one real filing —
@@ -121,8 +123,10 @@ cost the next section explains.
 
 6. **Give it a bar style.** The topic figure draws one bar per document per topic,
    and the classes are listed in `DNA_SERIES` in `viz/report.template.html` with
-   `.dna-bar--a` through `--d` beside them in the CSS. A fifth document needs a
-   fifth style or it silently reuses the fourth. The legend builds itself from
+   `.dna-bar--a` through `--e` beside them in the CSS. A sixth document needs a
+   sixth style or it silently reuses the fifth. Past four, reach for texture rather
+   than another shade — at 9px wide a fifth tint is indistinguishable from the
+   third and fourth, which is why `--e` is hatched. The legend builds itself from
    `DATA.documents`, so it needs nothing. **Render the page and look at it** —
    the figure was hard-coded to two documents for a long time and drew the third
    nowhere, without erroring, without failing a test, and without any hint on the
@@ -190,7 +194,7 @@ computations, and both say so where they live.
 ## Full rebuild
 
 ```bash
-cd pipeline && uv sync && uv run pytest     # 319 tests, no network
+cd pipeline && uv sync && uv run pytest     # 326 tests, no network
 cd .. && python3 viz/build.py               # both pages
 open viz/dist/report.html
 ```

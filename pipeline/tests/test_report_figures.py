@@ -211,10 +211,30 @@ def test_the_cash_flow_line_is_the_untrained_readers_deepest_blind_spot(template
     assert "deepest blind spot anywhere in this" in template
 
 
+def _visible(html: str) -> str:
+    """The page's prose, with style and script blocks removed.
+
+    Searching the whole file for a bare "0.50" matches CSS font sizes, unrelated
+    statistics and negative valences -- which is how this test passed unchanged
+    while every correlation it checks had moved. Correlations are written signed
+    in the prose, so the signed form is what gets asserted.
+    """
+    return re.sub(r"<(style|script)\b.*?</\1>", "", html, flags=re.S | re.I)
+
+
 def test_the_profile_correlations_quoted_in_prose_are_right(data, template):
-    rs = sorted((p["correlation"] for p in data["profiles"]), reverse=True)
-    for r in rs:
-        assert f"{r:+.2f}".replace("+", "") in template, r
+    prose = _visible(template)
+    for p in data["profiles"]:
+        assert f"{p['correlation']:+.2f}" in prose, (p["id"], p["correlation"])
+
+
+def test_the_correlation_guard_would_notice_a_stale_figure(data, template):
+    """The guard above is only worth having if it fails when the prose is
+    wrong. A value no profile has must not be found."""
+    prose = _visible(template)
+    absent = {f"{p['correlation']:+.2f}" for p in data["profiles"]}
+    assert "+0.99" not in absent
+    assert "+0.99" not in prose
 
 
 # ── 3. page hygiene and the build ────────────────────────────────────────────

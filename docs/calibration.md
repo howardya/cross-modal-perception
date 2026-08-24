@@ -30,7 +30,7 @@ reasons they would be right to.
 | "They share 2 of the 8 clauses they attend to most" | Top-k overlap between two modelled attention distributions, computed exactly |
 | "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose — and **not** enforced by the model, for the reasons in §7.1 |
 | The bouba/kiki result | Measured, on 917 people across 25 languages. Real. |
-| "A clause reading warm to one and cold to another" | Across the two **real** filings this happens **zero and one** times — against five on the note built to divide readers. See §7.6 and §7.7. The divide is real where a document contains such a sentence; the hero note is the outlier |
+| "A clause reading warm to one and cold to another" | Across the three **real** filings this happens **zero, one and zero** times — against five on the note built to divide readers. See §7.6 to §7.8. The divide is real where a document contains such a sentence; the hero note is the outlier |
 | The synaesthesia illustration | An illustration of *reported experience*. The measured advantage is much smaller — see §5 |
 
 The two Act 1 items are the only things in the piece grounded in direct
@@ -590,6 +590,88 @@ share of zero and therefore a lift of zero, so the bar is flat rather than absen
 — which reads as "everyone attended equally" and means "there was nothing to
 attend to". Recorded in `topics.json`.
 
+### 7.8 A filing with no debt in it, and the first real limit on the signatures
+
+**Jazz Pharmaceuticals plc**, Q2 2026 results release, exhibit 99.1 to an 8-K of
+2026-08-03, accession 0001232524-26-000044, verbatim from EDGAR, 33 clauses. The
+pre-registered enumeration was resumed at the entry after Alamo Group; Allison
+Transmission (98 narrative sentences) and Offerpad (SIC 6531) were rejected
+ahead of it on the length and sector criteria.
+
+**It was taken because the rule selected it, not because it suited the study.**
+A pharmaceutical release is a poor fit for a taxonomy derived from two
+constructed notes about industrials. Skipping to the next candidate would have
+been exactly the curation the pre-registered rule exists to prevent, so it was
+scored as it came.
+
+**Every L1 check passes**, on every expert, first time.
+
+| Persona | alpha | Concentration | vs novice 0.024 | Enhancement | L1 |
+|---|---|---|---|---|---|
+| credit analyst | 0.891 | 0.061 | 2.5x | 1.67x | pass |
+| equity PM | 0.870 | 0.057 | 2.4x | 1.24x | pass |
+| risk officer | 0.897 | 0.064 | 2.7x | 2.07x | pass |
+| retail investor | 0.953 | 0.024 | baseline | — | baseline |
+
+Mean top-k overlap 47.9%, no valence conflicts. The three real filings now read
+52.1%, 31.2% and 47.9%, which leaves §7.7's conclusion where it was: a range,
+not a value, and the constructed notes sit inside it.
+
+#### Two of the seven topics have nothing in them
+
+This filing discusses trial readouts, regulatory dates and product sales. It does
+not mention borrowings once, despite the issuer carrying **$3.34bn** of long-term
+debt at the balance-sheet date. Its 33 clauses run 12 performance, 12 events, 5
+language, 3 dependency, 1 per share, **0 cash, 0 debt**.
+
+No eighth category was added. A "pipeline and regulatory" category would fit this
+document well and would change every profile in the study, so it is the same class
+of decision as adding a reader and is not made in passing. What the filing
+establishes is a boundary that was previously assumed rather than measured: the
+seven categories were derived from two constructed notes about industrial
+companies, they survived two real industrial filings, and they do not describe a
+pharmaceutical one.
+
+#### The load-bearing claim falls, for a reason worth having
+
+| Reader | 4 documents | **5** |
+|---|---|---|
+| risk officer | +0.80 | **+0.74** |
+| retail investor | +0.81 | **+0.58** |
+| credit analyst | +0.92 | **+0.52** |
+| equity PM | +0.54 | **+0.50** |
+
+§7.7 said the correlations "rose as the documents became less like one another,
+which is the opposite of what a fitted artefact does." A fifth document reverses
+that. **The signatures travel across documents that talk about money owed, and do
+not travel to one that does not.** That is a smaller claim than the previous
+section's and it is the one the evidence supports.
+
+**Which reader falls, and which does not, is the informative part.** The credit
+analyst is defined by the two topics this document lacks. On the other four
+documents *what is owed* is its tallest bar and *how it did* its deepest; here its
+tallest bar is *how it did*, and it shares five of its top eight clauses with the
+untrained reader — more than with any professional. Deprived of its subject
+matter, the specialist reads like an amateur.
+
+The risk officer barely moves (+0.80 to +0.74) and *how it did* is its deepest bar
+on this document by the widest margin anywhere in the study (−13.6 points). Its
+signature is an **absence**, and an absence needs nothing from the document: a
+reader can refuse to read the results of any company at all, whereas a reader who
+looks for covenants needs a document that has some.
+
+> **Signatures built from an absence travel further than signatures built from a
+> presence.** Nothing in the design predicted this and it was invisible until a
+> document arrived that could not express half the taxonomy.
+
+**How much of the fall is mechanical cannot be separated here.** Two topics pinned
+at zero for every reader compress a seven-point correlation on their own, so some
+of the drop is arithmetic rather than evidence about readers. A document that
+cannot express a signature is weak evidence against it. Equally, "the taxonomy
+does not span this document type" is itself the finding, and excluding the
+document to protect the correlation would be the tuning this project keeps
+refusing. Both readings stand; one more pharmaceutical filing would separate them.
+
 ---
 
 ## 8. What would fix it
@@ -602,11 +684,12 @@ Roughly in order of value per unit of effort:
 2. Obtain the paywalled meta-analysis and verify the two constants.
 3. ~~Run the held-out validation and publish the result.~~ Done — §7.5.
 4. ~~Compare against a real analyst note rather than only a constructed one.~~
-   Done twice — §7.6 and §7.7 — and the second one withdrew the first one's
-   headline. Two real filings put attention overlap at 52.1% and 31.2%, which is a
-   wider spread than the constructed pair was built to demonstrate. **More real
-   filings remain the cheapest useful thing here after the human check**: four
-   documents show a range where three showed a trend, and nobody should assume
-   the range stops at these two.
+   Done three times — §7.6, §7.7, §7.8 — and each one corrected its predecessor.
+   Overlap came out at 52.1%, 31.2% and 47.9%; the fifth document then withdrew
+   the claim that the reader signatures generalise. **More real filings remain the
+   cheapest useful thing here after the human check.** The specific gap now is a
+   second pharmaceutical or other filing that omits capital structure, which would
+   separate the two readings of §7.8 — mechanical compression from a real limit on
+   the taxonomy.
 5. Actual eye-tracking of 5 practitioners per role. This is the real study, and it
    appears not to exist. If someone wants a research project, that is it.

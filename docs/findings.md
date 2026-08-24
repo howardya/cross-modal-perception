@@ -114,7 +114,7 @@ method had never seen — but **the dramatic 0/8 is a property of the hero note,
 not of the four mandates.** On ordinary prose the separation is real and about a
 third smaller. A real filing later put the number at 52.1% — see §2.6.
 
-### 2.6 Two real filings: the bracket does not close, and the risk officer keeps half its signature
+### 2.6 Three real filings: the bracket does not close, and the signatures meet their limit
 
 Every document above was written by the author of this project. Two more were
 not: **Whirlpool Corporation's** and **Alamo Group's** Q2 2026 results releases,
@@ -122,17 +122,17 @@ verbatim from EDGAR, 31 and 35 clauses, both picked by a rule fixed before
 reading them so that no filing could be chosen for being interesting. Full method
 and audit trail in `calibration.md` §7.6 and §7.7.
 
-| | Hero (built to divide) | Held-out (not) | **Whirlpool** | **Alamo** |
-|---|---|---|---|---|
-| L1 acceptance | pass | pass | **fail — risk officer** | pass |
-| Mean top-k overlap | 37.5% | 50.0% | **52.1%** | **31.2%** |
-| Valence conflicts | 5 | 1 | **0** | 1 |
+| | Hero (built to divide) | Held-out (not) | **Whirlpool** | **Alamo** | **Jazz** |
+|---|---|---|---|---|---|
+| L1 acceptance | pass | pass | **fail — risk officer** | pass | pass |
+| Mean top-k overlap | 37.5% | 50.0% | **52.1%** | **31.2%** | **47.9%** |
+| Valence conflicts | 5 | 1 | **0** | 1 | 0 |
 
 **With one real filing this section claimed the true overlap was 52.1% and that
-§2.5's "constructed notes inflate by a third" had held. The second real filing
-came in at 31.2%, below the hero note, and that claim is withdrawn.** Across four
-documents the overlap runs 31% to 52%; the two constructed notes sit inside the
-range the two real ones span, not to one side of it. What survives is weaker and
+§2.5's "constructed notes inflate by a third" had held. The second came in at
+31.2%, below the hero note, and that claim was withdrawn; the third at 47.9%.**
+Across five documents the overlap runs 31% to 52%; the two constructed notes sit
+inside the range the three real ones span, not to one side of it. What survives is weaker and
 more useful: **how much two readers share is mostly a property of the document,
 and no single percentage is a property of the four mandates.**
 
@@ -155,17 +155,37 @@ the persona was never mis-specified. **The sentence in this document was.** A
 description written by reading two documents we wrote did not survive a document
 we did not.
 
-**The load-bearing claim strengthens every time it is tested.**
+**The load-bearing claim strengthened three times and then met its limit.**
 
-| Reader | 2 documents | 3 | **4** |
-|---|---|---|---|
-| credit analyst | +0.90 | +0.91 | **+0.92** |
-| retail investor | +0.78 | +0.76 | **+0.81** |
-| risk officer | +0.79 | +0.78 | **+0.80** |
-| equity PM | +0.54 | +0.54 | +0.54 |
+| Reader | 2 documents | 3 | 4 | **5** |
+|---|---|---|---|---|
+| risk officer | +0.79 | +0.78 | +0.80 | **+0.74** |
+| retail investor | +0.78 | +0.76 | +0.81 | **+0.58** |
+| credit analyst | +0.90 | +0.91 | +0.92 | **+0.52** |
+| equity PM | +0.54 | +0.54 | +0.54 | **+0.50** |
 
-The correlations rose as the documents became less like one another, which is the
-opposite of what a fitted artefact does.
+The fifth document is a pharmaceutical release that never mentions borrowings,
+despite the issuer carrying $3.34bn of long-term debt. Two of the seven topics —
+*what is owed* and *cash* — have no clauses in it at all. **The signatures travel
+across documents that talk about money owed, and do not travel to one that does
+not.** That is a smaller claim than "they strengthen every time", and it is the
+one the evidence supports.
+
+**Which reader falls is the interesting part.** The credit analyst is defined by
+the two absent topics; on this document its tallest bar becomes *how it did* — the
+topic it is otherwise defined by skipping — and it shares five of its top eight
+clauses with the untrained reader, more than with any professional. *Deprived of
+its subject matter, the specialist reads like an amateur.*
+
+The risk officer barely moves, and *how it did* is its deepest bar here by the
+widest margin anywhere in the study. Its signature is an **absence**, and an
+absence needs nothing from the document: a reader can refuse to read the results
+of any company, whereas a reader looking for covenants needs a document that has
+some. **Signatures built from an absence travel further than signatures built from
+a presence** — not designed, not predicted, and invisible until a document arrived
+that could not express half the taxonomy. How much of the fall is mechanical (two
+topics pinned at zero compress the correlation on their own) cannot be separated
+from how much is a real limit, with one such filing. See `calibration.md` §7.8.
 
 Note *which* half of the risk officer's signature broke. *Stops at reassurance* is
 a claim about particular sentences and it failed. *Refuses to read the results* is
@@ -347,12 +367,12 @@ exists in any filing.
 
 The profiles travel:
 
-| Reader | Two documents | **Four, half of them real filings** |
-|---|---|---|
-| credit analyst | **+0.90** | **+0.92** |
-| risk officer | +0.79 | +0.80 |
-| retail investor | +0.78 | +0.81 |
-| equity PM | +0.54 | +0.54 |
+| Reader | Two documents | Four | **Five, three of them real** |
+|---|---|---|---|
+| credit analyst | **+0.90** | +0.92 | **+0.52** |
+| risk officer | +0.79 | +0.80 | **+0.74** |
+| retail investor | +0.78 | +0.81 | **+0.58** |
+| equity PM | +0.54 | +0.54 | **+0.50** |
 
 And they are readable as shapes. Lift in points of attention above or below the
 four-reader average, hero note first:
@@ -406,9 +426,9 @@ that holds whether or not anyone intended the sentence to warn them.
 
 It is a **signature**, not a genome: enough to say what kind of sentence each
 reader stops at, and the themes hold across four documents sharing no subject
-matter — two of them real SEC filings, on which one reader's signature was half
-refuted (§2.6). It is not evidence that these resemble real professionals — every reader
-here is a language model given a mandate, and four documents is a small basis.
+matter — but not across the fifth, which cannot express two of the seven topics
+and on which three of the four correlations fall sharply (§2.6). It is not evidence that these resemble real professionals — every reader
+here is a language model given a mandate, and five documents is a small basis.
 What would settle it is the thing still missing from the whole project: a real
 credit analyst, marking up the same page.
 
@@ -428,11 +448,12 @@ credit analyst, marking up the same page.
 3. **Two calibration constants are unverified** (r = 0.27, r = −0.43), taken from
    secondary sources because the paper is paywalled.
 
-4. **Two real filings show a range, not a value.** Attention overlap came out at
-   52.1% and 31.2% on the two genuine documents, so the honest answer to "how much
-   do these readers share" is "it depends on the page" — and nobody should assume
-   the range stops at these two. More real filings remain the cheapest useful thing
-   left besides the human check.
+4. **Three real filings show a range, not a value, and a boundary.** Overlap came
+   out at 52.1%, 31.2% and 47.9%, so the honest answer to "how much do these
+   readers share" is "it depends on the page". The fifth document also showed where
+   the reader signatures stop travelling — to a filing that never mentions
+   borrowings. A second such filing is the specific thing needed next, to separate
+   mechanical compression from a real limit on the taxonomy (`calibration.md` §7.8).
 
 5. **Cross-domain transfer is assumed.** The effect sizes come from medicine,
    sport, aviation and music, applied to financial prose.
@@ -445,11 +466,12 @@ credit analyst, marking up the same page.
 ## 7. Reproducing it
 
 ```bash
-cd pipeline && uv sync && uv run pytest        # 319 tests, no network
+cd pipeline && uv sync && uv run pytest        # 326 tests, no network
 uv run python -m cmp.from_samples scored/subagent-run2   meridian-q4
 uv run python -m cmp.from_samples scored/subagent-heldout aldercroft-h1
 uv run python -m cmp.from_samples scored/subagent-whirlpool  whirlpool-q2   # exits 1: see 2.6
 uv run python -m cmp.from_samples scored/subagent-alamo      alamo-q2
+uv run python -m cmp.from_samples scored/subagent-jazz       jazz-q2
 python3 ../viz/build.py && open ../viz/dist/index.html
 ```
 
