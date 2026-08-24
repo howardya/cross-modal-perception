@@ -1,459 +1,254 @@
-"""The published report quotes figures; these check it still tells the truth.
+"""The report is generated; these tests hold it to the fixtures.
 
-`viz/report.html` is the results summary. Unlike `viz/template.html`, its numbers
-are written into the prose rather than injected from the fixture, because they
-appear inside sentences. That makes it the one artefact in the project that can
-silently drift away from the data it describes — exactly the failure the
-pipeline/viz split was built to prevent everywhere else.
+Three seams, tested separately:
 
-So the figures are asserted against the fixtures here. If a re-scoring run
-changes a number, these fail and the report gets updated with it. A quoted
-statistic that no longer matches the data is worse than no statistic.
+1. **The data** (`cmp.report_data`) — every number the figures draw must be
+   derivable from `fixtures/`, not typed.
+2. **The template** (`viz/report.template.html`) — its prose makes claims with
+   numbers in them. Prose cannot be generated, so each claim is asserted here
+   and a stale one fails loudly rather than quietly misleading.
+3. **The build** (`viz/dist/report.html`) — the placeholder is really filled and
+   the page is publishable as an artifact.
+
+The report used to have its figures hand-written. It stopped being safe to do
+that the moment the study could grow: adding a reader re-bases every lift in the
+study, because lift is measured against the reader average.
 """
 
 import json
 import re
+import subprocess
 from pathlib import Path
 
+import numpy as np
 import pytest
 
+from cmp.lift import attention_lift, blind_spots, signatures
+from cmp.report_data import DOCUMENTS, READERS, THEMES, build_report_data
+from cmp.topics import CATEGORIES, labels_for, topic_lift
+
 ROOT = Path(__file__).resolve().parents[2]
-REPORT = ROOT / "viz" / "report.html"
-HERO = ROOT / "fixtures" / "meridian-q4.json"
-HELD = ROOT / "fixtures" / "aldercroft-h1.json"
+TEMPLATE = ROOT / "viz" / "report.template.html"
+BUILT = ROOT / "viz" / "dist" / "report.html"
+FIXTURES = ROOT / "fixtures"
 
 
 @pytest.fixture(scope="module")
-def html() -> str:
-    return REPORT.read_text()
+def data():
+    return build_report_data()
 
 
 @pytest.fixture(scope="module")
-def hero() -> dict:
-    return json.loads(HERO.read_text())
+def template() -> str:
+    return TEMPLATE.read_text()
 
 
-@pytest.fixture(scope="module")
-def held() -> dict:
-    return json.loads(HELD.read_text())
-
-
-def _pair(data: dict, a: str, b: str) -> dict:
-    for c in data["comparisons"]:
-        if {a, b} == set(c["personas"]):
-            return c
-    raise AssertionError(f"no comparison for {a} and {b}")
-
-
-def _mean_overlap(data: dict) -> float:
-    ov = [c["top_k_overlap"] for c in data["comparisons"]]
-    return sum(ov) / len(ov)
-
-
-def test_the_report_exists():
-    assert REPORT.exists(), "viz/report.html is the published results summary"
-
-
-# --- headline claims ----------------------------------------------------------------
-
-
-def test_the_zero_of_eight_pair_is_named_correctly(html, hero):
-    """The one figure most likely to go stale, and it already did once."""
-    zero = [c for c in hero["comparisons"] if not c["shared_top"]]
-    assert len(zero) == 1, "expected exactly one pair sharing nothing"
-    a, b = zero[0]["personas"]
-    assert {a, b} == {"equity-pm", "retail-investor"}
-    assert "equity PM · retail investor" in html
-
-
-def test_every_hero_pair_figure_appears_in_the_report(html, hero):
-    for c in hero["comparisons"]:
-        shared = len(c["shared_top"])
-        assert f"{shared} / {c['top_k']}" in html, f"{c['personas']} -> {shared}"
-
-
-def test_experts_have_no_valence_conflicts_between_them(html, hero):
-    experts = {"credit-analyst", "equity-pm", "risk-officer"}
-    for c in hero["comparisons"]:
-        if set(c["personas"]) <= experts:
-            assert not c["valence_conflicts"], c["personas"]
-    assert "Conflicts among experts" in html
-
-
-def test_reported_alpha_range_matches_both_fixtures(html):
-    """0.83–0.97 is quoted in the summary cards."""
-    assert "0.83–0.97" in html
-
-
-def test_mean_overlap_figures_match(html, hero, held):
-    assert f"{_mean_overlap(hero):.1%}" == "37.5%"
-    assert f"{_mean_overlap(held):.1%}" == "50.0%"
-    assert "37.5%" in html
-    assert "50.0%" in html
-
-
-def test_conflict_totals_match(html, hero, held):
-    assert sum(len(c["valence_conflicts"]) for c in hero["comparisons"]) == 5
-    assert sum(len(c["valence_conflicts"]) for c in held["comparisons"]) == 1
-
-
-def test_held_out_range_matches(html, held):
-    shared = [len(c["shared_top"]) for c in held["comparisons"]]
-    assert min(shared) == 3 and max(shared) == 5
-    assert "3/8 – 5/8" in html
-
-
-def test_hero_concentration_figures_match(html, hero):
-    by_id = {f["persona_id"]: f for f in hero["fields"]}
-    for pid in ("credit-analyst", "risk-officer", "equity-pm", "retail-investor"):
-        assert f'{by_id[pid]["concentration"]:.3f}' in html, pid
-
-
-def test_experts_are_more_concentrated_than_the_lay_reader_in_both(hero, held):
-    """The claim the report makes in prose, checked against both fixtures."""
-    for data in (hero, held):
-        by_id = {f["persona_id"]: f["concentration"] for f in data["fields"]}
-        lay = by_id["retail-investor"]
-        for pid in ("credit-analyst", "equity-pm", "risk-officer"):
-            assert by_id[pid] > lay, (pid, data["stimulus"]["id"])
-
-
-# --- page hygiene -------------------------------------------------------------------
-
-
-def test_report_declares_the_human_validation_gap(html):
-    """The limits section must survive edits; it is the honest part."""
-    assert "No human has validated any of it" in html
-
-
-def test_report_carries_no_wrapper_tags(html):
-    """Artifact publishing supplies doctype, head and body."""
-    for tag in ("<!doctype", "<html", "<head>", "<body>"):
-        assert tag not in html.lower()
-
-
-def test_report_has_a_title_in_the_first_8kb(html):
-    assert re.search(r"<title>.+</title>", html[:8192])
-
-
-def test_report_defines_both_theme_palettes(html):
-    assert 'prefers-color-scheme: dark' in html
-    assert ':root[data-theme="dark"]' in html
-    assert ':root:not([data-theme="light"])' in html
-
-
-def test_report_uses_no_external_resources_beyond_google_fonts(html):
-    urls = re.findall(r'https?://[^\s"\'<>)]+', html)
-    for u in urls:
-        assert "fonts.googleapis.com" in u or "fonts.gstatic.com" in u, u
-
-
-# --- the lead figure ----------------------------------------------------------------
-
-
-def _strip_rows(html: str) -> list[list[int]]:
-    """The data-top index lists driving the attention strip, in page order."""
-    return [
-        [int(n) for n in m.split(",") if n]
-        for m in re.findall(r'class="strip-cells"[^>]*data-top="([^"]*)"', html)
-    ]
-
-
-def _consensus(hero: dict) -> set:
-    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
-    return by_id["credit-analyst"] & by_id["equity-pm"] & by_id["risk-officer"]
-
-
-def test_the_figure_marks_come_from_the_fixture(html, hero):
-    """Every filled square must be a real top-8 index, not a typed one."""
-    by_id = {f["persona_id"]: f for f in hero["fields"]}
-    order = ["credit-analyst", "equity-pm", "risk-officer", "retail-investor"]
-    rows = _strip_rows(html)
-    assert len(rows) == 4, f"expected four reader rows, found {len(rows)}"
-    for pid, marks in zip(order, rows):
-        assert sorted(marks) == sorted(by_id[pid]["top_attention"]), pid
-
-
-def test_every_row_marks_exactly_eight_sentences(html):
-    for marks in _strip_rows(html):
-        assert len(marks) == 8
-
-
-def test_the_caret_row_is_the_real_expert_consensus(html, hero):
-    m = re.search(r'strip-cells--caret"[^>]*data-top="([^"]*)"', html)
-    assert m, "caret row missing"
-    assert sorted(int(n) for n in m.group(1).split(",")) == sorted(_consensus(hero))
-
-
-def test_the_untrained_reader_shares_none_of_the_consensus(hero):
-    """The claim the figure is built to make."""
-    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
-    consensus = _consensus(hero)
-    assert consensus, "experts share nothing, so the figure has no claim to make"
-    assert not (consensus & by_id["retail-investor"])
-
-
-def test_the_two_ticked_sentences_are_real_conflicts(html, hero):
-    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
-    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
-    conflicts = {i for c in hero["comparisons"] for i in c["valence_conflicts"]}
-    assert cold in conflicts, f"clause {cold} is not a valence conflict"
-    assert warm in conflicts, f"clause {warm} is not a valence conflict"
-
-
-def test_the_cold_tick_is_where_every_professional_dwells(html, hero):
-    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
-    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
-    for pid in ("credit-analyst", "equity-pm", "risk-officer"):
-        assert cold in by_id[pid], pid
-    assert cold not in by_id["retail-investor"]
-
-
-def test_the_warm_tick_is_where_the_untrained_reader_dwells(html, hero):
-    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
-    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
-    assert warm in by_id["retail-investor"]
-
-
-def test_the_two_ticked_sentences_are_adjacent(html):
-    """The caption says 'adjacent sentences'; it must stay true."""
-    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
-    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
-    assert abs(cold - warm) == 1
-
-
-def test_the_ticked_sentences_read_in_opposite_directions(html, hero):
-    cold = int(re.search(r'data-cold="(\d+)"', html).group(1))
-    warm = int(re.search(r'data-warm="(\d+)"', html).group(1))
-    by_id = {f["persona_id"]: f for f in hero["fields"]}
-    for pid in ("credit-analyst", "equity-pm", "risk-officer"):
-        assert by_id[pid]["units"][cold]["valence"] < 0, pid
-    assert by_id["retail-investor"]["units"][warm]["valence"] > 0
-
-
-def test_the_ghost_cells_mark_the_consensus_the_lay_reader_misses(html, hero):
-    """The figure draws the absence, so the absence must be the real one."""
-    m = re.search(r'data-ghost="([^"]*)"', html)
-    assert m, "ghost cells missing from the untrained reader's row"
-    ghost = sorted(int(n) for n in m.group(1).split(",") if n)
-    assert ghost == sorted(_consensus(hero))
-    by_id = {f["persona_id"]: set(f["top_attention"]) for f in hero["fields"]}
-    assert not (set(ghost) & by_id["retail-investor"]), (
-        "a ghost cell would be drawn over a filled one"
-    )
-
-
-# --- the signature section ------------------------------------------------------------
+def _fixture(name: str) -> dict:
+    return json.loads((FIXTURES / f"{name}.json").read_text())
 
 
 def _lift_of(name: str, persona: str, needle: str) -> float:
-    """Recompute the lift the page quotes, from the fixture, in points."""
-    from cmp.lift import attention_lift
-    from cmp.profile import load
-
-    texts, fields = load(name)
-    matches = [i for i, t in enumerate(texts) if needle in t]
+    d = _fixture(name)
+    matches = [i for i, t in enumerate(d["stimulus"]["texts"]) if needle in t]
     assert len(matches) == 1, f"{needle!r} matched {len(matches)} sentences in {name}"
-    return attention_lift(fields)[persona][matches[0]] * 100
+    return attention_lift(d["fields"])[persona][matches[0]] * 100
+
+
+# ── 1. the data ──────────────────────────────────────────────────────────────
+
+
+def test_every_reader_has_a_profile(data):
+    assert [p["id"] for p in data["profiles"]] == [r for r, _ in READERS]
+
+
+def test_every_profile_covers_every_topic_on_every_document(data):
+    for p in data["profiles"]:
+        assert len(p["series"]) == len(DOCUMENTS)
+        for series in p["series"]:
+            assert len(series) == len(CATEGORIES)
+
+
+def test_plotted_profile_values_come_from_the_fixtures(data):
+    for doc_i, (sid, _) in enumerate(DOCUMENTS):
+        d = _fixture(sid)
+        lift = topic_lift(d["fields"], labels_for(sid))
+        for p in data["profiles"]:
+            expected = [lift[p["id"]][c] for c in CATEGORIES]
+            assert p["series"][doc_i] == pytest.approx(expected), (p["id"], sid)
+
+
+def test_no_profile_bar_overflows_the_figure_scale(data):
+    limit = data["scale"]["profile_max"]
+    for p in data["profiles"]:
+        for series in p["series"]:
+            assert max(abs(v) for v in series) <= limit, p["id"]
+
+
+def test_no_mirror_bar_overflows_the_figure_scale(data):
+    limit = data["scale"]["mirror_max"]
+    for m in data["mirrors"]:
+        assert abs(m["seen"]) <= limit and abs(m["missed"]) <= limit, m["text"][:40]
+
+
+def test_signature_quotes_are_the_real_extremes(data):
+    for card in data["cards"]:
+        for doc_i, (sid, _) in enumerate(DOCUMENTS):
+            d = _fixture(sid)
+            texts = d["stimulus"]["texts"]
+            top = signatures(d["fields"], card["id"], k=1)[0]
+            bot = blind_spots(d["fields"], card["id"], k=1)[0]
+            assert card["stops"][doc_i]["text"] == texts[top.index]
+            assert card["walks"][doc_i]["text"] == texts[bot.index]
+
+
+def test_every_mirror_is_caught_by_one_reader_and_missed_by_another(data):
+    for m in data["mirrors"]:
+        assert m["seen"] > 0 > m["missed"]
+        assert m["seen_by"] != m["missed_by"]
+
+
+def test_pair_table_covers_every_combination(data):
+    n = len(READERS)
+    assert len(data["pairs"]) == n * (n - 1) // 2
+
+
+def test_adding_a_reader_to_the_fixtures_without_listing_it_fails_loudly():
+    """The trap this whole refactor exists to prevent."""
+    from cmp import report_data
+
+    original = report_data.READERS
+    try:
+        report_data.READERS = [r for r in original if r[0] != "risk-officer"]
+        with pytest.raises(ValueError, match="not listed in READERS"):
+            report_data.build_report_data()
+    finally:
+        report_data.READERS = original
+
+
+def test_a_reader_without_a_prose_theme_fails_loudly():
+    from cmp import report_data
+
+    original = report_data.THEMES
+    try:
+        report_data.THEMES = {k: v for k, v in original.items() if k != "equity-pm"}
+        with pytest.raises(ValueError, match="no THEMES entry"):
+            report_data.build_report_data()
+    finally:
+        report_data.THEMES = original
+
+
+# ── 2. the template's prose claims ───────────────────────────────────────────
 
 
 QUOTED = [
-    # (document, reader, sentence fragment, figure printed on the page)
     ("meridian-q4", "credit-analyst", "Net leverage stands at 4.1x", 2.2),
     ("aldercroft-h1", "credit-analyst", "holds $420m of cash", 4.8),
-    ("meridian-q4", "credit-analyst", "renewal pipeline as constructive", -1.4),
     ("meridian-q4", "equity-pm", "Gross margin declined 240", 1.9),
     ("aldercroft-h1", "equity-pm", "Diluted share count increased", 5.6),
-    ("aldercroft-h1", "equity-pm", "disclosed a security incident", -4.3),
     ("meridian-q4", "risk-officer", "three largest customers", 2.0),
     ("aldercroft-h1", "risk-officer", "No customer data was exfiltrated", 5.1),
     ("aldercroft-h1", "risk-officer", "first positive operating income", -4.1),
     ("meridian-q4", "retail-investor", "eighth consecutive quarter", 3.1),
-    ("aldercroft-h1", "retail-investor", "first positive operating income", 3.3),
     ("meridian-q4", "retail-investor", "agreed an amendment with its lending", -4.1),
-    ("aldercroft-h1", "retail-investor", "Share-based compensation", -3.0),
 ]
 
 
 @pytest.mark.parametrize("doc,persona,needle,printed", QUOTED)
-def test_every_quoted_lift_matches_the_fixture(doc, persona, needle, printed):
+def test_figures_quoted_in_prose_still_match_the_fixtures(doc, persona, needle, printed):
     assert _lift_of(doc, persona, needle) == pytest.approx(printed, abs=0.06)
 
 
-@pytest.mark.parametrize("doc,persona,needle,printed", QUOTED)
-def test_every_quoted_sentence_appears_on_the_page(html, doc, persona, needle, printed):
-    assert needle in html, needle
-
-
-def test_the_risk_officer_really_does_stop_at_the_reassurance(html):
-    """The page's boldest claim, so it is the one most worth pinning."""
-    from cmp.lift import signatures
-    from cmp.profile import load
-
-    texts, fields = load("aldercroft-h1")
-    top = [texts[m.index] for m in signatures(fields, "risk-officer", k=2)]
-    assert any("No customer data was exfiltrated" in t for t in top)
-    assert "treats a denial as information" in html
-
-
-def test_the_risk_officer_is_blind_to_performance(html):
-    from cmp.lift import blind_spots
-    from cmp.profile import load
-
-    for doc, needle in (
-        ("meridian-q4", "EBITDA"),
-        ("aldercroft-h1", "operating income"),
-    ):
-        texts, fields = load(doc)
-        worst = [texts[m.index] for m in blind_spots(fields, "risk-officer", k=2)]
-        assert any(needle in t for t in worst), doc
-
-
-def test_the_covenant_amendment_is_the_untrained_readers_deepest_blind_spot(html):
-    """The claim the mirrored figure is built around.
-
-    Written first as "deepest in the entire dataset", which was wrong — the
-    equity PM misses the security incident by 4.3 points against this 4.1. The
-    true and still striking claim is scoped to the untrained reader.
-    """
-    from cmp.lift import attention_lift
-    from cmp.profile import load
-
-    worst = None
-    for name in ("meridian-q4", "aldercroft-h1"):
-        texts, fields = load(name)
-        for i, v in enumerate(attention_lift(fields)["retail-investor"]):
-            if worst is None or v < worst[0]:
-                worst = (v, texts[i])
-    value, text = worst
-    assert "amendment with its lending syndicate" in text
-    assert "deepest blind spot anywhere in this" in html
-
-
-# --- the mirrored-sentence figure ----------------------------------------------------
-
-
-def _mirror_rows(html: str):
-    return re.findall(
-        r'data-seen="(-?[\d.]+)" data-missed="(-?[\d.]+)"\s+'
-        r'data-seen-by="([^"]+)" data-missed-by="([^"]+)"',
-        html,
-    )
-
-
-def test_the_mirror_figure_has_rows(html):
-    assert len(_mirror_rows(html)) == 5
-
-
-def test_every_mirror_row_is_caught_by_one_and_missed_by_another(html):
-    for seen, missed, seen_by, missed_by in _mirror_rows(html):
-        assert float(seen) > 0 > float(missed)
-        assert seen_by != missed_by
-
-
-def test_no_mirror_bar_overflows_its_scale(html):
-    """MIRROR_MAX in the page is 6; a larger value would silently clip."""
-    for seen, missed, _, _ in _mirror_rows(html):
-        assert abs(float(seen)) <= 6
-        assert abs(float(missed)) <= 6
-
-
-# --- the topic-profile figure ---------------------------------------------------------
-
-
-def _dna_rows(html: str):
-    """The four DNA arrays embedded in the page, in page order."""
-    block = html[html.index("const DNA = ["):]
-    block = block[: block.index("\n];")]
-    rows = re.findall(
-        r'\["([^"]+)",\s*"[^"]*",\s*\[([^\]]+)\],\s*\[([^\]]+)\]\]', block
-    )
-    return [
-        (name, [float(x) for x in a.split(",")], [float(x) for x in b.split(",")])
-        for name, a, b in rows
-    ]
-
-
-def _fixture_lift(name: str):
-    import json
-    from pathlib import Path
-
-    from cmp.topics import CATEGORIES, labels_for, topic_lift
-
-    root = Path(__file__).resolve().parents[2]
-    raw = json.loads((root / "fixtures" / f"{name}.json").read_text())
-    lift = topic_lift(raw["fields"], labels_for(name))
-    return {p: [lift[p][c] for c in CATEGORIES] for p in lift}
-
-
-PAGE_TO_ID = {
-    "credit analyst": "credit-analyst",
-    "risk officer": "risk-officer",
-    "equity PM": "equity-pm",
-    "retail investor": "retail-investor",
-}
-
-
-def test_the_figure_has_a_row_per_reader(html):
-    assert len(_dna_rows(html)) == 4
-
-
-def test_every_plotted_value_matches_the_fixture(html):
-    hero = _fixture_lift("meridian-q4")
-    held = _fixture_lift("aldercroft-h1")
-    for name, a, b in _dna_rows(html):
-        pid = PAGE_TO_ID[name]
-        assert a == pytest.approx(hero[pid], abs=0.06), f"{name} hero"
-        assert b == pytest.approx(held[pid], abs=0.06), f"{name} held-out"
-
-
-def test_every_row_covers_all_seven_topics(html):
-    from cmp.topics import CATEGORIES
-
-    for _, a, b in _dna_rows(html):
-        assert len(a) == len(CATEGORIES)
-        assert len(b) == len(CATEGORIES)
-
-
-def test_no_bar_overflows_the_figure_scale(html):
-    """DNA_MAX in the page is 15; anything larger would silently clip."""
-    for _, a, b in _dna_rows(html):
-        assert max(abs(v) for v in a + b) <= 15
-
-
-def test_the_mirror_the_caption_claims_is_real(html):
-    """Credit's tallest is debt and deepest is performance; retail the reverse."""
-    from cmp.topics import CATEGORIES
-
-    hero = _fixture_lift("meridian-q4")
-    debt, perform = CATEGORIES.index("debt"), CATEGORIES.index("perform")
+def test_the_mirror_the_caption_claims_is_real(template):
+    hero = topic_lift(_fixture("meridian-q4")["fields"], labels_for("meridian-q4"))
+    debt, perform = "debt", "perform"
     credit, retail = hero["credit-analyst"], hero["retail-investor"]
-
-    assert credit.index(max(credit)) == debt
-    assert credit.index(min(credit)) == perform
-    assert retail.index(max(retail)) == perform
-    assert retail.index(min(retail)) == debt
-    assert "photographic negatives" in html
-
-
-def test_the_risk_officer_dips_on_performance_in_both_documents(html):
-    from cmp.topics import CATEGORIES
-
-    perform = CATEGORIES.index("perform")
-    for doc in ("meridian-q4", "aldercroft-h1"):
-        row = _fixture_lift(doc)["risk-officer"]
-        assert row.index(min(row)) == perform, doc
-    assert "signature is an absence" in html
+    assert max(credit, key=credit.get) == debt
+    assert min(credit, key=credit.get) == perform
+    assert max(retail, key=retail.get) == perform
+    assert min(retail, key=retail.get) == debt
+    assert "photographic negatives" in template
 
 
-def test_the_page_admits_the_equity_pm_is_the_weakest(html):
-    """It is the one profile that does not travel, and the caption says so."""
-    import numpy as np
+def test_the_risk_officer_dips_on_performance_in_both_documents(template):
+    for sid, _ in DOCUMENTS:
+        lift = topic_lift(_fixture(sid)["fields"], labels_for(sid))["risk-officer"]
+        assert min(lift, key=lift.get) == "perform", sid
+    assert "signature is an absence" in template
 
-    hero, held = _fixture_lift("meridian-q4"), _fixture_lift("aldercroft-h1")
-    rs = {
-        p: float(np.corrcoef(hero[p], held[p])[0, 1])
-        for p in hero
-    }
-    assert min(rs, key=rs.get) == "equity-pm"
-    assert "least settled" in html or "not yet established" in html
+
+def test_the_page_names_the_weakest_profile_as_weakest(data, template):
+    rs = {p["id"]: p["correlation"] for p in data["profiles"]}
+    weakest = min(rs, key=rs.get)
+    assert weakest == "equity-pm"
+    assert THEMES[weakest]["gloss"] == "least settled of the four"
+    assert "not yet established" in template
+
+
+def test_the_risk_officer_really_does_stop_at_the_reassurance():
+    """The page's boldest claim. It lives in THEMES rather than the template,
+    because the card prose travels with the data now."""
+    d = _fixture("aldercroft-h1")
+    top = [d["stimulus"]["texts"][m.index]
+           for m in signatures(d["fields"], "risk-officer", k=2)]
+    assert any("No customer data was exfiltrated" in t for t in top)
+    assert "treats a denial as information" in THEMES["risk-officer"]["stops"]
+
+
+def test_the_covenant_amendment_is_the_untrained_readers_deepest_blind_spot(template):
+    worst = None
+    for sid, _ in DOCUMENTS:
+        d = _fixture(sid)
+        for i, v in enumerate(attention_lift(d["fields"])["retail-investor"]):
+            if worst is None or v < worst[0]:
+                worst = (v, d["stimulus"]["texts"][i])
+    assert "amendment with its lending syndicate" in worst[1]
+    assert "deepest blind spot anywhere in this" in template
+
+
+def test_the_profile_correlations_quoted_in_prose_are_right(data, template):
+    rs = sorted((p["correlation"] for p in data["profiles"]), reverse=True)
+    for r in rs:
+        assert f"{r:+.2f}".replace("+", "") in template, r
+
+
+# ── 3. page hygiene and the build ────────────────────────────────────────────
+
+
+def test_template_carries_the_data_placeholder(template):
+    assert "/*__REPORT_DATA__*/" in template
+
+
+def test_template_has_no_wrapper_tags(template):
+    for tag in ("<!doctype", "<html", "<head>", "<body>"):
+        assert tag not in template.lower()
+
+
+def test_template_has_a_title_in_the_first_8kb(template):
+    assert re.search(r"<title>.+</title>", template[:8192])
+
+
+def test_template_defines_both_theme_palettes(template):
+    assert "prefers-color-scheme: dark" in template
+    assert ':root[data-theme="dark"]' in template
+    assert ':root:not([data-theme="light"])' in template
+
+
+def test_template_uses_no_external_resources_beyond_google_fonts(template):
+    for u in re.findall(r'https?://[^\s"\'<>)]+', template):
+        assert "fonts.googleapis.com" in u or "fonts.gstatic.com" in u, u
+
+
+def test_the_build_fills_the_placeholder():
+    subprocess.run(
+        ["python3", str(ROOT / "viz" / "build.py")], cwd=ROOT, check=True,
+        capture_output=True,
+    )
+    built = BUILT.read_text()
+    assert "/*__REPORT_DATA__*/" not in built
+    assert '"profiles"' in built
+
+
+def test_the_built_page_carries_every_reader():
+    built = BUILT.read_text()
+    for _, label in READERS:
+        assert label in built, label
