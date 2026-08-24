@@ -360,8 +360,19 @@ header h1 { margin-bottom: 1.4rem; }
   background: none;
   border: 1.5px solid var(--ink);
 }
+.dna-bar--c i { background: var(--muted); }
 .dna-bar i.down { background: none; border: 1.5px solid var(--muted); }
 .dna-bar--a i.down { background: color-mix(in oklab, var(--surface), var(--muted) 28%); border: 0; }
+.dna-bar--c i.down { background: color-mix(in oklab, var(--surface), var(--muted) 45%); border: 0; }
+
+/* Which bar is which document. Ambiguous with two and unreadable with three,
+   so it is drawn from the data rather than written down. */
+.dna-key { display: flex; flex-wrap: wrap; gap: 1.1rem; margin: 0 0 .9rem 10rem; }
+.dna-key span { display: inline-flex; align-items: center; gap: .4rem; font-size: .78rem; color: var(--muted); }
+.dna-key i { width: 9px; height: 14px; display: block; }
+.dna-key i.k-a { background: var(--ink); }
+.dna-key i.k-b { background: none; border: 1.5px solid var(--ink); }
+.dna-key i.k-c { background: var(--muted); }
 
 .dna-axis {
   display: grid;
@@ -1115,23 +1126,24 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <div class="tbl-scroll">
       <table>
-        <caption>Hero note versus held-out note</caption>
+        <caption>Two notes we wrote, and one we did not</caption>
         <thead>
-          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out <span class="small">(never seen)</span></th></tr>
+          <tr><th></th><th>Hero <span class="small">(tuned here)</span></th><th>Held-out <span class="small">(never seen)</span></th><th>Real filing <span class="small">(nobody here wrote it)</span></th></tr>
         </thead>
         <tbody>
-          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td></tr>
-          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td></tr>
-          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td></tr>
-          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td></tr>
-          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td></tr>
+          <tr><td>Literature checks</td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--yes">pass</span></td><td><span class="tag tag--no">fail</span> <span class="small">risk officer</span></td></tr>
+          <tr><td>Reproducibility alpha</td><td>0.88 – 0.97</td><td>0.83 – 0.96</td><td>0.92 – 0.94</td></tr>
+          <tr><td>Top-8 shared, range</td><td>0/8 – 6/8</td><td>3/8 – 5/8</td><td>2/8 – 6/8</td></tr>
+          <tr class="hi"><td><strong>Mean attention shared</strong></td><td><strong>37.5%</strong></td><td><strong>50.0%</strong></td><td><strong>52.1%</strong></td></tr>
+          <tr><td>Valence conflicts, whole note</td><td>5</td><td>1</td><td>0</td></tr>
         </tbody>
       </table>
     </div>
 
     <p class="pull">
       The hero note was written to divide these readers. The held-out note was not.
-      The effect survives — and it is about a third smaller.
+      The third is a real SEC filing. The effect survives all three — and outside
+      the hero note it is about a third smaller.
     </p>
 
     <p>
@@ -1141,6 +1153,34 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       ordinary prose the readers still separate, reliably and in the direction the
       literature predicts, but less theatrically.
     </p>
+
+    <div class="finding">
+      <h3>The real filing answers both open questions, and costs us two claims</h3>
+      <p>
+        Whirlpool Corporation's second-quarter results release, filed with the SEC
+        and pulled verbatim from EDGAR. It was picked by a rule fixed in advance —
+        first non-financial issuer in a dated list, within a revenue band, carrying
+        debt — so that we could not shop for a filing that flattered the result.
+      </p>
+      <p>
+        <strong>Where the true number sits: 52.1%</strong>, just above the note we
+        wrote without trying to divide anyone. The hero note really does exaggerate,
+        and by about the margin the held-out run estimated.
+      </p>
+      <p>
+        <strong>The valence divide does not survive at all.</strong> Zero conflicts
+        between any pair of readers, professionals and untrained alike. The two
+        sentences an ordinary investor loves and every professional reads as a
+        warning were sentences <em>we wrote</em>. A real company's earnings release
+        does not contain them, and without them the disagreement is entirely about
+        where people look.
+      </p>
+      <p style="margin-bottom:0">
+        <strong>And the run fails.</strong> The risk officer attends no more to the
+        clauses its mandate predicts than the untrained reader does. That failure is
+        kept rather than tuned away, and the next section is where it lands.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1185,6 +1225,16 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         <em>attend to hedged comfort</em>; the mandate says to look for what could go
         wrong. Reassurance is where it went looking.
       </p>
+      <p style="margin-bottom:0">
+        <strong>Then we gave it a real filing, and this stopped being true.</strong>
+        On Whirlpool's results release the four reassurance sentences rank 23rd,
+        24th, 25th and 26th of 31 — the reader walked straight past all of them and
+        went to the balance sheet instead. It is the one claim on this page that an
+        out-of-sample test refuted. The likeliest reason is dosage: a quarter of
+        that filing is management framing, and when every sentence is reassurance,
+        reassurance stops being a signal. What looked like a reader's instinct may
+        have been an artefact of documents where comfort was rare enough to stand out.
+      </p>
     </div>
 
     <h2 style="margin-top:2.5rem">The same four readers, drawn as shapes</h2>
@@ -1196,8 +1246,9 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
     </p>
     <p>
       Above the line means this reader spends more of their attention there than
-      the others do. Below means less. <strong>The two bars per topic are the two
-      documents</strong>, which share no subject matter — so where they agree, the
+      the others do. Below means less. <strong>The three bars per topic are the
+      three documents</strong>, which share no subject matter and one of which is a
+      real SEC filing — so where they agree, the
       shape belongs to the reader.
     </p>
 
@@ -1223,10 +1274,12 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         </p>
         <p style="margin-bottom:0">
           The risk officer's signature is an absence — <em>performance</em> is its
-          deepest bar on both documents. It is the only reader defined mainly by
-          what it refuses to look at. The equity PM is the least stable of the four
-          (profile correlation +0.54 against +0.90, +0.79 and +0.78), and the
-          honest reading is that its shape is not yet established.
+          deepest bar on all three documents, the real filing included. It is the
+          only reader defined mainly by what it refuses to look at, and it is the
+          half of that reader's signature that survived contact with a real filing
+          when the reassurance half did not. The equity PM is the least stable of
+          the four (profile correlation +0.54 against +0.91, +0.78 and +0.76), and
+          the honest reading is that its shape is not yet established.
         </p>
       </figcaption>
     </figure>
@@ -1257,13 +1310,17 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <h3>What this is, and what it is not</h3>
       <p>
         This is a signature, not a genome. It says what kind of sentence each
-        reader stops at, well enough to predict them on a page they have not seen
-        — and the themes hold across two documents that share no subject matter.
+        reader stops at, well enough to predict them on a page they have not seen —
+        and the themes hold across three documents that share no subject matter,
+        one of them a real SEC filing that no one involved here wrote. Two
+        documents was a coin landing the same way twice; the third is what makes
+        this a trend rather than a coincidence.
       </p>
       <p style="margin-bottom:0">
         It does not say these are <em>real</em> professionals. Every reader here is a
-        language model given a mandate, and two documents is a small basis for any
-        claim about stability. What would settle it is the thing still missing from
+        language model given a mandate, and three documents is still a small basis
+        for any claim about stability — and one of those three failed the literature
+        checks for one reader. What would settle it is the thing still missing from
         this whole project: a real credit analyst, marking up the same page.
       </p>
     </div>
@@ -1434,14 +1491,23 @@ for (const row of document.querySelectorAll(".strip-cells")) {
 const DATA = /*__REPORT_DATA__*/;
 
 const DNA_TOPICS = DATA.topics.map((t) => [t.key, t.label]);
-const DNA = DATA.profiles.map((p) => [p.label, p.gloss || "", ...p.series]);
+const DNA = DATA.profiles.map((p) => [p.label, p.gloss || "", p.series]);
+//: One class per document, in DOCUMENTS order. Adding a fourth document means
+//: adding a fourth style beside .dna-bar--c; the loop below needs no change.
+const DNA_SERIES = ["a", "b", "c"];
 const DNA_MAX = DATA.scale.profile_max;
 
 (() => {
   const host = document.getElementById("dna");
   if (!host) return;
 
-  for (const [name, gloss, hero, held] of DNA) {
+  const key = document.createElement("div");
+  key.className = "dna-key";
+  key.innerHTML = DATA.documents.map((d, i) =>
+    `<span><i class="k-${DNA_SERIES[i] || "c"}"></i>${d.title}</span>`).join("");
+  host.parentElement.insertBefore(key, host);
+
+  for (const [name, gloss, series] of DNA) {
     const row = document.createElement("div");
     row.className = "dna-row";
     row.innerHTML = `<span class="dna-name">${name}<small>${gloss}</small></span>`;
@@ -1455,7 +1521,8 @@ const DNA_MAX = DATA.scale.profile_max;
       const pair = document.createElement("div");
       pair.className = "dna-pair";
 
-      for (const [vals, cls] of [[hero, "a"], [held, "b"]]) {
+      series.forEach((vals, si) => {
+        const cls = DNA_SERIES[si] || "c";
         const v = vals[i];
         const h = (Math.min(Math.abs(v), DNA_MAX) / DNA_MAX) * 50;
         const bar = document.createElement("span");
@@ -1471,7 +1538,7 @@ const DNA_MAX = DATA.scale.profile_max;
         }
         bar.appendChild(fill);
         pair.appendChild(bar);
-      }
+      });
       cell.appendChild(pair);
       plot.appendChild(cell);
     });
@@ -1482,7 +1549,7 @@ const DNA_MAX = DATA.scale.profile_max;
       "aria-label",
       `${name}: ` +
         DNA_TOPICS.map(([, label], i) =>
-          `${label} ${hero[i] > 0 ? "above" : "below"} average`).join(", ")
+          `${label} ${series[0][i] > 0 ? "above" : "below"} average`).join(", ")
     );
     host.appendChild(row);
   }

@@ -33,7 +33,13 @@ FIXTURES = ROOT / "fixtures"
 DOCUMENTS = [
     ("meridian-q4", "Meridian Logistics"),
     ("aldercroft-h1", "Aldercroft Software"),
+    ("whirlpool-q2", "Whirlpool Corporation"),
 ]
+
+#: Documents that did not pass the L1 acceptance check, and for which reader.
+#: They stay in the study -- the failure is the result, see docs/calibration.md
+#: section 7.6 -- but every figure drawing on them has to say so.
+L1_FAILURES = {"whirlpool-q2": ["risk-officer"]}
 
 #: Display order for readers, and the short label the figures use. Adding a
 #: reader means adding it here and re-running; nothing else is hard-coded.

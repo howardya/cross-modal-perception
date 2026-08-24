@@ -30,6 +30,7 @@ reasons they would be right to.
 | "They share 2 of the 8 clauses they attend to most" | Top-k overlap between two modelled attention distributions, computed exactly |
 | "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose — and **not** enforced by the model, for the reasons in §7.1 |
 | The bouba/kiki result | Measured, on 917 people across 25 languages. Real. |
+| "A clause reading warm to one and cold to another" | On the one **real** filing in the study, this happens **zero** times between any pair of readers — see §7.6. The valence divide is a property of the constructed notes |
 | The synaesthesia illustration | An illustration of *reported experience*. The measured advantage is much smaller — see §5 |
 
 The two Act 1 items are the only things in the piece grounded in direct
@@ -378,6 +379,123 @@ Both readings should be in the demo, and both now are. The phenomenon is real an
 reproduces out of sample; the headline number is the best case, not the typical
 one.
 
+### 7.6 A real filing: the bracket closes, and the risk officer's signature does not survive
+
+Both constructed notes were written by the author of this project. §7.5 measured
+what that costs by comparing one written to divide these readers against one that
+was not — 37.5% against 50% of attention shared — but could not say where a
+genuine document sits, because there was not one.
+
+There is now. **Whirlpool Corporation's second-quarter 2026 results release**,
+filed with the SEC as exhibit 99.1 to an 8-K on 2026-08-03 (accession
+0000106640-26-000056), taken verbatim from EDGAR. 31 clauses. 20 fresh subagent
+runs, nothing in the pipeline changed.
+
+**Selection was pre-registered**, because choosing a filing after reading it
+would reintroduce exactly the bias being measured. EDGAR full-text search,
+`q="second quarter results"`, `forms=8-K`, a fixed two-week window, results
+ordered by `(file_date, accession)` rather than by relevance score, walked in
+that order and taking the first issuer satisfying all of: non-financial (SIC
+outside 6000–6799), annual revenue $1bn–$25bn, long-term debt above zero, and a
+narrative body of 25–35 sentences. Loews Corp and Publix Super Markets were
+rejected ahead of it, on the first and second criteria. The size test was
+originally market capitalisation and was restated in revenue terms *before any
+scoring*, because no market-cap source was reachable; both replacements are
+verifiable from EDGAR XBRL alone. The full rule and the rejections travel in the
+stimulus file's `note`.
+
+#### It fails, on the risk officer
+
+| Persona | alpha | Concentration | vs novice 0.018 | L1 |
+|---|---|---|---|---|
+| credit analyst | 0.944 | 0.080 | 4.4x | pass |
+| risk officer | 0.922 | 0.061 | 3.4x | **FAIL** |
+| equity PM | 0.940 | 0.060 | 3.3x | pass |
+| retail investor | 0.921 | 0.018 | baseline | baseline |
+
+The risk officer's enhancement is 0.95 and its suppression 1.02: it attends *no
+more* than the untrained reader to the clauses its mask marks relevant, and
+suppresses the rest no harder. Note what is not wrong with it. Its reliability is
+fine and its attention is 3.4x more concentrated than the novice's. It is
+behaving like an expert. It is reading a different document from the one the mask
+predicted.
+
+**What the mask predicted was that reader's own published signature.** §5b of
+`findings.md` claims the risk officer "stops at reassurance" and is "the only
+reader that treats a denial as information". The mask was built from that claim,
+so this run is an out-of-sample test of it — and it refutes it:
+
+| Reassurance clause the mask marked relevant | Attention rank |
+|---|---|
+| "Q2 performance in line with expectations…" | 26 / 31 |
+| "We are encouraged by the sequential margin expansion…" | 25 / 31 |
+| "These decisive actions position our business…" | 24 / 31 |
+| "Underlying demand is positive, with strong sell-out…" | 23 / 31 |
+
+It went to the asset-based lending facility, the secured bond issue, net debt and
+the margin bridge instead — the credit analyst's document.
+
+The likeliest explanation is dosage, and it is checkable rather than merely
+plausible. Eight of these 31 clauses are management framing. In the constructed
+notes reassurance was *conspicuous*, because an author placed one or two hedged
+sentences in otherwise plain prose; in a real earnings release almost everything
+is framed, and framing stops carrying information. If that is right, the original
+finding was never about the reader — it was about documents in which comfort was
+rare enough to stand out.
+
+**Nothing was tuned in response.** The mask stands, the personas stand, the run
+is committed failing, in `pipeline/scored/subagent-whirlpool/`.
+
+#### What the filing settles
+
+| | Hero (built to divide) | Held-out (not built to divide) | **Real filing** |
+|---|---|---|---|
+| L1 acceptance | pass | pass | **fail (risk officer)** |
+| Reliability alpha | 0.88 – 0.97 | 0.83 – 0.96 | 0.92 – 0.94 |
+| Top-8 shared, range | 0/8 – 6/8 | 3/8 – 5/8 | 2/8 – 6/8 |
+| **Mean top-k overlap** | **37.5%** | **50.0%** | **52.1%** |
+| Valence conflicts | 5 | 1 | **0** |
+
+Two results, in opposite directions.
+
+**The construction bias is confirmed and slightly under-stated.** The true
+overlap sits at 52.1%, just above the constructed note that was not built to
+divide anyone. §7.5's "the hero note exaggerates by about a third" survives
+contact with a real document.
+
+**The valence divide does not survive at all.** Zero conflicts, between any pair,
+professionals and untrained alike. §7.4's fault line — the two sentences an
+ordinary investor likes most being the two every professional reads as a warning
+— rests on sentences *this project wrote*. A debt-funded buyback announced beside
+collapsing cash conversion is a constructed juxtaposition. Real filings are not
+free of such things, but this one had none, and without them the readers disagree
+only about where to look. That is not a refutation of §7.4 so much as a sharp
+limit on it: the attention half of that finding reproduces, the valence half is a
+property of the stimulus.
+
+#### What survived, and it is the load-bearing claim
+
+The topic profiles travel to a third document, out of genre and out of authorship:
+
+| Reader | 2 documents | 3 documents |
+|---|---|---|
+| credit analyst | +0.90 | **+0.91** |
+| risk officer | +0.79 | +0.78 |
+| retail investor | +0.78 | +0.76 |
+| equity PM | +0.54 | +0.54 |
+
+Essentially unmoved. The credit analyst is still strongest on *what is owed*
+(+7.9 points here, against +9.6 and +13.8) and the risk officer's *how it did* is
+still its deepest bar on all three. Two documents was a coin landing the same way
+twice. Three, one of them written by strangers for another purpose entirely, is
+the first evidence here that the signatures are properties of the readers.
+
+Note the asymmetry in what broke. The risk officer's signature has two halves —
+*stops at reassurance* and *refuses to read the results*. The first was a clause-
+level claim about particular sentences and it failed. The second is a topic-level
+claim about a whole category and it held. That is the difference the topic axis
+was introduced for, and this is the first run in which the two came apart.
+
 ---
 
 ## 8. What would fix it
@@ -389,8 +507,9 @@ Roughly in order of value per unit of effort:
    the most valuable.**
 2. Obtain the paywalled meta-analysis and verify the two constants.
 3. ~~Run the held-out validation and publish the result.~~ Done — §7.5.
-4. Compare against a real analyst note rather than only a constructed one. §7.5
-   goes part of the way (a second constructed note, not built to divide readers)
-   but a genuine filing would be better.
+4. ~~Compare against a real analyst note rather than only a constructed one.~~
+   Done — §7.6. A real SEC filing puts the true attention overlap at 52.1% and
+   removed the valence divide entirely. More real filings would now be worth more
+   than more constructed ones; one is a data point, not a distribution.
 5. Actual eye-tracking of 5 practitioners per role. This is the real study, and it
    appears not to exist. If someone wants a research project, that is it.
