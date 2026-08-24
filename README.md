@@ -16,6 +16,7 @@ including the two results that contradicted what it set out to show.
 | [`docs/research-note.md`](docs/research-note.md) | What the literature says — 16 sourced claims |
 | [`docs/findings.md`](docs/findings.md) | **What we found** |
 | [`docs/calibration.md`](docs/calibration.md) | What is measured vs modelled, written for a skeptic |
+| [`docs/extending-the-study.md`](docs/extending-the-study.md) | How to add a reader or a document — and why a document is worth more |
 
 ## The result in three lines
 
@@ -33,10 +34,11 @@ including the two results that contradicted what it set out to show.
 pipeline/     Python (uv). Persona scoring → calibration → JSON. No rendering.
   scored/     Every sample from all three runs, including the failed one.
 viz/
-  template.html   The demo. Numbers injected from the fixture at build time.
-  report.html     The results summary. Numbers written into the prose, so
-                  tests/test_report_figures.py asserts them against the
-                  fixtures — it is the one page that could otherwise drift.
+  template.html         The demo.    → dist/index.html
+  report.template.html  The summary. → dist/report.html
+  build.py              Injects the fixtures into both. Neither page holds
+                        scores of its own, so re-scoring and rebuilding is the
+                        whole update path.
 fixtures/     The contract between pipeline and pages.
 docs/         The four documents above.
 ```
@@ -44,9 +46,9 @@ docs/         The four documents above.
 ## Running it
 
 ```bash
-cd pipeline && uv sync && uv run pytest     # 198 tests, no network needed
-python3 ../viz/build.py                     # fixture + template → one HTML file
-open ../viz/dist/index.html
+cd pipeline && uv sync && uv run pytest     # 297 tests, no network needed
+cd .. && python3 viz/build.py               # fixtures → both pages
+open viz/dist/report.html
 ```
 
 Re-scoring, either through subagents (samples already committed) or the Anthropic
