@@ -24,7 +24,13 @@ import numpy as np
 import pytest
 
 from cmp.lift import attention_lift, blind_spots, signatures
-from cmp.report_data import DOCUMENTS, READERS, THEMES, build_report_data
+from cmp.report_data import (
+    DOCUMENTS,
+    READERS,
+    THEMES,
+    _profile_stability,
+    build_report_data,
+)
 from cmp.topics import CATEGORIES, labels_for, topic_lift
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -252,3 +258,32 @@ def test_the_built_page_carries_every_reader():
     built = BUILT.read_text()
     for _, label in READERS:
         assert label in built, label
+
+
+# ── 4. profile stability generalises past two documents ──────────────────────
+
+
+def test_profile_stability_over_two_documents_is_plain_correlation():
+    """The study shipped with two documents and quotes four correlations. The
+    N-document form must not move them, or Phase 0 has silently rewritten
+    published numbers."""
+    a = [1.0, -2.0, 3.0, 0.5, -1.5, 2.0, -0.5]
+    b = [1.2, -1.8, 2.5, 0.1, -1.0, 2.4, -0.2]
+    assert _profile_stability([a, b]) == pytest.approx(float(np.corrcoef(a, b)[0, 1]))
+
+
+def test_profile_stability_is_the_mean_over_every_document_pair():
+    a = [1.0, -2.0, 3.0, 0.5, -1.5, 2.0, -0.5]
+    b = [1.2, -1.8, 2.5, 0.1, -1.0, 2.4, -0.2]
+    c = [-1.0, 2.0, -3.0, -0.5, 1.5, -2.0, 0.5]
+    expected = np.mean([
+        np.corrcoef(a, b)[0, 1],
+        np.corrcoef(a, c)[0, 1],
+        np.corrcoef(b, c)[0, 1],
+    ])
+    assert _profile_stability([a, b, c]) == pytest.approx(float(expected))
+
+
+def test_profile_stability_of_a_single_document_is_undefined():
+    """One document cannot evidence that a profile travels."""
+    assert _profile_stability([[1.0, -2.0, 3.0, 0.5, -1.5, 2.0, -0.5]]) is None
