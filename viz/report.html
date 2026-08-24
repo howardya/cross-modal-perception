@@ -292,6 +292,112 @@ header h1 { margin-bottom: 1.4rem; }
 .sig-list--walk li { border-left-color: color-mix(in oklab, var(--warm), transparent 45%); }
 .sig-list--walk b { color: var(--warm); }
 
+/* ── topic profiles: the reader drawn as a shape ─────────── */
+
+.dna-scroll { overflow-x: auto; padding-bottom: 0.4rem; }
+.dna-inner { min-width: 38rem; }
+.dna {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.dna-row {
+  background: var(--surface);
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1rem 0.7rem 0;
+}
+.dna-name {
+  font-family: var(--data);
+  font-size: 0.72rem;
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 0.75rem;
+}
+/* The gloss is a phrase, not a label — let it wrap rather than run out of
+   the gutter and off the left edge of the figure. */
+.dna-name small {
+  display: block;
+  font-size: 0.6rem;
+  line-height: 1.35;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  white-space: normal;
+}
+
+.dna-plot { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.6rem; }
+.dna-cell { position: relative; height: 74px; }
+/* The zero line: where a reader attends to a topic exactly as much as the
+   others do. Everything on this figure is read against it. */
+.dna-cell::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--rule);
+}
+.dna-pair {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+.dna-bar { width: 9px; position: relative; }
+/* Solid above the line, hollow below — value rather than hue, because hue on
+   this page means valence and this figure is about attention. */
+.dna-bar i {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: block;
+}
+.dna-bar--a i { background: var(--ink); }
+.dna-bar--b i {
+  background: none;
+  border: 1.5px solid var(--ink);
+}
+.dna-bar i.down { background: none; border: 1.5px solid var(--muted); }
+.dna-bar--a i.down { background: color-mix(in oklab, var(--surface), var(--muted) 28%); border: 0; }
+
+.dna-axis {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+  padding-right: 1rem;
+  margin-top: 0.5rem;
+}
+.dna-axis-inner { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.6rem; }
+.dna-axis span {
+  font-family: var(--data);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+.dna-key {
+  font-family: var(--data);
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin: 1rem 0 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.5rem;
+}
+.dna-swatch {
+  display: inline-block;
+  width: 9px; height: 9px;
+  background: var(--ink);
+  margin-left: 0.6rem;
+}
+.dna-swatch--b { background: none; border: 1.5px solid var(--ink); }
+.dna-note { margin-left: auto; }
+
 /* ── mirrored sentences ──────────────────────────────────── */
 
 .mirror { margin: 0.5rem 0 0; }
@@ -1137,6 +1243,50 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       </p>
     </div>
 
+    <h2 style="margin-top:2.5rem">The same four readers, drawn as shapes</h2>
+    <p>
+      Give every sentence a topic — what it is <em>about</em>, assigned before any
+      score was looked at — and a reader's attention becomes a profile over topics
+      rather than over one document's layout. That profile can then be computed on
+      a page the reader has never seen.
+    </p>
+    <p>
+      Above the line means this reader spends more of their attention there than
+      the others do. Below means less. <strong>The two bars per topic are the two
+      documents</strong>, which share no subject matter — so where they agree, the
+      shape belongs to the reader.
+    </p>
+
+    <figure class="aha">
+      <div class="dna-scroll">
+        <div class="dna-inner">
+          <div class="dna" id="dna"></div>
+          <p class="dna-key">
+            <span class="dna-swatch dna-swatch--a"></span>Meridian Logistics
+            <span class="dna-swatch dna-swatch--b"></span>Aldercroft Software
+            <span class="dna-note">bars are points of attention above / below the four-reader average</span>
+          </p>
+        </div>
+      </div>
+
+      <figcaption>
+        <p>
+          Read the top and bottom rows against each other. <strong>The credit
+          analyst's tallest bar is debt and its deepest is performance. The
+          untrained reader's tallest is performance and its deepest is debt.</strong>
+          They are photographic negatives: one reads what the company owes and
+          skips how it did, the other reads how it did and skips what it owes.
+        </p>
+        <p style="margin-bottom:0">
+          The risk officer's signature is an absence — <em>performance</em> is its
+          deepest bar on both documents. It is the only reader defined mainly by
+          what it refuses to look at. The equity PM is the least stable of the four
+          (profile correlation +0.54 against +0.90, +0.79 and +0.78), and the
+          honest reading is that its shape is not yet established.
+        </p>
+      </figcaption>
+    </figure>
+
     <h2 style="margin-top:2.5rem">Every blind spot is somebody else's specialism</h2>
     <p>
       The gaps are not random. Line up the sentence each reader over-attends to
@@ -1352,6 +1502,97 @@ for (const row of document.querySelectorAll(".strip-cells")) {
     );
   }
 }
+
+// Each reader drawn as a shape over topics. Two bars per topic, one per
+// document; where they agree the shape belongs to the reader rather than to
+// the page. Values are points of attention above or below the four-reader
+// average, computed by cmp.topics and asserted against the fixtures in
+// tests/test_report_figures.py.
+const DNA_TOPICS = [
+  ["debt", "what is owed"],
+  ["cash", "cash & working capital"],
+  ["perform", "how it did"],
+  ["share", "per share"],
+  ["depend", "who it depends on"],
+  ["language", "how it is described"],
+  ["events", "what happened"],
+];
+
+const DNA = [
+  ["credit analyst", "reads what is owed",
+   [9.6, 2.9, -5.4, 1.3, -1.3, -2.1, -5.1],
+   [13.8, 4.4, -3.4, -3.1, -4.4, -3.8, -3.6]],
+  ["risk officer", "refuses to read the results",
+   [3.5, 1.2, -7.9, -1.3, 3.0, 0.6, 0.9],
+   [1.2, -1.0, -9.7, -2.6, 1.3, 4.8, 6.2]],
+  ["equity PM", "least settled of the four",
+   [-1.9, 1.0, 2.7, -0.7, 1.0, 1.2, -3.2],
+   [-10.8, -2.3, 8.1, 10.3, 4.4, -3.9, -5.8]],
+  ["retail investor", "reads how it did",
+   [-11.2, -5.1, 10.6, 0.7, -2.6, 0.3, 7.4],
+   [-4.2, -1.1, 5.0, -4.5, -1.3, 2.9, 3.2]],
+];
+
+const DNA_MAX = 15; // points; the largest magnitude here is 13.8
+
+(() => {
+  const host = document.getElementById("dna");
+  if (!host) return;
+
+  for (const [name, gloss, hero, held] of DNA) {
+    const row = document.createElement("div");
+    row.className = "dna-row";
+    row.innerHTML = `<span class="dna-name">${name}<small>${gloss}</small></span>`;
+
+    const plot = document.createElement("div");
+    plot.className = "dna-plot";
+
+    DNA_TOPICS.forEach(([key], i) => {
+      const cell = document.createElement("div");
+      cell.className = "dna-cell";
+      const pair = document.createElement("div");
+      pair.className = "dna-pair";
+
+      for (const [vals, cls] of [[hero, "a"], [held, "b"]]) {
+        const v = vals[i];
+        const h = (Math.min(Math.abs(v), DNA_MAX) / DNA_MAX) * 50;
+        const bar = document.createElement("span");
+        bar.className = `dna-bar dna-bar--${cls}`;
+        const fill = document.createElement("i");
+        if (v >= 0) {
+          fill.style.bottom = "50%";
+          fill.style.height = `${h}%`;
+        } else {
+          fill.className = "down";
+          fill.style.top = "50%";
+          fill.style.height = `${h}%`;
+        }
+        bar.appendChild(fill);
+        pair.appendChild(bar);
+      }
+      cell.appendChild(pair);
+      plot.appendChild(cell);
+    });
+
+    row.appendChild(plot);
+    row.setAttribute("role", "img");
+    row.setAttribute(
+      "aria-label",
+      `${name}: ` +
+        DNA_TOPICS.map(([, label], i) =>
+          `${label} ${hero[i] > 0 ? "above" : "below"} average`).join(", ")
+    );
+    host.appendChild(row);
+  }
+
+  const axis = document.createElement("div");
+  axis.className = "dna-axis";
+  axis.innerHTML =
+    `<span></span><div class="dna-axis-inner">` +
+    DNA_TOPICS.map(([, label]) => `<span>${label}</span>`).join("") +
+    `</div>`;
+  host.parentElement.insertBefore(axis, host.nextSibling);
+})();
 
 // Mirrored sentences: one reader over-attends, another walks past. Drawn as a
 // bar diverging from a centre line, so "caught" and "missed" are the same
