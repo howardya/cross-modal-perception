@@ -200,14 +200,14 @@ def test_the_risk_officer_really_does_stop_at_the_reassurance():
     assert "treats a denial as information" in THEMES["risk-officer"]["stops"]
 
 
-def test_the_covenant_amendment_is_the_untrained_readers_deepest_blind_spot(template):
+def test_the_cash_flow_line_is_the_untrained_readers_deepest_blind_spot(template):
     worst = None
     for sid, _ in DOCUMENTS:
         d = _fixture(sid)
         for i, v in enumerate(attention_lift(d["fields"])["retail-investor"]):
             if worst is None or v < worst[0]:
                 worst = (v, d["stimulus"]["texts"][i])
-    assert "amendment with its lending syndicate" in worst[1]
+    assert "cash flow provided by operations was $22.7 million" in worst[1]
     assert "deepest blind spot anywhere in this" in template
 
 

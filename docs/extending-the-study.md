@@ -107,8 +107,8 @@ cost the next section explains.
 
 6. **Give it a bar style.** The topic figure draws one bar per document per topic,
    and the classes are listed in `DNA_SERIES` in `viz/report.template.html` with
-   `.dna-bar--a`, `--b`, `--c` beside them in the CSS. A fourth document needs a
-   fourth style or it silently reuses the third. The legend builds itself from
+   `.dna-bar--a` through `--d` beside them in the CSS. A fifth document needs a
+   fifth style or it silently reuses the fourth. The legend builds itself from
    `DATA.documents`, so it needs nothing. **Render the page and look at it** —
    the figure was hard-coded to two documents for a long time and drew the third
    nowhere, without erroring, without failing a test, and without any hint on the
@@ -176,7 +176,7 @@ computations, and both say so where they live.
 ## Full rebuild
 
 ```bash
-cd pipeline && uv sync && uv run pytest     # 313 tests, no network
+cd pipeline && uv sync && uv run pytest     # 319 tests, no network
 cd .. && python3 viz/build.py               # both pages
 open viz/dist/report.html
 ```

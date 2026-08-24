@@ -114,41 +114,64 @@ method had never seen — but **the dramatic 0/8 is a property of the hero note,
 not of the four mandates.** On ordinary prose the separation is real and about a
 third smaller. A real filing later put the number at 52.1% — see §2.6.
 
-### 2.6 A real filing closes the bracket, and costs the risk officer half its signature
+### 2.6 Two real filings: the bracket does not close, and the risk officer keeps half its signature
 
-Every document above was written by the author of this project. The third was
-not: **Whirlpool Corporation's Q2 2026 results release**, verbatim from EDGAR, 31
-clauses, picked by a rule fixed before reading it so that no filing could be
-chosen for being interesting. Full method and audit trail in `calibration.md`
-§7.6.
+Every document above was written by the author of this project. Two more were
+not: **Whirlpool Corporation's** and **Alamo Group's** Q2 2026 results releases,
+verbatim from EDGAR, 31 and 35 clauses, both picked by a rule fixed before
+reading them so that no filing could be chosen for being interesting. Full method
+and audit trail in `calibration.md` §7.6 and §7.7.
 
-| | Hero (built to divide) | Held-out (not) | **Real filing** |
+| | Hero (built to divide) | Held-out (not) | **Whirlpool** | **Alamo** |
+|---|---|---|---|---|
+| L1 acceptance | pass | pass | **fail — risk officer** | pass |
+| Mean top-k overlap | 37.5% | 50.0% | **52.1%** | **31.2%** |
+| Valence conflicts | 5 | 1 | **0** | 1 |
+
+**With one real filing this section claimed the true overlap was 52.1% and that
+§2.5's "constructed notes inflate by a third" had held. The second real filing
+came in at 31.2%, below the hero note, and that claim is withdrawn.** Across four
+documents the overlap runs 31% to 52%; the two constructed notes sit inside the
+range the two real ones span, not to one side of it. What survives is weaker and
+more useful: **how much two readers share is mostly a property of the document,
+and no single percentage is a property of the four mandates.**
+
+The valence result mostly holds — five conflicts on the hero note against one,
+one and zero elsewhere — but the honest version is about how rarely a document
+contains a sentence like a debt-funded buyback, not that professionals and
+amateurs never disagree.
+
+**Whirlpool fails, and the failure is the most useful thing here.** The risk
+officer attended no more than the untrained reader to the clauses its mask
+predicted. That mask was built from this reader's own signature in §5b — *stops at
+reassurance* — so it was an out-of-sample test of that claim, and the four
+reassurance sentences came out ranked 23rd to 26th of 31. It read the balance
+sheet instead.
+
+**Alamo says which thing was wrong.** Its risk-officer mask was written from the
+*mandate* rather than from that signature, and on it the reader passes every
+check, attending 1.78x harder than the novice to what the mandate predicts. So
+the persona was never mis-specified. **The sentence in this document was.** A
+description written by reading two documents we wrote did not survive a document
+we did not.
+
+**The load-bearing claim strengthens every time it is tested.**
+
+| Reader | 2 documents | 3 | **4** |
 |---|---|---|---|
-| L1 acceptance | pass | pass | **fail — risk officer** |
-| Mean top-k overlap | 37.5% | 50.0% | **52.1%** |
-| Valence conflicts | 5 | 1 | **0** |
+| credit analyst | +0.90 | +0.91 | **+0.92** |
+| retail investor | +0.78 | +0.76 | **+0.81** |
+| risk officer | +0.79 | +0.78 | **+0.80** |
+| equity PM | +0.54 | +0.54 | +0.54 |
 
-**The run fails, and the failure is the finding.** The risk officer attends no
-more than the untrained reader to the clauses its mandate predicts. Its mask was
-built from its own signature in §5b — *stops at reassurance* — so this was an
-out-of-sample test of that claim, and the four reassurance sentences came out
-ranked 23rd to 26th of 31. It read the balance sheet instead. Eight of the 31
-clauses are management framing: when everything is reassurance, reassurance stops
-being a signal, and what looked like a reader's instinct may have been a property
-of documents where comfort was rare.
-
-**Two headline claims weaken. The load-bearing one strengthens.** The topic
-profiles travel to the third document nearly unchanged — credit analyst +0.90 to
-+0.91, risk officer +0.79 to +0.78, retail investor +0.78 to +0.76, equity PM
-+0.54 unmoved. Two documents was a coin landing twice; three, one of them written
-by strangers for another purpose, is the first real evidence that the signatures
-belong to the readers.
+The correlations rose as the documents became less like one another, which is the
+opposite of what a fitted artefact does.
 
 Note *which* half of the risk officer's signature broke. *Stops at reassurance* is
 a claim about particular sentences and it failed. *Refuses to read the results* is
-a claim about a whole topic and it held — performance is still its deepest bar on
-all three documents. That is exactly the difference the topic axis was introduced
-to draw, and this is the first run where the two came apart.
+a claim about a whole topic and it held — performance is its deepest bar on all
+four documents. That is exactly the difference the topic axis was introduced to
+draw.
 
 ---
 
@@ -301,10 +324,11 @@ constructive"* (+1.4).
 Three reassurances, two documents, one reader. **It is the only reader that treats
 a denial as information.**
 
-**Refuted out of sample.** On the real filing added later (§2.6) this reader
-walked past every reassurance sentence in the document — ranks 23 to 26 of 31 —
-and read the balance sheet instead. This claim should now be read as holding on
-constructed prose and not established generally. Nothing in its mandate says to attend to hedged
+**Refuted out of sample.** On the first real filing (§2.6) this reader walked past
+every reassurance sentence in the document — ranks 23 to 26 of 31 — and read the
+balance sheet instead. On the second it was scored against its mandate rather than
+against this description, and passed comfortably. **This sentence, not the reader,
+is what failed.** It holds on constructed prose and is not established generally. Nothing in its mandate says to attend to hedged
 comfort; it says to look for what could go wrong. Reassurance is where it went
 looking.
 
@@ -323,11 +347,11 @@ exists in any filing.
 
 The profiles travel:
 
-| Reader | Two documents | **Three, incl. a real filing** |
+| Reader | Two documents | **Four, half of them real filings** |
 |---|---|---|
-| credit analyst | **+0.90** | **+0.91** |
-| risk officer | +0.79 | +0.78 |
-| retail investor | +0.78 | +0.76 |
+| credit analyst | **+0.90** | **+0.92** |
+| risk officer | +0.79 | +0.80 |
+| retail investor | +0.78 | +0.81 |
 | equity PM | +0.54 | +0.54 |
 
 And they are readable as shapes. Lift in points of attention above or below the
@@ -369,19 +393,22 @@ reader who most walks past it, and the same sentences appear on both sides:
 | "No customer data was exfiltrated, according to a third-party forensic review." | risk officer **+5.1** | equity PM **−3.8** |
 | "The company holds $420m of cash and has no drawn debt." | credit analyst **+4.8** | equity PM **−3.7** |
 
-The first row is the sharpest result in the study. The sentence saying the company
-went to its lenders for permission to carry more debt is the **untrained reader's
-deepest blind spot anywhere here** — and one of the credit analyst's strongest
-signals. *The one person who most needs that warning is the one person built not
-to see it.*
+The untrained reader's deepest blind spot anywhere in the study is now a sentence
+from a real filing: Alamo Group reporting that six months of operations threw off
+$22.7m of cash while investing consumed $171.6m, with $37.3m borrowed to bridge
+the gap (−4.3). A company spending seven times what it earned, funded from
+outside. The covenant-amendment row above (−4.1) is the constructed equivalent,
+and it is the weaker example precisely because somebody wrote it to be one. *The
+one person who most needs the warning is the one person built not to see it* — and
+that holds whether or not anyone intended the sentence to warn them.
 
 ### What this is and is not
 
 It is a **signature**, not a genome: enough to say what kind of sentence each
-reader stops at, and the themes hold across three documents sharing no subject
-matter — one of them a real SEC filing, on which one reader's signature was
-half refuted (§2.6). It is not evidence that these resemble real professionals — every reader
-here is a language model given a mandate, and three documents is a small basis.
+reader stops at, and the themes hold across four documents sharing no subject
+matter — two of them real SEC filings, on which one reader's signature was half
+refuted (§2.6). It is not evidence that these resemble real professionals — every reader
+here is a language model given a mandate, and four documents is a small basis.
 What would settle it is the thing still missing from the whole project: a real
 credit analyst, marking up the same page.
 
@@ -401,10 +428,11 @@ credit analyst, marking up the same page.
 3. **Two calibration constants are unverified** (r = 0.27, r = −0.43), taken from
    secondary sources because the paper is paywalled.
 
-4. **One real filing is a data point, not a distribution.** §2.6 rests on a single
-   genuine document. Whether 52.1% overlap and zero valence conflicts are typical
-   of real filings, or a property of this one, needs more of them — and that is
-   now the cheapest useful thing left to do besides the human check.
+4. **Two real filings show a range, not a value.** Attention overlap came out at
+   52.1% and 31.2% on the two genuine documents, so the honest answer to "how much
+   do these readers share" is "it depends on the page" — and nobody should assume
+   the range stops at these two. More real filings remain the cheapest useful thing
+   left besides the human check.
 
 5. **Cross-domain transfer is assumed.** The effect sizes come from medicine,
    sport, aviation and music, applied to financial prose.
@@ -417,10 +445,11 @@ credit analyst, marking up the same page.
 ## 7. Reproducing it
 
 ```bash
-cd pipeline && uv sync && uv run pytest        # 313 tests, no network
+cd pipeline && uv sync && uv run pytest        # 319 tests, no network
 uv run python -m cmp.from_samples scored/subagent-run2   meridian-q4
 uv run python -m cmp.from_samples scored/subagent-heldout aldercroft-h1
 uv run python -m cmp.from_samples scored/subagent-whirlpool  whirlpool-q2   # exits 1: see 2.6
+uv run python -m cmp.from_samples scored/subagent-alamo      alamo-q2
 python3 ../viz/build.py && open ../viz/dist/index.html
 ```
 

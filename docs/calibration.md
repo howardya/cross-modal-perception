@@ -496,6 +496,100 @@ level claim about particular sentences and it failed. The second is a topic-leve
 claim about a whole category and it held. That is the difference the topic axis
 was introduced for, and this is the first run in which the two came apart.
 
+### 7.7 A second real filing withdraws half of §7.6
+
+§7.6 rested on one genuine document and said so. Here is what the second one did
+to it.
+
+**Alamo Group Inc.**, Q2 2026 results release, exhibit 99.1 to an 8-K of
+2026-08-03, accession 0000897077-26-000091, verbatim from EDGAR, 35 clauses. The
+pre-registered enumeration from §7.6 was resumed at the entry after Whirlpool;
+The Andersons (51 narrative sentences) and Sterling Infrastructure (69) were
+rejected on the length criterion, Offerpad and InvenTrust on the financial SIC
+range. Two disclosures travel with it in the stimulus `note`: it sits exactly on
+the 35-sentence ceiling, and two extraction bugs were found while checking that
+borderline count, whose correction is what brought it inside the range.
+Re-running `whirlpool-q2` under the corrected extraction returns byte-identical
+text, so §7.6 is unaffected.
+
+**It passes every L1 check.**
+
+| Persona | alpha | Concentration | vs novice 0.018 | Enhancement | L1 |
+|---|---|---|---|---|---|
+| credit analyst | 0.971 | 0.087 | 4.8x | 2.92x | pass |
+| equity PM | 0.905 | 0.066 | 3.7x | 1.54x | pass |
+| risk officer | 0.915 | 0.064 | 3.6x | 1.78x | pass |
+| retail investor | 0.946 | 0.018 | baseline | — | baseline |
+
+#### What this does to the construction-bias claim
+
+| | Hero (built to divide) | Held-out | Whirlpool (real) | **Alamo (real)** |
+|---|---|---|---|---|
+| Mean top-k overlap | 37.5% | 50.0% | 52.1% | **31.2%** |
+| Valence conflicts | 5 | 1 | 0 | 1 |
+
+**§7.6 said the true overlap was 52.1% and that §7.5's "the hero note exaggerates
+by about a third" had survived contact with a real document. The second real
+filing came in at 31.2% — below the hero note. That conclusion is withdrawn.**
+
+What one real filing looked like was a fact about that filing. Across four
+documents the overlap runs 31% to 52%, and the two constructed notes sit inside
+the range the two real ones span rather than to one side of it. The defensible
+statement is now weaker and more useful: **how much of their attention two
+readers share is mostly a property of the document, and no single percentage is a
+property of the four mandates.** §7.5's comparison was two points being read as a
+trend; §7.6 added a third and read it the same way. Four points show the spread
+that the first three concealed.
+
+This is the second time in this project that a number computed on one stimulus
+was mistaken for a number about the method. §7.2 was the first.
+
+**The valence result mostly holds.** Five conflicts on the hero note against one,
+one and zero elsewhere. The hero note is the outlier, and §2.2 of `findings.md`
+describes a real mechanism — but the two sentences it rests on were written here,
+and three documents since have produced two conflicts between them. The claim
+worth making is about how rarely such sentences occur, not that professionals and
+amateurs never disagree.
+
+#### What the pair of filings settles about the risk officer
+
+§7.6 could not distinguish two explanations for that failure: the reader is
+mis-specified, or the *description* of the reader is. Alamo separates them.
+
+Its risk-officer mask was written from the **mandate** — concentration, hedged
+characterisation, growth an acquisition may be masking, investment funded from
+outside operations, what an adjustment excludes — and deliberately not from the
+"stops at reassurance" signature that had just been refuted. On that mask the
+reader attends **1.78x** more than the novice to what its mandate predicts and
+passes every check.
+
+So the mandate describes this reader and the signature did not. The persona was
+never mis-specified; a sentence in `findings.md` written by reading two
+constructed documents was. That is the strongest available argument for the topic
+axis over clause-level signatures, and it is worth stating plainly: **the
+project's own prose was the thing that failed the out-of-sample test.**
+
+#### What keeps strengthening
+
+| Reader | 2 documents | 3 | **4** |
+|---|---|---|---|
+| credit analyst | +0.90 | +0.91 | **+0.92** |
+| retail investor | +0.78 | +0.76 | **+0.81** |
+| risk officer | +0.79 | +0.78 | **+0.80** |
+| equity PM | +0.54 | +0.54 | +0.54 |
+
+The profile correlations rose as the documents became less like one another, which
+is the opposite of what a fitted artefact does. Performance is still the risk
+officer's deepest topic on all four. Debt is still the credit analyst's tallest
+and the untrained reader's deepest on all four. Whatever is unstable in this study,
+the topic profiles are not it.
+
+One consequence of a real filing worth noting: `alamo-q2` contains **no clauses at
+all** about who the revenue depends on. An empty category gives every reader a
+share of zero and therefore a lift of zero, so the bar is flat rather than absent
+— which reads as "everyone attended equally" and means "there was nothing to
+attend to". Recorded in `topics.json`.
+
 ---
 
 ## 8. What would fix it
@@ -508,8 +602,11 @@ Roughly in order of value per unit of effort:
 2. Obtain the paywalled meta-analysis and verify the two constants.
 3. ~~Run the held-out validation and publish the result.~~ Done — §7.5.
 4. ~~Compare against a real analyst note rather than only a constructed one.~~
-   Done — §7.6. A real SEC filing puts the true attention overlap at 52.1% and
-   removed the valence divide entirely. More real filings would now be worth more
-   than more constructed ones; one is a data point, not a distribution.
+   Done twice — §7.6 and §7.7 — and the second one withdrew the first one's
+   headline. Two real filings put attention overlap at 52.1% and 31.2%, which is a
+   wider spread than the constructed pair was built to demonstrate. **More real
+   filings remain the cheapest useful thing here after the human check**: four
+   documents show a range where three showed a trend, and nobody should assume
+   the range stops at these two.
 5. Actual eye-tracking of 5 practitioners per role. This is the real study, and it
    appears not to exist. If someone wants a research project, that is it.

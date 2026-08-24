@@ -34,6 +34,7 @@ DOCUMENTS = [
     ("meridian-q4", "Meridian Logistics"),
     ("aldercroft-h1", "Aldercroft Software"),
     ("whirlpool-q2", "Whirlpool Corporation"),
+    ("alamo-q2", "Alamo Group"),
 ]
 
 #: Documents that did not pass the L1 acceptance check, and for which reader.
@@ -231,7 +232,7 @@ def build_report_data() -> dict[str, Any]:
         "mirrors": mirrors,
         "pairs": pairs,
         "scale": {
-            "profile_max": 15,
+            "profile_max": 16,
             "mirror_max": 6,
         },
     }
