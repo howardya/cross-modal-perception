@@ -30,7 +30,7 @@ reasons they would be right to.
 | "They share 2 of the 8 clauses they attend to most" | Top-k overlap between two modelled attention distributions, computed exactly |
 | "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose — and **not** enforced by the model, for the reasons in §7.1 |
 | The bouba/kiki result | Measured, on 917 people across 25 languages. Real. |
-| "A clause reading warm to one and cold to another" | On the one **real** filing in the study, this happens **zero** times between any pair of readers — see §7.6. The valence divide is a property of the constructed notes |
+| "A clause reading warm to one and cold to another" | Across the two **real** filings this happens **zero and one** times — against five on the note built to divide readers. See §7.6 and §7.7. The divide is real where a document contains such a sentence; the hero note is the outlier |
 | The synaesthesia illustration | An illustration of *reported experience*. The measured advantage is much smaller — see §5 |
 
 The two Act 1 items are the only things in the piece grounded in direct

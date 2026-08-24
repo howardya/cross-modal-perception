@@ -16,20 +16,24 @@ viz/report.template.html + cmp.report_data (all fixtures) → viz/dist/report.ht
 
 ## Which should you add first?
 
-**A document, and preferably another real one.**
+**A document, and it should be a real one.**
 
-The signature claim rests on three documents, one of them a real SEC filing
-(`whirlpool-q2`). The correlations are +0.91, +0.78, +0.76 and +0.54 and they
-barely moved when the third arrived, which is the first real evidence that the
-profiles belong to the readers rather than to the pages.
+The signature claim rests on four documents, two of them real SEC filings. The
+correlations are +0.92, +0.81, +0.80 and +0.54, and they went *up* as the
+documents became less like each other — which is the opposite of what a fitted
+artefact does, and the most robust thing in the study.
 
-**The next most valuable text is a second real filing.** §7.6 of
-[`calibration.md`](calibration.md) rests on exactly one genuine document, and one
-document is a data point rather than a distribution. It put the true attention
-overlap at 52.1% — against 37.5% on the note built to divide readers and 50% on
-the one that was not — and produced *zero* valence conflicts where the
-constructed notes produced five and one. Whether that is what real filings look
-like, or what this filing looks like, is unanswerable with n = 1.
+**Everything else is less settled than three documents made it look.** §7.6 of
+[`calibration.md`](calibration.md) drew a conclusion from one real filing —
+attention overlap of 52.1%, "the constructed notes inflate by a third,
+confirmed" — and §7.7 withdrew it, because the second real filing came in at
+31.2%, *below* the note built to divide readers. Four documents span 31% to 52%,
+and the constructed pair sits inside that range rather than to one side of it.
+
+Take the lesson rather than the number: **two points look like a trend, three
+points look like a confirmed trend, and the fourth is where you find out.** If a
+new document moves a headline figure, suspect the figure before you suspect the
+document.
 
 Pick it the way `whirlpool-q2` was picked: **write the selection rule down before
 you read any candidates**, and record the rule and the rejections in the
@@ -66,8 +70,10 @@ cost the next section explains.
    changes every profile in the study, so it is the same kind of decision as
    adding a reader.
 
-   Real filings strain the seven in ways constructed notes do not, and
-   `topics.json` now records three such strains from `whirlpool-q2` — section
+   Real filings strain the seven in ways constructed notes do not. `alamo-q2` has
+   **no clauses at all** in one category, which yields a lift of zero for every
+   reader — a flat bar that reads as "everyone attended equally" and means "there
+   was nothing there". `topics.json` also records three strains from `whirlpool-q2` — section
    headers that are structural labels rather than statements, a tax rate with no
    home, and a distribution so lopsided (13 of 31 clauses on performance, one
    each on cash, per share and dependency) that three of the seven bars rest on a
@@ -93,11 +99,19 @@ cost the next section explains.
    Five samples per reader is the floor; `--k 1` is rejected because a single
    sample has no measurable reliability.
 
+3b. **Write the masks from the mandate, not from the reader's write-up.** The
+   risk officer's mask on `whirlpool-q2` was built from its signature in
+   `findings.md` §5b — *stops at reassurance* — and failed L1. On `alamo-q2` the
+   same reader's mask was built from its `FINANCE_PERSONAS` mandate instead, and
+   it passed comfortably. A mask copied from the study's own prose tests whether
+   that prose is right, which is worth doing deliberately and disastrous by
+   accident.
+
 4. **Check it passed.** The command exits non-zero if the run fails the
    literature checks. Do not tune the personas until it passes — a failure is a
    result. §7.3 of `calibration.md` writes up the first one and §7.6 the latest,
-   where the real filing failed on the risk officer and the failure turned out to
-   be the most informative thing in the run.
+   where a real filing failed on the risk officer and the failure turned out to be
+   the most informative thing in the run — §7.7 is what identified the cause.
 
    A failing document can still go into the study, as `whirlpool-q2` did, but
    then `cmp.report_data.L1_FAILURES` has to name it and the page has to say so
