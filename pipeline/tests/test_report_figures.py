@@ -243,45 +243,116 @@ def test_the_ghost_cells_mark_the_consensus_the_lay_reader_misses(html, hero):
     )
 
 
-# --- the threat-pull axis figure ------------------------------------------------------
+# --- the signature section ------------------------------------------------------------
 
 
-def _dumbbells(html: str) -> list[tuple[float, float]]:
-    return [
-        (float(a), float(b))
-        for a, b in re.findall(
-            r'class="dumb-track" data-hero="(-?[\d.]+)" data-held="(-?[\d.]+)"', html
-        )
-    ]
+def _lift_of(name: str, persona: str, needle: str) -> float:
+    """Recompute the lift the page quotes, from the fixture, in points."""
+    from cmp.lift import attention_lift
+    from cmp.profile import load
+
+    texts, fields = load(name)
+    matches = [i for i, t in enumerate(texts) if needle in t]
+    assert len(matches) == 1, f"{needle!r} matched {len(matches)} sentences in {name}"
+    return attention_lift(fields)[persona][matches[0]] * 100
 
 
-def test_the_threat_axis_values_come_from_the_fixtures(html):
-    """Hardcoded in the page because they sit in prose; pinned here so they
-    cannot drift away from the data."""
-    from cmp.dna import collect
-
-    data = collect()
-    order = ["risk-officer", "equity-pm", "credit-analyst", "retail-investor"]
-    rows = _dumbbells(html)
-    assert len(rows) == 4, f"expected four roles, found {len(rows)}"
-    for pid, (hero, held) in zip(order, rows):
-        assert hero == pytest.approx(data["hero"]["threat"][pid], abs=0.005), pid
-        assert held == pytest.approx(data["held-out"]["threat"][pid], abs=0.005), pid
-
-
-def test_the_axis_is_ordered_most_to_least_threat_driven(html):
-    heroes = [h for h, _ in _dumbbells(html)]
-    assert heroes == sorted(heroes, reverse=True)
-
-
-def test_the_untrained_reader_is_the_only_role_left_of_zero_on_both(html):
-    rows = _dumbbells(html)
-    left_on_both = [i for i, (h, k) in enumerate(rows) if h < 0 and k < 0]
-    assert left_on_both == [3], "the retail investor should be the only one"
+QUOTED = [
+    # (document, reader, sentence fragment, figure printed on the page)
+    ("meridian-q4", "credit-analyst", "Net leverage stands at 4.1x", 2.2),
+    ("aldercroft-h1", "credit-analyst", "holds $420m of cash", 4.8),
+    ("meridian-q4", "credit-analyst", "renewal pipeline as constructive", -1.4),
+    ("meridian-q4", "equity-pm", "Gross margin declined 240", 1.9),
+    ("aldercroft-h1", "equity-pm", "Diluted share count increased", 5.6),
+    ("aldercroft-h1", "equity-pm", "disclosed a security incident", -4.3),
+    ("meridian-q4", "risk-officer", "three largest customers", 2.0),
+    ("aldercroft-h1", "risk-officer", "No customer data was exfiltrated", 5.1),
+    ("aldercroft-h1", "risk-officer", "first positive operating income", -4.1),
+    ("meridian-q4", "retail-investor", "eighth consecutive quarter", 3.1),
+    ("aldercroft-h1", "retail-investor", "first positive operating income", 3.3),
+    ("meridian-q4", "retail-investor", "agreed an amendment with its lending", -4.1),
+    ("aldercroft-h1", "retail-investor", "Share-based compensation", -3.0),
+]
 
 
-def test_the_credit_analyst_has_the_longest_bar(html):
-    """The instability the caption calls out must be the visible one."""
-    rows = _dumbbells(html)
-    swings = [abs(h - k) for h, k in rows]
-    assert swings.index(max(swings)) == 2, "credit analyst should swing furthest"
+@pytest.mark.parametrize("doc,persona,needle,printed", QUOTED)
+def test_every_quoted_lift_matches_the_fixture(doc, persona, needle, printed):
+    assert _lift_of(doc, persona, needle) == pytest.approx(printed, abs=0.06)
+
+
+@pytest.mark.parametrize("doc,persona,needle,printed", QUOTED)
+def test_every_quoted_sentence_appears_on_the_page(html, doc, persona, needle, printed):
+    assert needle in html, needle
+
+
+def test_the_risk_officer_really_does_stop_at_the_reassurance(html):
+    """The page's boldest claim, so it is the one most worth pinning."""
+    from cmp.lift import signatures
+    from cmp.profile import load
+
+    texts, fields = load("aldercroft-h1")
+    top = [texts[m.index] for m in signatures(fields, "risk-officer", k=2)]
+    assert any("No customer data was exfiltrated" in t for t in top)
+    assert "treats a denial as information" in html
+
+
+def test_the_risk_officer_is_blind_to_performance(html):
+    from cmp.lift import blind_spots
+    from cmp.profile import load
+
+    for doc, needle in (
+        ("meridian-q4", "EBITDA"),
+        ("aldercroft-h1", "operating income"),
+    ):
+        texts, fields = load(doc)
+        worst = [texts[m.index] for m in blind_spots(fields, "risk-officer", k=2)]
+        assert any(needle in t for t in worst), doc
+
+
+def test_the_covenant_amendment_is_the_untrained_readers_deepest_blind_spot(html):
+    """The claim the mirrored figure is built around.
+
+    Written first as "deepest in the entire dataset", which was wrong — the
+    equity PM misses the security incident by 4.3 points against this 4.1. The
+    true and still striking claim is scoped to the untrained reader.
+    """
+    from cmp.lift import attention_lift
+    from cmp.profile import load
+
+    worst = None
+    for name in ("meridian-q4", "aldercroft-h1"):
+        texts, fields = load(name)
+        for i, v in enumerate(attention_lift(fields)["retail-investor"]):
+            if worst is None or v < worst[0]:
+                worst = (v, texts[i])
+    value, text = worst
+    assert "amendment with its lending syndicate" in text
+    assert "deepest blind spot anywhere in this" in html
+
+
+# --- the mirrored-sentence figure ----------------------------------------------------
+
+
+def _mirror_rows(html: str):
+    return re.findall(
+        r'data-seen="(-?[\d.]+)" data-missed="(-?[\d.]+)"\s+'
+        r'data-seen-by="([^"]+)" data-missed-by="([^"]+)"',
+        html,
+    )
+
+
+def test_the_mirror_figure_has_rows(html):
+    assert len(_mirror_rows(html)) == 5
+
+
+def test_every_mirror_row_is_caught_by_one_and_missed_by_another(html):
+    for seen, missed, seen_by, missed_by in _mirror_rows(html):
+        assert float(seen) > 0 > float(missed)
+        assert seen_by != missed_by
+
+
+def test_no_mirror_bar_overflows_its_scale(html):
+    """MIRROR_MAX in the page is 6; a larger value would silently clip."""
+    for seen, missed, _, _ in _mirror_rows(html):
+        assert abs(float(seen)) <= 6
+        assert abs(float(missed)) <= 6

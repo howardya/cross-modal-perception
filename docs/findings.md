@@ -214,88 +214,80 @@ not authored by hand.
 
 ---
 
-## 5b. Is there a "DNA" for each role?
+## 5b. A signature for each reader
 
-Asked directly: can the four readers be reduced to a compact profile that means
-something, rather than a 30-clause fingerprint of one document?
+Can the four readers be reduced to something compact that *means* something?
 
-The question has a sharp test in it. **A fingerprint identifies; DNA generates.**
-A trait is only a property of the *role* if it survives changing the document —
-and with two independently-scored notes that is falsifiable. Six traits were
-computed on both (`pipeline/src/cmp/signature.py`, report via
-`python -m cmp.dna`).
+**A first attempt failed and is worth recording.** Six statistical traits were
+computed — threat pull, baseline mood, focus, chunking, alarm, reading position —
+and checked for stability across both documents. One survived. It was accurate
+and useless: "threat pull is the negative correlation of salience with valence"
+is a number about a number, and the thing it showed was one the attention tables
+already showed better. A signature made of distribution shapes says nothing you
+can act on.
 
-| Trait | Asks | Spread ÷ drift | Ordering holds? |
-|---|---|---|---|
-| **Threat pull** | Does bad news pull the eye, or good news? | 3.98 | **yes** |
-| Chunking | How many sentences read as one idea? | 6.32 | no |
-| Focus | How narrowly is attention spent? | 4.09 | no |
-| Baseline mood | What does this reader expect to find? | 3.37 | no |
-| Alarm | How much unease does the document raise? | 1.95 | no |
-| Reading position | Where in the document does attention land? | 1.35 | no |
+The question a signature should answer is concrete: **what kind of sentence makes
+this reader look up, and what do they walk straight past while everyone else
+stops?** Both halves come from one number — a reader's share of attention on a
+sentence, minus the average share across all four. Implemented in
+`pipeline/src/cmp/lift.py`; report via `python -m cmp.profile`.
 
-### The one that works
+### The four signatures
 
-**Threat pull** — the correlation between how much a clause pulls the eye and how
-*bad* it is — is the only trait whose ordering across all four readers survives
-the change of document. It also flips sign, which is what makes it interpretable
-rather than merely different:
+Two sentences per reader from each document, so a theme appearing on both is a
+property of the reader rather than of the page.
 
-| | Hero note | Held-out note |
+| Reader | Stops at | Walks past |
 |---|---|---|
-| risk officer | +0.83 | +0.68 |
-| equity PM | +0.83 | +0.65 |
-| credit analyst | +0.78 | **−0.07** |
-| retail investor | **−0.56** | **−0.35** |
+| **Credit analyst** | Anything that is a claim on cash — what is owed, when it falls due, what it costs | The story being told about the business |
+| **Equity PM** | What a single share is worth — margin, dilution, what was excluded from the adjusted number | The balance sheet, and anything that is not a number |
+| **Risk officer** | Reassurance | How the business actually performed |
+| **Retail investor** | Headline numbers, firsts and streaks, and things you can picture | The machinery — debt terms, accounting adjustments, retention |
 
-Positive means attention is dragged toward bad news; negative means toward good
-news. **The untrained reader is negative on both documents; two of the three
-professionals are strongly positive on both.** That is the mechanism underneath
-§2.2 — it is *why* the two sentences a layperson likes best are the two every
-professional flags. Their attention is wired to opposite signs.
+### The risk officer stops at being told not to worry
 
-It is also the trait the prompt did **not** specify. The mandates say what each
-role reads *for* — covenants, tail events, headline numbers — never which
-direction of news should attract attention. Meanwhile alarm, which the risk
-officer's mandate does imply, failed the stability test. So the signature is not
-simply recovering its own instructions, which was the obvious objection.
+Its two strongest sentences on the held-out note are the disclosure of a security
+incident and the sentence saying nobody was harmed by it — *"No customer data was
+exfiltrated, according to a third-party forensic review"* (+5.1). On the hero note
+one of its signatures is *"Management described the renewal pipeline as
+constructive"* (+1.4).
 
-### Three honest limits
+Three reassurances, two documents, one reader. **It is the only reader that treats
+a denial as information.** Nothing in its mandate says to attend to hedged
+comfort; it says to look for what could go wrong. Reassurance is where it went
+looking.
 
-**The credit analyst breaks it.** Its threat pull collapses from +0.78 to −0.07 on
-the unseen note. The professional/lay separation rests on two roles out of three.
+Its blind spots are the mirror of that: adjusted EBITDA (−1.6), revenue (−1.5),
+the company's first-ever positive operating income (−4.1). **It does not care how
+the business did.**
 
-**On the held-out note the axis inverts.** There, the three professionals differ
-from *each other* (spread 0.75) more than the least threat-driven of them differs
-from the layperson (gap 0.28). On the tuned note the group split dominates; on the
-unseen one it does not. This is the strongest single caution against treating
-these six numbers as settled.
+### Every blind spot is somebody else's specialism
 
-**Two documents cannot establish a fine structure.** Several traits order the
-three professionals identically on both — threat, alarm and reading position all
-put the risk officer at one end, most alarmed and reading latest in the document,
-which is a satisfying story about a role that hunts for governance items buried at
-the end. But with two documents, "consistent twice" is a coin landing the same way
-twice, and on the hero note the credit/equity gaps are 0.78 vs 0.83 and 0.40 vs
-0.41 — noise. Direction only; no magnitude claimed.
+The gaps are not random. Line each reader's over-attended sentence up against the
+reader who most walks past it, and the same sentences appear on both sides:
 
-### What can be said
+| Sentence | Caught by | Missed by |
+|---|---|---|
+| "…agreed an amendment with its lending syndicate, raising the maximum permitted leverage covenant…" | credit analyst **+2.0** | retail investor **−4.1** |
+| "Net leverage stands at 4.1x adjusted EBITDA, against 2.9x a year ago." | credit analyst **+2.2** | retail investor **−3.4** |
+| "…reported fourth-quarter revenue of $1.42bn, up 19% year on year." | retail investor **+3.3** | risk officer **−1.5** |
+| "No customer data was exfiltrated, according to a third-party forensic review." | risk officer **+5.1** | equity PM **−3.8** |
+| "The company holds $420m of cash and has no drawn debt." | credit analyst **+4.8** | equity PM **−3.7** |
 
-> There is **one axis with real support: trained versus untrained**, carried by
-> which direction of news captures attention. Within the professionals the
-> differences are consistent in direction and slight in size, and two documents
-> is not enough to call them role identities. There is no evidence here for four
-> distinct genomes.
+The first row is the sharpest result in the study. The sentence saying the company
+went to its lenders for permission to carry more debt is the **untrained reader's
+deepest blind spot anywhere here** — and one of the credit analyst's strongest
+signals. *The one person who most needs that warning is the one person built not
+to see it.*
 
-That is a smaller claim than "each role has a DNA", and it is the one the data
-carries. The fix is cheap and obvious: more documents. Each additional stimulus
-scored the same way turns a coin-flip into a trend, and the machinery to do it is
-already built.
+### What this is and is not
 
-Also worth noting against §2.1: **reading position is the weakest trait of the
-six.** The "professionals in the middle, untrained at the ends" pattern visible in
-the lead figure is a property of the hero note, not of the roles. The figure is
-labelled with its document for that reason.
+It is a **signature**, not a genome: enough to say what kind of sentence each
+reader stops at, and the themes hold across two documents sharing no subject
+matter. It is not evidence that these resemble real professionals — every reader
+here is a language model given a mandate, and two documents is a small basis.
+What would settle it is the thing still missing from the whole project: a real
+credit analyst, marking up the same page.
 
 ---
 
