@@ -405,6 +405,40 @@ header h1 { margin-bottom: 1.4rem; }
   text-align: center;
 }
 
+/* ── the two matrices ────────────────────────────────────────
+   Both encode a signed quantity, so both want a diverging scale. The page
+   already spends hue on valence, so these diverge on VALUE instead: ink for
+   above, muted for below, the bare surface at zero. Real tables, so the
+   numbers are the direct labels and the accessible view at once. */
+
+.mx-wrap { overflow-x: auto; margin: 1.2rem 0 0; }
+.mx {
+  border-collapse: separate; border-spacing: 2px;
+  font-family: var(--data); font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+.mx th {
+  font-weight: 400; color: var(--muted); padding: 0.3rem 0.5rem;
+  text-align: right; white-space: nowrap;
+}
+.mx thead th { text-align: center; font-size: 0.62rem; letter-spacing: 0.03em; }
+.mx tbody th { text-align: right; }
+.mx td {
+  width: 4.4rem; height: 2.1rem; text-align: center;
+  color: var(--ink); border-radius: 3px;
+  transition: outline-color 120ms;
+  outline: 2px solid transparent;
+}
+.mx td.self { color: var(--muted); }
+.mx tr:hover td, .mx td:hover { outline-color: color-mix(in oklab, var(--surface), var(--ink) 35%); }
+.mx caption {
+  caption-side: top; text-align: left; color: var(--muted);
+  font-size: 0.72rem; padding-bottom: 0.5rem;
+}
+.mx-key { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.7rem;
+          font-family: var(--data); font-size: 0.66rem; color: var(--muted); }
+.mx-key i { display: block; width: 2.2rem; height: 0.7rem; border-radius: 2px; }
+
 /* ── mirrored sentences ──────────────────────────────────── */
 
 .mirror { margin: 0.5rem 0 0; }
@@ -1274,21 +1308,24 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
       <figcaption>
         <p>
-          Read the top and bottom rows against each other. <strong>The credit
-          analyst's tallest bar is debt and its deepest is performance. The
-          untrained reader's tallest is performance and its deepest is debt.</strong>
-          They are photographic negatives: one reads what the company owes and
-          skips how it did, the other reads how it did and skips what it owes.
+          <strong>The credit analyst's tallest bar is debt; the untrained reader's
+          deepest is debt, and its tallest is performance.</strong> That much still
+          holds. But only half of that mirror survived going from four readers to
+          seven: the credit analyst's own deepest topic is no longer performance but
+          <em>what happened</em>. Adding three readers who ignore corporate events
+          lifted the average there and took the credit analyst's floor down with it.
+          Nothing about the reader changed; the thing it is measured against did.
         </p>
         <p style="margin-bottom:0">
           The risk officer's signature is an absence — <em>performance</em> is its
-          deepest bar on all five documents, every real filing included, and on the
-          pharmaceutical filing it is the deepest bar anywhere in the study. It is
-          the only reader defined mainly by what it refuses to look at — and that
-          turns out to be why it travels. The correlations now read +0.74 for the
-          risk officer, +0.58 for the untrained reader, +0.52 for the credit analyst
-          and +0.50 for the equity PM, whose shape is the weakest of the four
-          and not yet established. The next panel is about why three of those four fell.
+          deepest bar on <strong>four of the five</strong> documents. It is the only
+          reader defined mainly by what it refuses to look at — and that is why it
+          travels furthest: at seven readers it is the most stable profile here, at
+          +0.72. Behind it: +0.60 equity PM, +0.59 untrained reader, +0.57 distressed
+          investor, +0.56 credit analyst, +0.48 journalist, and +0.37 for the short
+          seller, whose shape is the weakest of the seven and not yet established.
+          Every one of these fell when three readers were added, because lift is
+          measured against the reader average and the average moved.
         </p>
       </figcaption>
     </figure>
@@ -1329,6 +1366,55 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       </p>
     </div>
 
+    <h2 style="margin-top:2.5rem">All seven, side by side</h2>
+    <p>
+      The bars above show one reader at a time across five documents. These two
+      tables show all seven at once. The first is each reader's attention by topic,
+      averaged over every document — <strong>the DNA, one row per reader</strong>.
+      Positive means this reader spends more of its attention there than the other
+      six do.
+    </p>
+
+    <figure class="aha">
+      <div class="mx-wrap"><table class="mx" id="mx-dna"></table></div>
+      <div class="mx-key">
+        <span>reads it less</span><i id="mx-key-a"></i><span>average</span><i id="mx-key-b"></i><span>reads it more</span>
+      </div>
+      <figcaption>
+        <p style="margin-bottom:0">
+          Read down a column to see who owns a topic. <em>What is owed</em> is
+          positive for exactly two readers and negative for five — and the two are
+          the two whose job is being repaid. <em>How it did</em> splits the room the
+          other way.
+        </p>
+      </figcaption>
+    </figure>
+
+    <p style="margin-top:2rem">
+      And if two readers have the same DNA, they should correlate. This is every
+      reader against every other — <strong>+1.00 means identical shape, −1.00 means
+      one reads exactly what the other skips.</strong>
+    </p>
+
+    <figure class="aha">
+      <div class="mx-wrap"><table class="mx" id="mx-sim"></table></div>
+      <figcaption>
+        <p>
+          <strong id="mx-twins"></strong> The distressed investor was added to test
+          whether professionals really do agree about good and bad news while
+          differing about where to look. It turns out to be the credit analyst's
+          twin in attention — which is what its mandate predicts, since both are
+          reading for whether the money comes back.
+        </p>
+        <p style="margin-bottom:0">
+          <strong id="mx-opposites"></strong> Not the untrained reader — the
+          journalist. The reader most opposed to the credit analyst is not the one
+          who lacks training, but the one whose training points somewhere else
+          entirely.
+        </p>
+      </figcaption>
+    </figure>
+
     <h2 style="margin-top:2.5rem">Every blind spot is somebody else's specialism</h2>
     <p>
       The gaps are not random. Line up the sentence each reader over-attends to
@@ -1342,10 +1428,10 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <figcaption>
         <p style="margin-bottom:0">
           The <strong>untrained reader's deepest blind spot anywhere in this
-          study</strong> is now a sentence from a real filing: Alamo Group reporting
-          that six months of operations produced $22.7 million of cash while
-          investing consumed $171.6 million, with $37.3 million borrowed to bridge
-          the gap. A company spending seven times what it earned, funded from
+          study</strong> is a sentence from a real filing: Alamo Group reporting that six
+          months of operations produced $22.7 million of cash while investing
+          consumed $171.6 million, with $37.3 million borrowed to bridge the gap
+          (−4.9). A company spending seven times what it earned, funded from
           outside — and the reader least able to absorb that outcome is the one who
           skips the sentence. Nobody wrote that sentence to catch anyone out. It is
           just how a results release reports its own cash flow.
@@ -1368,8 +1454,9 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <p style="margin-bottom:0">
         It does not say these are <em>real</em> professionals. Every reader here is a
         language model given a mandate, and five documents is still a small basis
-        for any claim about stability — one of them failed the literature checks for
-        one reader, and another cannot express two of the seven topics at all. What would settle it is the thing still missing from
+        for any claim about stability — three of them now fail the literature checks
+        for one reader each, and one cannot express two of the seven topics at all.
+        Seven readers make the figures richer without making any of them truer. What would settle it is the thing still missing from
         this whole project: a real credit analyst, marking up the same page.
       </p>
     </div>
@@ -1642,6 +1729,57 @@ const DNA_MAX = DATA.scale.profile_max;
 })();
 
 // Sentences one reader owns and another walks past.
+//: Diverging on value, not hue. `t` in [-1,1]; ink above, muted below.
+function mxCell(v, max) {
+  const t = Math.max(-1, Math.min(1, v / max));
+  // The two poles are asymmetric on purpose: ink goes to 66% and the muted
+  // side stops at 34%, so "reads it more" is visibly heavier than "reads it
+  // less" instead of the two ends meeting in the same mid-grey. The sign is
+  // printed in every cell regardless, so nothing depends on the shade alone.
+  const pct = Math.round(Math.abs(t) * (t >= 0 ? 66 : 34));
+  const tok = t >= 0 ? "var(--ink)" : "var(--muted)";
+  return `color-mix(in oklab, var(--surface), ${tok} ${pct}%)`;
+}
+
+(() => {
+  const host = document.getElementById("mx-dna");
+  if (!host) return;
+  const max = 12;
+  const topics = DATA.topics.map((t) => t.label);
+  let html = `<caption>Attention by topic, averaged over all ${DATA.documents.length} documents. `
+           + `Points above or below the ${DATA.readers.length}-reader average.</caption>`
+           + `<thead><tr><th></th>${topics.map((t) => `<th>${t}</th>`).join("")}</tr></thead><tbody>`;
+  for (const r of DATA.dna) {
+    html += `<tr><th>${r.label}</th>` + r.row.map((v) =>
+      `<td style="background:${mxCell(v, max)}" title="${r.label} · ${v >= 0 ? "+" : ""}${v.toFixed(1)} points">`
+      + `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(1)}</td>`).join("") + `</tr>`;
+  }
+  host.innerHTML = html + `</tbody>`;
+  const a = document.getElementById("mx-key-a"), b = document.getElementById("mx-key-b");
+  if (a) a.style.background = mxCell(-max, max);
+  if (b) b.style.background = mxCell(max, max);
+})();
+
+(() => {
+  const host = document.getElementById("mx-sim");
+  if (!host) return;
+  const S = DATA.similarity;
+  let html = `<caption>How alike two readers' DNA is, as a correlation between the rows above.</caption>`
+           + `<thead><tr><th></th>${S.labels.map((l) => `<th>${l}</th>`).join("")}</tr></thead><tbody>`;
+  S.matrix.forEach((row, i) => {
+    html += `<tr><th>${S.labels[i]}</th>` + row.map((v, j) => {
+      const self = i === j;
+      return `<td class="${self ? "self" : ""}" style="background:${self ? "transparent" : mxCell(v, 1)}"`
+        + ` title="${S.labels[i]} vs ${S.labels[j]}: ${v >= 0 ? "+" : ""}${v.toFixed(2)}">`
+        + `${self ? "—" : (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(2)}</td>`;
+    }).join("") + `</tr>`;
+  });
+  host.innerHTML = html + `</tbody>`;
+  const t = document.getElementById("mx-twins"), o = document.getElementById("mx-opposites");
+  if (t) t.textContent = `The closest pair is the ${S.twins.a} and the ${S.twins.b}, at ${S.twins.r >= 0 ? "+" : ""}${S.twins.r.toFixed(2)}.`;
+  if (o) o.textContent = `The most opposed pair is the ${S.opposites.a} and the ${S.opposites.b}, at ${S.opposites.r.toFixed(2)}.`;
+})();
+
 (() => {
   const host = document.getElementById("mirror");
   if (!host) return;

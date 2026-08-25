@@ -147,15 +147,15 @@ def test_a_reader_without_a_prose_theme_fails_loudly():
 
 
 QUOTED = [
-    ("meridian-q4", "credit-analyst", "Net leverage stands at 4.1x", 2.2),
-    ("aldercroft-h1", "credit-analyst", "holds $420m of cash", 4.8),
-    ("meridian-q4", "equity-pm", "Gross margin declined 240", 1.9),
-    ("aldercroft-h1", "equity-pm", "Diluted share count increased", 5.6),
-    ("meridian-q4", "risk-officer", "three largest customers", 2.0),
-    ("aldercroft-h1", "risk-officer", "No customer data was exfiltrated", 5.1),
-    ("aldercroft-h1", "risk-officer", "first positive operating income", -4.1),
-    ("meridian-q4", "retail-investor", "eighth consecutive quarter", 3.1),
-    ("meridian-q4", "retail-investor", "agreed an amendment with its lending", -4.1),
+    ("meridian-q4", "credit-analyst", "Net leverage stands at 4.1x", 1.9),
+    ("aldercroft-h1", "credit-analyst", "holds $420m of cash", 5.2),
+    ("meridian-q4", "equity-pm", "Gross margin declined 240", 2.3),
+    ("aldercroft-h1", "equity-pm", "Diluted share count increased", 6.5),
+    ("meridian-q4", "risk-officer", "three largest customers", 1.9),
+    ("aldercroft-h1", "risk-officer", "No customer data was exfiltrated", 4.5),
+    ("aldercroft-h1", "risk-officer", "first positive operating income", -5.1),
+    ("meridian-q4", "retail-investor", "eighth consecutive quarter", 3.6),
+    ("meridian-q4", "retail-investor", "agreed an amendment with its lending", -4.6),
 ]
 
 
@@ -165,28 +165,37 @@ def test_figures_quoted_in_prose_still_match_the_fixtures(doc, persona, needle, 
 
 
 def test_the_mirror_the_caption_claims_is_real(template):
+    """Three of the four legs survived the seven-reader re-base; the fourth
+    did not, and the caption now says which. The credit analyst's own deepest
+    topic on the hero note is `events`, not `perform` -- adding three readers
+    who ignore what happened lifted the average there and took the credit
+    analyst's floor with it."""
     hero = topic_lift(_fixture("meridian-q4")["fields"], labels_for("meridian-q4"))
-    debt, perform = "debt", "perform"
     credit, retail = hero["credit-analyst"], hero["retail-investor"]
-    assert max(credit, key=credit.get) == debt
-    assert min(credit, key=credit.get) == perform
-    assert max(retail, key=retail.get) == perform
-    assert min(retail, key=retail.get) == debt
-    assert "photographic negatives" in template
+    assert max(credit, key=credit.get) == "debt"
+    assert max(retail, key=retail.get) == "perform"
+    assert min(retail, key=retail.get) == "debt"
+    assert min(credit, key=credit.get) != "perform"
+    assert "half of that mirror" in template
 
 
-def test_the_risk_officer_dips_on_performance_in_both_documents(template):
-    for sid, _ in DOCUMENTS:
-        lift = topic_lift(_fixture(sid)["fields"], labels_for(sid))["risk-officer"]
-        assert min(lift, key=lift.get) == "perform", sid
+def test_the_risk_officer_dips_on_performance_on_most_documents(template):
+    """Held on all documents at four readers. At seven it holds on four of the
+    five -- whirlpool-q2 is the exception, where its deepest topic is `share`.
+    The claim is kept and the count is stated rather than rounded up."""
+    dips = [sid for sid, _ in DOCUMENTS
+            if min(l := topic_lift(_fixture(sid)["fields"], labels_for(sid))["risk-officer"],
+                   key=l.get) == "perform"]
+    assert len(dips) == 4, dips
+    assert "four of the five" in template
     assert "signature is an absence" in template
 
 
 def test_the_page_names_the_weakest_profile_as_weakest(data, template):
     rs = {p["id"]: p["correlation"] for p in data["profiles"]}
     weakest = min(rs, key=rs.get)
-    assert weakest == "equity-pm"
-    assert THEMES[weakest]["gloss"] == "least settled of the four"
+    assert weakest == "short-seller"
+    assert THEMES[weakest]["gloss"] == "least settled of the seven"
     assert "not yet established" in template
 
 

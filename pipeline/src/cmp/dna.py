@@ -33,11 +33,20 @@ def _load(name: str) -> dict[str, PerceptualField]:
     return {f["persona_id"]: PerceptualField.from_dict(f) for f in raw["fields"]}
 
 
-def collect() -> dict[str, dict[str, dict[str, float]]]:
-    """{doc tag: {trait key: {role: value}}}"""
+def collect(only: tuple[str, ...] | None = None
+            ) -> dict[str, dict[str, dict[str, float]]]:
+    """{doc tag: {trait key: {role: value}}}
+
+    `only` restricts the readers included. The trait experiment recorded in
+    docs/findings.md 5b was run on the original four readers, and its findings
+    are statements about that population — recomputing them over seven would be
+    a new experiment, not a correction, so the tests that pin it pass the four.
+    """
     out: dict[str, dict[str, dict[str, float]]] = {}
     for tag, name in DOCS:
         fields = _load(name)
+        if only is not None:
+            fields = {k: v for k, v in fields.items() if k in only}
         sigs = {pid: signature(f) for pid, f in fields.items()}
         out[tag] = {t.key: {pid: getattr(s, t.key) for pid, s in sigs.items()} for t in TRAITS}
     return out
