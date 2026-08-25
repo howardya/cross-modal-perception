@@ -41,14 +41,21 @@ DOCUMENTS = [
 #: Documents that did not pass the L1 acceptance check, and for which reader.
 #: They stay in the study -- the failure is the result, see docs/calibration.md
 #: section 7.6 -- but every figure drawing on them has to say so.
-L1_FAILURES = {"whirlpool-q2": ["risk-officer"]}
+L1_FAILURES = {
+    "meridian-q4": ["financial-journalist"],
+    "whirlpool-q2": ["risk-officer"],
+    "jazz-q2": ["distressed-investor"],
+}
 
 #: Display order for readers, and the short label the figures use. Adding a
 #: reader means adding it here and re-running; nothing else is hard-coded.
 READERS = [
     ("credit-analyst", "credit analyst"),
+    ("distressed-investor", "distressed investor"),
     ("risk-officer", "risk officer"),
+    ("short-seller", "short seller"),
     ("equity-pm", "equity PM"),
+    ("financial-journalist", "financial journalist"),
     ("retail-investor", "retail investor"),
 ]
 
@@ -80,10 +87,29 @@ THEMES = {
         "walks": "Walks past how the business actually performed.",
     },
     "equity-pm": {
-        "gloss": "least settled of the four",
+        "gloss": "reads what a share is worth",
         "stops": "Stops at what a single share is worth — margin, dilution, and "
                  "what has been excluded from the adjusted number.",
         "walks": "Walks past the balance sheet, and past anything that is not a number.",
+    },
+    "distressed-investor": {
+        "gloss": "the credit analyst's twin",
+        "stops": "Stops at the maturity wall and the collateral — when the money "
+                 "falls due, what is left to pay it with, and who gets paid first.",
+        "walks": "Walks past how the business is actually trading.",
+    },
+    "short-seller": {
+        "gloss": "least settled of the seven",
+        "stops": "Stops where the reported number and the cash part company — "
+                 "receivables stretching, spend cut to manufacture a margin, a "
+                 "one-off gain holding one up.",
+        "walks": "Walks past what is owed and when. The only expert here that does.",
+    },
+    "financial-journalist": {
+        "gloss": "reads what is missing",
+        "stops": "Stops at people, incidents and what was said out loud — and at "
+                 "the sentence admitting something has not happened yet.",
+        "walks": "Walks past the balance sheet entirely.",
     },
     "retail-investor": {
         "gloss": "reads how it did",
@@ -204,6 +230,38 @@ def build_report_data() -> dict[str, Any]:
     mirrors.sort(key=lambda m: m["seen"] - m["missed"], reverse=True)
     mirrors = mirrors[:5]
 
+    # ── reader x topic: every reader's DNA in one figure ─────────────────
+    # Mean lift across documents. The per-document bars stay in `profiles`;
+    # this is the view that lets seven readers be compared with each other
+    # rather than each against itself.
+    dna = []
+    for pid, label in READERS:
+        row = [float(np.mean([lifts[sid][pid][c] for sid, _ in DOCUMENTS]))
+               for c in CATEGORIES]
+        dna.append({"id": pid, "label": label, "row": row,
+                    "strongest": TOPIC_LABELS[CATEGORIES[int(np.argmax(row))]],
+                    "weakest": TOPIC_LABELS[CATEGORIES[int(np.argmin(row))]]})
+
+    # ── reader x reader: whose DNA resembles whose ───────────────────────
+    # Correlation between the mean topic profiles above. 1.0 means the two
+    # readers spend their attention on the same topics in the same
+    # proportions; negative means one reads what the other skips.
+    order = [d["id"] for d in dna]
+    vecs = {d["id"]: d["row"] for d in dna}
+    similarity = [
+        [1.0 if a == b else round(float(np.corrcoef(vecs[a], vecs[b])[0, 1]), 3)
+         for b in order]
+        for a in order
+    ]
+    twins = max(
+        ((a, b, similarity[i][j])
+         for i, a in enumerate(order) for j, b in enumerate(order) if i < j),
+        key=lambda t: t[2])
+    opposites = min(
+        ((a, b, similarity[i][j])
+         for i, a in enumerate(order) for j, b in enumerate(order) if i < j),
+        key=lambda t: t[2])
+
     # ── pairwise attention, which is O(n^2) in readers ───────────────────
     pairs = []
     hero = docs[DOCUMENTS[0][0]]
@@ -229,12 +287,28 @@ def build_report_data() -> dict[str, Any]:
             for c in CATEGORIES
         ],
         "profiles": profiles,
+        "dna": dna,
+        "similarity": {
+            "order": order,
+            "labels": [dict(READERS)[p] for p in order],
+            "matrix": similarity,
+            "twins": {"a": dict(READERS)[twins[0]], "b": dict(READERS)[twins[1]],
+                      "r": round(twins[2], 2)},
+            "opposites": {"a": dict(READERS)[opposites[0]],
+                          "b": dict(READERS)[opposites[1]],
+                          "r": round(opposites[2], 2)},
+        },
+        "l1_failures": [
+            {"document": dict(DOCUMENTS)[sid], "readers":
+             [dict(READERS)[r] for r in rs]}
+            for sid, rs in L1_FAILURES.items()
+        ],
         "cards": cards,
         "mirrors": mirrors,
         "pairs": pairs,
         "scale": {
-            "profile_max": 16,
-            "mirror_max": 6,
+            "profile_max": 20,
+            "mirror_max": 8,
         },
     }
 

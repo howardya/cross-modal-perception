@@ -8,16 +8,40 @@ matches the data is worse than no claim.
 
 import pytest
 
+#: These pin the *first*, failed attempt at a signature — the six statistical
+#: traits of docs/findings.md 5b. Re-scoring every reader on every document in
+#: one sweep overturned their specific orderings. Restricting the computation to
+#: the original four readers does not restore them, so the cause is the
+#: re-score rather than the three new readers.
+#:
+#: They are marked xfail rather than rewritten. Rewriting the assertions to
+#: match whatever the new sweep says would be fitting a claim to data, which is
+#: the one thing this project keeps refusing to do; deleting them would erase a
+#: recorded negative result. Marked, they still run, and pytest will say so if a
+#: future sweep brings any of them back.
+_SUPERSEDED = pytest.mark.xfail(reason=(
+    "superseded by the seven-reader sweep: the trait orderings this pins do not reproduce across independent sweeps, which is itself the finding — see docs/calibration.md 7.9. The conclusion of findings.md 5b, that the statistical-trait signature was not usable, is unaffected and reinforced."
+), strict=False)
+
 from cmp.dna import collect
 from cmp.signature import TRAITS, trait_drift
 
 EXPERTS = ("credit-analyst", "equity-pm", "risk-officer")
 LAY = "retail-investor"
 
+#: The trait experiment in docs/findings.md 5b was run on these four readers,
+#: before the distressed investor, short seller and journalist existed. Its
+#: findings — including the negative ones — are claims about this population.
+#: Recomputing them over seven readers would be a new experiment whose result
+#: nobody has written up, so these tests keep the original four. Everything
+#: about the *topic* signature, which is what the study actually rests on, is
+#: computed over all seven elsewhere.
+ORIGINAL_FOUR = EXPERTS + (LAY,)
+
 
 @pytest.fixture(scope="module")
 def data():
-    return collect()
+    return collect(only=ORIGINAL_FOUR)
 
 
 @pytest.fixture(scope="module")
@@ -31,11 +55,13 @@ def drifts(data):
 # --- the trait that works ------------------------------------------------------------
 
 
+@_SUPERSEDED
 def test_threat_pull_is_the_only_trait_whose_ordering_survives(drifts):
     holds = [k for k, d in drifts.items() if d.same_ordering]
     assert holds == ["threat"], holds
 
 
+@_SUPERSEDED
 def test_threat_pull_carries_role_signal(drifts):
     assert drifts["threat"].stable
     assert drifts["threat"].verdict == "role signal"
@@ -72,11 +98,13 @@ def test_the_group_gap_narrows_sharply_on_the_unseen_document(data):
     assert gap("held-out") < 0.5
 
 
+@_SUPERSEDED
 def test_reading_position_is_a_property_of_the_document_not_the_role(drifts):
     """The lead figure's 'professionals in the middle' does not generalise."""
     assert not drifts["position"].stable
 
 
+@_SUPERSEDED
 def test_alarm_does_not_survive_either(drifts):
     assert not drifts["alarm"].stable
 
@@ -105,6 +133,7 @@ def _untied_expert_orderings(data) -> set[str]:
     return out
 
 
+@_SUPERSEDED
 def test_only_a_few_traits_rank_the_professionals_consistently(data):
     """Three of six, once ties are excluded — and with two documents and six
     traits that is suggestive rather than established."""
@@ -151,6 +180,7 @@ def test_that_dominance_does_not_hold_on_the_unseen_note(data):
     assert within > between
 
 
+@_SUPERSEDED
 def test_within_professional_differences_are_consistent_but_slight(data):
     """Several traits order the professionals the same way twice. With two
     documents that is a coin landing the same way twice, and on the hero note
@@ -163,6 +193,7 @@ def test_within_professional_differences_are_consistent_but_slight(data):
 # --- provenance of the traits --------------------------------------------------------
 
 
+@_SUPERSEDED
 def test_the_strongest_trait_was_not_one_the_prompt_dictated(drifts):
     """Guards against the obvious objection that the signature just recovers
     the instructions."""
@@ -171,6 +202,7 @@ def test_the_strongest_trait_was_not_one_the_prompt_dictated(drifts):
     assert drifts["threat"].verdict == "role signal"
 
 
+@_SUPERSEDED
 def test_a_prompted_trait_failed(drifts):
     """The same objection, from the other side: being in the prompt did not
     guarantee the trait would hold."""

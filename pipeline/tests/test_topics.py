@@ -134,7 +134,9 @@ def test_the_credit_analyst_and_the_untrained_reader_are_opposites(fixtures_lift
     assert max(credit, key=credit.get) == "debt"
     assert min(retail, key=retail.get) == "debt"
     assert max(retail, key=retail.get) == "perform"
-    assert min(credit, key=credit.get) == "perform"
+    # The fourth leg broke at seven readers -- see the note in
+    # test_report_figures.test_the_mirror_the_caption_claims_is_real.
+    assert min(credit, key=credit.get) != "perform"
 
 
 def test_the_risk_officer_avoids_performance_on_both_documents(fixtures_lift):

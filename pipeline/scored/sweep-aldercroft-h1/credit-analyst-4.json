@@ -1,0 +1,24 @@
+{
+  "units": [
+    {"salience": 0.42, "valence": 0.35, "chunk": 0, "arousal": 0.15},
+    {"salience": 0.62, "valence": -0.6, "chunk": 1, "arousal": 0.55},
+    {"salience": 0.18, "valence": -0.3, "chunk": 1, "arousal": 0.3},
+    {"salience": 0.15, "valence": -0.1, "chunk": 1, "arousal": 0.2},
+    {"salience": 0.12, "valence": 0.1, "chunk": 1, "arousal": 0.15},
+    {"salience": 0.22, "valence": 0.3, "chunk": 1, "arousal": 0.12},
+    {"salience": 0.38, "valence": 0.5, "chunk": 2, "arousal": 0.12},
+    {"salience": 0.52, "valence": 0.4, "chunk": 2, "arousal": 0.2},
+    {"salience": 0.2, "valence": 0.25, "chunk": 3, "arousal": 0.25},
+    {"salience": 0.48, "valence": 0.4, "chunk": 3, "arousal": 0.18},
+    {"salience": 0.6, "valence": 0.45, "chunk": 3, "arousal": 0.45},
+    {"salience": 0.24, "valence": -0.15, "chunk": 4, "arousal": 0.22},
+    {"salience": 0.1, "valence": 0.05, "chunk": 4, "arousal": 0.08},
+    {"salience": 0.72, "valence": 0.85, "chunk": 5, "arousal": 0.2},
+    {"salience": 0.78, "valence": -0.45, "chunk": 5, "arousal": 0.5},
+    {"salience": 0.68, "valence": -0.55, "chunk": 5, "arousal": 0.6},
+    {"salience": 0.22, "valence": -0.25, "chunk": 6, "arousal": 0.28},
+    {"salience": 0.3, "valence": -0.3, "chunk": 7, "arousal": 0.35},
+    {"salience": 0.14, "valence": 0.25, "chunk": 7, "arousal": 0.15},
+    {"salience": 0.46, "valence": -0.35, "chunk": 8, "arousal": 0.4}
+  ]
+}

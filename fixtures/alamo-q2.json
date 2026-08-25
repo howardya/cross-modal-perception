@@ -44,27 +44,27 @@
   "fields": [
     {
       "persona_id": "credit-analyst",
-      "concentration": 0.0870887819514381,
+      "concentration": 0.0844249896065643,
       "top_attention": [
         26,
         10,
         9,
+        28,
         30,
         27,
-        28,
         29,
         11
       ],
       "units": [
         {
-          "salience": 0.06,
+          "salience": 0.08,
           "valence": 0.0,
           "chunk": 0,
           "arousal": 0.05,
-          "order": 32
+          "order": 30
         },
         {
-          "salience": 0.05,
+          "salience": 0.06,
           "valence": 0.0,
           "chunk": 0,
           "arousal": 0.05,
@@ -72,232 +72,232 @@
         },
         {
           "salience": 0.3,
-          "valence": 0.25,
+          "valence": 0.2,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 11
+        },
+        {
+          "salience": 0.28,
+          "valence": 0.15,
           "chunk": 1,
           "arousal": 0.15,
           "order": 13
         },
         {
-          "salience": 0.22,
-          "valence": 0.15,
-          "chunk": 1,
-          "arousal": 0.18,
-          "order": 15
-        },
-        {
           "salience": 0.12,
           "valence": -0.05,
           "chunk": 1,
-          "arousal": 0.12,
-          "order": 28
+          "arousal": 0.1,
+          "order": 27
         },
         {
-          "salience": 0.12,
+          "salience": 0.1,
           "valence": 0.05,
           "chunk": 1,
-          "arousal": 0.14,
+          "arousal": 0.1,
           "order": 29
         },
         {
-          "salience": 0.52,
-          "valence": 0.4,
+          "salience": 0.58,
+          "valence": 0.35,
           "chunk": 1,
           "arousal": 0.2,
-          "order": 9
+          "order": 8
         },
         {
           "salience": 0.18,
-          "valence": 0.15,
-          "chunk": 1,
-          "arousal": 0.1,
-          "order": 21
-        },
-        {
-          "salience": 0.2,
-          "valence": -0.1,
-          "chunk": 1,
-          "arousal": 0.2,
-          "order": 19
-        },
-        {
-          "salience": 0.88,
-          "valence": 0.7,
+          "valence": 0.1,
           "chunk": 2,
-          "arousal": 0.35,
+          "arousal": 0.08,
+          "order": 22
+        },
+        {
+          "salience": 0.16,
+          "valence": -0.05,
+          "chunk": 2,
+          "arousal": 0.15,
+          "order": 23
+        },
+        {
+          "salience": 0.85,
+          "valence": 0.6,
+          "chunk": 3,
+          "arousal": 0.3,
           "order": 2
         },
         {
           "salience": 0.9,
-          "valence": 0.55,
-          "chunk": 2,
-          "arousal": 0.3,
+          "valence": 0.5,
+          "chunk": 3,
+          "arousal": 0.25,
           "order": 1
         },
         {
           "salience": 0.6,
-          "valence": -0.35,
-          "chunk": 2,
-          "arousal": 0.4,
-          "order": 8
+          "valence": -0.3,
+          "chunk": 4,
+          "arousal": 0.35,
+          "order": 7
         },
         {
           "salience": 0.08,
           "valence": 0.05,
-          "chunk": 3,
-          "arousal": 0.1,
-          "order": 30
-        },
-        {
-          "salience": 0.2,
-          "valence": -0.25,
-          "chunk": 3,
-          "arousal": 0.32,
-          "order": 17
-        },
-        {
-          "salience": 0.28,
-          "valence": 0.2,
-          "chunk": 4,
-          "arousal": 0.12,
-          "order": 14
-        },
-        {
-          "salience": 0.15,
-          "valence": -0.05,
-          "chunk": 4,
-          "arousal": 0.15,
-          "order": 24
-        },
-        {
-          "salience": 0.16,
-          "valence": 0.05,
-          "chunk": 4,
-          "arousal": 0.18,
-          "order": 22
-        },
-        {
-          "salience": 0.45,
-          "valence": 0.35,
-          "chunk": 4,
-          "arousal": 0.2,
-          "order": 10
-        },
-        {
-          "salience": 0.14,
-          "valence": 0.15,
           "chunk": 5,
-          "arousal": 0.1,
-          "order": 25
-        },
-        {
-          "salience": 0.2,
-          "valence": 0.05,
-          "chunk": 5,
-          "arousal": 0.18,
-          "order": 18
-        },
-        {
-          "salience": 0.22,
-          "valence": 0.15,
-          "chunk": 5,
-          "arousal": 0.12,
-          "order": 16
-        },
-        {
-          "salience": 0.14,
-          "valence": -0.1,
-          "chunk": 6,
-          "arousal": 0.18,
-          "order": 26
-        },
-        {
-          "salience": 0.2,
-          "valence": 0.05,
-          "chunk": 6,
-          "arousal": 0.15,
-          "order": 20
-        },
-        {
-          "salience": 0.08,
-          "valence": 0.05,
-          "chunk": 7,
           "arousal": 0.1,
           "order": 31
         },
         {
-          "salience": 0.15,
-          "valence": -0.15,
-          "chunk": 7,
-          "arousal": 0.22,
-          "order": 23
+          "salience": 0.22,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.3,
+          "order": 19
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.15,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 18
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.05,
+          "chunk": 6,
+          "arousal": 0.15,
+          "order": 21
         },
         {
           "salience": 0.12,
           "valence": 0.05,
-          "chunk": 7,
+          "chunk": 6,
           "arousal": 0.15,
-          "order": 27
+          "order": 26
         },
         {
-          "salience": 0.94,
-          "valence": -0.7,
+          "salience": 0.5,
+          "valence": 0.3,
+          "chunk": 6,
+          "arousal": 0.15,
+          "order": 10
+        },
+        {
+          "salience": 0.14,
+          "valence": 0.1,
+          "chunk": 7,
+          "arousal": 0.08,
+          "order": 25
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.0,
+          "chunk": 7,
+          "arousal": 0.2,
+          "order": 15
+        },
+        {
+          "salience": 0.28,
+          "valence": 0.1,
+          "chunk": 7,
+          "arousal": 0.15,
+          "order": 12
+        },
+        {
+          "salience": 0.14,
+          "valence": -0.05,
           "chunk": 8,
-          "arousal": 0.8,
+          "arousal": 0.15,
+          "order": 24
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.0,
+          "chunk": 8,
+          "arousal": 0.15,
+          "order": 17
+        },
+        {
+          "salience": 0.08,
+          "valence": 0.05,
+          "chunk": 9,
+          "arousal": 0.1,
+          "order": 32
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.15,
+          "chunk": 9,
+          "arousal": 0.3,
+          "order": 20
+        },
+        {
+          "salience": 0.1,
+          "valence": 0.05,
+          "chunk": 9,
+          "arousal": 0.15,
+          "order": 28
+        },
+        {
+          "salience": 0.95,
+          "valence": -0.6,
+          "chunk": 10,
+          "arousal": 0.75,
           "order": 0
         },
         {
-          "salience": 0.8,
-          "valence": 0.65,
-          "chunk": 9,
+          "salience": 0.7,
+          "valence": 0.5,
+          "chunk": 11,
           "arousal": 0.3,
-          "order": 4
+          "order": 6
         },
         {
-          "salience": 0.76,
-          "valence": 0.55,
-          "chunk": 9,
-          "arousal": 0.28,
+          "salience": 0.78,
+          "valence": 0.5,
+          "chunk": 11,
+          "arousal": 0.25,
+          "order": 3
+        },
+        {
+          "salience": 0.7,
+          "valence": -0.35,
+          "chunk": 12,
+          "arousal": 0.5,
           "order": 5
         },
         {
           "salience": 0.75,
-          "valence": -0.3,
-          "chunk": 10,
-          "arousal": 0.55,
-          "order": 6
-        },
-        {
-          "salience": 0.85,
-          "valence": 0.55,
-          "chunk": 10,
-          "arousal": 0.3,
-          "order": 3
-        },
-        {
-          "salience": 0.6,
-          "valence": 0.35,
-          "chunk": 11,
-          "arousal": 0.3,
-          "order": 7
-        },
-        {
-          "salience": 0.44,
-          "valence": -0.3,
-          "chunk": 11,
-          "arousal": 0.4,
-          "order": 11
-        },
-        {
-          "salience": 0.4,
-          "valence": -0.35,
-          "chunk": 11,
-          "arousal": 0.42,
-          "order": 12
-        },
-        {
-          "salience": 0.04,
-          "valence": 0.0,
+          "valence": 0.4,
           "chunk": 12,
+          "arousal": 0.22,
+          "order": 4
+        },
+        {
+          "salience": 0.54,
+          "valence": 0.2,
+          "chunk": 13,
+          "arousal": 0.2,
+          "order": 9
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.2,
+          "chunk": 13,
+          "arousal": 0.35,
+          "order": 14
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.25,
+          "chunk": 13,
+          "arousal": 0.3,
+          "order": 16
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 14,
           "arousal": 0.05,
           "order": 34
         }
@@ -305,16 +305,16 @@
     },
     {
       "persona_id": "equity-pm",
-      "concentration": 0.06610077240253986,
+      "concentration": 0.055545758274496815,
       "top_attention": [
-        26,
         4,
+        26,
         19,
         8,
-        5,
+        29,
         11,
         22,
-        29
+        33
       ],
       "units": [
         {
@@ -325,214 +325,214 @@
           "order": 32
         },
         {
-          "salience": 0.03,
+          "salience": 0.04,
           "valence": 0.0,
           "chunk": 0,
-          "arousal": 0.03,
+          "arousal": 0.02,
           "order": 33
         },
         {
-          "salience": 0.5,
+          "salience": 0.45,
           "valence": 0.35,
           "chunk": 1,
           "arousal": 0.2,
-          "order": 9
-        },
-        {
-          "salience": 0.4,
-          "valence": 0.1,
-          "chunk": 1,
-          "arousal": 0.3,
           "order": 13
         },
         {
-          "salience": 0.82,
-          "valence": -0.45,
+          "salience": 0.4,
+          "valence": -0.1,
           "chunk": 1,
-          "arousal": 0.6,
-          "order": 1
+          "arousal": 0.3,
+          "order": 17
         },
         {
-          "salience": 0.6,
-          "valence": 0.2,
+          "salience": 0.85,
+          "valence": -0.6,
           "chunk": 1,
-          "arousal": 0.35,
-          "order": 5
+          "arousal": 0.6,
+          "order": 0
         },
         {
           "salience": 0.5,
-          "valence": 0.3,
+          "valence": 0.2,
           "chunk": 1,
-          "arousal": 0.25,
-          "order": 10
+          "arousal": 0.35,
+          "order": 11
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.25,
+          "chunk": 1,
+          "arousal": 0.2,
+          "order": 14
         },
         {
           "salience": 0.5,
           "valence": 0.4,
           "chunk": 2,
-          "arousal": 0.25,
-          "order": 11
+          "arousal": 0.2,
+          "order": 12
         },
         {
-          "salience": 0.68,
-          "valence": -0.45,
+          "salience": 0.62,
+          "valence": -0.5,
           "chunk": 2,
-          "arousal": 0.5,
-          "order": 3
+          "arousal": 0.45,
+          "order": 4
         },
         {
-          "salience": 0.2,
+          "salience": 0.22,
           "valence": 0.15,
           "chunk": 3,
           "arousal": 0.15,
-          "order": 25
+          "order": 21
         },
         {
           "salience": 0.24,
-          "valence": 0.15,
+          "valence": 0.1,
           "chunk": 3,
-          "arousal": 0.2,
-          "order": 17
+          "arousal": 0.15,
+          "order": 19
         },
         {
           "salience": 0.6,
-          "valence": 0.1,
+          "valence": 0.15,
           "chunk": 4,
-          "arousal": 0.35,
-          "order": 7
+          "arousal": 0.3,
+          "order": 6
         },
         {
           "salience": 0.15,
           "valence": 0.0,
           "chunk": 5,
           "arousal": 0.15,
-          "order": 28
-        },
-        {
-          "salience": 0.2,
-          "valence": -0.2,
-          "chunk": 5,
-          "arousal": 0.35,
-          "order": 21
-        },
-        {
-          "salience": 0.15,
-          "valence": 0.25,
-          "chunk": 6,
-          "arousal": 0.1,
           "order": 27
         },
         {
-          "salience": 0.24,
-          "valence": -0.35,
-          "chunk": 6,
-          "arousal": 0.35,
-          "order": 16
-        },
-        {
           "salience": 0.22,
-          "valence": 0.1,
-          "chunk": 6,
+          "valence": -0.2,
+          "chunk": 5,
           "arousal": 0.3,
           "order": 20
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.3,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 23
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.45,
+          "chunk": 6,
+          "arousal": 0.45,
+          "order": 10
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.15,
+          "chunk": 6,
+          "arousal": 0.35,
+          "order": 15
         },
         {
           "salience": 0.4,
           "valence": 0.2,
           "chunk": 6,
           "arousal": 0.2,
-          "order": 12
+          "order": 16
         },
         {
-          "salience": 0.26,
+          "salience": 0.18,
           "valence": 0.3,
           "chunk": 7,
-          "arousal": 0.15,
-          "order": 15
+          "arousal": 0.1,
+          "order": 26
         },
         {
-          "salience": 0.74,
-          "valence": -0.2,
+          "salience": 0.72,
+          "valence": -0.3,
           "chunk": 7,
           "arousal": 0.55,
           "order": 2
         },
         {
-          "salience": 0.52,
-          "valence": -0.15,
+          "salience": 0.55,
+          "valence": -0.2,
           "chunk": 7,
           "arousal": 0.35,
           "order": 8
         },
         {
-          "salience": 0.2,
-          "valence": -0.35,
+          "salience": 0.52,
+          "valence": -0.45,
           "chunk": 8,
-          "arousal": 0.25,
-          "order": 22
+          "arousal": 0.45,
+          "order": 9
         },
         {
           "salience": 0.6,
-          "valence": -0.1,
+          "valence": -0.3,
           "chunk": 8,
-          "arousal": 0.35,
-          "order": 6
+          "arousal": 0.4,
+          "order": 5
         },
         {
           "salience": 0.2,
           "valence": 0.05,
           "chunk": 9,
           "arousal": 0.2,
-          "order": 23
-        },
-        {
-          "salience": 0.22,
-          "valence": -0.25,
-          "chunk": 9,
-          "arousal": 0.3,
-          "order": 19
-        },
-        {
-          "salience": 0.2,
-          "valence": -0.05,
-          "chunk": 9,
-          "arousal": 0.25,
           "order": 24
         },
         {
-          "salience": 0.85,
+          "salience": 0.22,
+          "valence": -0.3,
+          "chunk": 9,
+          "arousal": 0.3,
+          "order": 22
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.1,
+          "chunk": 9,
+          "arousal": 0.25,
+          "order": 25
+        },
+        {
+          "salience": 0.8,
           "valence": -0.7,
           "chunk": 10,
           "arousal": 0.75,
-          "order": 0
+          "order": 1
         },
         {
-          "salience": 0.1,
-          "valence": 0.15,
+          "salience": 0.14,
+          "valence": 0.1,
           "chunk": 11,
           "arousal": 0.1,
           "order": 30
         },
         {
-          "salience": 0.12,
+          "salience": 0.15,
           "valence": 0.1,
           "chunk": 11,
           "arousal": 0.1,
-          "order": 29
+          "order": 28
         },
         {
-          "salience": 0.6,
-          "valence": -0.1,
+          "salience": 0.62,
+          "valence": 0.05,
           "chunk": 12,
-          "arousal": 0.45,
-          "order": 4
+          "arousal": 0.35,
+          "order": 3
         },
         {
           "salience": 0.15,
           "valence": 0.1,
           "chunk": 12,
-          "arousal": 0.15,
-          "order": 26
+          "arousal": 0.1,
+          "order": 29
         },
         {
           "salience": 0.1,
@@ -542,21 +542,21 @@
           "order": 31
         },
         {
-          "salience": 0.24,
-          "valence": 0.05,
+          "salience": 0.35,
+          "valence": 0.1,
           "chunk": 13,
           "arousal": 0.25,
           "order": 18
         },
         {
-          "salience": 0.3,
-          "valence": 0.1,
+          "salience": 0.58,
+          "valence": 0.15,
           "chunk": 13,
-          "arousal": 0.2,
-          "order": 14
+          "arousal": 0.3,
+          "order": 7
         },
         {
-          "salience": 0.02,
+          "salience": 0.03,
           "valence": 0.0,
           "chunk": 13,
           "arousal": 0.02,
@@ -566,16 +566,16 @@
     },
     {
       "persona_id": "risk-officer",
-      "concentration": 0.06445862134296354,
+      "concentration": 0.05408439322359293,
       "top_attention": [
         26,
         24,
-        13,
         19,
+        13,
+        27,
         29,
-        9,
         28,
-        10
+        16
       ],
       "units": [
         {
@@ -583,98 +583,98 @@
           "valence": 0.0,
           "chunk": 0,
           "arousal": 0.05,
-          "order": 33
+          "order": 34
         },
         {
           "salience": 0.06,
           "valence": 0.0,
           "chunk": 0,
           "arousal": 0.05,
-          "order": 32
+          "order": 33
         },
         {
-          "salience": 0.15,
+          "salience": 0.18,
           "valence": 0.1,
           "chunk": 1,
-          "arousal": 0.12,
-          "order": 28
-        },
-        {
-          "salience": 0.15,
-          "valence": -0.1,
-          "chunk": 1,
-          "arousal": 0.18,
-          "order": 27
-        },
-        {
-          "salience": 0.22,
-          "valence": -0.2,
-          "chunk": 1,
-          "arousal": 0.25,
-          "order": 17
-        },
-        {
-          "salience": 0.19,
-          "valence": -0.2,
-          "chunk": 1,
-          "arousal": 0.3,
-          "order": 22
-        },
-        {
-          "salience": 0.15,
-          "valence": 0.0,
-          "chunk": 1,
-          "arousal": 0.18,
+          "arousal": 0.15,
           "order": 26
         },
         {
-          "salience": 0.2,
+          "salience": 0.22,
           "valence": -0.1,
-          "chunk": 2,
+          "chunk": 1,
           "arousal": 0.25,
-          "order": 19
+          "order": 20
         },
         {
-          "salience": 0.5,
-          "valence": -0.5,
-          "chunk": 2,
-          "arousal": 0.5,
-          "order": 10
-        },
-        {
-          "salience": 0.6,
-          "valence": 0.2,
-          "chunk": 3,
-          "arousal": 0.5,
-          "order": 6
-        },
-        {
-          "salience": 0.58,
-          "valence": 0.05,
-          "chunk": 3,
-          "arousal": 0.42,
-          "order": 7
+          "salience": 0.45,
+          "valence": -0.4,
+          "chunk": 1,
+          "arousal": 0.45,
+          "order": 12
         },
         {
           "salience": 0.2,
           "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 21
+        },
+        {
+          "salience": 0.16,
+          "valence": 0.05,
+          "chunk": 1,
+          "arousal": 0.2,
+          "order": 27
+        },
+        {
+          "salience": 0.18,
+          "valence": 0.0,
+          "chunk": 2,
+          "arousal": 0.2,
+          "order": 25
+        },
+        {
+          "salience": 0.42,
+          "valence": -0.4,
+          "chunk": 2,
+          "arousal": 0.45,
+          "order": 13
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.1,
+          "chunk": 3,
+          "arousal": 0.4,
+          "order": 9
+        },
+        {
+          "salience": 0.48,
+          "valence": 0.1,
+          "chunk": 3,
+          "arousal": 0.35,
+          "order": 10
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.15,
           "chunk": 3,
           "arousal": 0.25,
-          "order": 21
+          "order": 23
         },
         {
           "salience": 0.15,
           "valence": -0.1,
           "chunk": 4,
           "arousal": 0.2,
-          "order": 25
+          "order": 28
         },
         {
-          "salience": 0.68,
-          "valence": -0.6,
+          "salience": 0.62,
+          "valence": -0.5,
           "chunk": 4,
-          "arousal": 0.65,
-          "order": 2
+          "arousal": 0.6,
+          "order": 3
         },
         {
           "salience": 0.1,
@@ -684,18 +684,18 @@
           "order": 31
         },
         {
-          "salience": 0.16,
-          "valence": -0.15,
-          "chunk": 5,
-          "arousal": 0.2,
-          "order": 23
-        },
-        {
-          "salience": 0.15,
+          "salience": 0.18,
           "valence": -0.2,
           "chunk": 5,
-          "arousal": 0.3,
+          "arousal": 0.2,
           "order": 24
+        },
+        {
+          "salience": 0.52,
+          "valence": -0.35,
+          "chunk": 5,
+          "arousal": 0.45,
+          "order": 7
         },
         {
           "salience": 0.12,
@@ -705,10 +705,10 @@
           "order": 30
         },
         {
-          "salience": 0.15,
+          "salience": 0.14,
           "valence": 0.05,
           "chunk": 6,
-          "arousal": 0.2,
+          "arousal": 0.15,
           "order": 29
         },
         {
@@ -716,373 +716,1156 @@
           "valence": -0.45,
           "chunk": 6,
           "arousal": 0.6,
-          "order": 3
+          "order": 2
         },
         {
           "salience": 0.2,
           "valence": -0.1,
           "chunk": 6,
           "arousal": 0.2,
-          "order": 20
+          "order": 22
         },
         {
           "salience": 0.45,
-          "valence": -0.45,
+          "valence": -0.4,
           "chunk": 7,
-          "arousal": 0.45,
+          "arousal": 0.4,
           "order": 11
         },
         {
           "salience": 0.22,
-          "valence": -0.15,
+          "valence": -0.1,
           "chunk": 7,
           "arousal": 0.25,
-          "order": 16
+          "order": 19
         },
         {
-          "salience": 0.42,
+          "salience": 0.4,
           "valence": -0.3,
           "chunk": 8,
-          "arousal": 0.44,
-          "order": 12
+          "arousal": 0.4,
+          "order": 14
         },
         {
-          "salience": 0.72,
-          "valence": -0.65,
+          "salience": 0.68,
+          "valence": -0.55,
           "chunk": 8,
-          "arousal": 0.7,
+          "arousal": 0.6,
           "order": 1
         },
         {
           "salience": 0.24,
           "valence": -0.25,
           "chunk": 8,
-          "arousal": 0.32,
-          "order": 15
+          "arousal": 0.3,
+          "order": 17
         },
         {
-          "salience": 0.9,
+          "salience": 0.88,
           "valence": -0.8,
           "chunk": 9,
           "arousal": 0.85,
           "order": 0
         },
         {
-          "salience": 0.5,
-          "valence": 0.15,
-          "chunk": 10,
-          "arousal": 0.45,
-          "order": 9
-        },
-        {
           "salience": 0.6,
-          "valence": 0.05,
+          "valence": 0.0,
           "chunk": 10,
-          "arousal": 0.45,
+          "arousal": 0.4,
           "order": 5
         },
         {
-          "salience": 0.64,
+          "salience": 0.58,
+          "valence": -0.2,
+          "chunk": 10,
+          "arousal": 0.45,
+          "order": 6
+        },
+        {
+          "salience": 0.6,
           "valence": -0.5,
           "chunk": 11,
-          "arousal": 0.6,
+          "arousal": 0.55,
           "order": 4
         },
         {
-          "salience": 0.5,
+          "salience": 0.4,
           "valence": 0.05,
           "chunk": 11,
+          "arousal": 0.3,
+          "order": 15
+        },
+        {
+          "salience": 0.38,
+          "valence": -0.25,
+          "chunk": 12,
           "arousal": 0.45,
+          "order": 16
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.4,
+          "chunk": 12,
+          "arousal": 0.48,
           "order": 8
         },
         {
-          "salience": 0.4,
+          "salience": 0.22,
           "valence": -0.2,
-          "chunk": 12,
-          "arousal": 0.4,
-          "order": 13
-        },
-        {
-          "salience": 0.4,
-          "valence": -0.3,
-          "chunk": 12,
-          "arousal": 0.45,
-          "order": 14
-        },
-        {
-          "salience": 0.2,
-          "valence": -0.15,
           "chunk": 12,
           "arousal": 0.25,
           "order": 18
         },
         {
-          "salience": 0.05,
+          "salience": 0.08,
           "valence": 0.0,
           "chunk": 12,
+          "arousal": 0.05,
+          "order": 32
+        }
+      ]
+    },
+    {
+      "persona_id": "distressed-investor",
+      "concentration": 0.0986335756613308,
+      "top_attention": [
+        9,
+        26,
+        10,
+        30,
+        28,
+        27,
+        6,
+        29
+      ],
+      "units": [
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 32
+        },
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.04,
+          "order": 33
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.3,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 15
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.25,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 19
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.05,
+          "chunk": 1,
+          "arousal": 0.1,
+          "order": 22
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.2,
+          "chunk": 1,
+          "arousal": 0.06,
+          "order": 26
+        },
+        {
+          "salience": 0.6,
+          "valence": -0.35,
+          "chunk": 1,
+          "arousal": 0.15,
+          "order": 7
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.2,
+          "chunk": 1,
           "arousal": 0.08,
+          "order": 24
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.15,
+          "order": 14
+        },
+        {
+          "salience": 0.85,
+          "valence": -0.55,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 0
+        },
+        {
+          "salience": 0.8,
+          "valence": -0.6,
+          "chunk": 2,
+          "arousal": 0.25,
+          "order": 2
+        },
+        {
+          "salience": 0.35,
+          "valence": -0.15,
+          "chunk": 2,
+          "arousal": 0.2,
+          "order": 9
+        },
+        {
+          "salience": 0.08,
+          "valence": -0.1,
+          "chunk": 3,
+          "arousal": 0.05,
+          "order": 30
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.15,
+          "chunk": 3,
+          "arousal": 0.2,
+          "order": 13
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.25,
+          "chunk": 4,
+          "arousal": 0.08,
+          "order": 27
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.1,
+          "chunk": 4,
+          "arousal": 0.08,
+          "order": 28
+        },
+        {
+          "salience": 0.08,
+          "valence": -0.2,
+          "chunk": 4,
+          "arousal": 0.07,
+          "order": 29
+        },
+        {
+          "salience": 0.35,
+          "valence": -0.3,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 10
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.15,
+          "chunk": 5,
+          "arousal": 0.05,
+          "order": 25
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.1,
+          "chunk": 5,
+          "arousal": 0.12,
+          "order": 16
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.1,
+          "order": 17
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.05,
+          "chunk": 5,
+          "arousal": 0.1,
+          "order": 21
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 5,
+          "arousal": 0.12,
+          "order": 18
+        },
+        {
+          "salience": 0.06,
+          "valence": -0.15,
+          "chunk": 6,
+          "arousal": 0.05,
+          "order": 31
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.2,
+          "chunk": 6,
+          "arousal": 0.18,
+          "order": 12
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.05,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 23
+        },
+        {
+          "salience": 0.82,
+          "valence": 0.35,
+          "chunk": 7,
+          "arousal": 0.55,
+          "order": 1
+        },
+        {
+          "salience": 0.7,
+          "valence": -0.5,
+          "chunk": 8,
+          "arousal": 0.25,
+          "order": 5
+        },
+        {
+          "salience": 0.72,
+          "valence": -0.5,
+          "chunk": 8,
+          "arousal": 0.28,
+          "order": 4
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.15,
+          "chunk": 9,
+          "arousal": 0.35,
+          "order": 6
+        },
+        {
+          "salience": 0.78,
+          "valence": -0.55,
+          "chunk": 9,
+          "arousal": 0.2,
+          "order": 3
+        },
+        {
+          "salience": 0.58,
+          "valence": -0.5,
+          "chunk": 10,
+          "arousal": 0.2,
+          "order": 8
+        },
+        {
+          "salience": 0.24,
+          "valence": 0.05,
+          "chunk": 10,
+          "arousal": 0.2,
+          "order": 11
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.2,
+          "chunk": 10,
+          "arousal": 0.1,
+          "order": 20
+        },
+        {
+          "salience": 0.04,
+          "valence": 0.0,
+          "chunk": 10,
+          "arousal": 0.03,
+          "order": 34
+        }
+      ]
+    },
+    {
+      "persona_id": "short-seller",
+      "concentration": 0.05765932055456757,
+      "top_attention": [
+        26,
+        4,
+        19,
+        15,
+        5,
+        24,
+        16,
+        3
+      ],
+      "units": [
+        {
+          "salience": 0.05,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 34
+        },
+        {
+          "salience": 0.06,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 33
+        },
+        {
+          "salience": 0.4,
+          "valence": -0.3,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 13
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.4,
+          "chunk": 2,
+          "arousal": 0.55,
+          "order": 7
+        },
+        {
+          "salience": 0.8,
+          "valence": 0.7,
+          "chunk": 2,
+          "arousal": 0.6,
+          "order": 1
+        },
+        {
+          "salience": 0.68,
+          "valence": 0.5,
+          "chunk": 2,
+          "arousal": 0.58,
+          "order": 4
+        },
+        {
+          "salience": 0.33,
+          "valence": -0.25,
+          "chunk": 2,
+          "arousal": 0.28,
+          "order": 15
+        },
+        {
+          "salience": 0.3,
+          "valence": -0.3,
+          "chunk": 3,
+          "arousal": 0.25,
+          "order": 16
+        },
+        {
+          "salience": 0.52,
+          "valence": 0.5,
+          "chunk": 3,
+          "arousal": 0.4,
+          "order": 9
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.3,
+          "chunk": 4,
+          "arousal": 0.2,
+          "order": 28
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.25,
+          "chunk": 4,
+          "arousal": 0.2,
+          "order": 24
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.15,
+          "chunk": 4,
+          "arousal": 0.15,
+          "order": 27
+        },
+        {
+          "salience": 0.38,
+          "valence": 0.3,
+          "chunk": 5,
+          "arousal": 0.35,
+          "order": 14
+        },
+        {
+          "salience": 0.48,
+          "valence": 0.45,
+          "chunk": 5,
+          "arousal": 0.4,
+          "order": 10
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.3,
+          "chunk": 6,
+          "arousal": 0.2,
+          "order": 20
+        },
+        {
+          "salience": 0.7,
+          "valence": 0.6,
+          "chunk": 6,
+          "arousal": 0.55,
+          "order": 3
+        },
+        {
+          "salience": 0.62,
+          "valence": 0.5,
+          "chunk": 6,
+          "arousal": 0.55,
+          "order": 6
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.2,
+          "chunk": 6,
+          "arousal": 0.25,
+          "order": 19
+        },
+        {
+          "salience": 0.24,
+          "valence": -0.3,
+          "chunk": 7,
+          "arousal": 0.2,
+          "order": 21
+        },
+        {
+          "salience": 0.74,
+          "valence": 0.6,
+          "chunk": 7,
+          "arousal": 0.6,
+          "order": 2
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.25,
+          "chunk": 7,
+          "arousal": 0.28,
+          "order": 17
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.45,
+          "chunk": 8,
+          "arousal": 0.45,
+          "order": 8
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.1,
+          "chunk": 8,
+          "arousal": 0.2,
+          "order": 22
+        },
+        {
+          "salience": 0.45,
+          "valence": 0.3,
+          "chunk": 9,
+          "arousal": 0.4,
+          "order": 11
+        },
+        {
+          "salience": 0.64,
+          "valence": 0.6,
+          "chunk": 9,
+          "arousal": 0.5,
+          "order": 5
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.3,
+          "chunk": 9,
+          "arousal": 0.3,
+          "order": 18
+        },
+        {
+          "salience": 0.95,
+          "valence": 0.9,
+          "chunk": 10,
+          "arousal": 0.85,
+          "order": 0
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.15,
+          "chunk": 11,
+          "arousal": 0.12,
+          "order": 30
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.2,
+          "chunk": 11,
+          "arousal": 0.1,
+          "order": 31
+        },
+        {
+          "salience": 0.44,
+          "valence": 0.35,
+          "chunk": 12,
+          "arousal": 0.4,
+          "order": 12
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.2,
+          "chunk": 12,
+          "arousal": 0.18,
+          "order": 26
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.1,
+          "chunk": 13,
+          "arousal": 0.2,
+          "order": 25
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.15,
+          "chunk": 13,
+          "arousal": 0.2,
+          "order": 23
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.0,
+          "chunk": 13,
+          "arousal": 0.12,
+          "order": 29
+        },
+        {
+          "salience": 0.06,
+          "valence": 0.1,
+          "chunk": 13,
+          "arousal": 0.08,
+          "order": 32
+        }
+      ]
+    },
+    {
+      "persona_id": "financial-journalist",
+      "concentration": 0.05694337109457415,
+      "top_attention": [
+        4,
+        19,
+        12,
+        26,
+        8,
+        2,
+        13,
+        24
+      ],
+      "units": [
+        {
+          "salience": 0.35,
+          "valence": 0.1,
+          "chunk": 0,
+          "arousal": 0.15,
+          "order": 13
+        },
+        {
+          "salience": 0.15,
+          "valence": 0.0,
+          "chunk": 0,
+          "arousal": 0.05,
+          "order": 27
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.4,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 5
+        },
+        {
+          "salience": 0.4,
+          "valence": 0.15,
+          "chunk": 1,
+          "arousal": 0.3,
+          "order": 12
+        },
+        {
+          "salience": 0.85,
+          "valence": 0.7,
+          "chunk": 1,
+          "arousal": 0.55,
+          "order": 0
+        },
+        {
+          "salience": 0.5,
+          "valence": -0.15,
+          "chunk": 1,
+          "arousal": 0.4,
+          "order": 10
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.1,
+          "chunk": 1,
+          "arousal": 0.25,
+          "order": 16
+        },
+        {
+          "salience": 0.58,
+          "valence": 0.45,
+          "chunk": 2,
+          "arousal": 0.3,
+          "order": 8
+        },
+        {
+          "salience": 0.65,
+          "valence": 0.5,
+          "chunk": 2,
+          "arousal": 0.45,
+          "order": 4
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.05,
+          "chunk": 3,
+          "arousal": 0.15,
+          "order": 18
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.05,
+          "chunk": 3,
+          "arousal": 0.1,
+          "order": 21
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.1,
+          "chunk": 3,
+          "arousal": 0.1,
+          "order": 20
+        },
+        {
+          "salience": 0.7,
+          "valence": 0.5,
+          "chunk": 4,
+          "arousal": 0.3,
+          "order": 2
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.5,
+          "chunk": 4,
+          "arousal": 0.5,
+          "order": 7
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.1,
+          "chunk": 5,
+          "arousal": 0.1,
+          "order": 23
+        },
+        {
+          "salience": 0.5,
+          "valence": 0.45,
+          "chunk": 5,
+          "arousal": 0.4,
+          "order": 11
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.1,
+          "chunk": 5,
+          "arousal": 0.2,
+          "order": 26
+        },
+        {
+          "salience": 0.14,
+          "valence": -0.1,
+          "chunk": 5,
+          "arousal": 0.15,
+          "order": 29
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.05,
+          "chunk": 6,
+          "arousal": 0.1,
+          "order": 24
+        },
+        {
+          "salience": 0.75,
+          "valence": 0.35,
+          "chunk": 6,
+          "arousal": 0.7,
+          "order": 1
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.2,
+          "chunk": 6,
+          "arousal": 0.3,
+          "order": 14
+        },
+        {
+          "salience": 0.2,
+          "valence": -0.05,
+          "chunk": 7,
+          "arousal": 0.15,
+          "order": 22
+        },
+        {
+          "salience": 0.22,
+          "valence": 0.05,
+          "chunk": 7,
+          "arousal": 0.2,
+          "order": 17
+        },
+        {
+          "salience": 0.52,
+          "valence": 0.3,
+          "chunk": 8,
+          "arousal": 0.5,
+          "order": 9
+        },
+        {
+          "salience": 0.6,
+          "valence": 0.4,
+          "chunk": 8,
+          "arousal": 0.5,
+          "order": 6
+        },
+        {
+          "salience": 0.18,
+          "valence": -0.2,
+          "chunk": 8,
+          "arousal": 0.2,
+          "order": 25
+        },
+        {
+          "salience": 0.66,
+          "valence": 0.55,
+          "chunk": 9,
+          "arousal": 0.6,
+          "order": 3
+        },
+        {
+          "salience": 0.12,
+          "valence": -0.15,
+          "chunk": 10,
+          "arousal": 0.1,
+          "order": 31
+        },
+        {
+          "salience": 0.1,
+          "valence": -0.15,
+          "chunk": 10,
+          "arousal": 0.08,
+          "order": 32
+        },
+        {
+          "salience": 0.3,
+          "valence": 0.2,
+          "chunk": 11,
+          "arousal": 0.3,
+          "order": 15
+        },
+        {
+          "salience": 0.12,
+          "valence": 0.0,
+          "chunk": 11,
+          "arousal": 0.1,
+          "order": 30
+        },
+        {
+          "salience": 0.15,
+          "valence": -0.25,
+          "chunk": 12,
+          "arousal": 0.15,
+          "order": 28
+        },
+        {
+          "salience": 0.2,
+          "valence": 0.15,
+          "chunk": 12,
+          "arousal": 0.2,
+          "order": 19
+        },
+        {
+          "salience": 0.08,
+          "valence": -0.35,
+          "chunk": 12,
+          "arousal": 0.08,
+          "order": 33
+        },
+        {
+          "salience": 0.08,
+          "valence": -0.3,
+          "chunk": 12,
+          "arousal": 0.3,
           "order": 34
         }
       ]
     },
     {
       "persona_id": "retail-investor",
-      "concentration": 0.018319406489970436,
+      "concentration": 0.01698539955673828,
       "top_attention": [
         2,
         3,
         4,
         11,
-        5,
         12,
-        7,
-        23
+        5,
+        13,
+        0
       ],
       "units": [
         {
           "salience": 0.62,
-          "valence": 0.15,
+          "valence": 0.1,
           "chunk": 0,
-          "arousal": 0.3,
+          "arousal": 0.2,
           "order": 8
         },
         {
-          "salience": 0.34,
-          "valence": 0.05,
+          "salience": 0.35,
+          "valence": 0.0,
           "chunk": 0,
           "arousal": 0.15,
-          "order": 27
+          "order": 28
         },
         {
           "salience": 0.85,
           "valence": 0.7,
           "chunk": 1,
-          "arousal": 0.2,
+          "arousal": 0.25,
           "order": 0
         },
         {
           "salience": 0.8,
           "valence": 0.5,
           "chunk": 1,
-          "arousal": 0.25,
+          "arousal": 0.3,
           "order": 1
         },
         {
           "salience": 0.75,
-          "valence": -0.2,
+          "valence": -0.3,
           "chunk": 1,
-          "arousal": 0.45,
+          "arousal": 0.5,
           "order": 2
         },
         {
-          "salience": 0.7,
+          "salience": 0.68,
           "valence": 0.5,
           "chunk": 1,
-          "arousal": 0.3,
-          "order": 4
+          "arousal": 0.35,
+          "order": 5
         },
         {
           "salience": 0.45,
           "valence": 0.35,
           "chunk": 2,
           "arousal": 0.3,
-          "order": 21
-        },
-        {
-          "salience": 0.68,
-          "valence": 0.6,
-          "chunk": 2,
-          "arousal": 0.2,
-          "order": 6
+          "order": 22
         },
         {
           "salience": 0.6,
-          "valence": -0.25,
+          "valence": 0.6,
+          "chunk": 2,
+          "arousal": 0.2,
+          "order": 10
+        },
+        {
+          "salience": 0.58,
+          "valence": -0.2,
           "chunk": 2,
           "arousal": 0.45,
-          "order": 10
+          "order": 13
         },
         {
           "salience": 0.3,
           "valence": 0.2,
           "chunk": 3,
-          "arousal": 0.3,
-          "order": 28
+          "arousal": 0.35,
+          "order": 29
         },
         {
           "salience": 0.5,
-          "valence": 0.3,
+          "valence": 0.1,
           "chunk": 3,
-          "arousal": 0.3,
-          "order": 16
+          "arousal": 0.35,
+          "order": 17
         },
         {
           "salience": 0.72,
           "valence": 0.6,
-          "chunk": 4,
-          "arousal": 0.15,
+          "chunk": 3,
+          "arousal": 0.2,
           "order": 3
         },
         {
           "salience": 0.7,
           "valence": 0.55,
-          "chunk": 5,
+          "chunk": 4,
           "arousal": 0.2,
-          "order": 5
+          "order": 4
         },
         {
-          "salience": 0.6,
+          "salience": 0.65,
           "valence": -0.35,
-          "chunk": 5,
+          "chunk": 4,
           "arousal": 0.55,
-          "order": 11
+          "order": 6
         },
         {
-          "salience": 0.5,
-          "valence": 0.5,
-          "chunk": 6,
+          "salience": 0.58,
+          "valence": 0.6,
+          "chunk": 5,
           "arousal": 0.15,
-          "order": 18
-        },
-        {
-          "salience": 0.55,
-          "valence": -0.15,
-          "chunk": 6,
-          "arousal": 0.4,
           "order": 15
         },
         {
-          "salience": 0.4,
-          "valence": 0.4,
-          "chunk": 6,
-          "arousal": 0.25,
-          "order": 25
-        },
-        {
-          "salience": 0.24,
-          "valence": 0.3,
-          "chunk": 6,
-          "arousal": 0.25,
-          "order": 31
+          "salience": 0.6,
+          "valence": -0.2,
+          "chunk": 5,
+          "arousal": 0.4,
+          "order": 11
         },
         {
           "salience": 0.45,
-          "valence": 0.5,
-          "chunk": 7,
-          "arousal": 0.15,
-          "order": 20
+          "valence": 0.4,
+          "chunk": 10,
+          "arousal": 0.35,
+          "order": 21
         },
         {
-          "salience": 0.5,
-          "valence": 0.4,
-          "chunk": 7,
+          "salience": 0.28,
+          "valence": 0.3,
+          "chunk": 11,
           "arousal": 0.3,
-          "order": 17
+          "order": 30
+        },
+        {
+          "salience": 0.46,
+          "valence": 0.55,
+          "chunk": 12,
+          "arousal": 0.2,
+          "order": 19
+        },
+        {
+          "salience": 0.42,
+          "valence": 0.35,
+          "chunk": 12,
+          "arousal": 0.3,
+          "order": 24
         },
         {
           "salience": 0.22,
-          "valence": 0.15,
-          "chunk": 7,
+          "valence": 0.1,
+          "chunk": 13,
           "arousal": 0.3,
           "order": 32
         },
         {
-          "salience": 0.4,
+          "salience": 0.44,
           "valence": -0.15,
-          "chunk": 8,
+          "chunk": 14,
           "arousal": 0.4,
           "order": 23
         },
         {
           "salience": 0.2,
           "valence": 0.05,
-          "chunk": 8,
+          "chunk": 7,
           "arousal": 0.3,
-          "order": 33
+          "order": 34
         },
         {
-          "salience": 0.64,
+          "salience": 0.62,
           "valence": 0.6,
-          "chunk": 9,
+          "chunk": 8,
           "arousal": 0.2,
           "order": 7
         },
         {
-          "salience": 0.56,
-          "valence": -0.3,
-          "chunk": 9,
-          "arousal": 0.5,
-          "order": 14
+          "salience": 0.52,
+          "valence": -0.25,
+          "chunk": 8,
+          "arousal": 0.55,
+          "order": 16
         },
         {
           "salience": 0.45,
-          "valence": 0.2,
-          "chunk": 9,
-          "arousal": 0.3,
-          "order": 22
+          "valence": 0.25,
+          "chunk": 8,
+          "arousal": 0.35,
+          "order": 20
         },
         {
-          "salience": 0.3,
-          "valence": -0.2,
-          "chunk": 10,
+          "salience": 0.24,
+          "valence": -0.1,
+          "chunk": 9,
           "arousal": 0.45,
-          "order": 29
+          "order": 31
         },
         {
           "salience": 0.35,
           "valence": 0.3,
-          "chunk": 11,
+          "chunk": 19,
           "arousal": 0.25,
           "order": 26
         },
         {
-          "salience": 0.2,
+          "salience": 0.21,
           "valence": 0.2,
-          "chunk": 11,
+          "chunk": 19,
           "arousal": 0.25,
-          "order": 34
-        },
-        {
-          "salience": 0.61,
-          "valence": 0.55,
-          "chunk": 12,
-          "arousal": 0.2,
-          "order": 9
-        },
-        {
-          "salience": 0.4,
-          "valence": 0.25,
-          "chunk": 12,
-          "arousal": 0.25,
-          "order": 24
+          "order": 33
         },
         {
           "salience": 0.6,
-          "valence": 0.5,
-          "chunk": 13,
-          "arousal": 0.2,
-          "order": 12
+          "valence": 0.45,
+          "chunk": 20,
+          "arousal": 0.3,
+          "order": 9
         },
         {
-          "salience": 0.47,
-          "valence": 0.45,
-          "chunk": 13,
-          "arousal": 0.2,
-          "order": 19
+          "salience": 0.38,
+          "valence": 0.1,
+          "chunk": 20,
+          "arousal": 0.35,
+          "order": 25
         },
         {
           "salience": 0.58,
           "valence": 0.5,
-          "chunk": 13,
-          "arousal": 0.15,
-          "order": 13
+          "chunk": 21,
+          "arousal": 0.2,
+          "order": 12
         },
         {
-          "salience": 0.25,
-          "valence": 0.05,
-          "chunk": 14,
+          "salience": 0.5,
+          "valence": 0.45,
+          "chunk": 21,
+          "arousal": 0.25,
+          "order": 18
+        },
+        {
+          "salience": 0.58,
+          "valence": 0.5,
+          "chunk": 22,
           "arousal": 0.15,
-          "order": 30
+          "order": 14
+        },
+        {
+          "salience": 0.35,
+          "valence": 0.1,
+          "chunk": 23,
+          "arousal": 0.2,
+          "order": 27
         }
       ]
     }
@@ -1100,9 +1883,9 @@
         26,
         29
       ],
-      "overlap": 0.8385513096634742,
+      "overlap": 0.8478104909721313,
       "valence_conflicts": [],
-      "chunk_agreement": 0.796812749003984
+      "chunk_agreement": 0.9525581395348838
     },
     {
       "personas": [
@@ -1110,17 +1893,73 @@
         "risk-officer"
       ],
       "top_k": 8,
-      "top_k_overlap": 0.625,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        26,
+        27,
+        28,
+        29
+      ],
+      "overlap": 0.9059673535350727,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.9231007832088298
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "distressed-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.875,
       "shared_top": [
         9,
         10,
         26,
+        27,
         28,
-        29
+        29,
+        30
       ],
-      "overlap": 0.9157190832283586,
-      "valence_conflicts": [],
-      "chunk_agreement": 0.8278777898929659
+      "overlap": 0.9921219319954462,
+      "valence_conflicts": [
+        9,
+        10,
+        27,
+        28
+      ],
+      "chunk_agreement": 0.7351800436597926
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "short-seller"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.125,
+      "shared_top": [
+        26
+      ],
+      "overlap": 0.8050909728816995,
+      "valence_conflicts": [
+        26
+      ],
+      "chunk_agreement": 0.8535404644039056
+    },
+    {
+      "personas": [
+        "credit-analyst",
+        "financial-journalist"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.125,
+      "shared_top": [
+        26
+      ],
+      "overlap": 0.7864090543809539,
+      "valence_conflicts": [
+        26
+      ],
+      "chunk_agreement": 0.9231007832088298
     },
     {
       "personas": [
@@ -1132,9 +1971,9 @@
       "shared_top": [
         11
       ],
-      "overlap": 0.842503201283221,
+      "overlap": 0.8405550031513007,
       "valence_conflicts": [],
-      "chunk_agreement": 0.7987436578883789
+      "chunk_agreement": 0.6513898834711281
     },
     {
       "personas": [
@@ -1148,8 +1987,64 @@
         26,
         29
       ],
-      "overlap": 0.869880667186056,
+      "overlap": 0.8991092420962294,
       "valence_conflicts": [],
+      "chunk_agreement": 0.9704347826086956
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "distressed-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.25,
+      "shared_top": [
+        26,
+        29
+      ],
+      "overlap": 0.8216253766674253,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7798561151079136
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "short-seller"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        4,
+        19,
+        26
+      ],
+      "overlap": 0.9497186170694905,
+      "valence_conflicts": [
+        4,
+        8,
+        26
+      ],
+      "chunk_agreement": 0.9064220183486238
+    },
+    {
+      "personas": [
+        "equity-pm",
+        "financial-journalist"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        4,
+        8,
+        19,
+        26
+      ],
+      "overlap": 0.9201128781453347,
+      "valence_conflicts": [
+        4,
+        8,
+        26
+      ],
       "chunk_agreement": 0.9704347826086956
     },
     {
@@ -1158,15 +2053,71 @@
         "retail-investor"
       ],
       "top_k": 8,
-      "top_k_overlap": 0.375,
+      "top_k_overlap": 0.25,
       "shared_top": [
         4,
-        5,
         11
       ],
-      "overlap": 0.908882575746853,
+      "overlap": 0.9110932990558656,
       "valence_conflicts": [],
-      "chunk_agreement": 0.8535885167464115
+      "chunk_agreement": 0.6140540540540541
+    },
+    {
+      "personas": [
+        "risk-officer",
+        "distressed-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        26,
+        27,
+        28,
+        29
+      ],
+      "overlap": 0.9110114948779824,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.8081728056742161
+    },
+    {
+      "personas": [
+        "risk-officer",
+        "short-seller"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        16,
+        19,
+        24,
+        26
+      ],
+      "overlap": 0.9224012183376376,
+      "valence_conflicts": [
+        24,
+        26
+      ],
+      "chunk_agreement": 0.939298102428076
+    },
+    {
+      "personas": [
+        "risk-officer",
+        "financial-journalist"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        13,
+        19,
+        24,
+        26
+      ],
+      "overlap": 0.8902516638819113,
+      "valence_conflicts": [
+        13,
+        26
+      ],
+      "chunk_agreement": 1.0
     },
     {
       "personas": [
@@ -1174,19 +2125,111 @@
         "retail-investor"
       ],
       "top_k": 8,
+      "top_k_overlap": 0.125,
+      "shared_top": [
+        13
+      ],
+      "overlap": 0.8945739179717691,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.6623054634525196
+    },
+    {
+      "personas": [
+        "distressed-investor",
+        "short-seller"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.125,
+      "shared_top": [
+        26
+      ],
+      "overlap": 0.7911642624007564,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.7503775801308944
+    },
+    {
+      "personas": [
+        "distressed-investor",
+        "financial-journalist"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.125,
+      "shared_top": [
+        26
+      ],
+      "overlap": 0.7729133601778289,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.8081728056742161
+    },
+    {
+      "personas": [
+        "distressed-investor",
+        "retail-investor"
+      ],
+      "top_k": 8,
       "top_k_overlap": 0.0,
       "shared_top": [],
-      "overlap": 0.8847626145658474,
+      "overlap": 0.8179086298356877,
       "valence_conflicts": [
-        29
+        31
       ],
-      "chunk_agreement": 0.8261389294727055
+      "chunk_agreement": 0.5638758186934008
+    },
+    {
+      "personas": [
+        "short-seller",
+        "financial-journalist"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        4,
+        19,
+        24,
+        26
+      ],
+      "overlap": 0.9612749048377509,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.939298102428076
+    },
+    {
+      "personas": [
+        "short-seller",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.375,
+      "shared_top": [
+        3,
+        4,
+        5
+      ],
+      "overlap": 0.926185334092045,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.6004540658075657
+    },
+    {
+      "personas": [
+        "financial-journalist",
+        "retail-investor"
+      ],
+      "top_k": 8,
+      "top_k_overlap": 0.5,
+      "shared_top": [
+        2,
+        4,
+        12,
+        13
+      ],
+      "overlap": 0.9416049120515009,
+      "valence_conflicts": [],
+      "chunk_agreement": 0.6623054634525196
     }
   ],
   "provenance": {
     "measured": false,
     "summary": "Persona differences are modelled from role mandates and calibrated against published effect sizes. They are not measured recordings of real experts' attention. No eye-tracking study compares these roles on the same document.",
-    "method": "Scored by Claude Opus 5 via 5 independent subagent runs per persona (20 runs total). Each run was a fresh model context that could not see the others, so the samples are independent and inter-run reliability is measurable. Aggregated by median; chunk labels by mode.",
+    "method": "Scored by Claude Opus 5 via 5 independent subagent runs per persona (35 runs total). Each run was a fresh model context that could not see the others, so the samples are independent and inter-run reliability is measurable. Aggregated by median; chunk labels by mode.",
     "reliability_measured": true
   }
 }
