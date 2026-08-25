@@ -11,17 +11,26 @@ disbelieve the result. This file is the record of conclusions.
 
 ## 1. In one paragraph
 
-Four professional mandates — credit analyst, equity portfolio manager, risk
-officer, retail investor — were applied to the same 30-clause financial note by a
-language model, five independent times each, and checked against constraints
-derived from the perceptual-expertise literature. The readings are reproducible
-(Krippendorff's α 0.83–0.97) and the method transfers unchanged to a note held
-back from every tuning decision, and then to a real SEC filing nobody here wrote,
-which it partly fails — informatively (§2.6). The central result is not the one the project
-was designed to show. **The three experts do not disagree with each other about
-what is good or bad news. They disagree about what to look at.** The only genuine
-valence conflicts are between professionals and the untrained reader, and they
-land on the two sentences an ordinary investor would find most reassuring — and
+Seven reading mandates — credit analyst, distressed debt investor, risk officer,
+short seller, equity portfolio manager, financial journalist, retail investor —
+were applied to five financial documents by a language model, five independent
+times each: **175 runs in one sweep**. Two documents were written for this
+project; three are real SEC filings nobody here wrote. Every reading is checked
+against constraints derived from the perceptual-expertise literature, and three of
+the five documents fail one of those checks for one reader each — reported, not
+tuned (§2.7). The readings are reproducible (Krippendorff's α 0.79–0.98).
+
+The central result was never the one the project set out to show, and it has now
+been sharpened twice. At four readers it looked like this: **the experts do not
+disagree about what is good or bad news, only about what to look at.** That
+survives a fresh sweep exactly — the credit analyst, equity PM and risk officer
+produce **zero** valence conflicts with each other on all five documents, and they
+are the *only* three pairs in the study that do. But adding a short seller and a
+distressed investor showed what was really holding it up: **not expertise, but a
+shared payoff direction.** All three original experts are on the same side of the
+trade. Put a reader on the other side and disagreement appears everywhere — 158
+conflicts across the seven readers. The valence conflicts with the untrained
+reader still
 on the one real filing in the study there are no valence conflicts at all, which
 turns out to say more about constructed documents than about readers.
 
@@ -31,21 +40,29 @@ turns out to say more about constructed documents than about readers.
 
 ### 2.1 Experts diverge in attention, not judgement
 
-Of the eight clauses each reader dwells on most, how many are shared:
+Of the eight clauses each reader dwells on most, how many are shared. With seven
+readers there are 21 pairs per document; these are the six lowest and the rest of
+the top on the hero note:
 
-| Pair | Hero note | Held-out note |
-|---|---|---|
-| equity PM vs retail investor | **0 / 8** | 4 / 8 |
-| credit analyst vs retail investor | 1 / 8 | 4 / 8 |
-| risk officer vs retail investor | 1 / 8 | 4 / 8 |
-| equity PM vs risk officer | 5 / 8 | 3 / 8 |
-| credit analyst vs equity PM | 5 / 8 | 4 / 8 |
-| credit analyst vs risk officer | 6 / 8 | 5 / 8 |
+| Pair | Shared, hero note |
+|---|---|
+| equity PM vs retail investor | **1 / 8** |
+| credit analyst vs retail investor | 2 / 8 |
+| risk officer vs retail investor | 2 / 8 |
+| distressed investor vs retail investor | 2 / 8 |
+| short seller vs retail investor | 2 / 8 |
+| financial journalist vs retail investor | 2 / 8 |
+| … every professional pair | 4 / 8 – 7 / 8 |
 
-On the hero note, an equity PM and a retail investor read the same thirty
-sentences and share **nothing at all** in what they dwell on. Meanwhile the three
-professionals overlap with each other at 5/8 and 6/8 — they are reading the same
-document in a way an untrained person simply is not.
+**The six lowest-overlap pairs in the document are the six that contain the
+untrained reader.** That is a stronger version of the original result, not a
+weaker one: adding three more professionals — including two whose payoff is
+inverted and one who is not a financial professional at all — did not produce a
+single professional pair that reads the page as differently as any professional
+reads it from an amateur.
+
+The full 21-pair comparison is in the report's reader × reader matrix rather than
+here; a table of 21 rows per document is not a finding, it is a data dump.
 
 ### 2.2 The valence divide is professional versus lay
 
@@ -63,42 +80,88 @@ treats as a warning.** Not because the untrained reader is careless — those
 sentences are written to sound like generosity. Knowing where the money comes
 from is what inverts them, and that knowledge is invisible from outside.
 
-**This does not reproduce on a real document.** Scored on a genuine SEC filing,
-the four readers produce **zero** valence conflicts, between any pair. The
-sentences above were written by this project, and a debt-funded buyback set beside
-collapsing cash conversion is a constructed juxtaposition. The divide is real
-whenever a document contains such a sentence; what is not established is how often
-real documents do. See §2.6 and `calibration.md` §7.6.
+**Two corrections, in opposite directions.**
+
+*First:* scored on the real filings, the original four readers produce almost no
+valence conflicts at all — zero, one and zero. The sentences above were written by
+this project, and a debt-funded buyback set beside collapsing cash conversion is a
+constructed juxtaposition. The professional-versus-lay divide is real wherever a
+document contains such a sentence; how often real documents do is not established.
+See §2.6.
+
+*Second, and larger:* the claim that the divide is **professional versus lay** was
+an artefact of which professionals were in the room. All three were on the same
+side of the trade. The seven-reader sweep gives:
+
+| | Valence conflicts |
+|---|---|
+| credit analyst / equity PM / risk officer, among themselves, all five documents | **0** |
+| every other pair, across the study | **158** |
+| pairs with zero conflicts anywhere | **exactly those three** |
+
+A short seller disagrees with everyone (75 conflicts); so does the journalist (62),
+which has no position at all and is answering a different question — *is this a
+story* rather than *is this good for me*. The distressed investor, whose inversion
+is structural rather than stipulated, disagrees least of the added readers (23).
+
+So: **experts who share a payoff direction agree about good and bad news.
+Expertise as such does not produce that agreement.** The original finding was
+right about the data and wrong about the cause. `calibration.md` §7.9.
 
 ### 2.3 Expertise concentrates attention, as predicted
 
-| Persona | Hero | Held-out |
-|---|---|---|
-| credit analyst | 0.062 | 0.060 |
-| equity PM | 0.042 | 0.072 |
-| risk officer | 0.043 | 0.045 |
-| retail investor (baseline) | 0.023 | 0.028 |
+| Persona | Hero | Held-out | Whirlpool | Alamo | Jazz |
+|---|---|---|---|---|---|
+| distressed investor | 0.065 | 0.074 | 0.089 | 0.099 | 0.091 |
+| credit analyst | 0.059 | 0.062 | 0.082 | 0.084 | 0.063 |
+| risk officer | 0.045 | 0.048 | 0.068 | 0.054 | 0.066 |
+| short seller | 0.049 | 0.055 | 0.062 | 0.058 | 0.055 |
+| equity PM | 0.041 | 0.059 | 0.065 | 0.056 | 0.049 |
+| financial journalist | 0.043 | 0.069 | 0.056 | 0.057 | 0.042 |
+| retail investor (baseline) | 0.025 | 0.028 | 0.019 | 0.017 | 0.024 |
 
-Every expert is more concentrated than the lay reader on both notes, in the
-direction the information-reduction hypothesis predicts. This is the one place
-the literature's prediction was reproduced cleanly.
+**Every expert is more concentrated than the lay reader on every one of the five
+documents — thirty out of thirty.** This is the one place the literature's
+prediction reproduces cleanly, and it is the only claim in this file that has
+survived every extension without qualification.
+
+It also survives the hardest case available: the **financial journalist** is a
+trained reader who is not a financial professional, added specifically to test
+whether the concentration effect was measuring expertise or merely numeracy. It
+concentrates 1.7× to 2.5× the lay reader on all five documents, on a completely
+different set of topics. Information reduction is not a property of reading
+numbers.
 
 ### 2.4 It is reproducible
 
 Krippendorff's α across five independent runs per persona — each a fresh model
 context, blind to the others:
 
-| Persona | Hero | Held-out |
-|---|---|---|
-| credit analyst | 0.972 | 0.940 |
-| equity PM | 0.880 | 0.953 |
-| risk officer | 0.936 | 0.826 |
-| retail investor | 0.944 | 0.961 |
+Across the 175-run sweep the range is **0.79 – 0.98**. On the hero note:
 
-All eight figures clear the 0.80 convention. **This measures consistency, not
-correctness** — a reader could be reproducibly wrong and score exactly as well.
+| Persona | Hero |
+|---|---|
+| credit analyst | 0.983 |
+| distressed investor | 0.971 |
+| retail investor | 0.964 |
+| risk officer | 0.931 |
+| short seller | 0.929 |
+| financial journalist | 0.921 |
+| equity PM | 0.901 |
+
+Thirty-four of the thirty-five reader-document pairs clear the 0.80 convention.
+The exception is the distressed investor on `jazz-q2` at 0.79 — and because its
+attention there is *concentrated* (0.091) rather than diffuse, that is the
+**erratic** reading rather than the harmless one, and it fails L1 accordingly
+(§2.7). **This measures consistency, not correctness** — a reader could be
+reproducibly wrong and score exactly as well.
 
 ### 2.5 The constructed note inflates the effect by about a third
+
+*Measured at four readers. The figures below are the four-reader values and are
+kept as the record of that stage; §2.7 gives the seven-reader numbers, which are
+higher on almost every document because more readers means more pairs that
+resemble each other.*
 
 | | Hero (tuning done here) | Held-out (never seen) |
 |---|---|---|
@@ -115,6 +178,8 @@ not of the four mandates.** On ordinary prose the separation is real and about a
 third smaller. A real filing later put the number at 52.1% — see §2.6.
 
 ### 2.6 Three real filings: the bracket does not close, and the signatures meet their limit
+
+*Also measured at four readers.*
 
 Every document above was written by the author of this project. Two more were
 not: **Whirlpool Corporation's** and **Alamo Group's** Q2 2026 results releases,
@@ -192,6 +257,52 @@ a claim about particular sentences and it failed. *Refuses to read the results* 
 a claim about a whole topic and it held — performance is its deepest bar on all
 four documents. That is exactly the difference the topic axis was introduced to
 draw.
+
+### 2.7 Seven readers: what a shared payoff was really doing
+
+Three readers were added — a **distressed debt investor** and a **short seller**,
+both with payoffs that run against the original three, and a **financial
+journalist**, a trained reader who is not a financial professional — and
+everything was re-scored in one 175-run sweep so that the reader average every
+lift is measured against comes from a single model generation. Method, mask
+discipline and the full accounting in `calibration.md` §7.9.
+
+**The result the inverted readers were added to test is in §2.2 and it is the
+main finding of this stage.** Three more things came with it.
+
+**The seven-reader overlap numbers are higher, and that is arithmetic, not
+signal.** More readers means more pairs, and the added pairs are mostly
+professional-to-professional:
+
+| | Hero | Held-out | Whirlpool | Alamo | Jazz |
+|---|---|---|---|---|---|
+| Mean top-k overlap, 7 readers | 55.4% | 47.6% | 61.9% | 33.9% | 52.4% |
+| (at 4 readers) | 37.5% | 50.0% | 52.1% | 31.2% | 47.9% |
+
+The ordering across documents barely moves — Alamo lowest, Whirlpool highest,
+both times. The level is not comparable across reader counts and should never be
+quoted without one.
+
+**Three documents now fail L1**, kept and reported rather than tuned:
+
+| Document | Reader | Why |
+|---|---|---|
+| hero note | financial journalist | attends no harder than the untrained reader to what its mandate predicts |
+| Whirlpool | risk officer | reproduces the §2.6 failure against the same signature-derived mask |
+| Jazz | distressed investor | α 0.79 with concentrated attention — *erratic*, the genuine failure mode |
+
+The journalist's failure is the informative one: it fails on the **constructed**
+note and passes on all four others. `meridian-q4` was written by someone thinking
+about lenders and shareholders, so there is little in it for a journalist's
+mandate to grip. That is a fact about the stimulus.
+
+**The re-base moved published numbers, and they were corrected rather than
+defended.** The photographic-negative mirror is now half true (§5b); the risk
+officer's absence holds on four of five documents, not five; the weakest profile
+is the short seller, not the equity PM; and the six statistical traits of §5b no
+longer reproduce across sweeps at all — recorded as not reproducing rather than
+refitted, which is what §7.7 of `calibration.md` promised when it committed to
+reporting between-sweep disagreement.
 
 ---
 
@@ -305,7 +416,7 @@ not authored by hand.
 
 ## 5b. A signature for each reader
 
-Can the four readers be reduced to something compact that *means* something?
+Can the readers be reduced to something compact that *means* something?
 
 **A first attempt failed and is worth recording.** Six statistical traits were
 computed — threat pull, baseline mood, focus, chunking, alarm, reading position —
@@ -359,7 +470,7 @@ the business did.**
 ### The reader drawn as a shape
 
 Give every sentence a topic — what it is *about*, assigned before any score was
-looked at, seven categories used identically on both documents — and a reader's
+looked at, seven categories used identically on all five documents — and a reader's
 attention becomes a profile over **topics** rather than over one document's
 layout. That is the fix for the trait that failed earlier: reading position was
 document-specific because its axis was position. Topic is not; "what is owed"
@@ -367,34 +478,56 @@ exists in any filing.
 
 The profiles travel:
 
-| Reader | Two documents | Four | **Five, three of them real** |
-|---|---|---|---|
-| credit analyst | **+0.90** | +0.92 | **+0.52** |
-| risk officer | +0.79 | +0.80 | **+0.74** |
-| retail investor | +0.78 | +0.81 | **+0.58** |
-| equity PM | +0.54 | +0.54 | **+0.50** |
+| Reader | 2 docs | 4 docs | 5 docs | **5 docs, 7 readers** |
+|---|---|---|---|---|
+| risk officer | +0.79 | +0.80 | +0.74 | **+0.72** |
+| equity PM | +0.54 | +0.54 | +0.50 | **+0.60** |
+| retail investor | +0.78 | +0.81 | +0.58 | **+0.59** |
+| distressed investor | — | — | — | **+0.57** |
+| credit analyst | **+0.90** | +0.92 | +0.52 | **+0.56** |
+| financial journalist | — | — | — | **+0.48** |
+| short seller | — | — | — | **+0.37** |
 
-And they are readable as shapes. Lift in points of attention above or below the
-four-reader average, hero note first:
+Two things move these: adding documents, and adding readers. The fifth document
+(`jazz-q2`, which contains nothing about debt or cash) is what dropped the credit
+analyst from +0.92 to +0.52; the three new readers then re-based every figure
+again. The **risk officer is now the most stable profile in the study**, and it is
+the one defined by an absence — which is the same result as before, arrived at
+from a different direction.
 
-| Reader | Strongest topic | Weakest topic |
-|---|---|---|
-| credit analyst | **what is owed** (+9.6, +13.8) | how it did (−5.4, −3.4) |
-| retail investor | **how it did** (+10.6, +5.0) | what is owed (−11.2, −4.2) |
-| risk officer | what happened / how it is described | **how it did (−7.9, −9.7)** |
-| equity PM | how it did, per share | what happened |
+And they are readable as shapes. Mean lift in points of attention above or below
+the seven-reader average, across all five documents:
 
-**The credit analyst and the untrained reader are photographic negatives.** One
-reads what the company owes and skips how it did; the other reads how it did and
-skips what it owes. Their strongest and weakest topics are each other's, on both
-documents.
+| Reader | debt | cash | perform | share | depend | language | events |
+|---|---|---|---|---|---|---|---|
+| credit analyst | **+9.5** | +2.0 | −2.5 | −0.2 | −1.5 | −3.5 | −3.8 |
+| distressed investor | **+12.0** | +1.1 | −4.6 | +0.4 | −2.8 | −1.7 | −4.3 |
+| risk officer | +2.4 | +0.2 | **−8.0** | −1.6 | +1.2 | +1.3 | +4.5 |
+| short seller | −5.8 | **+2.6** | +0.4 | −0.2 | +2.0 | +1.6 | −0.5 |
+| equity PM | −5.9 | −0.5 | **+5.4** | +3.6 | +2.0 | −2.1 | −2.5 |
+| financial journalist | −6.2 | −2.6 | +2.2 | −1.5 | −0.1 | +2.4 | **+5.7** |
+| retail investor | −6.0 | −2.8 | **+7.1** | −0.5 | −0.9 | +2.1 | +1.0 |
+
+Read a column and the readers sort themselves. *What is owed* is positive for
+exactly two of seven — and they are the two whose job is being repaid.
+
+**The credit analyst and the untrained reader are photographic negatives — but
+only half of that survived the seven-reader re-base.** The credit analyst's
+tallest topic is still *what is owed* and the untrained reader's deepest is still
+*what is owed*. But the credit analyst's own deepest topic is no longer *how it
+did*: three readers who ignore corporate events lifted the average there and took
+its floor down with them. Nothing about the reader changed; the thing it is
+measured against did. That is what "more theirs than anyone's" costs.
 
 **The risk officer's signature is an absence.** *How it did* is its deepest bar on
-both documents — it is the only reader defined chiefly by what it refuses to look
-at, which is exactly what the information-reduction hypothesis predicts an expert
-would look like.
+four of the five documents, and by a wide margin — it is the only reader defined
+chiefly by what it refuses to look at, which is exactly what the
+information-reduction hypothesis predicts an expert would look like. It is also
+the most stable profile here, and those two facts are probably the same fact: an
+absence needs nothing from the document, whereas a reader looking for covenants
+needs a document that has some.
 
-The equity PM is the weakest of the four and its shape should not be treated as
+The short seller is the weakest of the seven and its shape should not be treated as
 established. The taxonomy is an author judgment, recorded in
 `pipeline/stimuli/topics.json` with its two most arguable calls named; the check
 that it is not simply encoding the answer is that the profiles survive a change
@@ -407,27 +540,31 @@ reader who most walks past it, and the same sentences appear on both sides:
 
 | Sentence | Caught by | Missed by |
 |---|---|---|
-| "…agreed an amendment with its lending syndicate, raising the maximum permitted leverage covenant…" | credit analyst **+2.0** | retail investor **−4.1** |
-| "Net leverage stands at 4.1x adjusted EBITDA, against 2.9x a year ago." | credit analyst **+2.2** | retail investor **−3.4** |
-| "…reported fourth-quarter revenue of $1.42bn, up 19% year on year." | retail investor **+3.3** | risk officer **−1.5** |
-| "No customer data was exfiltrated, according to a third-party forensic review." | risk officer **+5.1** | equity PM **−3.8** |
-| "The company holds $420m of cash and has no drawn debt." | credit analyst **+4.8** | equity PM **−3.7** |
+| "A $150m convertible note matures in September 2027." | distressed investor **+6.7** | financial journalist **−4.9** |
+| "The company holds $420m of cash and has no drawn debt." | distressed investor **+7.2** | short seller **−4.2** |
+| "The company disclosed a security incident affecting a single-tenant deployment…" | financial journalist **+5.9** | equity PM **−4.0** |
+| "The company continues to actively evaluate additional value-enhancing corporate development." | distressed investor **+4.8** | financial journalist **−3.9** |
+| "Generated GAAP / non-GAAP adjusted earnings per share of $2.78 / $5.71…" | distressed investor **+4.7** | risk officer **−3.2** |
 
-The untrained reader's deepest blind spot anywhere in the study is now a sentence
-from a real filing: Alamo Group reporting that six months of operations threw off
-$22.7m of cash while investing consumed $171.6m, with $37.3m borrowed to bridge
-the gap (−4.3). A company spending seven times what it earned, funded from
-outside. The covenant-amendment row above (−4.1) is the constructed equivalent,
-and it is the weaker example precisely because somebody wrote it to be one. *The
-one person who most needs the warning is the one person built not to see it* — and
-that holds whether or not anyone intended the sentence to warn them.
+At four readers this table was mostly *professional catches it, amateur misses
+it*. At seven the untrained reader has dropped out of it entirely, and every row
+is one professional against another. The sharpest gaps in the study are no longer
+between training and its absence — they are between two trained readers looking
+for different things, which is a harder claim and a more interesting one.
+
+The untrained reader's deepest blind spot anywhere is still a sentence from a real
+filing: Alamo Group reporting that six months of operations threw off $22.7m of
+cash while investing consumed $171.6m, with $37.3m borrowed to bridge the gap
+(**−4.9**). A company spending seven times what it earned, funded from outside.
+*The one person who most needs the warning is the one person built not to see it*
+— and that holds whether or not anyone intended the sentence to warn them.
 
 ### What this is and is not
 
 It is a **signature**, not a genome: enough to say what kind of sentence each
 reader stops at, and the themes hold across four documents sharing no subject
 matter — but not across the fifth, which cannot express two of the seven topics
-and on which three of the four correlations fall sharply (§2.6). It is not evidence that these resemble real professionals — every reader
+and on which most correlations fall sharply (§2.6). It is not evidence that these resemble real professionals — every reader
 here is a language model given a mandate, and five documents is a small basis.
 What would settle it is the thing still missing from the whole project: a real
 credit analyst, marking up the same page.
@@ -437,13 +574,14 @@ credit analyst, marking up the same page.
 ## 6. What is still unknown
 
 1. **No human has validated any of it.** `pipeline/src/cmp/human.py` ranks a real
-   person's markup against the four personas. It has never been run against a real
+   person's markup against the seven personas. It has never been run against a real
    person. Three practitioners and one afternoon would close it, and a *mismatch*
    would be the most informative result this project could produce.
 
 2. **No published study measures these roles.** Nothing compares a credit analyst,
-   an equity PM, a risk officer and a retail investor reading the same document. It
-   appears not to exist. Everything here is argued from mandates.
+   a distressed investor, a risk officer, a short seller, an equity PM, a financial
+   journalist and a retail investor reading the same document. It appears not to
+   exist. Everything here is argued from mandates.
 
 3. **Two calibration constants are unverified** (r = 0.27, r = −0.43), taken from
    secondary sources because the paper is paywalled.
@@ -461,24 +599,39 @@ credit analyst, marking up the same page.
 6. **A language model is not an expert.** Sampling bounds the variance. Nothing
    here bounds the bias.
 
+7. **The payoff finding rests on two inverted readers.** §2.2 concludes that a
+   shared payoff direction, not expertise, is what produces valence agreement. That
+   rests on a short seller and a distressed investor — both written here, both
+   sharing the same author and the same prompt scaffolding as the readers they
+   disagree with. A real short seller might disagree differently, or less. The
+   control that would settle it is the same one every other open item points at: a
+   human doing the same markup.
+
 ---
 
 ## 7. Reproducing it
 
 ```bash
 cd pipeline && uv sync && uv run pytest        # 326 tests, no network
-uv run python -m cmp.from_samples scored/subagent-run2   meridian-q4
-uv run python -m cmp.from_samples scored/subagent-heldout aldercroft-h1
-uv run python -m cmp.from_samples scored/subagent-whirlpool  whirlpool-q2   # exits 1: see 2.6
-uv run python -m cmp.from_samples scored/subagent-alamo      alamo-q2
-uv run python -m cmp.from_samples scored/subagent-jazz       jazz-q2
-python3 ../viz/build.py && open ../viz/dist/index.html
+
+# the study of record: seven readers, one sweep
+uv run python -m cmp.from_samples scored/sweep-meridian-q4    meridian-q4   # exits 1: see 2.7
+uv run python -m cmp.from_samples scored/sweep-aldercroft-h1  aldercroft-h1
+uv run python -m cmp.from_samples scored/sweep-whirlpool-q2   whirlpool-q2  # exits 1: see 2.7
+uv run python -m cmp.from_samples scored/sweep-alamo-q2       alamo-q2
+uv run python -m cmp.from_samples scored/sweep-jazz-q2        jazz-q2       # exits 1: see 2.7
+python3 ../viz/build.py && open ../viz/dist/report.html
 ```
 
-Every sample from all three scoring runs is committed under `pipeline/scored/`:
-`subagent-run1` (the failed untightened run), `subagent-run2` (the hero note), and
-`subagent-heldout` (the validation). The failure is kept deliberately, so the
-before-and-after in §4.3 is auditable rather than asserted.
+Every sample from every scoring run is committed under `pipeline/scored/`. The
+`sweep-*` directories are the current study of record — seven readers × five
+documents × five samples, 175 runs, one model generation. The earlier runs are
+kept and were not consulted while building the current fixtures:
+`subagent-run1` (the failed untightened run), `subagent-run2` and
+`subagent-heldout` (the original four-reader pair), and `subagent-whirlpool`,
+`subagent-alamo` and `subagent-jazz` (the four-reader real filings). The failures
+are kept deliberately, so the before-and-after in §4.3 and the between-sweep
+disagreement in §2.7 are auditable rather than asserted.
 
 With API credentials, `python -m cmp calibrate <stimulus> --k 5` does the same
 thing through the Anthropic API instead of subagents.

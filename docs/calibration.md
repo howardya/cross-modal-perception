@@ -12,9 +12,11 @@
 > evidence about how credit analysts read.
 >
 > What *is* measured is that the readings are reproducible, and that they
-> transfer: five independent runs per persona agree at alpha 0.83 to 0.97, and the
-> whole method passes unchanged on a note held out from every fitting decision
-> (§7.5). Reproducible is not the same as right — see §6.6.
+> transfer: five independent runs per persona agree at alpha 0.79 to 0.98 across
+> seven readers and five documents, and the method passes unchanged on a note held
+> out from every fitting decision (§7.5). Reproducible is not the same as right —
+> see §6.6. Three of the five documents fail the literature checks for one reader
+> each, and those failures are reported rather than tuned away (§7.6, §7.9).
 
 Written for someone who wants to disbelieve the demo. Section 6 is the list of
 reasons they would be right to.
@@ -25,12 +27,12 @@ reasons they would be right to.
 
 | The demo shows | The honest claim behind it |
 |---|---|
-| Four professionals attending to different clauses | Four *mandates*, applied to the same text by a language model |
-| A clause reading warm to one reader and cold to another | A modelled valence judgment. The conflict of interest underneath is real; the specific score is not measured. Note that when scored cold, the three experts stopped disagreeing with each other entirely — see §7.4 |
+| Seven readers attending to different clauses | Seven *mandates*, applied to the same text by a language model |
+| A clause reading warm to one reader and cold to another | A modelled valence judgment. The conflict of interest underneath is real; the specific score is not measured. Scored cold, the three original experts never disagree with each other at all — and readers with an opposed payoff disagree with everyone. See §7.4 and §7.9 |
 | "They share 2 of the 8 clauses they attend to most" | Top-k overlap between two modelled attention distributions, computed exactly |
 | "Experts suppress the irrelevant twice as hard as they enhance the relevant" | A real meta-analytic finding, from medicine/sport/aviation, *assumed* to transfer to financial prose — and **not** enforced by the model, for the reasons in §7.1 |
 | The bouba/kiki result | Measured, on 917 people across 25 languages. Real. |
-| "A clause reading warm to one and cold to another" | Across the three **real** filings this happens **zero, one and zero** times — against five on the note built to divide readers. See §7.6 to §7.8. The divide is real where a document contains such a sentence; the hero note is the outlier |
+| "A clause reading warm to one and cold to another" | Depends entirely on which readers. Among the three original experts: **zero** conflicts on all five documents. Across all seven readers: **158**. See §7.9 — a shared payoff direction, not expertise, is what produces agreement |
 | The synaesthesia illustration | An illustration of *reported experience*. The measured advantage is much smaller — see §5 |
 
 The two Act 1 items are the only things in the piece grounded in direct
@@ -672,6 +674,138 @@ does not span this document type" is itself the finding, and excluding the
 document to protect the correlation would be the tuning this project keeps
 refusing. Both readings stand; one more pharmaceutical filing would separate them.
 
+### 7.9 Seven readers: §7.4 reproduces, and then stops being the whole story
+
+Three readers were added — a **distressed debt investor**, a **short seller** and
+a **financial journalist** — and everything was re-scored in one sweep: seven
+readers × five documents × five samples, **175 runs**. The sweep was
+pre-registered as the study of record before it ran; the earlier runs stay
+committed under `pipeline/scored/subagent-*` and were not consulted while
+building the new fixtures.
+
+The re-score exists because lift is measured against the *average across
+readers*. With cells scored months apart by different model generations, that
+average — and so every number in the study — would carry a silent drift
+confound. One sweep removes it.
+
+**Mask discipline.** All fifteen new masks were written from the readers'
+mandates in `cmp.personas` and never from any reading of their output, and were
+fixed before any of the three had scored a single clause. That is the practice
+adopted after §7.6, where a mask copied from this project's own prose failed.
+
+#### The result the two inverted readers were added to test
+
+§7.4 found that the three experts never disagreed about good and bad news, only
+about where to look. The obvious objection was that all three are
+downside-oriented — a lender, a risk officer, and a residual claimant who fears
+the downside — so agreement might be an artefact of the sample rather than a
+fact about expertise.
+
+**Both halves of that came out cleanly.**
+
+| | |
+|---|---|
+| Valence conflicts among credit analyst / equity PM / risk officer | **0**, on all five documents |
+| Pairs with zero conflicts anywhere in the study | **exactly those three** |
+| Valence conflicts across all 21 pairs | **158** |
+
+§7.4 reproduces exactly, in a fresh sweep, on three documents it never saw. And
+the moment a reader with an inverted payoff joins, conflict appears everywhere.
+Conflicts by participant, across the whole study:
+
+| Reader | Conflicts |
+|---|---|
+| short seller | 75 |
+| financial journalist | 62 |
+| risk officer | 45 |
+| equity PM | 44 |
+| credit analyst | 37 |
+| retail investor | 30 |
+| distressed investor | 23 |
+
+So the corrected claim is narrower and better than the original: **experts who
+share a payoff direction agree about good and bad news. Expertise as such does
+not produce that agreement — a common position does.** The old sentence
+"professionals are divided from the untrained by what they can see" survives,
+but it was never about training. It was about all three professionals being on
+the same side of the trade.
+
+**The journalist is the interesting third mode.** It has no position at all and
+still generates 62 conflicts, second only to the short seller. Its valence axis
+is not *is this good for me* but *is this a story* — and a disaster scores
+positive on that axis. Two readers can disagree about a sentence's sign either
+because they are on opposite sides of the same trade or because they are
+answering different questions. This study now contains both.
+
+**The distressed investor produces the fewest conflicts of any added reader**
+(23, eight of them with the credit analyst). Its inversion is structural rather
+than stipulated: it wants the same facts the credit analyst wants and prices
+them differently, which turns out to be a much weaker source of disagreement
+than the short seller's outright opposite payoff.
+
+#### Three documents now fail L1
+
+Kept, not tuned:
+
+| Document | Reader | Why |
+|---|---|---|
+| `meridian-q4` | financial journalist | enhancement 0.95 — attends no harder than the untrained reader to what its mandate predicts |
+| `whirlpool-q2` | risk officer | enhancement 0.98 — reproduces §7.6 against the same signature-derived mask |
+| `jazz-q2` | distressed investor | alpha 0.79 with concentration 0.091 — **erratic**, not diffuse, which is the genuine failure §4.5 distinguishes |
+
+The journalist failure is the one worth dwelling on: it is the only non-financial
+expert here, and it fails the expertise check on the constructed note while
+passing on all four others. `meridian-q4` was written by someone thinking about
+lenders and shareholders, so there is little in it for a journalist's mandate to
+grip — which is a fact about the stimulus, not the reader.
+
+#### What the re-base cost
+
+Adding three readers moves the average every lift is measured against, so
+published numbers moved. All were corrected rather than defended:
+
+- **The photographic-negative mirror is now half true.** The credit analyst's
+  tallest topic is still *what is owed* and the untrained reader's deepest is
+  still *what is owed* — but the credit analyst's own deepest is no longer *how
+  it did*. Three readers who ignore corporate events lifted that average and took
+  its floor with them. Nothing about the reader changed.
+- **The risk officer's absence holds on four of five documents**, not five.
+- **Profile stability falls across the board** and re-orders: risk officer +0.72,
+  equity PM +0.60, retail investor +0.59, distressed investor +0.57, credit
+  analyst +0.56, journalist +0.48, short seller +0.37. The weakest profile is now
+  the short seller, not the equity PM.
+- **The six statistical traits of §5b no longer reproduce.** Restricting the
+  computation to the original four readers does not restore them, so the cause is
+  the re-score, not the new readers. Those tests are marked `xfail` with the
+  reason rather than rewritten — refitting them to the new sweep would be exactly
+  the tuning this document exists to refuse, and deleting them would erase a
+  recorded negative result.
+
+That last item is the honest cost of §7.7's promise to report between-sweep
+disagreement rather than reconcile it. A set of orderings computed on one sweep
+did not survive another. They were weak findings, recorded as weak, and they are
+now recorded as not reproducing.
+
+#### Two matrices
+
+With seven readers the pairwise table is 21 rows and unreadable. The report now
+carries **reader × topic** (each reader's mean lift over all five documents, one
+row per reader) and **reader × reader** (the correlation between those rows).
+The two facts they surface:
+
+| Pair | r |
+|---|---|
+| credit analyst / distressed investor | **+0.97** |
+| credit analyst / financial journalist | **−0.92** |
+
+The first is a mandate confirming itself: both readers are asking whether the
+money comes back. The second is the useful one. **The reader furthest from the
+credit analyst is not the untrained investor (−0.79) but the journalist.**
+Distance in attention comes from training pointing somewhere else, not from
+lacking it — which is a sharper version of what this project has claimed
+throughout, and the first time it has been measured against a trained reader who
+is not a financial professional.
+
 ---
 
 ## 8. What would fix it
@@ -680,7 +814,8 @@ Roughly in order of value per unit of effort:
 
 1. Run the face-validity check with 3–5 practitioners per role. One afternoon.
    **This is now the only one of the original gaps still open, and by a distance
-   the most valuable.**
+   the most valuable** — and with seven readers there are seven roles to recruit
+   for, not four. The journalist is the cheapest of them to find.
 2. Obtain the paywalled meta-analysis and verify the two constants.
 3. ~~Run the held-out validation and publish the result.~~ Done — §7.5.
 4. ~~Compare against a real analyst note rather than only a constructed one.~~
