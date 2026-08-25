@@ -212,9 +212,9 @@ header h1 { margin-bottom: 1.4rem; }
 }
 .strip-cells i.on { background: var(--ink); }
 
-/* Drawn absence: the four sentences every professional stops at, shown
-   empty on the untrained reader's row. The claim is what is missing, so
-   the missing thing gets a mark of its own. */
+/* Drawn absence: the sentences every professional stops at and the
+   untrained reader does not, shown empty on its row. The claim is what is
+   missing, so the missing thing gets a mark of its own. */
 .strip-cells i.ghost {
   background: none;
   border: 1px dashed color-mix(in oklab, var(--muted), transparent 35%);
@@ -724,36 +724,53 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       The project was built to show a credit analyst and an equity manager reading
       the same sentence in opposite directions. Scored independently, that conflict
       did not appear — the three professionals agreed with each other on essentially
-      every judgement. What separated them was <em>attention</em>. And the one place
-      genuine disagreement did appear was not between professionals at all.
+      every judgement. What separated them was <em>attention</em>. That still holds:
+      those three produce <strong>zero</strong> valence conflicts with each other
+      across all five documents, and they are the only three pairs in the study
+      that do. What the seven-reader sweep showed is <em>why</em>, and it is not
+      what this section originally claimed.
     </p>
 
-    <!-- The figure the page exists to deliver. Thirty sentences across, four
+    <!-- The figure the page exists to deliver. Thirty sentences across, seven
          readers down, each reader's eight most-attended marked. Binary rather
          than a heat map on purpose: alignment is the claim, and alignment reads
-         instantly in filled/empty and muddily in shades. -->
+         instantly in filled/empty and muddily in shades. The rows are the
+         readers' actual top-eight sets on the hero note; if the sweep is re-run
+         and they move, these change with them. -->
     <figure class="aha">
       <div class="aha-scroll">
         <div class="aha-inner">
 
           <p class="aha-head">Meridian Logistics Q4 — all thirty sentences, in order →</p>
 
-          <p class="aha-group">The three professionals</p>
+          <p class="aha-group">The six professionals</p>
           <div class="strip-row">
             <span class="strip-label">credit analyst</span>
             <div class="strip-cells" data-top="6,7,8,10,11,12,14,19"></div>
           </div>
           <div class="strip-row">
-            <span class="strip-label">equity PM</span>
-            <div class="strip-cells" data-top="3,6,7,11,12,14,16,26"></div>
+            <span class="strip-label">distressed investor</span>
+            <div class="strip-cells" data-top="6,7,10,11,12,14,19,20"></div>
           </div>
           <div class="strip-row">
             <span class="strip-label">risk officer</span>
-            <div class="strip-cells" data-top="6,8,11,12,14,16,19,28"></div>
+            <div class="strip-cells" data-top="8,9,11,12,14,16,19,28"></div>
           </div>
           <div class="strip-row">
-            <span class="strip-label strip-label--faint">all three stop here</span>
-            <div class="strip-cells strip-cells--caret" data-top="6,11,12,14"></div>
+            <span class="strip-label">short seller</span>
+            <div class="strip-cells" data-top="6,7,8,9,11,12,14,28"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label">equity PM</span>
+            <div class="strip-cells" data-top="3,6,7,8,11,12,14,16"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label">financial journalist</span>
+            <div class="strip-cells" data-top="6,7,11,12,14,16,28,29"></div>
+          </div>
+          <div class="strip-row">
+            <span class="strip-label strip-label--faint">all six stop here</span>
+            <div class="strip-cells strip-cells--caret" data-top="11,12,14"></div>
           </div>
 
           <hr class="aha-rule">
@@ -761,8 +778,8 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
           <p class="aha-group">No training</p>
           <div class="strip-row">
             <span class="strip-label">retail investor</span>
-            <div class="strip-cells" data-top="0,1,2,10,15,25,27,28"
-                 data-ghost="6,11,12,14"></div>
+            <div class="strip-cells" data-top="0,1,10,14,15,25,27,28"
+                 data-ghost="11,12"></div>
           </div>
           <div class="strip-row">
             <span class="strip-label"></span>
@@ -774,20 +791,23 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       <figcaption>
         <p>
           Each filled square is one of the eight sentences that reader dwells on
-          most. <strong>The three professionals converge on the middle of the
-          document. The untrained reader is at the two ends.</strong> All three
-          professionals stop at the same four sentences, and the untrained reader
-          stops at <em>none</em> of them — the empty intersection behind the 0/8
-          in the tables below.
+          most. <strong>Six professionals converge on the middle of the document.
+          The untrained reader is at the two ends.</strong> All six stop at the same
+          three sentences — leverage, the covenant amendment, the buyback — and the
+          untrained reader walks past two of the three. The hollow squares are the
+          ones it misses.
         </p>
         <p style="margin-bottom:0">
-          The two marks under the last row are the sharpest version of it.
-          <span class="key key--cold"></span><strong>Sentence 15, the buyback:</strong>
-          every professional stops here, and all three read it as bad news.
-          <span class="key key--warm"></span><strong>Sentence 16, the dividend:</strong>
-          the untrained reader stops here instead, and calls it the best news in the
-          document. Adjacent sentences — and neither reader is looking at the
-          other's.
+          <strong>But it does stop at the buyback</strong>, and that is where this
+          figure stopped being about attention. Six professionals and one amateur
+          all dwell on sentence 15, and they do not agree about it in the slightest:
+          <span class="key key--cold"></span>the credit analyst reads it at −0.90,
+          the risk officer −0.85, the equity PM −0.55 —
+          <span class="key key--warm"></span>while the short seller reads the same
+          sentence at <strong>+0.55</strong>, the journalist at <strong>+0.75</strong>
+          and the untrained reader at <strong>+0.60</strong>. Same sentence, same
+          attention, opposite signs. What splits them is not training. It is which
+          way they get paid.
         </p>
       </figcaption>
     </figure>
@@ -795,26 +815,36 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
     <div class="grid">
       <div class="cell">
         <span class="k">Attention shared</span>
-        <span class="v">0–6<span style="font-size:1rem;color:var(--muted)"> of 8</span></span>
-        <p>Between the four readers, of the clauses each dwells on most. An equity
-        manager and an untrained reader shared none.</p>
+        <span class="v">1–7<span style="font-size:1rem;color:var(--muted)"> of 8</span></span>
+        <p>Between any two of the seven readers, of the clauses each dwells on most.
+        The six lowest pairs in the document are the six containing the untrained
+        reader.</p>
       </div>
       <div class="cell">
-        <span class="k">Conflicts among experts</span>
+        <span class="k">Conflicts, same-side experts</span>
         <span class="v">0</span>
-        <p>Clauses the three professionals read in opposite directions, across the
-        whole document.</p>
+        <p>Clauses the credit analyst, equity PM and risk officer read in opposite
+        directions — none, on any of the five documents. The only three pairs in the
+        study with none.</p>
+      </div>
+      <div class="cell">
+        <span class="k">Conflicts, all seven</span>
+        <span class="v">158</span>
+        <p>Across the same five documents, once readers with an opposed payoff join.
+        Agreement came from a shared position, not from expertise.</p>
       </div>
       <div class="cell">
         <span class="k">Reproducibility</span>
-        <span class="v">0.83–0.97</span>
-        <p>Krippendorff's alpha across five blind runs per reader, on both documents.</p>
+        <span class="v">0.79–0.98</span>
+        <p>Krippendorff's alpha across five blind runs per reader, over all seven
+        readers and five documents.</p>
       </div>
     </div>
 
     <p class="pull">
-      The two sentences an untrained investor likes most in this document are the
-      two that every professional treats as a warning.
+      The two sentences an untrained investor likes most are the two that every
+      professional on the long side treats as a warning — and the two that a short
+      seller likes too.
     </p>
 
     <div class="tbl-scroll">
@@ -823,20 +853,26 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         <thead>
           <tr>
             <th>Clause</th>
-            <th class="num">Credit</th><th class="num">Equity</th>
-            <th class="num">Risk</th><th class="num">Retail</th>
+            <th class="num">Credit</th><th class="num">Distr.</th>
+            <th class="num">Risk</th><th class="num">Equity</th>
+            <th class="num">Short</th><th class="num">Journo</th>
+            <th class="num">Retail</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>“$300m share repurchase … funded from the revolving credit facility”</td>
-            <td class="num cold">−0.90</td><td class="num cold">−0.70</td>
-            <td class="num cold">−0.85</td><td class="num warm">+0.60</td>
+            <td class="num cold">−0.90</td><td class="num cold">−0.50</td>
+            <td class="num cold">−0.85</td><td class="num cold">−0.55</td>
+            <td class="num warm">+0.55</td><td class="num warm">+0.75</td>
+            <td class="num warm">+0.60</td>
           </tr>
           <tr>
             <td>“The quarterly dividend was raised 8% to 27 cents”</td>
+            <td class="num cold">−0.50</td><td class="num cold">−0.40</td>
             <td class="num cold">−0.50</td><td class="num cold">−0.20</td>
-            <td class="num cold">−0.50</td><td class="num warm">+0.90</td>
+            <td class="num warm">+0.35</td><td class="num warm">+0.30</td>
+            <td class="num warm">+0.85</td>
           </tr>
         </tbody>
       </table>
@@ -862,7 +898,19 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       objective, a time horizon, a loss function, and the things it reads for. This
       follows Haider &amp; Frensch's finding that how much a reader discards depends
       on the task they believe they are doing. A credit analyst is “paid a coupon and
-      can lose the principal”; nothing is said about temperament.
+      can lose the principal”; nothing is said about temperament. That constraint is
+      load-bearing — the moment a reader is given a personality, its output becomes a
+      character study rather than a filter, and none of the checks below can tell the
+      difference.
+    </p>
+
+    <p>
+      The current study is <strong>seven readers × five documents × five independent
+      runs — 175 scoring runs</strong>, all from one sweep. The five steps below are
+      the pipeline each of those runs passes through. Nothing on this page is typed
+      in: every figure is computed from the scored fixtures, and the prose claims
+      that quote numbers are asserted against those fixtures by the test suite, so a
+      sentence that goes stale fails a test rather than quietly misleading you.
     </p>
 
     <figure>
@@ -968,10 +1016,34 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <h3><span class="step-n">Step 01</span>Turn the literature into tests</h3>
     <p>
-      Published effect sizes become constraints the output must satisfy: an expert
-      must attend more than a novice to task-relevant clauses, less to irrelevant
-      ones, and its attention must be more concentrated. These run as an automated
-      check, not as a guideline.
+      Published effect sizes become constraints the output must satisfy, and they run
+      as an automated check rather than as advice. A reader's output is accepted only
+      if all three hold:
+    </p>
+    <ul>
+      <li><strong>Enhancement.</strong> The expert attends <em>more</em> than the
+        untrained reader to the clauses its mandate marks relevant
+        <span class="small">(Gegenfurtner et al. 2011, r = 0.27)</span>.</li>
+      <li><strong>Suppression.</strong> It attends <em>less</em> to the rest
+        <span class="small">(same source, r = −0.43)</span>.</li>
+      <li><strong>Concentration.</strong> Its attention is less evenly spread than
+        the untrained reader's <span class="small">(information-reduction
+        hypothesis)</span>.</li>
+    </ul>
+    <p>
+      Which clauses count as relevant is fixed <em>before</em> any scoring, by hand,
+      per reader per document — so the check compares the model against an outside
+      judgement rather than against a restatement of itself. Those masks are written
+      from the mandate and never from anything the reader has produced, a rule
+      adopted after a mask copied from this page's own prose caused a failure.
+    </p>
+    <p style="margin-bottom:0">
+      <strong>What is deliberately not gated: magnitude.</strong> The literature also
+      implies experts suppress about 1.7× as hard as they enhance. Two of the three
+      numbers behind that ratio are unverified, and re-expressing standardised mean
+      differences as a ratio of normalised attention shares is not a faithful
+      translation — so the asymmetry is computed and displayed but cannot fail a run.
+      Gating it would claim a precision the evidence does not have.
     </p>
 
     <h3><span class="step-n">Step 02</span>Score each reader five times, blind</h3>
@@ -979,29 +1051,93 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       Every reader scores every clause on four attributes — how strongly it pulls
       attention, whether it is good or bad news <em>to them</em>, which clauses they
       read as one idea, and how much alarm it raises. Each of the five runs happens
-      in a separate session that cannot see the other four. Without that
-      independence, no agreement statistic means anything.
+      in a separate session that cannot see the other four, and is told to read
+      nothing else. Without that independence, no agreement statistic means anything.
+    </p>
+    <p>
+      <strong>The instruction that makes this work is arithmetic, not prose.</strong>
+      Told in words that “your attention is a finite budget”, the model marks almost
+      everything important — its default is to be comprehensive, which is the precise
+      opposite of expertise. The first full run failed every expertise check for
+      exactly that reason: one reader came out flatter than the untrained reader.
+      Replacing the sentence with a quota it can count against fixed it immediately:
+    </p>
+    <ul>
+      <li><strong>An expert</strong> may put at most 8 of 30 clauses above 0.55, and
+        must put at least 12 below 0.25.</li>
+      <li><strong>The untrained reader</strong> gets a deliberately looser bound — at
+        most 15 above, only 4 below — because the claim being tested is that experts
+        concentrate and novices do not. Imposing the expert quota on the novice would
+        erase the very contrast being measured.</li>
+    </ul>
+    <p style="margin-bottom:0">
+      The quota rescales itself with document length, so a 20-clause note and a
+      35-clause note need no hand-tuning. Every run reports hitting it exactly.
     </p>
 
     <h3><span class="step-n">Step 03</span>Aggregate by median</h3>
     <p>
-      The five runs combine by median rather than mean, so one wild sample cannot
-      drag a clause. Grouping labels combine by mode instead, since they are labels
-      and averaging them would be meaningless.
+      The five runs combine by <strong>median</strong> rather than mean, so a single
+      wild sample cannot drag a clause. Grouping labels combine by <strong>mode</strong>
+      instead, since they are names for a partition and averaging them would be
+      meaningless.
+    </p>
+    <p style="margin-bottom:0">
+      Five is the floor, not a preference: a single sample has no measurable
+      reliability at all, and the pipeline rejects a request for one. Agreement
+      across the five is reported as Krippendorff's alpha and read
+      <em>alongside</em> concentration, because the statistic divides by the spread
+      of scores — so a reader attending near-uniformly can score near zero while
+      agreeing with itself perfectly. That is the expected shape for a novice, not a
+      defect. A low alpha with <em>concentrated</em> attention is the real failure:
+      it means the reader picked different clauses each time. The page distinguishes
+      <em>diffuse</em> from <em>erratic</em> for exactly this reason.
     </p>
 
     <h3><span class="step-n">Step 04</span>Check, and be willing to fail</h3>
     <p>
-      The aggregate is tested against step one. A failing run is reported, not
-      quietly fixed — the whole point of building the check first was to be able to
-      fail it.
+      The aggregate is tested against step one, and the command exits non-zero when
+      it fails. A failing run is reported, not quietly fixed — the whole point of
+      building the check first was to be able to fail it. Three of the five documents
+      currently fail for one reader each, and all three are on the page:
+    </p>
+    <ul>
+      <li><strong>Meridian / financial journalist</strong> — attends no harder than
+        the untrained reader to what its mandate predicts. It fails on the
+        <em>constructed</em> note and passes on all four others, which says more
+        about a note written for lenders and shareholders than about the reader.</li>
+      <li><strong>Whirlpool / risk officer</strong> — the failure that refuted this
+        page's own description of that reader.</li>
+      <li><strong>Jazz / distressed investor</strong> — alpha 0.79 with concentrated
+        attention: <em>erratic</em>, the failure that actually matters.</li>
+    </ul>
+    <p style="margin-bottom:0">
+      Every sample from every run ever made is committed, including the runs that
+      failed, so the before-and-after is auditable rather than asserted.
     </p>
 
     <h3><span class="step-n">Step 05</span>Repeat on a document never seen before</h3>
     <p>
-      Anything tuned during steps one to four was tuned on one document. A second
-      note, held back from every decision, tests whether the method transfers or
-      merely fits.
+      Anything tuned during steps one to four was tuned on one document, so the only
+      honest test is a document that had no part in it. That started as a single
+      held-back note and has since grown to <strong>five documents, three of them
+      real SEC filings</strong> nobody involved here wrote.
+    </p>
+    <p>
+      The filings were chosen by a rule written down <em>before</em> any candidate
+      was read — enumerate EDGAR in a fixed order, take the first issuer that is
+      non-financial, inside a revenue band, carrying debt, and of the right length.
+      Choosing a filing after reading it would reintroduce exactly the bias a real
+      filing exists to measure. The rule, and the issuers it rejected on the way,
+      travel with each document.
+    </p>
+    <p style="margin-bottom:0">
+      One more discipline sits underneath all five steps. Because a reader's score is
+      reported as a <em>lift</em> against the average of all readers, cells scored
+      months apart by different model generations would leave a silent drift
+      confound inside every number. So whenever the reader set changes, everything is
+      re-scored in a single sweep — which is why the current figures come from 175
+      runs rather than from the accumulated history.
     </p>
   </div>
 </section>
@@ -1084,45 +1220,56 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <div class="tbl-scroll">
       <table>
-        <caption>Attention shared between each pair</caption>
+        <caption>Attention shared between each pair, and how often they disagree — six of the twenty-one</caption>
         <thead>
           <tr><th>Pair</th><th>Top-8 shared</th><th class="num">Conflicts</th></tr>
         </thead>
         <tbody>
           <tr class="hi"><td class="role">equity PM · retail investor</td>
-            <td><span class="dots dots--warn" data-n="0"></span>0 / 8</td><td class="num">1</td></tr>
-          <tr><td class="role">credit analyst · retail investor</td>
-            <td><span class="dots" data-n="1"></span>1 / 8</td><td class="num">2</td></tr>
-          <tr><td class="role">risk officer · retail investor</td>
-            <td><span class="dots" data-n="1"></span>1 / 8</td><td class="num">2</td></tr>
-          <tr><td class="role">credit analyst · equity PM</td>
-            <td><span class="dots" data-n="5"></span>5 / 8</td><td class="num">0</td></tr>
-          <tr><td class="role">equity PM · risk officer</td>
-            <td><span class="dots" data-n="5"></span>5 / 8</td><td class="num">0</td></tr>
+            <td><span class="dots dots--warn" data-n="1"></span>1 / 8</td><td class="num">1</td></tr>
+          <tr><td class="role">financial journalist · retail investor</td>
+            <td><span class="dots" data-n="2"></span>2 / 8</td><td class="num">3</td></tr>
           <tr><td class="role">credit analyst · risk officer</td>
+            <td><span class="dots" data-n="5"></span>5 / 8</td><td class="num">0</td></tr>
+          <tr><td class="role">credit analyst · equity PM</td>
             <td><span class="dots" data-n="6"></span>6 / 8</td><td class="num">0</td></tr>
+          <tr class="hi"><td class="role">risk officer · short seller</td>
+            <td><span class="dots" data-n="6"></span>6 / 8</td><td class="num">10</td></tr>
+          <tr class="hi"><td class="role">credit analyst · distressed investor</td>
+            <td><span class="dots" data-n="7"></span>7 / 8</td><td class="num">0</td></tr>
         </tbody>
       </table>
     </div>
 
     <p>
-      The shape of that table is the finding. The three professionals cluster at
-      5/8 and 6/8 — they are reading the same document as each other. The untrained
-      reader sits at 0/8 and 1/8 against all three. Every valence conflict in the
-      note falls on the rows where a professional meets a layperson.
+      The shape of that table is the finding, and the last two rows are the whole of
+      it. <strong>Attention overlap tells you nothing about agreement.</strong> The
+      risk officer and the short seller dwell on six of the same eight sentences and
+      disagree about ten of them. The credit analyst and the distressed investor
+      dwell on seven of the same eight and disagree about none.
+    </p>
+    <p>
+      Reading the same page the same way does not make two people agree. What
+      predicts agreement is whether they win and lose together. The professionals
+      still cluster at 5/8 to 7/8 and the untrained reader still sits at 1/8 and 2/8
+      against every one of them — the attention gap between training and its absence
+      is real and unchanged. It is simply not what produces the valence conflicts.
     </p>
 
     <div class="tbl-scroll">
       <table>
-        <caption>Per reader — reproducibility and focus</caption>
+        <caption>Per reader — reproducibility and focus, hero note</caption>
         <thead>
           <tr><th>Reader</th><th class="num">alpha</th><th class="num">Concentration</th><th>Literature check</th></tr>
         </thead>
         <tbody>
-          <tr><td class="role">credit analyst</td><td class="num">0.972</td><td class="num">0.062</td><td><span class="tag tag--yes">pass</span></td></tr>
-          <tr><td class="role">risk officer</td><td class="num">0.936</td><td class="num">0.043</td><td><span class="tag tag--yes">pass</span></td></tr>
-          <tr><td class="role">equity PM</td><td class="num">0.880</td><td class="num">0.042</td><td><span class="tag tag--yes">pass</span></td></tr>
-          <tr><td class="role">retail investor</td><td class="num">0.944</td><td class="num">0.023</td><td class="small">baseline</td></tr>
+          <tr><td class="role">credit analyst</td><td class="num">0.983</td><td class="num">0.059</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">distressed investor</td><td class="num">0.971</td><td class="num">0.065</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">risk officer</td><td class="num">0.931</td><td class="num">0.045</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">short seller</td><td class="num">0.929</td><td class="num">0.049</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">financial journalist</td><td class="num">0.921</td><td class="num">0.043</td><td><span class="tag tag--no">fail</span></td></tr>
+          <tr><td class="role">equity PM</td><td class="num">0.901</td><td class="num">0.041</td><td><span class="tag tag--yes">pass</span></td></tr>
+          <tr><td class="role">retail investor</td><td class="num">0.964</td><td class="num">0.025</td><td class="small">baseline</td></tr>
         </tbody>
       </table>
     </div>
@@ -1179,9 +1326,12 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
     <p>
       This is the number a sceptic should ask for, so it belongs in the summary
       rather than a footnote. The dramatic <span class="dots dots--warn" data-n="0"></span>0/8
-      is a property of the constructed document, not of the four mandates. On
-      ordinary prose the readers still separate, reliably and in the direction the
-      literature predicts, but less theatrically.
+      is a property of the constructed document, not of the mandates. On ordinary
+      prose the readers still separate, reliably and in the direction the
+      literature predicts, but less theatrically. (These overlap figures were
+      measured at four readers; the seven-reader numbers are higher on almost every
+      document, because more readers means more pairs that resemble each other.
+      Overlap is never comparable across reader counts.)
     </p>
 
     <div class="finding">
@@ -1200,7 +1350,7 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
         and the constructed notes sit inside that range rather than to one side of
         it. What can honestly be said is narrower than what one filing seemed to
         show: how much two readers share depends mostly on the document, and a
-        single headline percentage is not a property of the four mandates at all.
+        single headline percentage is not a property of the mandates at all.
       </p>
       <p>
         <strong>The valence divide is the hero note's alone.</strong> Five conflicts
@@ -1230,7 +1380,7 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <p class="lede">
       For every sentence, compare one reader's share of attention against the
-      average of all four. A sentence that is far above average is
+      average of all seven. A sentence that is far above average is
       <em>more theirs than anyone's</em>. Far below, and the others stopped while
       they walked past.
     </p>
@@ -1284,7 +1434,7 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       </p>
     </div>
 
-    <h2 style="margin-top:2.5rem">The same four readers, drawn as shapes</h2>
+    <h2 style="margin-top:2.5rem">The same seven readers, drawn as shapes</h2>
     <p>
       Give every sentence a topic — what it is <em>about</em>, assigned before any
       score was looked at — and a reader's attention becomes a profile over topics
