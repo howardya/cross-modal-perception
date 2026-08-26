@@ -28,6 +28,7 @@ from cmp.report_data import (
     DOCUMENTS,
     READERS,
     THEMES,
+    WORKED,
     _profile_stability,
     build_report_data,
 )
@@ -244,6 +245,104 @@ def test_the_correlation_guard_would_notice_a_stale_figure(data, template):
     absent = {f"{p['correlation']:+.2f}" for p in data["profiles"]}
     assert "+0.99" not in absent
     assert "+0.99" not in prose
+
+
+# ── 2b. the worked example ───────────────────────────────────────────────────
+# The example on the page exists to let a reader check the arithmetic by hand.
+# It is only worth having if the numbers printed beside each step are the ones
+# the pipeline actually used, so each rung is asserted against the function
+# that computes that same quantity for the figures.
+
+
+def _worked(data):
+    return data["worked"]
+
+
+def test_worked_example_quotes_the_real_sentence(data):
+    w = _worked(data)
+    d = _fixture(WORKED["document"])
+    assert w["text"] == d["stimulus"]["texts"][WORKED["clause"]]
+    assert w["n"] == WORKED["clause"] + 1
+    assert w["of"] == len(d["stimulus"]["texts"])
+    assert w["topic_count"] == labels_for(WORKED["document"]).count(
+        labels_for(WORKED["document"])[WORKED["clause"]]
+    )
+
+
+def test_worked_example_median_is_the_score_in_the_fixture(data):
+    """Step a shows five raw runs and a median. If that median were not the
+    number the fixture carries, every step below it would be a fiction."""
+    w = _worked(data)
+    units = {f["persona_id"]: f["units"] for f in _fixture(WORKED["document"])["fields"]}
+    for r in w["readers"]:
+        assert r["median"] == pytest.approx(np.median(r["runs"]))
+        assert r["median"] == pytest.approx(units[r["id"]][WORKED["clause"]]["salience"])
+
+
+def test_worked_example_share_and_lift_are_the_pipelines_own(data):
+    w = _worked(data)
+    d = _fixture(WORKED["document"])
+    lift = attention_lift(d["fields"])
+    totals = {
+        f["persona_id"]: sum(u["salience"] for u in f["units"]) for f in d["fields"]
+    }
+    for r in w["readers"]:
+        assert r["total"] == pytest.approx(totals[r["id"]], abs=5e-3)
+        assert r["share"] == pytest.approx(r["median"] / totals[r["id"]] * 100)
+        assert r["lift"] == pytest.approx(lift[r["id"]][WORKED["clause"]] * 100)
+
+
+def test_worked_example_topic_step_matches_topic_lift(data):
+    w = _worked(data)
+    sid = WORKED["document"]
+    topic = labels_for(sid)[WORKED["clause"]]
+    expected = topic_lift(_fixture(sid)["fields"], labels_for(sid))
+    for r in w["readers"]:
+        assert r["topic_lift"] == pytest.approx(expected[r["id"]][topic])
+        assert r["topic_share"] - w["mean_topic_share"] == pytest.approx(r["topic_lift"])
+
+
+def test_worked_example_lands_on_the_cell_of_the_dna_table_it_claims(data):
+    """The last arithmetic step says the average of the five documents *is* a
+    cell of the table further down the page. That is the claim to protect."""
+    w = _worked(data)
+    sid = WORKED["document"]
+    topic = labels_for(sid)[WORKED["clause"]]
+    column = CATEGORIES.index(topic)
+    rows = {r["id"]: r["row"] for r in data["dna"]}
+    for r in w["readers"]:
+        assert len(r["series"]) == len(DOCUMENTS)
+        assert r["dna"] == pytest.approx(np.mean(r["series"]))
+        assert r["dna"] == pytest.approx(rows[r["id"]][column])
+
+
+def test_worked_example_contrasts_two_different_readers(data):
+    w = _worked(data)
+    ids = [r["id"] for r in w["readers"]]
+    assert len(set(ids)) == len(ids) == 2
+    listed = {pid for pid, _ in READERS}
+    assert set(ids) <= listed
+
+
+def test_a_stale_sample_directory_fails_loudly(monkeypatch):
+    """The samples and the fixtures are two files that can disagree. If they
+    ever do, the page must not quietly print a median nothing produced."""
+    from cmp import report_data
+
+    monkeypatch.setattr(report_data, "_runs", lambda *a, **k: [0.01, 0.02, 0.03])
+    with pytest.raises(ValueError, match="stale"):
+        report_data.build_report_data()
+
+
+def test_the_page_asks_for_every_worked_value_it_is_given(data, template):
+    """Each rung of the ladder is filled by the script from the payload. A
+    step present in the markup with no calculation behind it would render as
+    an empty box."""
+    for key in re.findall(r'data-wk-calc="([a-z]+)"', template):
+        assert key in ("runs", "share", "lift", "topic", "dna", "corr"), key
+    for key in re.findall(r'data-wk="([a-z_]+)"', template):
+        assert key in _worked(data), key
+    assert re.search(r'data-wk-calc="runs"', template)
 
 
 # ── 3. page hygiene and the build ────────────────────────────────────────────

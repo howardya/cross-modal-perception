@@ -28,6 +28,7 @@ from cmp.topics import CATEGORIES, CATEGORY_BLURB, labels_for, topic_lift
 
 ROOT = Path(__file__).resolve().parents[3]
 FIXTURES = ROOT / "fixtures"
+SAMPLES = ROOT / "pipeline" / "scored"
 
 #: Document order matters: the first is the one the method was tuned on.
 DOCUMENTS = [
@@ -121,8 +122,108 @@ THEMES = {
 }
 
 
+#: The clause the worked example follows from five raw scores to one cell of
+#: the DNA table, and the two readers it contrasts. Nothing about the example
+#: is special-cased: it is the ordinary pipeline, printed with its working
+#: shown. Chosen because the two readers disagree about it as widely as any
+#: sentence in the study, and because its topic is the one each of them is
+#: defined by -- one for reading it, one for skipping it.
+WORKED = {
+    "document": "meridian-q4",
+    "clause": 12,
+    "readers": ["credit-analyst", "retail-investor"],
+}
+
+
 def _load(stimulus_id: str) -> dict:
     return json.loads((FIXTURES / f"{stimulus_id}.json").read_text())
+
+
+def _runs(stimulus_id: str, persona_id: str, index: int) -> list[float]:
+    """What the five blind runs scored one clause, before aggregation.
+
+    The samples are the audit trail behind every median in the fixtures, so
+    the worked example reads them rather than restating the aggregate as if
+    it were raw.
+    """
+    directory = SAMPLES / f"sweep-{stimulus_id}"
+    paths = sorted(directory.glob(f"{persona_id}-*.json"))
+    if not paths:
+        raise FileNotFoundError(
+            f"no samples for {persona_id} in {directory}; the worked example "
+            f"shows the runs behind a median and cannot invent them"
+        )
+    return [json.loads(p.read_text())["units"][index]["salience"] for p in paths]
+
+
+def _worked_example(docs: dict, lifts: dict) -> dict[str, Any]:
+    """One clause traced end to end: five runs -> median -> share -> lift ->
+    topic -> the reader's DNA cell.
+
+    Every value here is recomputed from the fixtures by the same code paths
+    the figures use, so the arithmetic on the page cannot drift from the
+    arithmetic in the pipeline. Where a step is a one-line calculation the
+    reader can check by eye, both operands travel with the result.
+    """
+    sid = WORKED["document"]
+    index = WORKED["clause"]
+    doc = docs[sid]
+    labels = labels_for(sid)
+    topic = labels[index]
+    fields = {f["persona_id"]: f for f in doc["fields"]}
+
+    salience = {
+        pid: [u["salience"] for u in f["units"]] for pid, f in fields.items()
+    }
+    totals = {pid: float(sum(v)) for pid, v in salience.items()}
+    shares = {pid: salience[pid][index] / totals[pid] for pid in salience}
+    mean_share = float(np.mean(list(shares.values())))
+
+    in_topic = [i for i, lab in enumerate(labels) if lab == topic]
+    topic_totals = {pid: float(sum(salience[pid][i] for i in in_topic)) for pid in salience}
+    topic_shares = {pid: topic_totals[pid] / totals[pid] for pid in salience}
+    mean_topic_share = float(np.mean(list(topic_shares.values())))
+
+    names = dict(READERS)
+    readers = []
+    for pid in WORKED["readers"]:
+        runs = _runs(sid, pid, index)
+        median = float(np.median(runs))
+        if abs(median - salience[pid][index]) > 1e-9:
+            raise ValueError(
+                f"{pid}: the samples median to {median} but the fixture says "
+                f"{salience[pid][index]}; one of the two is stale"
+            )
+        series = [lifts[s][pid][topic] for s, _ in DOCUMENTS]
+        readers.append(
+            {
+                "id": pid,
+                "label": names[pid],
+                "runs": runs,
+                "median": median,
+                "total": round(totals[pid], 2),
+                "share": shares[pid] * 100,
+                "lift": (shares[pid] - mean_share) * 100,
+                "topic_total": round(topic_totals[pid], 2),
+                "topic_share": topic_shares[pid] * 100,
+                "topic_lift": (topic_shares[pid] - mean_topic_share) * 100,
+                "series": series,
+                "dna": float(np.mean(series)),
+            }
+        )
+
+    return {
+        "document": dict(DOCUMENTS)[sid],
+        "index": index,
+        "n": index + 1,
+        "of": len(labels),
+        "text": doc["stimulus"]["texts"][index],
+        "topic": TOPIC_LABELS[topic],
+        "topic_count": len(in_topic),
+        "mean_share": mean_share * 100,
+        "mean_topic_share": mean_topic_share * 100,
+        "readers": readers,
+    }
 
 
 def _profile_stability(series: list[list[float]]) -> float | None:
@@ -281,6 +382,7 @@ def build_report_data() -> dict[str, Any]:
 
     return {
         "readers": [{"id": p, "label": l} for p, l in READERS],
+        "worked": _worked_example(docs, lifts),
         "documents": [{"id": s, "title": t} for s, t in DOCUMENTS],
         "topics": [
             {"key": c, "label": TOPIC_LABELS[c], "blurb": CATEGORY_BLURB[c]}
