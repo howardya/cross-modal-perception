@@ -603,6 +603,98 @@ tr.hi td { background: color-mix(in oklab, var(--surface), var(--accent) 8%); }
   margin-top: 0.6rem;
 }
 
+/* ── the worked example: one clause, end to end ──────────── */
+
+/* A ladder rather than a table. Each rung is one arithmetic step, and both
+   operands are printed beside the result, so a reader can check the sum by
+   eye instead of taking the number on trust. */
+.wk { margin: 1.75rem 0 0; }
+
+.wk-quote {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 1.05rem 1.25rem;
+}
+.wk-quote p { margin: 0; font-size: 1.02rem; line-height: 1.5; }
+.wk-where {
+  font-family: var(--data);
+  font-size: 0.66rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.7rem !important;
+}
+
+.wk-steps {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-top: 0;
+}
+.wk-step {
+  background: var(--surface);
+  display: grid;
+  grid-template-columns: 2.1rem 1fr;
+  gap: 0 0.9rem;
+  padding: 1.05rem 1.25rem;
+}
+.wk-step > .wk-i {
+  font-family: var(--data);
+  font-size: 0.72rem;
+  color: var(--accent);
+  padding-top: 0.15rem;
+}
+.wk-step h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.02rem;
+  margin: 0 0 0.3rem;
+  font-variation-settings: "SOFT" 10, "opsz" 28;
+}
+.wk-step p { margin: 0 0 0.55rem; font-size: 0.95rem; }
+.wk-step p:last-child { margin-bottom: 0; }
+
+/* The arithmetic itself. Two lines, one per reader, aligned on the same
+   grid so the contrast between them is the shape of the block. */
+.wk-calc {
+  font-family: var(--data);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  background: var(--sunken);
+  border-radius: 2px;
+  padding: 0.6rem 0.75rem;
+  margin: 0.55rem 0 0;
+  overflow-x: auto;
+}
+.wk-line {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 0.75rem;
+  white-space: nowrap;
+}
+.wk-line + .wk-line { margin-top: 0.25rem; }
+.wk-line > b { font-weight: 400; color: var(--muted); }
+/* The words around the sum, kept quieter than the sum itself. */
+.wk-g { color: var(--muted); }
+/* The result of the step, not the inputs to it. */
+.wk-r { color: var(--ink); font-weight: 500; }
+/* An aside about the step, not part of its arithmetic — so it stays in the
+   text face and out of the monospace block. */
+.wk-note {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 0.55rem !important;
+}
+@media (max-width: 40rem) {
+  .wk-line { grid-template-columns: 1fr; gap: 0; white-space: normal; }
+  .wk-line > b { color: var(--ink); }
+  .wk-step { grid-template-columns: 1fr; }
+  .wk-step > .wk-i { padding: 0 0 0.25rem; }
+}
+
 /* ── figure ──────────────────────────────────────────────── */
 
 figure { margin: 2rem 0; }
@@ -906,8 +998,10 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
 
     <p>
       The current study is <strong>seven readers × five documents × five independent
-      runs — 175 scoring runs</strong>, all from one sweep. The five steps below are
-      the pipeline each of those runs passes through. Nothing on this page is typed
+      runs — 175 scoring runs</strong>, all from one sweep. The first five steps
+      below are the pipeline each of those runs passes through; the sixth carries a
+      single sentence through all five, arithmetic shown, so the method can be
+      checked rather than believed. Nothing on this page is typed
       in: every figure is computed from the scored fixtures, and the prose claims
       that quote numbers are asserted against those fixtures by the test suite, so a
       sentence that goes stale fails a test rather than quietly misleading you.
@@ -1139,6 +1233,136 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
       re-scored in a single sweep — which is why the current figures come from 175
       runs rather than from the accumulated history.
     </p>
+
+    <h3><span class="step-n">Step 06</span>One clause, end to end</h3>
+    <p>
+      Everything on this page is four pieces of arithmetic away from a number a
+      reader put on a sentence, and none of that arithmetic is clever: a median, a
+      division, a subtraction, a correlation. So here is one sentence carried the
+      whole way — from what the five runs scored it, to one cell of the DNA table
+      — with both operands printed at every step. Nothing below is special-cased.
+      It is the ordinary pipeline with its working shown.
+    </p>
+
+    <figure class="wk">
+      <div class="wk-quote">
+        <p>&ldquo;<span data-wk="text"></span>&rdquo;</p>
+        <p class="wk-where">
+          Sentence <span data-wk="n"></span> of <span data-wk="of"></span>
+          &nbsp;·&nbsp; <span data-wk="document"></span>
+          &nbsp;·&nbsp; topic: <span data-wk="topic"></span>
+        </p>
+      </div>
+
+      <div class="wk-steps">
+        <div class="wk-step">
+          <span class="wk-i">a</span>
+          <div>
+            <h4>Five blind runs, one median</h4>
+            <p>
+              Each of the five sessions scored all thirty sentences without seeing
+              the other four. On this sentence they landed close together, and the
+              median of the five is the score everything downstream uses.
+            </p>
+            <div class="wk-calc" data-wk-calc="runs"></div>
+            <p class="wk-note">
+              The spread across those five runs, over the whole document, is what
+              Krippendorff's alpha measures — not whether the score is right.
+            </p>
+          </div>
+        </div>
+
+        <div class="wk-step">
+          <span class="wk-i">b</span>
+          <div>
+            <h4>From a score to a share of attention</h4>
+            <p>
+              Raw scores cannot be compared between readers: one reader may mark
+              generously across the board and would then win every sentence. So each
+              score is divided by that reader's total attention over the document,
+              turning it into a share — how much of what this reader spent, it spent
+              here.
+            </p>
+            <div class="wk-calc" data-wk-calc="share"></div>
+          </div>
+        </div>
+
+        <div class="wk-step">
+          <span class="wk-i">c</span>
+          <div>
+            <h4>From a share to a lift</h4>
+            <p>
+              A share still reflects the sentence as much as the reader — an alarming
+              sentence is attended to by everyone. Subtracting the average share
+              across all readers leaves only what is peculiar to this one. That
+              difference, in points of attention, is <strong>lift</strong>: the number
+              printed beside every quotation later on the page.
+            </p>
+            <div class="wk-calc" data-wk-calc="lift"></div>
+            <p class="wk-note">
+              Positive: more this reader's sentence than anyone's. Negative: the
+              others stopped and this one did not.
+            </p>
+          </div>
+        </div>
+
+        <div class="wk-step">
+          <span class="wk-i">d</span>
+          <div>
+            <h4>From a sentence to a topic</h4>
+            <p>
+              Lift on a single sentence is a fact about one page's wording. To say
+              anything that travels, the sentences are grouped by what they are
+              <em>about</em> — a labelling done by hand before any score was looked at
+              — and the shares are added up inside each group. This document has
+              <span data-wk="topic_count"></span> sentences about
+              <span data-wk="topic"></span>; their shares are summed and compared to
+              the reader average exactly as in step c.
+            </p>
+            <div class="wk-calc" data-wk-calc="topic"></div>
+          </div>
+        </div>
+
+        <div class="wk-step">
+          <span class="wk-i">e</span>
+          <div>
+            <h4>From one document to one cell of the DNA</h4>
+            <p>
+              Repeat that on all five documents and average. That single number is one
+              cell of the table further down: this reader, this topic, across
+              everything it has read. Seven such numbers make a row, and the row is
+              what the page calls a reader's DNA.
+            </p>
+            <div class="wk-calc" data-wk-calc="dna"></div>
+            <p class="wk-note" data-wk-note="zero"></p>
+          </div>
+        </div>
+
+        <div class="wk-step">
+          <span class="wk-i">f</span>
+          <div>
+            <h4>From two rows to one correlation</h4>
+            <p>
+              Every remaining statistic is a correlation between two of those
+              seven-number rows. Between two different readers it asks whether they
+              spend attention on the same topics — the twins-and-opposites table.
+              Between the same reader on two different documents it asks whether the
+              shape survived the change of page, which is the stability figure quoted
+              for each reader.
+            </p>
+            <div class="wk-calc" data-wk-calc="corr"></div>
+          </div>
+        </div>
+      </div>
+
+      <figcaption>
+        Six steps, and only one of them involves a language model. Steps b to f are
+        arithmetic over numbers already on disk, unit-tested against hand-worked
+        values, and recomputed for this figure by the same functions that draw every
+        other figure here — so if a re-score moved the score in step a, every number
+        below it would move with it rather than quietly disagreeing.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1150,7 +1374,7 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--rule); }
     <p class="lede">
       Four statistics carry the results. All are standard, computed exactly, and
       unit-tested against hand-worked values. The arithmetic is not where the
-      uncertainty lives.
+      uncertainty lives — step 06 above shows all of it, on one sentence.
     </p>
 
     <div class="decode">
@@ -1775,6 +1999,93 @@ for (const row of document.querySelectorAll(".strip-cells")) {
 // average, computed by cmp.topics and asserted against the fixtures in
 // tests/test_report_figures.py.
 const DATA = /*__REPORT_DATA__*/;
+
+// ── the worked example ──────────────────────────────────────────────────
+// One clause carried from five raw scores to one cell of the DNA table. The
+// prose lives in the markup; every number here is computed by
+// cmp.report_data from the same fixtures and samples the rest of the page
+// uses, so the arithmetic shown cannot drift from the arithmetic done.
+(() => {
+  const W = DATA.worked;
+  if (!W) return;
+
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const sign = (v, d = 1) =>
+    (Math.abs(v) < 5e-2 / 10 ** (d - 1) ? "" : v > 0 ? "+" : "\u2212") +
+    Math.abs(v).toFixed(d);
+  const pct = (v) => `${v.toFixed(1)}%`;
+
+  for (const el of document.querySelectorAll("[data-wk]")) {
+    el.textContent = W[el.dataset.wk];
+  }
+
+  const [a, b] = W.readers;
+  //: Both readers on every rung, in the same order, so the two lines can be
+  //: compared straight down the column.
+  const rung = (r, body) =>
+    `<div class="wk-line"><b>${esc(r.label)}</b><span>${body}</span></div>`;
+  const both = (fn) => [a, b].map((r) => rung(r, fn(r))).join("");
+
+  const calc = {
+    runs: both((r) =>
+      `${r.runs.map((v) => v.toFixed(2)).join("  ")} ` +
+      `<span class="wk-g">&rarr; median</span> <span class="wk-r">${r.median.toFixed(2)}</span>`),
+
+    share: both((r) =>
+      `${r.median.toFixed(2)} &divide; ${r.total.toFixed(2)} <span class="wk-g">spent on all ${W.of}</span> ` +
+      `= <span class="wk-r">${pct(r.share)}</span> <span class="wk-g">of this reader's attention</span>`),
+
+    lift: both((r) =>
+      `${pct(r.share)} &minus; ${pct(W.mean_share)} ` +
+      `<span class="wk-g">(the ${DATA.readers.length}-reader average)</span> = <span class="wk-r">${sign(r.lift)}</span> <span class="wk-g">points</span>`),
+
+    topic: both((r) =>
+      `${r.topic_total.toFixed(2)} &divide; ${r.total.toFixed(2)} = ${pct(r.topic_share)} ` +
+      `<span class="wk-g">on</span> ${esc(W.topic)} &minus; ${pct(W.mean_topic_share)} ` +
+      `<span class="wk-g">average</span> = <span class="wk-r">${sign(r.topic_lift)}</span>`),
+
+    dna: both((r) =>
+      `${r.series.map((v) => sign(v)).join("  ")} ` +
+      `<span class="wk-g">&rarr; mean</span> <span class="wk-r">${sign(r.dna)}</span>`),
+  };
+
+  // The correlations, drawn from the same two matrices the tables below use.
+  (() => {
+    const S = DATA.similarity;
+    const at = (x, y) => S.matrix[S.order.indexOf(x)][S.order.indexOf(y)];
+    const stability = (id) =>
+      (DATA.profiles.find((p) => p.id === id) || {}).correlation;
+    const line = (left, right, v, gloss) =>
+      `<div class="wk-line"><b>${esc(left)}</b><span>&times; ${esc(right)} ` +
+      `= <span class="wk-r">${sign(v, 2)}</span> <span class="wk-g">${gloss}</span></span></div>`;
+    calc.corr =
+      line(a.label, b.label, at(a.id, b.id), "\u2014 the two rows built above") +
+      line(S.twins.a, S.twins.b, S.twins.r, "\u2014 the closest pair in the study") +
+      line(a.label, `itself on ${DATA.documents.length} documents`,
+           stability(a.id), "\u2014 how far the shape travels");
+  })();
+
+  for (const el of document.querySelectorAll("[data-wk-calc]")) {
+    el.innerHTML = calc[el.dataset.wkCalc] || "";
+  }
+
+  // A topic a document never mentions is zero for everyone, so it enters the
+  // average as a zero rather than as an absence. Saying so here is cheaper
+  // than letting a reader wonder why two figures above are 0.0.
+  const empty = DATA.documents
+    .filter((_, i) => W.readers.every((r) => r.series[i] === 0))
+    .map((d) => d.title);
+  const note = document.querySelector("[data-wk-note='zero']");
+  if (note) {
+    note.textContent = empty.length
+      ? `${empty.join(" and ")} contributes 0.0 to every row above: it contains ` +
+        `no sentence about ${W.topic} at all, so no reader can spend attention ` +
+        `there and no reader can differ. Section six is what that does to a ` +
+        `reader defined by the topic.`
+      : "";
+  }
+})();
+
 
 const DNA_TOPICS = DATA.topics.map((t) => [t.key, t.label]);
 const DNA = DATA.profiles.map((p) => [p.label, p.gloss || "", p.series]);
