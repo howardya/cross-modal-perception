@@ -9,6 +9,9 @@ data it claims to show.
 
     template.html        + fixtures/meridian-q4.json     -> dist/index.html
     report.template.html + cmp.report_data (all fixtures) -> dist/report.html
+    acts/chorus.template.html    + all five fixtures  -> dist/chorus.html
+    acts/blindspot.template.html + meridian-q4.json   -> dist/blindspot.html
+    acts/eighth.template.html    + meridian-q4.json   -> dist/eighth.html
 
 Adding a reader or a document means scoring it, listing it in
 `cmp.report_data.READERS` or `DOCUMENTS`, and running this. Nothing in either
@@ -31,6 +34,23 @@ FIXTURE = ROOT / "fixtures" / "meridian-q4.json"
 
 DEMO_PLACEHOLDER = "/*__FIELD_DATA__*/"
 REPORT_PLACEHOLDER = "/*__REPORT_DATA__*/"
+ACTS = VIZ / "acts"
+
+# The three single-idea pages. Each takes the same fixtures the demo takes,
+# so none of them can drift from the study either.
+CHORUS_PLACEHOLDER = "/*__CHORUS_DATA__*/"
+BLINDSPOT_PLACEHOLDER = "/*__BLINDSPOT_DATA__*/"
+EIGHTH_PLACEHOLDER = "/*__EIGHTH_DATA__*/"
+
+# Document order for the chorus switcher: the constructed hero note first,
+# then the real filings, which show a weaker effect (findings.md 2.5).
+CHORUS_DOCS = [
+    "meridian-q4",
+    "aldercroft-h1",
+    "whirlpool-q2",
+    "alamo-q2",
+    "jazz-q2",
+]
 
 
 def _inject(template: Path, placeholder: str, payload: dict, out: Path) -> None:
@@ -42,6 +62,54 @@ def _inject(template: Path, placeholder: str, payload: dict, out: Path) -> None:
     blob = blob.replace("</", "<\\/")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(text.replace(placeholder, blob))
+
+
+def _load(fixture: Path) -> dict:
+    """Read one fixture and refuse it if it cannot be rendered honestly."""
+    if not fixture.exists():
+        raise SystemExit(f"missing fixture: {fixture}\nsee pipeline/README.md")
+
+    data = json.loads(fixture.read_text())
+    n = len(data["stimulus"]["texts"])
+    for field in data["fields"]:
+        if len(field["units"]) != n:
+            raise SystemExit(
+                f"{fixture.name} is inconsistent: {field['persona_id']} has "
+                f"{len(field['units'])} units for {n} clauses"
+            )
+        # The pages sort by `order` to recover a reading sequence, so it has to
+        # be a real permutation. A duplicate rank would silently drop a clause.
+        ranks = sorted(u["order"] for u in field["units"])
+        if ranks != list(range(n)):
+            raise SystemExit(
+                f"{fixture.name}: {field['persona_id']} has a broken order field"
+            )
+    return data
+
+
+def build_acts() -> None:
+    docs = {d: _load(ROOT / "fixtures" / f"{d}.json") for d in CHORUS_DOCS}
+    hero = docs["meridian-q4"]
+
+    _inject(
+        ACTS / "chorus.template.html",
+        CHORUS_PLACEHOLDER,
+        {"docs": docs, "order": CHORUS_DOCS, "default_doc": "meridian-q4"},
+        OUT / "chorus.html",
+    )
+    _inject(ACTS / "blindspot.template.html", BLINDSPOT_PLACEHOLDER, hero,
+            OUT / "blindspot.html")
+    _inject(ACTS / "eighth.template.html", EIGHTH_PLACEHOLDER, hero,
+            OUT / "eighth.html")
+
+    for name, extra in (
+        ("chorus.html", f"{len(docs)} documents"),
+        ("blindspot.html", f"{len(hero['stimulus']['texts'])} clauses"),
+        ("eighth.html", f"{len(hero['stimulus']['texts'])} clauses"),
+    ):
+        kb = (OUT / name).stat().st_size / 1024
+        print(f"built viz/dist/{name:<14} ({kb:.0f} KB, {extra}, "
+              f"{len(hero['fields'])} readers)")
 
 
 def build_demo() -> None:
@@ -87,6 +155,7 @@ def build_report() -> None:
 
 def main() -> int:
     build_demo()
+    build_acts()
     build_report()
     return 0
 

@@ -1,0 +1,545 @@
+<title>The Eighth Reader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   The Eighth Reader
+
+   Seven readers were scored on this filing. You are the eighth.
+   The page measures how long each sentence stayed on your
+   screen and how often you came back to it, then places that
+   beside the seven.
+
+   Committed dark ground, inherited from the study. Hue carries
+   valence only. The viewer's own trace is the one thing drawn
+   in the chrome colour, because it is the only thing on the
+   page that is actually measured rather than modelled.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --ground:        #0C0F16;
+  --ground-lift:   #141926;
+  --ground-edge:   #202737;
+  --paper:         #E9E5DB;
+  --muted:         #737E93;
+  --muted-bright:  #9AA6BB;
+
+  --cold:          #6BB3EE;
+  --warm:          #F0A055;
+  --signal:        #7FD1C1;
+
+  --display: "Fraunces", Georgia, serif;
+  --text:    "Newsreader", Georgia, serif;
+  --data:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --measure: 34rem;
+  --ease:    cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0; background: var(--ground); color: var(--paper);
+  font-family: var(--text); font-size: 1.05rem; line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(127,209,193,0.05), transparent 60%),
+    radial-gradient(90% 60% at 50% 100%, rgba(107,179,238,0.04), transparent 60%);
+}
+main { position: relative; z-index: 1; }
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem; }
+.wrap--wide { max-width: 56rem; }
+
+.eyebrow { font-family: var(--data); font-size: 0.68rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 1.25rem; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.98; letter-spacing: -0.025em;
+  font-variation-settings: "SOFT" 22, "WONK" 1, "opsz" 120; margin-bottom: 1.75rem; }
+h2 { font-size: clamp(1.9rem, 4.4vw, 3rem); line-height: 1.08; letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 18, "WONK" 1, "opsz" 80; margin-bottom: 1rem; }
+h3 { font-size: 1.28rem; font-variation-settings: "SOFT" 12, "WONK" 0, "opsz" 30; margin-bottom: 0.5rem; }
+p { margin: 0 0 1.1rem; }
+.lede { font-size: 1.2rem; color: #C8C4BA; max-width: 32rem; }
+.small { font-size: 0.92rem; color: var(--muted-bright); }
+em { font-style: italic; }
+strong { font-weight: 600; color: #FFFBF2; }
+section { padding: 5.5rem 0; position: relative; }
+.rule { height: 1px; background: var(--ground-edge); border: 0; margin: 0; }
+.hero { min-height: 88vh; display: flex; flex-direction: column; justify-content: center; padding: 5rem 0 3rem; }
+
+button {
+  background: none; border: 1px solid var(--ground-edge); border-radius: 3px;
+  padding: 0.6rem 1.1rem; cursor: pointer; color: var(--muted-bright);
+  font-family: var(--data); font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+}
+button:hover { border-color: var(--signal); color: var(--paper); }
+button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+button.primary { border-color: var(--signal); color: var(--signal); }
+button.primary:hover { background: rgba(127,209,193,0.12); }
+
+/* The disclosure. Small, but genuinely first, and genuinely true. */
+.disclosure {
+  font-family: var(--data); font-size: 0.66rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--ground-edge); border-radius: 3px;
+  padding: 0.85rem 1rem; margin: 2.5rem 0 0; max-width: 32rem; line-height: 1.7;
+}
+
+/* ── the reading ─────────────────────────────────────────── */
+#reading { display: none; }
+#reading.on { display: block; }
+
+.sentence {
+  margin: 0 0 1.15rem; line-height: 1.62;
+  transition: color 0.4s var(--ease);
+}
+.sentence .idx { font-family: var(--data); font-size: 0.6rem; color: #3C4557;
+  margin-right: 0.6rem; vertical-align: 0.15em; font-variant-numeric: tabular-nums; }
+
+.progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0;
+  background: var(--signal); z-index: 40; transition: width 0.2s linear;
+}
+.done-bar { position: sticky; bottom: 1.5rem; display: flex; justify-content: center; margin-top: 3rem; z-index: 20; }
+
+/* ── the reveal ──────────────────────────────────────────── */
+#reveal { display: none; }
+#reveal.on { display: block; }
+
+.portrait { display: grid; grid-template-columns: auto 1fr; gap: clamp(1rem,3vw,2.5rem); align-items: start; margin: 2rem 0; }
+.portrait svg { display: block; overflow: visible; }
+@media (max-width: 760px) { .portrait { grid-template-columns: 1fr; } }
+
+.spine-rail { stroke: var(--ground-edge); stroke-width: 1; }
+.you-thread { fill: none; stroke: var(--signal); stroke-width: 1.6; stroke-linecap: round; }
+.ref-thread { fill: none; stroke: var(--muted); stroke-width: 1; opacity: 0.4; }
+
+.ranks { display: grid; gap: 0.5rem; }
+.rank-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 0.9rem; align-items: center;
+  font-family: var(--data); font-size: 0.74rem; color: var(--muted-bright);
+  padding: 0.5rem 0; border-bottom: 1px solid var(--ground-edge);
+}
+.rank-row .bar { position: relative; height: 3px; background: var(--ground-edge); border-radius: 2px; margin-top: 0.4rem; }
+.rank-row .bar span { position: absolute; left: 50%; top: 0; height: 100%; background: var(--muted-bright); border-radius: 2px; }
+.rank-row.top { color: var(--paper); }
+.rank-row.top .bar span { background: var(--signal); }
+.rank-row .val { font-variant-numeric: tabular-nums; color: var(--muted); }
+.rank-row.top .val { color: var(--signal); }
+
+.stats { display: flex; flex-wrap: wrap; gap: 2rem; font-family: var(--data);
+  font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  border-top: 1px solid var(--ground-edge); padding-top: 1.1rem; margin-top: 2rem; }
+.stats b { display: block; font-size: 1.8rem; letter-spacing: -0.02em; color: var(--paper);
+  font-family: var(--display); text-transform: none; font-variant-numeric: tabular-nums; }
+
+.quote { border-left: 2px solid var(--signal); padding-left: 1.25rem; margin: 1.75rem 0; }
+.quote .said { font-size: 1.12rem; color: var(--paper); }
+.quote .tag { font-family: var(--data); font-size: 0.64rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+
+.note { border-left: 2px solid var(--ground-edge); padding-left: 1.25rem; color: var(--muted-bright); font-size: 0.95rem; }
+.receipt { font-family: var(--data); font-size: 0.68rem; line-height: 1.9; color: var(--muted);
+  border: 1px solid var(--ground-edge); border-radius: 3px; padding: 1.1rem 1.25rem; margin-top: 2rem; }
+.receipt b { color: var(--muted-bright); font-weight: 500; }
+pre { font-family: var(--data); font-size: 0.64rem; color: var(--muted-bright);
+  background: var(--ground-lift); border-radius: 3px; padding: 1rem; overflow-x: auto; max-height: 18rem; }
+
+footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.88rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+
+<div class="progress" id="progress"></div>
+
+<main>
+
+<section class="hero" id="hero">
+  <div class="wrap">
+    <p class="eyebrow">Cross-modal perception · the eighth reader</p>
+    <h1>The eighth reader</h1>
+    <p class="lede">
+      Seven professionals have been scored on the filing below — a credit analyst,
+      a risk officer, a short seller, and four others. Read it yourself, and this
+      page will put you beside them.
+    </p>
+    <p class="disclosure">
+      This page measures how you read it. How long each sentence stays on your
+      screen, and whether you come back to one. Nothing is sent anywhere — there
+      is no server and no storage. Close the tab and it is gone.
+    </p>
+    <div style="margin-top:2.5rem;">
+      <button class="primary" id="begin">Begin reading</button>
+    </div>
+  </div>
+</section>
+
+<section id="reading">
+  <div class="wrap">
+    <p class="eyebrow" id="doc-title"></p>
+    <div id="filing"></div>
+    <div class="done-bar">
+      <button class="primary" id="done">I've finished reading</button>
+    </div>
+  </div>
+</section>
+
+<section id="reveal">
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Your reading</p>
+    <h2 id="verdict-head">Where you looked</h2>
+    <p class="lede" id="verdict-lede"></p>
+
+    <div class="portrait">
+      <div id="trace"></div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Closest of the seven</p>
+        <div class="ranks" id="ranks"></div>
+        <p class="small" style="margin-top:1rem;">
+          Correlation between the attention you gave each sentence and the
+          attention the study scored for each reader. Above zero means you dwelt
+          where they dwell.
+        </p>
+      </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div id="quotes"></div>
+
+    <div style="margin-top:2rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+      <button id="again">Read it again</button>
+      <button id="raw">Show what was measured</button>
+    </div>
+    <div id="rawbox"></div>
+
+    <p class="note" style="margin-top:2.5rem;">
+      This is not eye-tracking. Where a sentence sat on your screen is a shadow of
+      where you were looking — a shadow has the right shape and the wrong detail.
+      There is no score here, and no ranking of you: the seven are models of job
+      descriptions, not better readers.
+    </p>
+    <p class="note" id="provenance" style="margin-top:1.25rem;"></p>
+
+    <div class="receipt" id="receipt"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap wrap--wide">
+    <p>Cross-Modal Perception · the seven readings come from <span style="font-family:var(--data);font-size:0.85em" id="fixture-name"></span>. Yours comes from this browser and stays in it.</p>
+  </div>
+</footer>
+
+</main>
+
+<script>
+const DATA = /*__EIGHTH_DATA__*/;
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const NAMES = {
+  "credit-analyst":       "Credit analyst",
+  "equity-pm":            "Equity PM",
+  "risk-officer":         "Risk officer",
+  "distressed-investor":  "Distressed investor",
+  "short-seller":         "Short seller",
+  "financial-journalist": "Financial journalist",
+  "retail-investor":      "Retail investor"
+};
+
+const $ = (id) => document.getElementById(id);
+const N = DATA.stimulus.texts.length;
+
+/* ── the recorder ────────────────────────────────────────── */
+const dwell   = new Float64Array(N);   // ms each sentence was on screen
+const entries = new Int32Array(N);     // how many times it came back
+const visible = new Map();             // index -> timestamp it appeared
+let started = 0, ended = 0, observer = null;
+let pointerMoves = 0, usedKeyboard = false;
+
+function startRecording() {
+  started = performance.now();
+  observer = new IntersectionObserver((list) => {
+    const now = performance.now();
+    list.forEach((e) => {
+      const i = Number(e.target.dataset.i);
+      if (e.isIntersecting) {
+        if (!visible.has(i)) { visible.set(i, now); entries[i]++; }
+      } else if (visible.has(i)) {
+        dwell[i] += now - visible.get(i);
+        visible.delete(i);
+      }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll(".sentence").forEach((el) => observer.observe(el));
+
+  addEventListener("pointermove", () => pointerMoves++, { passive: true });
+  addEventListener("keydown", (e) => {
+    if ([" ", "PageDown", "ArrowDown", "PageUp", "ArrowUp"].includes(e.key)) usedKeyboard = true;
+  });
+  addEventListener("scroll", onScroll, { passive: true });
+}
+
+function onScroll() {
+  const r = $("filing").getBoundingClientRect();
+  const total = r.height - innerHeight;
+  const done = Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
+  $("progress").style.width = (done * 100).toFixed(1) + "%";
+}
+
+function stopRecording() {
+  const now = performance.now();
+  visible.forEach((t, i) => { dwell[i] += now - t; });
+  visible.clear();
+  if (observer) observer.disconnect();
+  removeEventListener("scroll", onScroll);
+  ended = now;
+}
+
+/* ── statistics ──────────────────────────────────────────── */
+function pearson(a, b) {
+  const n = a.length;
+  let ma = 0, mb = 0;
+  for (let i = 0; i < n; i++) { ma += a[i]; mb += b[i]; }
+  ma /= n; mb /= n;
+  let num = 0, da = 0, db = 0;
+  for (let i = 0; i < n; i++) {
+    const x = a[i] - ma, y = b[i] - mb;
+    num += x * y; da += x * x; db += y * y;
+  }
+  if (da === 0 || db === 0) return 0;
+  return num / Math.sqrt(da * db);
+}
+
+/* Dwell is confounded by sentence length — a long sentence sits on
+   screen longer for everyone. Divide it out, so what is left is
+   attention rather than word count. */
+function attentionVector() {
+  const out = new Array(N);
+  for (let i = 0; i < N; i++) {
+    const words = DATA.stimulus.texts[i].split(/\s+/).length;
+    out[i] = dwell[i] / words;
+  }
+  const max = Math.max(...out, 1e-9);
+  return out.map((v) => v / max);
+}
+
+/* ── the reveal ──────────────────────────────────────────── */
+function reveal() {
+  stopRecording();
+  const secs = (ended - started) / 1000;
+  const you = attentionVector();
+  const touched = dwell.reduce((a, d) => a + (d > 400 ? 1 : 0), 0);
+  const returns = entries.reduce((a, e) => a + Math.max(0, e - 1), 0);
+  const words = DATA.stimulus.texts.join(" ").split(/\s+/).length;
+  const wpm = secs > 0 ? Math.round(words / (secs / 60)) : 0;
+
+  // Too little signal to say anything honest about.
+  const thin = touched < 4 || secs < 6;
+
+  $("reading").classList.remove("on");
+  $("reveal").classList.add("on");
+  $("progress").style.width = "0";
+  scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
+
+  if (thin) {
+    $("verdict-head").textContent = "You didn't read it";
+    $("verdict-lede").innerHTML =
+      `You moved through ${N} sentences in <strong>${secs.toFixed(1)} seconds</strong>. ` +
+      `${touched === 0 ? "None" : "Only " + touched} of them stayed on your screen long ` +
+      `enough to have been read. That is a way of reading a filing, and a common one — ` +
+      `but there is not enough here to place you beside anybody.`;
+  } else {
+    $("verdict-lede").innerHTML =
+      `${secs < 60 ? secs.toFixed(0) + " seconds" : (secs / 60).toFixed(1) + " minutes"}, ` +
+      `about <strong>${wpm} words a minute</strong>. ` +
+      `${touched} of ${N} sentences held you. ` +
+      (returns > 0
+        ? `You went back <strong>${returns}</strong> ${returns === 1 ? "time" : "times"}.`
+        : `You never went back.`);
+  }
+
+  drawTrace(you, thin);
+  drawRanks(you, thin);
+
+  $("stats").innerHTML = [
+    ["seconds", secs.toFixed(1)],
+    ["sentences held", touched + " / " + N],
+    ["returns", returns],
+    ["words a minute", thin ? "—" : wpm]
+  ].map(([l, v]) => `<span><b>${v}</b>${l}</span>`).join("");
+
+  drawQuotes(you, thin);
+
+  $("receipt").innerHTML =
+    `<b>MEASURED:</b> per-sentence visible time (IntersectionObserver, 60% threshold), ` +
+    `re-entry counts, elapsed time, ` +
+    `input (${usedKeyboard ? "keyboard" : pointerMoves > 8 ? "pointer" : "touch or scroll only"}).<br>` +
+    `<b>NETWORK REQUESTS BY THIS PAGE:</b> 0, after the fonts.<br>` +
+    `<b>STORAGE USED:</b> none. <b>IDENTIFIERS:</b> none.`;
+}
+
+function drawTrace(you, thin) {
+  const NS = "http://www.w3.org/2000/svg";
+  const mk = (t, a) => { const e = document.createElementNS(NS, t);
+    for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+  const H = 460, W = 190, pad = 12;
+  const rowH = (H - pad * 2) / N;
+  const svg = mk("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+
+  // the filing seen from far away: one hairline per sentence
+  for (let i = 0; i < N; i++) {
+    const y = pad + i * rowH + rowH / 2;
+    svg.appendChild(mk("line", { x1: 8, y1: y, x2: 8 + 26, y2: y, class: "spine-rail" }));
+  }
+
+  // the seven, faint, behind
+  DATA.fields.forEach((f) => {
+    let d = "";
+    for (let i = 0; i < N; i++) {
+      const y = pad + i * rowH + rowH / 2;
+      const x = 52 + f.units[i].salience * 120;
+      d += (i ? " L" : "M") + x.toFixed(1) + "," + y.toFixed(1);
+    }
+    svg.appendChild(mk("path", { d, class: "ref-thread" }));
+  });
+
+  // you, in the chrome colour, because you are the only measured thing here
+  if (!thin) {
+    let d = "";
+    for (let i = 0; i < N; i++) {
+      const y = pad + i * rowH + rowH / 2;
+      const x = 52 + you[i] * 120;
+      d += (i ? " L" : "M") + x.toFixed(1) + "," + y.toFixed(1);
+    }
+    const p = mk("path", { d, class: "you-thread" });
+    svg.appendChild(p);
+    if (!REDUCED) {
+      const len = p.getTotalLength ? p.getTotalLength() : 1200;
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      p.style.transition = "stroke-dashoffset 2.4s cubic-bezier(0.22,0.61,0.36,1)";
+      requestAnimationFrame(() => { p.style.strokeDashoffset = "0"; });
+    }
+  }
+
+  const cap = mk("text", { x: 8, y: H - 1, fill: "#737E93",
+    "font-family": "IBM Plex Mono, monospace", "font-size": "8" });
+  cap.textContent = thin ? "seven readers" : "you, against seven";
+  svg.appendChild(cap);
+
+  $("trace").innerHTML = "";
+  $("trace").appendChild(svg);
+}
+
+function drawRanks(you, thin) {
+  const el = $("ranks");
+  el.innerHTML = "";
+  if (thin) {
+    el.innerHTML = `<p class="small">Not enough reading to compare. ` +
+      `Read it properly and this fills in.</p>`;
+    return;
+  }
+  const rows = DATA.fields.map((f) => ({
+    id: f.persona_id,
+    r: pearson(you, f.units.map((u) => u.salience))
+  })).sort((a, b) => b.r - a.r);
+
+  rows.forEach((row, i) => {
+    const d = document.createElement("div");
+    d.className = "rank-row" + (i === 0 ? " top" : "");
+    const pct = Math.min(48, Math.abs(row.r) * 48);
+    const left = row.r >= 0 ? 50 : 50 - pct;
+    d.innerHTML = `<div><div>${NAMES[row.id] || row.id}</div>` +
+      `<div class="bar"><span style="left:${left}%;width:${pct}%"></span></div></div>` +
+      `<span class="val">${row.r >= 0 ? "+" : ""}${row.r.toFixed(2)}</span>`;
+    el.appendChild(d);
+  });
+
+  const best = rows[0];
+  $("verdict-head").textContent = best.r < 0.12
+    ? "You read like none of them"
+    : "You read most like the " + (NAMES[best.id] || best.id).toLowerCase();
+}
+
+function drawQuotes(you, thin) {
+  const box = $("quotes");
+  box.innerHTML = "";
+  if (thin) return;
+
+  // your own longest hold, quoted back at you
+  let top = 0;
+  for (let i = 1; i < N; i++) if (you[i] > you[top]) top = i;
+  const add = (tag, said) => {
+    const d = document.createElement("div");
+    d.className = "quote";
+    d.innerHTML = `<div class="tag">${tag}</div><div class="said">${said}</div>`;
+    box.appendChild(d);
+  };
+  add("The sentence you held longest", DATA.stimulus.texts[top]);
+
+  // and the one you gave the least to
+  let low = 0;
+  for (let i = 1; i < N; i++) if (you[i] < you[low]) low = i;
+  if (low !== top) add("The one you gave least", DATA.stimulus.texts[low]);
+
+  // what the seven did with your longest hold
+  const best = DATA.fields
+    .map((f) => ({ id: f.persona_id, s: f.units[top].salience }))
+    .sort((a, b) => b.s - a.s)[0];
+  const worst = DATA.fields
+    .map((f) => ({ id: f.persona_id, s: f.units[top].salience }))
+    .sort((a, b) => a.s - b.s)[0];
+  const p = document.createElement("p");
+  p.className = "small";
+  p.innerHTML = `On that sentence the <strong>${(NAMES[best.id] || best.id).toLowerCase()}</strong> ` +
+    `scores ${best.s.toFixed(2)}; the <strong>${(NAMES[worst.id] || worst.id).toLowerCase()}</strong> ` +
+    `scores ${worst.s.toFixed(2)}. Same sentence.`;
+  box.appendChild(p);
+}
+
+/* ── wiring ──────────────────────────────────────────────── */
+function buildFiling() {
+  const el = $("filing");
+  el.innerHTML = "";
+  DATA.stimulus.texts.forEach((t, i) => {
+    const p = document.createElement("p");
+    p.className = "sentence";
+    p.dataset.i = i;
+    p.innerHTML = `<span class="idx">${String(i).padStart(2, "0")}</span>${t}`;
+    el.appendChild(p);
+  });
+}
+
+$("begin").onclick = () => {
+  $("hero").style.display = "none";
+  $("reading").classList.add("on");
+  scrollTo({ top: 0 });
+  requestAnimationFrame(startRecording);
+};
+$("done").onclick = reveal;
+$("again").onclick = () => location.reload();
+$("raw").onclick = () => {
+  const box = $("rawbox");
+  if (box.innerHTML) { box.innerHTML = ""; return; }
+  const rows = Array.from({ length: N }, (_, i) => ({
+    sentence: i, ms_on_screen: Math.round(dwell[i]), times_entered: entries[i]
+  }));
+  box.innerHTML = "<pre>" + JSON.stringify(rows, null, 1) + "</pre>";
+};
+
+buildFiling();
+$("doc-title").textContent = DATA.stimulus.title;
+$("provenance").textContent = DATA.provenance.summary;
+$("fixture-name").textContent = DATA.stimulus.id + ".json";
+</script>

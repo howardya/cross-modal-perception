@@ -1,0 +1,689 @@
+<title>Seven Readers, One Filing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Seven Readers, One Filing
+
+   Committed dark ground, inherited from the study's demo page:
+   salience is luminance, and on a light ground "less attended"
+   would mean washing out. On dark it means receding, which is
+   what an unattended clause actually feels like.
+
+   ONE colour code, learned once: hue carries valence only
+   (cold blue = bad news for this reader, warm amber = good).
+   Readers carry no colour. They are told apart by lane
+   position and name — a second chromatic code would compete
+   with the first and break under colour-vision deficiency.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --ground:        #0C0F16;
+  --ground-lift:   #141926;
+  --ground-edge:   #202737;
+  --paper:         #E9E5DB;
+  --muted:         #737E93;
+  --muted-bright:  #9AA6BB;
+
+  --cold:          #6BB3EE;
+  --warm:          #F0A055;
+  --signal:        #7FD1C1;
+
+  --display: "Fraunces", Georgia, serif;
+  --text:    "Newsreader", Georgia, serif;
+  --data:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --measure: 34rem;
+  --ease:    cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--paper);
+  font-family: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(127,209,193,0.05), transparent 60%),
+    radial-gradient(90% 60% at 50% 100%, rgba(107,179,238,0.04), transparent 60%);
+}
+
+main { position: relative; z-index: 1; }
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem; }
+.wrap--wide { max-width: 64rem; }
+
+.eyebrow {
+  font-family: var(--data);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; }
+
+h1 {
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-variation-settings: "SOFT" 22, "WONK" 1, "opsz" 120;
+  margin-bottom: 1.75rem;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 18, "WONK" 1, "opsz" 80;
+  margin-bottom: 1rem;
+}
+
+h3 { font-size: 1.28rem; font-variation-settings: "SOFT" 12, "WONK" 0, "opsz" 30; margin-bottom: 0.5rem; }
+
+p { margin: 0 0 1.1rem; }
+.lede { font-size: 1.2rem; color: #C8C4BA; max-width: 32rem; }
+.small { font-size: 0.92rem; color: var(--muted-bright); }
+em { font-style: italic; }
+strong { font-weight: 600; color: #FFFBF2; }
+
+section { padding: 5.5rem 0; position: relative; }
+.rule { height: 1px; background: var(--ground-edge); border: 0; margin: 0; }
+
+.hero { min-height: 86vh; display: flex; flex-direction: column; justify-content: center; padding: 5rem 0 3rem; }
+
+/* The hero states the finding as a list of opening moves — the
+   thing the page exists to show, before any control appears. */
+.opening {
+  margin: 2.5rem 0 0;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid var(--ground-edge);
+  display: grid;
+  gap: 0.55rem;
+}
+.opening-row {
+  display: grid;
+  grid-template-columns: 11.5rem 3rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  font-family: var(--data);
+  font-size: 0.76rem;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: rise 0.7s var(--ease) forwards;
+}
+@keyframes rise { to { opacity: 1; transform: none; } }
+.opening-row .who { color: var(--muted-bright); letter-spacing: 0.04em; }
+.opening-row .at  { color: var(--signal); font-variant-numeric: tabular-nums; }
+.opening-row .what { font-family: var(--text); font-size: 0.98rem; color: var(--paper); }
+.opening-row.is-lay .who { color: var(--warm); }
+.opening-row.is-lay .at  { color: var(--warm); }
+
+/* ── the instrument ──────────────────────────────────────── */
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.doc { position: relative; }
+.sentence {
+  display: block;
+  padding: 0.3rem 0.7rem;
+  margin: 0 0 0.15rem -0.7rem;
+  border-left: 2px solid transparent;
+  color: #6E7688;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: color 0.45s var(--ease), border-color 0.45s var(--ease), background 0.45s var(--ease);
+}
+.sentence .idx {
+  font-family: var(--data);
+  font-size: 0.6rem;
+  color: #3C4557;
+  margin-right: 0.6rem;
+  vertical-align: 0.15em;
+  font-variant-numeric: tabular-nums;
+}
+/* Reached: the sentence lifts out of the ground. Hue is valence. */
+.sentence.is-hit { color: var(--paper); background: rgba(255,255,255,0.025); }
+.sentence.is-hit.v-cold { border-left-color: var(--cold); }
+.sentence.is-hit.v-warm { border-left-color: var(--warm); }
+.sentence.is-now { color: #FFFBF2; background: rgba(127,209,193,0.07); }
+
+.lanes { position: sticky; top: 1rem; }
+.lanes svg { display: block; overflow: visible; }
+.lane-label {
+  font-family: var(--data);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  fill: var(--muted);
+  text-transform: uppercase;
+}
+.lane-label.is-active { fill: var(--signal); }
+.lane-rail { stroke: var(--ground-edge); stroke-width: 1; }
+.lane-thread { fill: none; stroke: var(--muted-bright); stroke-width: 1; opacity: 0.45; }
+.lane-thread.is-active { stroke: var(--signal); opacity: 0.9; }
+.dot { transition: opacity 0.3s var(--ease); }
+.lane-head { fill: var(--signal); }
+
+/* ── controls ────────────────────────────────────────────── */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 2rem 0 1rem;
+}
+button {
+  background: none;
+  border: 1px solid var(--ground-edge);
+  border-radius: 3px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  color: var(--muted-bright);
+  font-family: var(--data);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+}
+button:hover { border-color: var(--signal); color: var(--paper); }
+button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+button[aria-pressed="true"] { border-color: var(--signal); background: rgba(127,209,193,0.09); color: var(--signal); }
+button.primary { border-color: var(--signal); color: var(--signal); }
+button.primary:hover { background: rgba(127,209,193,0.12); }
+
+.readout {
+  font-family: var(--data);
+  font-size: 0.72rem;
+  color: var(--muted);
+  min-height: 2.6rem;
+  margin-top: 0.4rem;
+  line-height: 1.6;
+}
+.readout b { color: var(--paper); font-weight: 500; }
+
+/* Finishing order, dropped as each reader lands. */
+.finish { display: grid; gap: 0.3rem; margin-top: 1.25rem; }
+.finish-row {
+  font-family: var(--data);
+  font-size: 0.72rem;
+  color: var(--muted-bright);
+  display: grid;
+  grid-template-columns: 1.6rem 11rem 1fr;
+  gap: 0.6rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.finish-row.is-in { opacity: 1; transform: none; }
+.finish-row .rank { color: var(--signal); font-variant-numeric: tabular-nums; }
+.finish-row .note { color: var(--muted); }
+
+.docpick { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-family: var(--data);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 1.75rem;
+}
+.legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; vertical-align: -0.06em; margin-right: 0.45rem; }
+.legend .c { background: var(--cold); }
+.legend .w { background: var(--warm); }
+.legend .s { background: var(--muted-bright); }
+
+.note {
+  border-left: 2px solid var(--ground-edge);
+  padding-left: 1.25rem;
+  color: var(--muted-bright);
+  font-size: 0.95rem;
+}
+
+footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.88rem; }
+footer a { color: var(--signal); }
+
+@media (max-width: 800px) {
+  .stage { grid-template-columns: 1fr; }
+  .lanes { position: relative; overflow-x: auto; }
+  .opening-row { grid-template-columns: 1fr; gap: 0.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Cross-modal perception · the chorus</p>
+    <h1>Seven readers,<br>one filing</h1>
+    <p class="lede">
+      Meridian Logistics reports its fourth quarter. Thirty sentences, identical
+      for everybody. Here is the first sentence each reader reaches for.
+    </p>
+    <div class="opening" id="opening"></div>
+    <p class="small" style="margin-top:1.75rem; max-width:32rem;">
+      Six different opening moves. Only one reader starts at the headline — and it
+      is the only one of the seven who is not paid to read.
+    </p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">The instrument</p>
+    <h2>Watch them go</h2>
+    <p class="lede" style="margin-bottom:2rem;">
+      The filing is typeset once and never moves. Only the reading moves. Each
+      thread descends its own lane, touching sentences in the order that reader
+      reaches for them — biggest claim on their attention first.
+    </p>
+
+    <div class="docpick" id="docpick" role="group" aria-label="Choose a filing"></div>
+
+    <div class="controls">
+      <button class="primary" id="chorus-btn">▶ All seven at once</button>
+      <button id="replay">Replay</button>
+      <button id="speed" aria-pressed="false">×1</button>
+      <span style="flex:1"></span>
+      <span class="small" id="mode-label" style="font-family:var(--data);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)"></span>
+    </div>
+    <p class="readout" id="readout"></p>
+
+    <div class="stage">
+      <div class="doc" id="doc"></div>
+      <div class="lanes" id="lanes"></div>
+    </div>
+
+    <div class="legend">
+      <span><i class="c"></i>bad news, to this reader</span>
+      <span><i class="w"></i>good news, to this reader</span>
+      <span><i class="s"></i>dot size = share of attention</span>
+    </div>
+
+    <div class="finish" id="finish"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">What you are looking at</p>
+    <h2>Order of reaching, not a gaze trace</h2>
+    <p>
+      No eyes were tracked. A reader's thread visits the sentences in descending
+      order of how much of that reader's attention the sentence commands, so the
+      sequence is a <strong>ranking of pull</strong>, not a timeline. Nobody read
+      this document in five seconds, and the spacing between touches is even
+      because rank has no clock.
+    </p>
+    <p class="note" id="provenance"></p>
+    <p class="small" style="margin-top:1.75rem;">
+      The threads still cross, and that is the whole point: the disagreement is
+      about <em>where to look</em>, and it is real in the data whether or not a
+      stopwatch was ever involved.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap wrap--wide">
+    <p>Cross-Modal Perception · built from <span style="font-family:var(--data);font-size:0.85em" id="fixture-name"></span>. This page holds no scores of its own.</p>
+  </div>
+</footer>
+
+</main>
+
+<script>
+const DATA = /*__CHORUS_DATA__*/;
+
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const NAMES = {
+  "credit-analyst":       "Credit analyst",
+  "equity-pm":            "Equity PM",
+  "risk-officer":         "Risk officer",
+  "distressed-investor":  "Distressed investor",
+  "short-seller":         "Short seller",
+  "financial-journalist": "Financial journalist",
+  "retail-investor":      "Retail investor"
+};
+const LAY = "retail-investor";
+
+const $ = (id) => document.getElementById(id);
+const docEl = $("doc"), lanesEl = $("lanes"), readoutEl = $("readout"),
+      finishEl = $("finish"), openingEl = $("opening");
+
+let current = DATA.default_doc;
+let speed = 1;
+let timer = null;
+let soloId = null;
+
+const NS = "http://www.w3.org/2000/svg";
+const svgEl = (t, a) => { const e = document.createElementNS(NS, t);
+  for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+/* seq[r] = sentence indices, in the order that reader reaches for them.
+   `order` is a per-sentence rank, so sorting by it recovers the sequence. */
+function sequence(field) {
+  return field.units
+    .map((u, i) => [i, u.order])
+    .sort((a, b) => a[1] - b[1])
+    .map((p) => p[0]);
+}
+
+function fixture() { return DATA.docs[current]; }
+
+/* ── hero: first move per reader ─────────────────────────── */
+function buildOpening() {
+  const f = DATA.docs[DATA.default_doc];
+  const rows = f.fields.map((fld) => {
+    const first = sequence(fld)[0];
+    return { id: fld.persona_id, s: first, text: f.stimulus.texts[first] };
+  });
+  openingEl.innerHTML = "";
+  rows.forEach((r, i) => {
+    const div = document.createElement("div");
+    div.className = "opening-row" + (r.id === LAY ? " is-lay" : "");
+    div.style.animationDelay = (REDUCED ? 0 : 120 + i * 110) + "ms";
+    const short = r.text.length > 74 ? r.text.slice(0, 73).trim() + "…" : r.text;
+    div.innerHTML = `<span class="who">${NAMES[r.id]}</span>` +
+                    `<span class="at">s${String(r.s).padStart(2, "0")}</span>` +
+                    `<span class="what">${short}</span>`;
+    openingEl.appendChild(div);
+  });
+}
+
+/* ── the document ────────────────────────────────────────── */
+function buildDoc() {
+  const f = fixture();
+  docEl.innerHTML = "";
+  f.stimulus.texts.forEach((t, i) => {
+    const p = document.createElement("p");
+    p.className = "sentence";
+    p.id = "s" + i;
+    p.innerHTML = `<span class="idx">${String(i).padStart(2, "0")}</span>${t}`;
+    docEl.appendChild(p);
+  });
+}
+
+/* ── the lanes ───────────────────────────────────────────── */
+let laneGeom = null;
+
+function buildLanes() {
+  const f = fixture();
+  const n = f.stimulus.texts.length;
+  const laneW = 30, padTop = 26;
+
+  // y of each sentence, measured from the real typeset column so the
+  // threads line up with the text rather than approximating it.
+  const base = docEl.getBoundingClientRect().top;
+  const ys = [];
+  for (let i = 0; i < n; i++) {
+    const r = $("s" + i).getBoundingClientRect();
+    ys.push(r.top - base + r.height / 2);
+  }
+  const h = docEl.getBoundingClientRect().height;
+  const w = laneW * f.fields.length;
+
+  lanesEl.innerHTML = "";
+  const svg = svgEl("svg", { width: w, height: h + padTop, viewBox: `0 0 ${w} ${h + padTop}` });
+
+  const groups = {};
+  f.fields.forEach((fld, r) => {
+    const x = r * laneW + laneW / 2;
+    const g = svgEl("g", {});
+    g.appendChild(svgEl("line", { x1: x, y1: padTop, x2: x, y2: h + padTop, class: "lane-rail" }));
+
+    const label = svgEl("text", {
+      x: 0, y: 0, class: "lane-label",
+      transform: `translate(${x + 3},${padTop - 8}) rotate(-90)`,
+      "text-anchor": "start"
+    });
+    label.textContent = NAMES[fld.persona_id];
+    // Labels rotate up out of the lane head; keep them readable at the top.
+    label.setAttribute("transform", `translate(${x + 3.5},${padTop - 10}) rotate(-90)`);
+    svg.appendChild(g);
+
+    const thread = svgEl("path", { class: "lane-thread", d: "" });
+    const dots = svgEl("g", {});
+    const head = svgEl("circle", { class: "lane-head", r: 0, cx: x, cy: padTop });
+    svg.appendChild(thread); svg.appendChild(dots); svg.appendChild(head);
+    svg.appendChild(label);
+
+    groups[fld.persona_id] = { x, thread, dots, head, label, seq: sequence(fld), field: fld };
+  });
+
+  lanesEl.appendChild(svg);
+  laneGeom = { svg, groups, ys, padTop, n, laneW };
+}
+
+/* ── playback ────────────────────────────────────────────── */
+function clearRun() {
+  if (timer) { clearInterval(timer); timer = null; }
+  document.querySelectorAll(".sentence").forEach((s) => {
+    s.className = "sentence";
+  });
+  if (!laneGeom) return;
+  for (const k in laneGeom.groups) {
+    const g = laneGeom.groups[k];
+    g.thread.setAttribute("d", "");
+    g.thread.classList.remove("is-active");
+    g.dots.innerHTML = "";
+    g.head.setAttribute("r", 0);
+    g.label.classList.remove("is-active");
+  }
+  finishEl.innerHTML = "";
+}
+
+function valenceClass(v) { return v < -0.02 ? "v-cold" : (v > 0.02 ? "v-warm" : ""); }
+function valenceColour(v) {
+  if (v < -0.02) return "#6BB3EE";
+  if (v > 0.02) return "#F0A055";
+  return "#9AA6BB";
+}
+
+function step(ids, k) {
+  const f = fixture();
+  const { groups, ys, padTop } = laneGeom;
+
+  ids.forEach((id) => {
+    const g = groups[id];
+    if (k >= g.seq.length) return;
+    const si = g.seq[k];
+    const u = g.field.units[si];
+    const y = ys[si] + padTop;
+
+    // extend the thread
+    const d = g.thread.getAttribute("d");
+    g.thread.setAttribute("d", (d ? d + " L" : "M") + g.x + "," + y.toFixed(1));
+
+    // dot: radius from salience, hue from valence
+    const dot = svgEl("circle", {
+      cx: g.x, cy: y, r: (1.4 + u.salience * 4.6).toFixed(2),
+      fill: valenceColour(u.valence),
+      "fill-opacity": (0.25 + u.salience * 0.6).toFixed(2),
+      class: "dot"
+    });
+    g.dots.appendChild(dot);
+    g.head.setAttribute("cx", g.x);
+    g.head.setAttribute("cy", y);
+    g.head.setAttribute("r", 2.6);
+
+    const el = $("s" + si);
+    if (el) {
+      el.classList.add("is-hit");
+      const vc = valenceClass(u.valence);
+      if (vc) el.classList.add(vc);
+      if (ids.length === 1) {
+        document.querySelectorAll(".sentence.is-now").forEach((s) => s.classList.remove("is-now"));
+        el.classList.add("is-now");
+      }
+    }
+  });
+
+  // readout
+  if (ids.length === 1) {
+    const g = groups[ids[0]];
+    if (k < g.seq.length) {
+      const si = g.seq[k];
+      const u = g.field.units[si];
+      readoutEl.innerHTML = `<b>${NAMES[ids[0]]}</b> · reach ${k + 1} of ${g.seq.length}` +
+        ` · sentence ${String(si).padStart(2, "0")} · attention ${u.salience.toFixed(2)}` +
+        ` · reads it as ${u.valence < 0 ? "bad" : (u.valence > 0 ? "good" : "neutral")} news`;
+    }
+  } else {
+    readoutEl.innerHTML = `<b>All seven</b> · reach ${Math.min(k + 1, laneGeom.n)} of ${laneGeom.n}` +
+      ` — every thread is on the same step, and they are nowhere near each other.`;
+  }
+}
+
+function finishOrder(ids) {
+  // Where each reader ends up: the last sentence they get to is the one
+  // they care least about. That is a finding, not a footnote.
+  const f = fixture();
+  finishEl.innerHTML = "";
+  const rows = ids.map((id) => {
+    const g = laneGeom.groups[id];
+    const last = g.seq[g.seq.length - 1];
+    return { id, last, text: f.stimulus.texts[last] };
+  });
+  rows.forEach((r, i) => {
+    const div = document.createElement("div");
+    div.className = "finish-row";
+    const short = r.text.length > 62 ? r.text.slice(0, 61).trim() + "…" : r.text;
+    div.innerHTML = `<span class="rank">s${String(r.last).padStart(2, "0")}</span>` +
+                    `<span>${NAMES[r.id]}</span>` +
+                    `<span class="note">never gets to: ${short}</span>`;
+    finishEl.appendChild(div);
+    setTimeout(() => div.classList.add("is-in"), REDUCED ? 0 : 90 * i);
+  });
+  const cap = document.createElement("p");
+  cap.className = "small";
+  cap.style.marginTop = "1rem";
+  cap.textContent = "The last sentence each reader reaches — their blind spot on this filing.";
+  finishEl.appendChild(cap);
+}
+
+function play(ids, label) {
+  clearRun();
+  ids.forEach((id) => {
+    laneGeom.groups[id].thread.classList.add("is-active");
+    laneGeom.groups[id].label.classList.add("is-active");
+  });
+  $("mode-label").textContent = label;
+
+  const n = laneGeom.n;
+  if (REDUCED) {
+    for (let k = 0; k < n; k++) step(ids, k);
+    finishOrder(ids);
+    return;
+  }
+  let k = 0;
+  timer = setInterval(() => {
+    step(ids, k);
+    k++;
+    if (k >= n) { clearInterval(timer); timer = null; finishOrder(ids); }
+  }, 160 / speed);
+}
+
+function playChorus() { play(Object.keys(laneGeom.groups), "chorus · seven threads"); soloId = null; syncSolo(); }
+function playSolo(id) { soloId = id; play([id], "solo · " + NAMES[id]); syncSolo(); }
+
+function syncSolo() {
+  document.querySelectorAll("[data-solo]").forEach((b) => {
+    b.setAttribute("aria-pressed", String(b.dataset.solo === soloId));
+  });
+}
+
+/* ── document switcher ───────────────────────────────────── */
+function buildDocPick() {
+  const el = $("docpick");
+  el.innerHTML = "";
+  DATA.order.forEach((id) => {
+    const b = document.createElement("button");
+    b.textContent = DATA.docs[id].stimulus.title.split("—")[0].trim();
+    b.setAttribute("aria-pressed", String(id === current));
+    b.onclick = () => { current = id; load(); };
+    el.appendChild(b);
+  });
+}
+
+function buildSoloButtons() {
+  const wrapEl = document.querySelector(".controls");
+  // rebuilt with the doc, since the roster is per-fixture
+  document.querySelectorAll("[data-solo]").forEach((b) => b.remove());
+  const anchor = $("speed");
+  fixture().fields.slice().reverse().forEach((fld) => {
+    const b = document.createElement("button");
+    b.dataset.solo = fld.persona_id;
+    b.textContent = NAMES[fld.persona_id] || fld.persona_id;
+    b.onclick = () => playSolo(fld.persona_id);
+    anchor.after(b);
+  });
+}
+
+function load() {
+  clearRun();
+  buildDoc();
+  buildDocPick();
+  buildSoloButtons();
+  requestAnimationFrame(() => {
+    buildLanes();
+    $("provenance").textContent = fixture().provenance.summary;
+    $("fixture-name").textContent = current + ".json";
+    readoutEl.innerHTML = "Pick a reader, or send all seven at once.";
+    $("mode-label").textContent = "";
+    syncSolo();
+  });
+}
+
+$("chorus-btn").onclick = playChorus;
+$("replay").onclick = () => { soloId ? playSolo(soloId) : playChorus(); };
+$("speed").onclick = () => {
+  speed = speed === 1 ? 2 : 1;
+  $("speed").textContent = "×" + speed;
+  $("speed").setAttribute("aria-pressed", String(speed === 2));
+};
+
+buildOpening();
+load();
+
+// Threads are measured against the typeset column, so a resize must remeasure.
+let rz;
+window.addEventListener("resize", () => {
+  clearTimeout(rz);
+  rz = setTimeout(() => { clearRun(); buildLanes(); }, 180);
+});
+document.fonts && document.fonts.ready.then(() => { clearRun(); buildLanes(); });
+</script>
