@@ -36,7 +36,14 @@ pipeline/     Python (uv). Persona scoring → calibration → JSON. No renderin
 viz/
   template.html         The demo.    → dist/index.html
   report.template.html  The summary. → dist/report.html
-  build.py              Injects the fixtures into both. Neither page holds
+  acts/                 Three single-idea pages, one finding each:
+    chorus.template.html      Seven readers reaching for the same filing in
+                              six different places.   → dist/chorus.html
+    blindspot.template.html   The filing with everything one reader walked
+                              past taken out.          → dist/blindspot.html
+    eighth.template.html      You read it; the page puts you beside the
+                              seven.                   → dist/eighth.html
+  build.py              Injects the fixtures into all five. No page holds
                         scores of its own, so re-scoring and rebuilding is the
                         whole update path.
 fixtures/     The contract between pipeline and pages.
