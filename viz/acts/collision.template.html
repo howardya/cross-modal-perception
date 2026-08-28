@@ -1,0 +1,888 @@
+<title>Line Fourteen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Line Fourteen
+
+   Seven readers. One sentence. No agreement.
+
+   Committed dark ground: salience is legibility, and on a light
+   ground "unattended" would mean washing out. On dark it means
+   receding, which is what an unattended clause feels like.
+
+   THREE COLOURS, THREE MEANINGS, NO DECORATION.
+     cold #6BB3EE / warm #F0A055  — valence, and nothing else.
+       Never a button, never a border, never a hover.
+     teal #7FD1C1                 — the viewer, and nothing else.
+   Readers are told apart by name and position, never by colour;
+   a second chromatic code would compete with valence and break
+   under colour-vision deficiency.
+
+   THREE TYPEFACES, THREE JOBS, NO CROSSOVER.
+     Fraunces   — drama (hero sentences only)
+     Newsreader — argument (all prose, and the filing itself)
+     IBM Plex Mono — data (numbers, reader names, labels)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --ground:      #0C0F16;
+  --ground-lift: #141926;
+  --ground-edge: #202737;
+  --paper:       #E9E5DB;
+  --muted:       #737E93;
+  --muted-bright:#9AA6BB;
+
+  --cold: #6BB3EE;
+  --warm: #F0A055;
+  --you:  #7FD1C1;
+
+  --display: "Fraunces", Georgia, serif;
+  --text:    "Newsreader", Georgia, serif;
+  --data:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --measure: 34rem;
+  --ease:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-cut:cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--paper);
+  font-family: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+main { position: relative; z-index: 1; }
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem; }
+.wrap--wide { max-width: 58rem; }
+
+.eyebrow {
+  font-family: var(--data); font-size: 0.66rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 1.25rem;
+}
+h2 {
+  font-family: var(--display); font-weight: 400; margin: 0 0 1rem;
+  font-size: clamp(1.8rem, 4.2vw, 2.8rem); line-height: 1.1; letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 18, "WONK" 1, "opsz" 80; text-wrap: balance;
+}
+p { margin: 0 0 1.1rem; }
+.lede { font-size: 1.18rem; color: #C8C4BA; max-width: 32rem; }
+.small { font-size: 0.92rem; color: var(--muted-bright); }
+strong { font-weight: 600; color: #FFFBF2; }
+em { font-style: italic; }
+section { padding: 6rem 0; position: relative; }
+.rule { height: 1px; background: var(--ground-edge); border: 0; margin: 0; }
+
+/* Everything after the commit is sealed until the commit is done. */
+.locked { display: none; }
+.locked.open { display: block; }
+
+/* ── ACT 0 · the commit ──────────────────────────────────── */
+
+#commit { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+
+.card-stage { position: relative; min-height: 58vh; display: flex; align-items: center; justify-content: center; }
+
+.card {
+  position: absolute; inset: 0; margin: auto; height: fit-content;
+  max-width: 40rem; padding: 0 1.5rem; text-align: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+}
+.card.live { opacity: 1; pointer-events: auto; }
+
+.card-sentence {
+  font-family: var(--display); font-weight: 300;
+  font-size: clamp(1.55rem, 4.4vw, 3rem); line-height: 1.12; letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 10, "WONK" 1, "opsz" 144;
+  color: var(--paper); cursor: grab; user-select: none;
+  touch-action: pan-y; text-wrap: balance;
+  will-change: transform;
+}
+.card-sentence:active { cursor: grabbing; }
+.card-sentence:focus-visible { outline: 2px solid var(--you); outline-offset: 12px; border-radius: 4px; }
+
+.poles {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 44rem; margin: 3rem auto 0; padding: 0 1.5rem;
+  font-family: var(--data); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.pole {
+  background: none; border: 0; padding: 0.6rem 0; cursor: pointer;
+  font: inherit; letter-spacing: inherit; text-transform: inherit;
+  color: var(--muted); transition: color 0.3s var(--ease);
+}
+.pole:hover, .pole:focus-visible { color: var(--paper); outline: none; }
+.pole.bad:hover  { color: var(--cold); }
+.pole.good:hover { color: var(--warm); }
+
+.tick {
+  font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 3.5rem;
+}
+.tick b { color: var(--paper); font-weight: 400; }
+
+.hint {
+  font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); text-align: center;
+  margin-top: 1.5rem; transition: opacity 0.4s var(--ease);
+}
+
+/* ── ACT 1 · the split ───────────────────────────────────── */
+
+.verdict { margin: 0 0 7rem; }
+.verdict:last-child { margin-bottom: 0; }
+
+.said {
+  font-family: var(--display); font-weight: 300;
+  font-size: clamp(1.25rem, 2.9vw, 1.95rem); line-height: 1.2; letter-spacing: -0.015em;
+  font-variation-settings: "SOFT" 10, "WONK" 1, "opsz" 120;
+  text-wrap: balance; margin: 0 0 2.5rem;
+}
+
+/* The axis: valence from −1 to +1. Readers land where they land. */
+.axis { position: relative; height: 190px; margin: 2.5rem 0 1rem; }
+.axis-line { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--ground-edge); }
+.axis-mid { position: absolute; left: 50%; top: 22%; bottom: 22%; width: 1px;
+  background: repeating-linear-gradient(to bottom, var(--ground-edge) 0 4px, transparent 4px 9px); }
+.axis-end {
+  position: absolute; top: calc(50% + 1.1rem); font-family: var(--data);
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+.axis-end.l { left: 0; } .axis-end.r { right: 0; }
+
+.plate {
+  position: absolute; transform: translate(-50%, -50%);
+  font-family: var(--data); font-size: 0.63rem; letter-spacing: 0.06em;
+  white-space: nowrap; text-align: center; opacity: 0;
+  transition: opacity 0.5s var(--ease), top 0.7s var(--ease-cut);
+}
+.plate.in { opacity: 1; }
+.plate .dot { display: block; width: 7px; height: 7px; border-radius: 50%; margin: 0 auto 0.45rem; }
+.plate .v { display: block; font-size: 0.58rem; color: var(--muted); margin-top: 0.15rem;
+  font-variant-numeric: tabular-nums; }
+.plate.you { color: var(--you); font-size: 0.72rem; }
+.plate.you .dot { background: var(--you); width: 10px; height: 10px; }
+.plate.you .v { color: var(--you); }
+
+.tally {
+  display: flex; gap: 2.5rem; flex-wrap: wrap; font-family: var(--data);
+  font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  border-top: 1px solid var(--ground-edge); padding-top: 1rem; margin-top: 1rem;
+}
+.tally b { font-family: var(--display); font-size: 1.6rem; display: block;
+  text-transform: none; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.tally .cold b { color: var(--cold); }
+.tally .warm b { color: var(--warm); }
+.tally .youb b { color: var(--you); }
+
+.landed { font-size: 1.1rem; margin-top: 1.75rem; }
+.landed .me { color: var(--you); }
+
+/* The s12 beat: presence, not valence. Same sentence, seven legibilities. */
+.presence { display: grid; gap: 1.4rem; margin: 2rem 0 1rem; }
+.presence-row { display: grid; grid-template-columns: 11rem 1fr; gap: 1.25rem; align-items: baseline; }
+.presence-row .who { font-family: var(--data); font-size: 0.63rem; letter-spacing: 0.08em;
+  color: var(--muted-bright); text-transform: uppercase; }
+.presence-row .who i { display: block; font-style: normal; color: var(--muted); font-size: 0.58rem; }
+.presence-row .txt { font-size: 0.98rem; line-height: 1.5; color: var(--paper); }
+@media (max-width: 620px) { .presence-row { grid-template-columns: 1fr; gap: 0.3rem; } }
+
+/* ── ACT 2 · the company it keeps ────────────────────────── */
+
+.keeps { display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(1rem,3vw,2.5rem); align-items: start; margin: 2.5rem 0; }
+.keeps-col { display: grid; gap: 0.7rem; }
+.keeps-col .head { font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+.keeps-item {
+  font-size: 0.93rem; line-height: 1.45; color: var(--muted-bright);
+  padding-left: 0.8rem; border-left: 1px solid var(--ground-edge);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.keeps-item.in { opacity: 1; transform: none; }
+.keeps-col.cold .keeps-item { border-left-color: color-mix(in oklab, var(--cold), var(--ground) 55%); }
+.keeps-col.warm .keeps-item { border-left-color: color-mix(in oklab, var(--warm), var(--ground) 55%); }
+.keeps-pivot {
+  align-self: center; max-width: 17rem; text-align: center;
+  font-family: var(--display); font-weight: 300; font-size: 1.05rem; line-height: 1.3;
+  font-variation-settings: "SOFT" 8, "WONK" 1, "opsz" 60;
+  padding: 1.1rem; border: 1px solid var(--ground-edge); border-radius: 3px;
+  color: var(--paper);
+}
+.keeps-pivot .tag { display: block; font-family: var(--data); font-size: 0.55rem;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+@media (max-width: 780px) { .keeps { grid-template-columns: 1fr; } .keeps-pivot { max-width: none; } }
+
+/* ── ACT 3 · inhabit ─────────────────────────────────────── */
+
+.readers { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.4rem; }
+button.reader {
+  background: none; border: 1px solid var(--ground-edge); border-radius: 3px;
+  padding: 0.5rem 0.85rem; cursor: pointer; color: var(--muted-bright);
+  font-family: var(--data); font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease), background 0.25s var(--ease);
+}
+button.reader:hover { color: var(--paper); border-color: var(--muted); }
+button.reader:focus-visible { outline: 2px solid var(--you); outline-offset: 2px; }
+button.reader[aria-pressed="true"] { color: var(--paper); border-color: var(--paper); background: rgba(233,229,219,0.06); }
+
+.conc {
+  font-family: var(--data); font-size: 0.66rem; letter-spacing: 0.1em; color: var(--muted);
+  margin: 1.1rem 0 2rem; min-height: 1.4rem;
+}
+.conc b { color: var(--paper); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* The filing. One <p> per sentence, always real selectable text.
+   Legibility is salience; hue is valence. Nothing else touches it. */
+.filing { max-width: 36rem; }
+.u {
+  --sal: 0.5; --val: 0; --i: 0;
+  margin: 0 0 0.7rem;
+  font-size: calc(0.78rem + var(--sal) * 0.62rem);
+  line-height: 1.45;
+  opacity: calc(0.1 + var(--sal) * 0.9);
+  filter: blur(calc((1 - var(--sal)) * 1.4px));
+  color: color-mix(in oklab, var(--cold), var(--warm) calc((var(--val) + 1) * 50%));
+  transition: font-size 0.7s var(--ease), opacity 0.7s var(--ease),
+              filter 0.7s var(--ease), color 0.7s var(--ease);
+  transition-delay: calc(var(--i) * 9ms);
+}
+/* Plain mode: the filing as printed, no reader applied. */
+.filing.plain .u {
+  --sal: 1; font-size: 1rem; opacity: 1; filter: none; color: var(--paper);
+}
+.u .idx { font-family: var(--data); font-size: 0.58rem; color: #3C4557;
+  margin-right: 0.55rem; vertical-align: 0.15em; font-variant-numeric: tabular-nums; }
+
+/* ACT 4 inverts the same markup: only the unreached stay legible. */
+.filing.inverted .u { --sal: 0.06; }
+.filing.inverted .u.orphan { --sal: 1; color: var(--paper); filter: none; opacity: 1; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 1.5rem; font-family: var(--data);
+  font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-top: 2rem;
+}
+.legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  vertical-align: -0.06em; margin-right: 0.4rem; }
+.legend .c { background: var(--cold); } .legend .w { background: var(--warm); }
+
+.note { border-left: 2px solid var(--ground-edge); padding-left: 1.25rem;
+  color: var(--muted-bright); font-size: 0.95rem; }
+.pull {
+  font-family: var(--display); font-weight: 300; font-size: clamp(1.4rem, 3.4vw, 2.2rem);
+  line-height: 1.15; letter-spacing: -0.02em; font-variation-settings: "SOFT" 14, "WONK" 1, "opsz" 90;
+  text-wrap: balance; margin: 2.5rem 0 1.25rem;
+}
+
+dl.nots { display: grid; gap: 1.4rem; margin: 2rem 0 0; }
+dl.nots dt { font-family: var(--data); font-size: 0.64rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--paper); margin-bottom: 0.35rem; }
+dl.nots dd { margin: 0; color: var(--muted-bright); font-size: 0.97rem; }
+
+footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.86rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+</style>
+
+<main>
+
+<!-- ══ ACT 0 · the commit ══════════════════════════════════ -->
+<section id="commit">
+  <div class="wrap wrap--wide">
+    <p class="eyebrow" style="text-align:center">Three sentences from one quarterly filing</p>
+    <div class="card-stage" id="cards"></div>
+    <div class="poles">
+      <button class="pole bad"  id="pole-bad"  type="button">← Bad news</button>
+      <button class="pole good" id="pole-good" type="button">Good news →</button>
+    </div>
+    <p class="hint" id="hint">Drag the sentence, or pick a side</p>
+    <p class="tick" id="tick"></p>
+  </div>
+</section>
+
+<div class="locked" id="rest">
+
+<hr class="rule">
+
+<!-- ══ ACT 1 · the split ═══════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">What seven professionals did with the same three sentences</p>
+    <div id="verdicts"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ ACT 2 · the company it keeps ════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Act two · the company it keeps</p>
+    <h2>Neither of them misread it</h2>
+    <p class="lede">
+      The credit analyst and the retail investor both put line fourteen in their
+      top eight. Out of eight sentences each, it is one of only <strong>two</strong>
+      they share. Here is what each of them reads it next to.
+    </p>
+    <div class="keeps" id="keeps"></div>
+    <p class="pull">The words did not move. The meaning is in what you read it beside.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ ACT 3 · inhabit ═════════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Act three · inhabit</p>
+    <h2>Read it as one of them</h2>
+    <p class="lede" style="margin-bottom:2rem;">
+      All thirty sentences, exactly as filed. Pick a reader and the page
+      re-composes: what they attend to swells and lights, what they pass over
+      shrinks and goes dark. Nothing is added or removed — only weight.
+    </p>
+
+    <div class="readers" id="readers"></div>
+    <p class="conc" id="conc"></p>
+
+    <div class="filing plain" id="filing"></div>
+
+    <div class="legend">
+      <span><i class="c"></i>reads badly, to this reader</span>
+      <span><i class="w"></i>reads well, to this reader</span>
+      <span>size and brightness = share of attention</span>
+    </div>
+
+    <p class="note" style="margin-top:2.5rem;">
+      <strong>Reads well</strong> means <em>good for that reader's mandate</em>, not
+      good for the company. The short seller scores <em>"operating cash flow fell to
+      $88m from $141m"</em> at <strong>+0.85</strong> — they are not disputing the
+      fall, they are positioned to profit from it. That is an interest split, and it
+      is a different thing from the perception split on line fourteen.
+    </p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ ACT 4 · the eleven ══════════════════════════════════ -->
+<section>
+  <div class="wrap wrap--wide">
+    <p class="eyebrow">Act four · the eleven</p>
+    <h2 id="orphan-head"></h2>
+    <p class="lede" id="orphan-lede"></p>
+    <div class="filing inverted" id="filing2"></div>
+    <p class="note" style="margin-top:2.5rem;" id="orphan-note"></p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ══ ACT 5 · what this is not ════════════════════════════ -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Act five</p>
+    <h2>What this is not</h2>
+    <dl class="nots">
+      <dt>Not eye-tracking</dt>
+      <dd>Nothing here records or replays where anybody looked. There is no scan
+        path on this page and no timeline. A reader's ranking is rendered as
+        weight, all at once, because that is what a ranking is.</dd>
+
+      <dt>Not measured people</dt>
+      <dd id="prov-1"></dd>
+
+      <dt>Not validated</dt>
+      <dd>No human has checked any of it. Three practitioners and one afternoon
+        would close that, and a mismatch would be the most useful result the
+        study could produce.</dd>
+
+      <dt>Not the whole story on one document</dt>
+      <dd>These scores come from a constructed note. On real filings the same
+        effect appears about a third weaker.</dd>
+
+      <dt>Nobody here is wrong</dt>
+      <dd>The buyback is $300m leaving a company that has just borrowed the
+        headroom to let it leave, and it is $300m returned to shareholders.
+        Both readings are of the same sentence.</dd>
+    </dl>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap wrap--wide">
+    <p>Cross-Modal Perception · built from <span style="font-family:var(--data);font-size:0.85em" id="fixture-name"></span>. This page holds no scores of its own.</p>
+  </div>
+</footer>
+
+</div><!-- /locked -->
+
+</main>
+
+<script>
+const DATA = /*__COLLISION_DATA__*/;
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const NAMES = {
+  "credit-analyst":       "Credit analyst",
+  "equity-pm":            "Equity PM",
+  "risk-officer":         "Risk officer",
+  "distressed-investor":  "Distressed investor",
+  "short-seller":         "Short seller",
+  "financial-journalist": "Financial journalist",
+  "retail-investor":      "Retail investor"
+};
+
+const $  = (id) => document.getElementById(id);
+const TEXTS = DATA.stimulus.texts;
+const N = TEXTS.length;
+const F = DATA.fields;
+const byId = (p) => F.find((f) => f.persona_id === p);
+
+/* The three sentences, in the order that makes the argument:
+   near-consensus, then invisibility, then collision. */
+const BEATS = [
+  { s: 3,  mode: "valence",
+    head: "You read that like almost everyone",
+    body: "Margin compression is one of the few things in this filing that is not " +
+          "ambiguous. Five of the seven read it as bad. The two who do not are not " +
+          "disagreeing about the number." },
+  { s: 12, mode: "presence",
+    head: "One of them barely registers it",
+    body: "This sentence is what makes the next one possible — it is the borrowed " +
+          "headroom. Six readers rank it in their top eight. Below, the same " +
+          "sentence rendered at the attention each reader actually gives it." },
+  { s: 14, mode: "valence",
+    head: "Line fourteen",
+    body: "Every one of the seven puts this sentence in their top eight. It is the " +
+          "only sentence in the filing they all look at — and it is the one they " +
+          "split on. Four cold, three warm, same twenty-two words." }
+];
+
+let step = 0;
+const commits = {};   // sentence index -> viewer value in [-1, +1]
+
+/* ── ACT 0 · the commit ──────────────────────────────────── */
+
+function buildCards() {
+  const stage = $("cards");
+  stage.innerHTML = "";
+  BEATS.forEach((b, i) => {
+    const card = document.createElement("div");
+    card.className = "card" + (i === 0 ? " live" : "");
+    card.id = "card" + i;
+    const p = document.createElement("p");
+    p.className = "card-sentence";
+    p.id = "cs" + i;
+    p.textContent = TEXTS[b.s];
+    p.tabIndex = 0;
+    p.setAttribute("role", "slider");
+    p.setAttribute("aria-label",
+      "Is this good or bad news? Drag, or use left and right arrow keys, then press Enter.");
+    p.setAttribute("aria-valuemin", "-1");
+    p.setAttribute("aria-valuemax", "1");
+    p.setAttribute("aria-valuenow", "0");
+    card.appendChild(p);
+    stage.appendChild(card);
+  });
+  tick();
+  wireCard(0);
+}
+
+function tick() {
+  $("tick").innerHTML = BEATS
+    .map((b, i) => (i < step ? "●" : i === step ? "<b>●</b>" : "○"))
+    .join(" &nbsp; ") + ` &nbsp;&nbsp; ${Math.min(step + 1, 3)} of 3`;
+}
+
+/* Drag is the input, but never the only input: pointer, keyboard and the two
+   pole buttons all write the same value on the same scale the readers use. */
+function wireCard(i) {
+  const el = $("cs" + i);
+  if (!el) return;
+  let dragging = false, startX = 0, val = 0;
+  const half = () => Math.min(innerWidth, 760) / 2;
+
+  const paint = (v) => {
+    val = Math.max(-1, Math.min(1, v));
+    el.style.transform = `translateX(${val * half() * 0.62}px) rotate(${val * 1.4}deg)`;
+    el.style.color = val === 0 ? "" :
+      `color-mix(in oklab, var(--paper), ${val < 0 ? "var(--cold)" : "var(--warm)"} ${Math.abs(val) * 88}%)`;
+    el.setAttribute("aria-valuenow", val.toFixed(2));
+  };
+
+  const release = () => {
+    if (Math.abs(val) < 0.06) { settle(0); return; }
+    commit(i, val);
+  };
+  const settle = (v) => {
+    el.style.transition = "transform 0.55s var(--ease), color 0.4s var(--ease)";
+    paint(v);
+    setTimeout(() => { el.style.transition = ""; }, 560);
+  };
+
+  el.addEventListener("pointerdown", (e) => {
+    dragging = true; startX = e.clientX;
+    el.setPointerCapture(e.pointerId);
+    el.style.transition = "";
+  });
+  el.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    paint((e.clientX - startX) / (half() * 0.62));
+  });
+  el.addEventListener("pointerup", () => { dragging = false; release(); });
+  el.addEventListener("pointercancel", () => { dragging = false; settle(0); });
+
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft")  { e.preventDefault(); settle(val - 0.2); }
+    if (e.key === "ArrowRight") { e.preventDefault(); settle(val + 0.2); }
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (val !== 0) commit(i, val); }
+  });
+
+  $("pole-bad").onclick  = () => { settle(-0.7); setTimeout(() => commit(i, -0.7), REDUCED ? 0 : 380); };
+  $("pole-good").onclick = () => { settle(0.7);  setTimeout(() => commit(i,  0.7), REDUCED ? 0 : 380); };
+}
+
+let committing = false;
+function commit(i, v) {
+  if (committing || commits[BEATS[i].s] !== undefined) return;
+  committing = true;
+  commits[BEATS[i].s] = v;
+  const card = $("card" + i);
+  card.style.transition = "opacity 0.45s var(--ease)";
+  card.classList.remove("live");
+  step = i + 1;
+  tick();
+
+  setTimeout(() => {
+    committing = false;
+    if (step < BEATS.length) {
+      $("card" + step).classList.add("live");
+      wireCard(step);
+    } else {
+      openRest();
+    }
+  }, REDUCED ? 0 : 480);
+}
+
+function openRest() {
+  $("hint").style.opacity = "0";
+  $("rest").classList.add("open");
+  buildVerdicts();
+  buildKeeps();
+  buildReaders();
+  buildFilings();
+  if (!REDUCED) {
+    requestAnimationFrame(() =>
+      $("rest").scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+  observeReveals();
+}
+
+/* ── ACT 1 · the split ───────────────────────────────────── */
+
+function buildVerdicts() {
+  const box = $("verdicts");
+  box.innerHTML = "";
+  BEATS.forEach((b) => {
+    const wrap = document.createElement("div");
+    wrap.className = "verdict";
+    wrap.innerHTML = `<p class="eyebrow">Sentence ${String(b.s).padStart(2, "0")}</p>` +
+                     `<p class="said">${TEXTS[b.s]}</p>`;
+    wrap.appendChild(b.mode === "valence" ? valenceAxis(b) : presenceRows(b));
+    const h = document.createElement("h2");
+    h.textContent = b.head;
+    h.style.marginTop = "2.5rem";
+    const p = document.createElement("p");
+    p.className = "small";
+    p.style.maxWidth = "34rem";
+    p.textContent = b.body;
+    wrap.appendChild(h); wrap.appendChild(p);
+    box.appendChild(wrap);
+  });
+}
+
+function valenceAxis(b) {
+  const holder = document.createElement("div");
+  holder.className = "axis reveal";
+  holder.innerHTML =
+    `<div class="axis-line"></div><div class="axis-mid"></div>` +
+    `<div class="axis-end l">Bad news −1.0</div>` +
+    `<div class="axis-end r">+1.0 Good news</div>`;
+
+  const rows = F.map((f) => ({ id: f.persona_id, v: f.units[b.s].valence }));
+  // stack plates that would collide, so seven names stay readable
+  const lanes = [];
+  const place = (v) => {
+    const x = (v + 1) / 2;
+    let lane = 0;
+    while (lanes[lane] !== undefined && Math.abs(lanes[lane] - x) < 0.13) lane++;
+    lanes[lane] = x;
+    return { x, lane };
+  };
+  rows.sort((a, z) => a.v - z.v).forEach((r, i) => {
+    const { x, lane } = place(r.v);
+    const el = document.createElement("div");
+    el.className = "plate";
+    el.style.left = (x * 100) + "%";
+    el.style.top = (50 - (lane % 2 ? 1 : -1) * (18 + Math.floor(lane / 2) * 20)) + "%";
+    el.innerHTML =
+      `<span class="dot" style="background:${r.v < 0 ? "var(--cold)" : "var(--warm)"}"></span>` +
+      `${NAMES[r.id]}<span class="v">${fmt(r.v)}</span>`;
+    el.dataset.delay = 120 + i * 90;
+    holder.appendChild(el);
+  });
+
+  // the viewer, in a colour used for nothing else
+  const mine = commits[b.s];
+  if (mine !== undefined) {
+    const el = document.createElement("div");
+    el.className = "plate you";
+    el.style.left = (((mine + 1) / 2) * 100) + "%";
+    el.style.top = "50%";
+    el.innerHTML = `<span class="dot"></span>you<span class="v">${fmt(mine)}</span>`;
+    el.dataset.delay = 900;
+    holder.appendChild(el);
+  }
+
+  const cold = rows.filter((r) => r.v < 0).length;
+  const tally = document.createElement("div");
+  tally.className = "tally";
+  tally.innerHTML =
+    `<span class="cold"><b>${cold}</b>read it badly</span>` +
+    `<span class="warm"><b>${rows.length - cold}</b>read it well</span>` +
+    (mine !== undefined
+      ? `<span class="youb"><b>${fmt(mine)}</b>you</span>` : "");
+  holder.appendChild(tally);
+
+  const landed = document.createElement("p");
+  landed.className = "landed";
+  landed.innerHTML = verdictLine(b.s, mine, rows);
+  holder.appendChild(landed);
+  return holder;
+}
+
+function verdictLine(s, mine, rows) {
+  if (mine === undefined) return "";
+  const side = mine < 0 ? "cold" : "warm";
+  const camp = rows.filter((r) => (r.v < 0) === (mine < 0));
+  const other = rows.filter((r) => (r.v < 0) !== (mine < 0));
+  // nearest reader by valence — who did you actually read like
+  const near = rows.slice().sort((a, z) =>
+    Math.abs(a.v - mine) - Math.abs(z.v - mine))[0];
+  return `<span class="me">You put it at ${fmt(mine)}.</span> ` +
+    `That is closest to the <strong>${NAMES[near.id].toLowerCase()}</strong> ` +
+    `(${fmt(near.v)}). ${camp.length} of the seven are on your side of the line; ` +
+    `${other.length} ${other.length === 1 ? "is" : "are"} on the other.`;
+}
+
+function presenceRows(b) {
+  const holder = document.createElement("div");
+  holder.className = "presence reveal";
+  const rows = F.map((f) => ({ id: f.persona_id, sal: f.units[b.s].salience }))
+                .sort((a, z) => z.sal - a.sal);
+  rows.forEach((r, i) => {
+    const row = document.createElement("div");
+    row.className = "presence-row plate";     // reuse the fade-in
+    row.dataset.delay = 120 + i * 100;
+    row.style.position = "static";
+    row.style.transform = "none";
+    const rank = rankOf(byId(r.id), b.s);
+    row.innerHTML =
+      `<span class="who">${NAMES[r.id]}<i>attention ${r.sal.toFixed(2)} · ranked ${rank} of ${N}</i></span>` +
+      `<span class="txt" style="opacity:${(0.1 + r.sal * 0.9).toFixed(2)};` +
+      `filter:blur(${((1 - r.sal) * 1.5).toFixed(2)}px)">${TEXTS[b.s]}</span>`;
+    holder.appendChild(row);
+  });
+  return holder;
+}
+
+function rankOf(field, s) {
+  return field.units.map((u, i) => [i, u.order])
+    .sort((a, z) => a[1] - z[1]).findIndex((p) => p[0] === s) + 1;
+}
+function fmt(v) {
+  const s = Math.abs(v).toFixed(2);
+  return (v < 0 ? "−" : "+") + s;
+}
+
+/* ── ACT 2 · the company it keeps ────────────────────────── */
+
+function buildKeeps() {
+  const ca = byId("credit-analyst"), ri = byId("retail-investor");
+  const shared = ca.top_attention.filter((i) => ri.top_attention.includes(i));
+  const el = $("keeps");
+  const col = (f, cls, label) => {
+    const d = document.createElement("div");
+    d.className = "keeps-col " + cls;
+    d.innerHTML = `<p class="head">${label} · also reads</p>`;
+    f.top_attention.filter((i) => i !== 14).forEach((i, k) => {
+      const p = document.createElement("p");
+      p.className = "keeps-item";
+      p.dataset.delay = 150 + k * 90;
+      p.innerHTML = `<span style="font-family:var(--data);font-size:0.58rem;color:#3C4557;margin-right:0.5rem">` +
+        `${String(i).padStart(2, "0")}</span>${TEXTS[i]}`;
+      d.appendChild(p);
+    });
+    return d;
+  };
+  el.innerHTML = "";
+  el.appendChild(col(ca, "cold", "Credit analyst"));
+  const pivot = document.createElement("div");
+  pivot.className = "keeps-pivot";
+  pivot.innerHTML = `<span class="tag">Line 14 · in both top eights</span>${TEXTS[14]}`;
+  el.appendChild(pivot);
+  el.appendChild(col(ri, "warm", "Retail investor"));
+  el.classList.add("reveal-parent");
+  el.dataset.shared = shared.length;
+}
+
+/* ── ACT 3 · inhabit ─────────────────────────────────────── */
+
+let activeReader = null;
+
+function buildReaders() {
+  const el = $("readers");
+  el.innerHTML = "";
+  const plain = document.createElement("button");
+  plain.className = "reader";
+  plain.type = "button";
+  plain.textContent = "As filed";
+  plain.onclick = () => applyReader(null);
+  el.appendChild(plain);
+  F.forEach((f) => {
+    const b = document.createElement("button");
+    b.className = "reader";
+    b.type = "button";
+    b.dataset.r = f.persona_id;
+    b.textContent = NAMES[f.persona_id];
+    b.onclick = () => applyReader(f.persona_id);
+    el.appendChild(b);
+  });
+  syncReaders();
+}
+
+function buildFilings() {
+  const mk = (host, orphans) => {
+    host.innerHTML = "";
+    TEXTS.forEach((t, i) => {
+      const p = document.createElement("p");
+      p.className = "u" + (orphans && orphans.has(i) ? " orphan" : "");
+      p.style.setProperty("--i", i);
+      p.innerHTML = `<span class="idx">${String(i).padStart(2, "0")}</span>${t}`;
+      host.appendChild(p);
+    });
+  };
+  mk($("filing"), null);
+
+  // Act 4: the sentences in nobody's top eight
+  const union = new Set();
+  F.forEach((f) => f.top_attention.forEach((i) => union.add(i)));
+  const orphans = new Set();
+  for (let i = 0; i < N; i++) if (!union.has(i)) orphans.add(i);
+  mk($("filing2"), orphans);
+
+  $("orphan-head").textContent =
+    `${numword(orphans.size)} sentences nobody reaches`;
+  $("orphan-lede").innerHTML =
+    `Seven readers, eight sentences of attention each — fifty-six chances. They ` +
+    `land on <strong>${union.size}</strong> distinct sentences out of ${N}. These ` +
+    `<strong>${orphans.size}</strong> are in no reader's top eight:`;
+  $("orphan-note").innerHTML =
+    `Most of that list is the company describing itself — what management ` +
+    `attributes, expects, and is pleased to report. One item is not. ` +
+    `<strong>Sentence 13 is the 75 basis point increase in margin on the term ` +
+    `loan</strong>: the price of the amendment two readers open with, sitting one ` +
+    `line beneath it. All seven walk past it. A shared blind spot is not a safe ` +
+    `one. <em>In no reader's top eight</em> is the exact claim — several of these ` +
+    `carry real attention below that cut.`;
+  $("prov-1").textContent = DATA.provenance.summary + " " + DATA.provenance.method;
+  $("fixture-name").textContent = DATA.stimulus.id + ".json";
+}
+
+function numword(n) {
+  return ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
+          "Eleven","Twelve","Thirteen","Fourteen"][n] || String(n);
+}
+
+/* FLIP: measure, re-weight, invert, play — so the re-typeset settles
+   physically instead of jump-cutting. This is the one act that reflows. */
+function applyReader(id) {
+  activeReader = id;
+  const host = $("filing");
+  const items = [...host.children];
+
+  const first = REDUCED ? null : items.map((el) => el.getBoundingClientRect().top);
+
+  if (id === null) {
+    host.classList.add("plain");
+    items.forEach((el) => { el.style.removeProperty("--sal"); el.style.removeProperty("--val"); });
+    $("conc").innerHTML = "The filing as printed. Thirty sentences, the same for everybody.";
+  } else {
+    host.classList.remove("plain");
+    const f = byId(id);
+    items.forEach((el, i) => {
+      el.style.setProperty("--sal", f.units[i].salience.toFixed(3));
+      el.style.setProperty("--val", f.units[i].valence.toFixed(3));
+    });
+    const top = f.top_attention[0];
+    $("conc").innerHTML =
+      `<b>${NAMES[id]}</b> · concentration <b>${f.concentration.toFixed(4)}</b> — ` +
+      `${f.concentration > 0.05 ? "sharply focused" : f.concentration < 0.03
+        ? "diffuse; nothing dominates the page" : "moderately focused"}. ` +
+      `Reaches first for sentence ${String(top).padStart(2, "0")}.`;
+  }
+  syncReaders();
+
+  if (REDUCED || !first) return;
+  requestAnimationFrame(() => {
+    items.forEach((el, i) => {
+      const dy = first[i] - el.getBoundingClientRect().top;
+      if (!dy) return;
+      el.animate(
+        [{ transform: `translateY(${dy}px)` }, { transform: "none" }],
+        { duration: 700, easing: "cubic-bezier(0.22,1,0.36,1)", delay: i * 9 }
+      );
+    });
+  });
+}
+
+function syncReaders() {
+  document.querySelectorAll("button.reader").forEach((b) =>
+    b.setAttribute("aria-pressed", String((b.dataset.r || null) === activeReader)));
+}
+
+/* ── reveals ─────────────────────────────────────────────── */
+function observeReveals() {
+  const io = new IntersectionObserver((list) => {
+    list.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll(".plate, .keeps-item").forEach((el) => {
+        const d = REDUCED ? 0 : Number(el.dataset.delay || 0);
+        setTimeout(() => el.classList.add("in"), d);
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal, .reveal-parent").forEach((el) => io.observe(el));
+}
+
+buildCards();
+</script>

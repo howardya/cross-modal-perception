@@ -493,6 +493,7 @@ function clearRun() {
   if (timer) { clearInterval(timer); timer = null; }
   document.querySelectorAll(".sentence").forEach((s) => {
     s.className = "sentence";
+    delete s.dataset.nc; delete s.dataset.nw; delete s.dataset.split;
   });
   if (!laneGeom) return;
   for (const k in laneGeom.groups) {
@@ -543,8 +544,24 @@ function step(ids, k) {
     const el = $("s" + si);
     if (el) {
       el.classList.add("is-hit");
-      const vc = valenceClass(u.valence);
-      if (vc) el.classList.add(vc);
+      // In chorus mode seven readers touch the same sentence and they do not
+      // agree about it. Adding each reader's valence class in turn left most
+      // sentences carrying both, with stylesheet order silently picking the
+      // winner — so the whole filing rendered as good news.
+      //
+      // Tint by MAJORITY, not by the strongest single reading. Magnitude is
+      // the wrong rule here: on "operating cash flow fell to $88m" five of the
+      // seven read badly, but the short seller's +0.85 is the largest number
+      // in the column — and that is an interest, not a perception. Letting it
+      // win would paint a cash-flow collapse as good news.
+      const nc = Number(el.dataset.nc || 0) + (u.valence < -0.02 ? 1 : 0);
+      const nw = Number(el.dataset.nw || 0) + (u.valence >  0.02 ? 1 : 0);
+      el.dataset.nc = nc; el.dataset.nw = nw;
+      if (nc && nw) el.dataset.split = "1";
+      el.classList.remove("v-cold", "v-warm");
+      if (nc > nw) el.classList.add("v-cold");
+      else if (nw > nc) el.classList.add("v-warm");
+      else if (nc) el.classList.add(valenceClass(u.valence) || "v-cold");
       if (ids.length === 1) {
         document.querySelectorAll(".sentence.is-now").forEach((s) => s.classList.remove("is-now"));
         el.classList.add("is-now");
@@ -563,8 +580,11 @@ function step(ids, k) {
         ` · reads it as ${u.valence < 0 ? "bad" : (u.valence > 0 ? "good" : "neutral")} news`;
     }
   } else {
+    const split = document.querySelectorAll(".sentence[data-split]").length;
     readoutEl.innerHTML = `<b>All seven</b> · reach ${Math.min(k + 1, laneGeom.n)} of ${laneGeom.n}` +
-      ` — every thread is on the same step, and they are nowhere near each other.`;
+      ` — every thread is on the same step, and they are nowhere near each other.` +
+      (split ? `<br><b>${split}</b> ${split === 1 ? "sentence has" : "sentences have"}` +
+               ` readers on both sides; the tint shows the majority reading.` : "");
   }
 }
 
