@@ -12,6 +12,7 @@ data it claims to show.
     acts/chorus.template.html    + all five fixtures  -> dist/chorus.html
     acts/blindspot.template.html + meridian-q4.json   -> dist/blindspot.html
     acts/eighth.template.html    + meridian-q4.json   -> dist/eighth.html
+    acts/collision.template.html + meridian-q4.json   -> dist/collision.html
 
 Adding a reader or a document means scoring it, listing it in
 `cmp.report_data.READERS` or `DOCUMENTS`, and running this. Nothing in either
@@ -41,6 +42,7 @@ ACTS = VIZ / "acts"
 CHORUS_PLACEHOLDER = "/*__CHORUS_DATA__*/"
 BLINDSPOT_PLACEHOLDER = "/*__BLINDSPOT_DATA__*/"
 EIGHTH_PLACEHOLDER = "/*__EIGHTH_DATA__*/"
+COLLISION_PLACEHOLDER = "/*__COLLISION_DATA__*/"
 
 # Document order for the chorus switcher: the constructed hero note first,
 # then the real filings, which show a weaker effect (findings.md 2.5).
@@ -101,11 +103,14 @@ def build_acts() -> None:
             OUT / "blindspot.html")
     _inject(ACTS / "eighth.template.html", EIGHTH_PLACEHOLDER, hero,
             OUT / "eighth.html")
+    _inject(ACTS / "collision.template.html", COLLISION_PLACEHOLDER, hero,
+            OUT / "collision.html")
 
     for name, extra in (
         ("chorus.html", f"{len(docs)} documents"),
         ("blindspot.html", f"{len(hero['stimulus']['texts'])} clauses"),
         ("eighth.html", f"{len(hero['stimulus']['texts'])} clauses"),
+        ("collision.html", f"{len(hero['stimulus']['texts'])} clauses"),
     ):
         kb = (OUT / name).stat().st_size / 1024
         print(f"built viz/dist/{name:<14} ({kb:.0f} KB, {extra}, "

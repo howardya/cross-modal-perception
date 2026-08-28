@@ -43,6 +43,9 @@ viz/
                               past taken out.          → dist/blindspot.html
     eighth.template.html      You read it; the page puts you beside the
                               seven.                   → dist/eighth.html
+    collision.template.html   You judge three sentences first, then meet the
+                              seven who disagree with you.
+                                                       → dist/collision.html
   build.py              Injects the fixtures into all five. No page holds
                         scores of its own, so re-scoring and rebuilding is the
                         whole update path.
