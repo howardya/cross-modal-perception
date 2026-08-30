@@ -71,3 +71,37 @@ near-uniformly — the correct shape for a lay reader — alpha's denominator
 collapses and the statistic stops being informative. `diagnose_reliability`
 separates that case from a genuinely erratic persona by reading alpha alongside
 concentration.
+
+
+## The lens: reading a document the study never saw
+
+`cmp.server` is a local, loopback-only server that lets `viz/dist/lens.html` read
+arbitrary prose.
+
+```bash
+export ANTHROPIC_API_KEY=...
+uv run --extra scoring python -m cmp.server      # http://127.0.0.1:8420/
+```
+
+| Module | What it does |
+|---|---|
+| `cmp.ingest` | URL or pasted text → clauses. Sentence-level, with an abbreviation guard. Capped at 120 clauses, floored at 6. |
+| `cmp.lens` | One sample of one persona over one document, plus up to four marginal notes in that reader's voice. |
+| `cmp.server` | `POST /api/ingest`, `POST /api/attend`, `GET /api/personas`. Caches per document and persona under `.lenscache/`. |
+| `cmp.lens_data` | The build-time payload for the page: the personas plus all five scored documents. |
+
+Three things worth knowing before trusting anything it shows.
+
+**One sample, not five.** `score_persona` refuses fewer than two runs — one sample
+is an anecdote and inter-run reliability cannot be measured from it. `cmp.lens`
+takes exactly one, because a viewer is waiting, and every artefact it writes
+carries `samples: 1` and `reliability_measured: false`. `docs/calibration.md` §8.
+
+**The study's contract is not touched.** `LENS_SCHEMA` is a deep copy of
+`SCORING_SCHEMA` with one optional field added, and `build_lens_prompt` is
+`build_scoring_prompt` verbatim plus a paragraph. Tests pin both. A schema shared
+between the record and the instrument would let the instrument redefine the
+record.
+
+**Loopback only.** It holds an API key and fetches URLs it is handed. Run it on
+your own machine while you look at a document; do not deploy it.

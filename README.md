@@ -46,7 +46,10 @@ viz/
     collision.template.html   You judge three sentences first, then meet the
                               seven who disagree with you.
                                                        → dist/collision.html
-  build.py              Injects the fixtures into all five. No page holds
+  lens.template.html    The instrument. Give it a URL or paste text and read
+                        it behind any of the seven pairs of eyes, live.
+                                                       → dist/lens.html
+  build.py              Injects the fixtures into all six. No page holds
                         scores of its own, so re-scoring and rebuilding is the
                         whole update path.
 fixtures/     The contract between pipeline and pages.
@@ -57,9 +60,35 @@ docs/         The four documents above.
 
 ```bash
 cd pipeline && uv sync && uv run pytest     # 326 tests, no network needed
-cd .. && python3 viz/build.py               # fixtures → both pages
+cd .. && python3 viz/build.py               # fixtures → all six pages
 open viz/dist/report.html
 ```
+
+## Reading something the study never saw
+
+The five pages above are records of what the study found. `dist/lens.html` is the
+instrument: hand it a URL or paste text, choose one of the seven readers, and the
+document is re-rendered as that reader perceives it — what they dwell on grows
+and sharpens, what they skim past blurs out, good and bad news *for their
+mandate* take opposite colours, and the sentences they take in as one idea close
+into a single block. Switching readers morphs between the two renderings.
+
+```bash
+cd pipeline
+export ANTHROPIC_API_KEY=...
+uv run --extra scoring python -m cmp.server   # http://127.0.0.1:8420/
+```
+
+It binds to loopback only. It holds your key and will fetch any URL you give it,
+so it is a tool you run on your own machine, not a service you deploy.
+
+Without a key the page still opens and the five scored documents still work; live
+readings return a 503 the page turns into an offer of those documents.
+
+**A live reading is one sample, where the study takes five.** No median, no
+second opinion, and Krippendorff's α cannot be computed from one run — so the
+page carries that on screen for as long as a live reading is up.
+[`docs/calibration.md` §8](docs/calibration.md) is the long version.
 
 Re-scoring, either through subagents (samples already committed) or the Anthropic
 API, is documented in [`docs/findings.md` §7](docs/findings.md) and

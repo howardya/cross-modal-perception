@@ -808,7 +808,52 @@ is not a financial professional.
 
 ---
 
-## 8. What would fix it
+## 8. The lens, and what it gives up
+
+`viz/dist/lens.html` reads a document nobody scored in advance — a URL, or text
+a viewer pastes. Everything above concerns the five documents in `fixtures/`.
+Almost none of it transfers, and the page says so on screen rather than here.
+
+**What is the same.** The personas, unchanged. The prompt, byte for byte —
+`cmp.lens.build_lens_prompt` is `build_scoring_prompt` with a paragraph appended,
+and a test pins that the study's `SCORING_SCHEMA` is not modified. The salience
+quota, the range checks, the refusal of a field that attended to nothing. The
+model, `claude-opus-5`.
+
+**What is given up, and it is the important half.**
+
+| | Study | Lens |
+|---|---|---|
+| Samples per reader | 5, independent contexts | **1** |
+| Aggregation | median per clause, mode for chunks | none — the sample is the answer |
+| Krippendorff's α | 0.79–0.98, measured | **unmeasurable** |
+| Calibration against effect sizes | §2 | none |
+| Document | fixed, inspected, committed | whatever was pasted |
+
+A single sample can be an outlier and there is no second opinion to reveal it.
+§7 of this document is a list of things that only became visible by running the
+model five times and finding the runs disagreeing; on the lens, every one of
+those would have passed silently. The α range says roughly how often that
+matters — high, but 0.79 at the bottom is not 1.0.
+
+**So the honest use of the lens is the felt shift, not the numbers.** It is built
+to make a viewer notice that a sentence they can read is one another reader
+cannot. For that, one sample is enough, because the claim is qualitative and the
+render is showing a difference of kind. It is not enough to quote a salience
+figure from, and nothing in the page invites that: the live provenance strip says
+*one sample, no median, reliability unmeasurable* for as long as a live reading
+is on screen, and the study's documents say the opposite in the same place.
+
+**One more limit, from ingestion rather than scoring.** `cmp.ingest` splits on
+sentence boundaries. The study's five documents were split by hand into clauses
+chosen to be scoreable units. Automatic splitting is worse — it will cut a
+sentence that carries two separate pieces of news into one unit, and a
+salience score for that unit means less than one for a hand-cut clause. The cap
+at 120 clauses and the floor at 6 are stated on the page when either bites.
+
+---
+
+## 9. What would fix it
 
 Roughly in order of value per unit of effort:
 
