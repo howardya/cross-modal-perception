@@ -59,7 +59,7 @@ docs/         The four documents above.
 ## Running it
 
 ```bash
-cd pipeline && uv sync && uv run pytest     # 326 tests, no network needed
+cd pipeline && uv sync && uv run pytest     # 411 tests, no network needed
 cd .. && python3 viz/build.py               # fixtures → all six pages
 open viz/dist/report.html
 ```
