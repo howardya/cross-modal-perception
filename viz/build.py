@@ -13,6 +13,7 @@ data it claims to show.
     acts/blindspot.template.html + meridian-q4.json   -> dist/blindspot.html
     acts/eighth.template.html    + meridian-q4.json   -> dist/eighth.html
     acts/collision.template.html + meridian-q4.json   -> dist/collision.html
+    lens.template.html   + cmp.lens_data (all fixtures) -> dist/lens.html
 
 Adding a reader or a document means scoring it, listing it in
 `cmp.report_data.READERS` or `DOCUMENTS`, and running this. Nothing in either
@@ -43,6 +44,10 @@ CHORUS_PLACEHOLDER = "/*__CHORUS_DATA__*/"
 BLINDSPOT_PLACEHOLDER = "/*__BLINDSPOT_DATA__*/"
 EIGHTH_PLACEHOLDER = "/*__EIGHTH_DATA__*/"
 COLLISION_PLACEHOLDER = "/*__COLLISION_DATA__*/"
+
+# The lens is the one page that is also served live, so it needs the persona
+# definitions themselves rather than only their scores.
+LENS_PLACEHOLDER = "/*__LENS_DATA__*/"
 
 # Document order for the chorus switcher: the constructed hero note first,
 # then the real filings, which show a weaker effect (findings.md 2.5).
@@ -158,10 +163,30 @@ def build_report() -> None:
           f"{len(payload['topics'])} topics)")
 
 
+def build_lens() -> None:
+    """The lens needs the personas as well as the fixtures, so like the report it
+    is built in the pipeline's environment rather than importing cmp from here."""
+    result = subprocess.run(
+        ["uv", "run", "--quiet", "python", "-m", "cmp.lens_data"],
+        cwd=ROOT / "pipeline",
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise SystemExit(f"could not build lens data:\n{result.stderr.strip()}")
+
+    payload = json.loads(result.stdout)
+    _inject(VIZ / "lens.template.html", LENS_PLACEHOLDER, payload, OUT / "lens.html")
+    kb = (OUT / "lens.html").stat().st_size / 1024
+    print(f"built viz/dist/lens.html    ({kb:.0f} KB, "
+          f"{len(payload['documents'])} documents, {len(payload['personas'])} readers)")
+
+
 def main() -> int:
     build_demo()
     build_acts()
     build_report()
+    build_lens()
     return 0
 
 

@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lens — read anything behind seven pairs of eyes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ───────────────────────────────────────────────────────────────────────────
+   THE LENS
+
+   A dark field, because the subject is what a reader can and cannot see. Faint
+   text on dark genuinely disappears; faint text on paper only looks grey, and
+   the whole instrument depends on a viewer failing to read a sentence and
+   noticing that they failed.
+
+   Two accents, no more. Cold is bad news for the mandate you are wearing, warm
+   is good news for it — colour temperature rather than red/green, which is both
+   the finance cliche and hostile to colourblind readers.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --field:   #0A0D13;
+  --field-2: #10151E;
+  --field-3: #161C28;
+  --edge:    #232C3A;
+  --edge-2:  #334052;
+  --glow:    #EDE9DF;
+  --dim:     #7E8A9C;
+  --dimmer:  #4E5A6B;
+  --cold:    #63AFD6;
+  --warm:    #E5A44F;
+
+  --rail: 268px;
+  --bar: 52px;
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --morph: 700ms;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--field);
+  color: var(--glow);
+  font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  /* A faint pool of light at the top left, where the reading starts. */
+  background-image: radial-gradient(120% 90% at 18% -10%, #141B27 0%, var(--field) 62%);
+  background-attachment: fixed;
+}
+
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+a { color: var(--cold); }
+
+:focus-visible {
+  outline: 2px solid var(--warm);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── instrument bar ─────────────────────────────────────────────────────── */
+
+.bar {
+  position: sticky; top: 0; z-index: 40;
+  height: var(--bar);
+  display: flex; align-items: center; gap: 1.1rem;
+  padding: 0 1.15rem;
+  border-bottom: 1px solid var(--edge);
+  background: rgba(10,13,19,.82);
+  backdrop-filter: blur(14px);
+}
+
+.wordmark {
+  display: flex; align-items: center; gap: .5rem;
+  color: var(--glow);
+  flex: none;
+}
+.wordmark .iris {
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 1px solid var(--edge-2);
+  background: radial-gradient(circle at 50% 50%, var(--warm) 0 22%, transparent 24%);
+  flex: none;
+}
+.wordmark b { font-weight: 600; letter-spacing: .14em; font-size: .66rem; }
+
+.bar .doc {
+  flex: 1 1 auto; min-width: 0;
+  color: var(--dim);
+  font-size: .95rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bar .doc em { font-style: normal; color: var(--glow); }
+
+.bar-actions { display: flex; align-items: center; gap: .35rem; flex: none; }
+
+.chip {
+  color: var(--dim);
+  padding: .42rem .62rem;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  transition: color 160ms, border-color 160ms, background 160ms;
+  white-space: nowrap;
+}
+a.chip { color: var(--dim); }
+.chip:hover { color: var(--glow); border-color: var(--edge-2); }
+.chip[aria-pressed="true"] {
+  color: var(--field);
+  background: var(--glow);
+  border-color: var(--glow);
+}
+
+/* ── layout ─────────────────────────────────────────────────────────────── */
+
+.stage {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  align-items: start;
+  gap: 0;
+}
+
+.rail {
+  position: sticky; top: var(--bar);
+  height: calc(100vh - var(--bar));
+  overflow-y: auto;
+  border-right: 1px solid var(--edge);
+  padding: 1.35rem 0 2rem;
+}
+
+.rail-title {
+  color: var(--dimmer);
+  padding: 0 1.15rem .8rem;
+}
+
+/* ── the seven combs ────────────────────────────────────────────────────────
+   The switcher is the signature. Each reader is one tick per clause, height by
+   how hard that reader looks there — so the seven different shapes are visible
+   before anything is clicked. This is the study's central finding used as
+   navigation rather than described in a caption.
+   ──────────────────────────────────────────────────────────────────────── */
+
+.lens-btn {
+  display: block; width: 100%;
+  text-align: left;
+  padding: .62rem 1.15rem .7rem;
+  border-left: 2px solid transparent;
+  transition: background 220ms var(--ease), border-color 220ms;
+}
+.lens-btn:hover { background: var(--field-2); }
+.lens-btn[aria-current="true"] { background: var(--field-3); border-left-color: var(--warm); }
+
+.lens-name {
+  display: flex; align-items: baseline; gap: .5rem;
+  color: var(--dim);
+  font-size: .93rem;
+  transition: color 220ms;
+}
+.lens-btn[aria-current="true"] .lens-name { color: var(--glow); }
+.lens-btn:hover .lens-name { color: var(--glow); }
+
+.lens-name .tag {
+  margin-left: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .56rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dimmer);
+}
+
+.comb {
+  display: flex; align-items: flex-end; gap: 1px;
+  height: 26px; margin-top: .45rem;
+}
+.comb i {
+  flex: 1 1 0; min-width: 0;
+  background: var(--dimmer);
+  height: var(--h, 10%);
+  transition: height var(--morph) var(--ease), background 260ms, opacity 260ms;
+  opacity: .75;
+}
+.lens-btn[aria-current="true"] .comb i { background: var(--glow); opacity: 1; }
+.lens-btn:hover .comb i { opacity: 1; }
+
+/* A reading that has not arrived yet, and one that failed. */
+.lens-btn[data-state="pending"] .comb { opacity: .3; }
+.lens-btn[data-state="pending"] .comb i { animation: breathe 1.5s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { opacity: .35 } 50% { opacity: 1 } }
+.lens-btn[data-state="failed"] .lens-name { color: #B4614C; }
+.lens-btn[data-state="failed"] .comb { opacity: .18; }
+
+/* ── mandate card ───────────────────────────────────────────────────────── */
+
+.mandate {
+  margin: 1.4rem 1.15rem 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--edge);
+  font-size: .87rem; line-height: 1.55;
+  color: var(--dim);
+}
+.mandate summary {
+  list-style: none;
+  cursor: pointer;
+}
+.mandate summary::-webkit-details-marker { display: none; }
+.mandate summary::after {
+  content: "what this reader is for";
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .56rem; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--dimmer);
+  display: block; margin: -.3rem 0 .55rem;
+}
+.mandate details[open] summary::after { content: "what this reader is for"; }
+.mandate h2 {
+  display: inline-block;
+  margin: 0 0 .2rem;
+  font-size: 1.02rem; font-weight: 500; color: var(--glow);
+  letter-spacing: -.01em;
+}
+.mandate p { margin: 0 0 .85rem; }
+.mandate dl { margin: 0; }
+.mandate dt {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .56rem; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--dimmer);
+  margin-top: .8rem;
+}
+.mandate dd { margin: .25rem 0 0; }
+.mandate ul { margin: .3rem 0 0; padding-left: 1rem; }
+.mandate li { margin-bottom: .22rem; }
+
+/* ── the document ───────────────────────────────────────────────────────── */
+
+.reading {
+  padding: 3.2rem clamp(1.2rem, 5vw, 4.5rem) 7rem;
+  max-width: 1180px;
+}
+
+.doc-head { margin-bottom: 2.6rem; }
+.doc-head .eyebrow { color: var(--dimmer); display: block; margin-bottom: .7rem; }
+.doc-head h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 300; letter-spacing: -.02em; line-height: 1.15;
+  color: var(--glow);
+}
+.doc-head .through {
+  margin: .6rem 0 0;
+  color: var(--dim); font-size: 1.02rem;
+}
+.doc-head .through b { color: var(--warm); font-weight: 500; }
+
+.prose {
+  position: relative;
+  columns: 1;
+  max-width: 42rem;
+}
+
+/* A run of clauses this reader takes in as one idea. Whitespace falls only at
+   chunk boundaries, so a reader who reads in groups has a visibly emptier page
+   — which is what information reduction looks like. */
+.chunk {
+  display: block;
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1.1rem;
+  transition: margin-bottom var(--morph) var(--ease);
+}
+
+/* Arousal: a marginal rule. Unease is kept separate from valence, because a
+   reader can be alarmed by news that is good for them. */
+.chunk::before {
+  content: "";
+  position: absolute; left: 0; top: .34em; bottom: .18em;
+  width: 2px;
+  background: var(--rule, var(--dimmer));
+  opacity: var(--rule-o, 0);
+  transition: opacity var(--morph) var(--ease), background var(--morph) var(--ease);
+}
+
+.clause {
+  display: inline;
+  font-size: var(--fs, 1rem);
+  font-weight: var(--fw, 400);
+  color: var(--col, var(--glow));
+  opacity: var(--op, 1);
+  filter: blur(var(--bl, 0px));
+  letter-spacing: var(--ls, 0);
+  line-height: 1.5;
+  transition:
+    font-size var(--morph) var(--ease),
+    font-weight var(--morph) var(--ease),
+    color var(--morph) var(--ease),
+    opacity var(--morph) var(--ease),
+    filter var(--morph) var(--ease),
+    letter-spacing var(--morph) var(--ease);
+  cursor: default;
+}
+
+/* Nothing is ever unrecoverable. */
+.clause:hover, .clause:focus-visible {
+  --op: 1 !important;
+  --bl: 0px !important;
+  --col: var(--glow) !important;
+  transition-duration: 140ms;
+}
+
+.prose[data-plain="true"] .clause {
+  --fs: 1rem !important; --fw: 400 !important;
+  --op: 1 !important; --bl: 0px !important;
+  --col: var(--glow) !important; --ls: 0 !important;
+}
+.prose[data-plain="true"] .chunk { margin-bottom: 1rem; padding-left: 0; }
+.prose[data-plain="true"] .chunk::before { opacity: 0; }
+.prose[data-plain="true"] .note { display: none; }
+
+/* ── margin notes ───────────────────────────────────────────────────────── */
+
+.note {
+  display: block;
+  margin: .5rem 0 0 0;
+  padding-left: .85rem;
+  border-left: 1px solid var(--edge-2);
+  font-style: italic;
+  font-size: .84rem; line-height: 1.45;
+  color: var(--dim);
+  opacity: 0;
+  animation: note-in 520ms var(--ease) 320ms forwards;
+}
+@keyframes note-in { to { opacity: 1 } }
+.note .who {
+  font-style: normal;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .55rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dimmer);
+  display: block; margin-bottom: .2rem;
+}
+.note.conflict { border-left-color: var(--warm); }
+.note.conflict b { color: var(--warm); font-weight: 500; font-style: normal; }
+
+/* ── reading-order mode ─────────────────────────────────────────────────── */
+
+.order-flag {
+  display: none;
+  margin-bottom: 1.6rem;
+  padding: .7rem .9rem;
+  border: 1px solid var(--edge-2);
+  border-left: 2px solid var(--warm);
+  color: var(--dim); font-size: .87rem;
+}
+.reading[data-order="true"] .order-flag { display: block; }
+.reading[data-order="true"] .chunk { padding-left: 2.6rem; }
+.reading[data-order="true"] .chunk::before { opacity: 0 !important; }
+
+.rank {
+  position: absolute; left: 0; top: .42em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem; letter-spacing: .06em;
+  color: var(--dimmer);
+  display: none;
+}
+.reading[data-order="true"] .rank { display: block; }
+
+/* ── source drawer ──────────────────────────────────────────────────────── */
+
+.drawer {
+  position: fixed; inset: var(--bar) 0 auto 0; z-index: 35;
+  background: var(--field-2);
+  border-bottom: 1px solid var(--edge);
+  padding: 1.5rem clamp(1.2rem, 5vw, 4.5rem) 1.7rem;
+  transform: translateY(-102%);
+  transition: transform 420ms var(--ease);
+  box-shadow: 0 22px 60px rgba(0,0,0,.55);
+}
+.drawer[data-open="true"] { transform: translateY(0); }
+
+.drawer-in { max-width: 62rem; display: grid; gap: 1rem; }
+.drawer h2 { margin: 0; font-size: 1.15rem; font-weight: 400; }
+.drawer .hint { margin: 0; color: var(--dim); font-size: .9rem; }
+
+.field-row { display: flex; gap: .6rem; flex-wrap: wrap; }
+input[type="url"], textarea {
+  flex: 1 1 22rem;
+  background: var(--field);
+  border: 1px solid var(--edge-2);
+  color: var(--glow);
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: .95rem;
+  padding: .68rem .8rem;
+  border-radius: 2px;
+}
+textarea { min-height: 6.5rem; resize: vertical; line-height: 1.5; }
+input::placeholder, textarea::placeholder { color: var(--dimmer); }
+
+.go {
+  padding: .68rem 1.3rem;
+  background: var(--glow); color: var(--field);
+  border-radius: 2px; font-weight: 500; font-size: .95rem;
+  transition: opacity 160ms;
+}
+.go:hover { opacity: .85; }
+.go[disabled] { opacity: .4; cursor: wait; }
+
+.presets { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.presets .mono { color: var(--dimmer); margin-right: .3rem; }
+
+.status { color: var(--dim); font-size: .88rem; min-height: 1.2em; }
+.status[data-tone="bad"] { color: #C97C66; }
+
+/* ── provenance ─────────────────────────────────────────────────────────── */
+
+.provenance {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+  padding: .55rem clamp(1.2rem, 5vw, 4.5rem);
+  border-top: 1px solid var(--edge);
+  background: rgba(10,13,19,.9);
+  backdrop-filter: blur(14px);
+  color: var(--dimmer);
+}
+.provenance .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cold); flex: none;
+}
+.provenance[data-mode="live"] .dot { background: var(--warm); }
+.provenance b { color: var(--dim); font-weight: 500; }
+.provenance a { color: var(--dim); }
+
+/* ── responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .stage { grid-template-columns: 1fr; }
+  .rail {
+    position: static; height: auto;
+    border-right: none; border-bottom: 1px solid var(--edge);
+  }
+  .reading { padding-top: 2rem; }
+  /* The document title is already the page's first heading; in the bar it only
+     costs the controls the room they need. */
+  .bar .doc { display: none; }
+  .bar-actions {
+    flex: 1 1 auto; min-width: 0;
+    overflow-x: auto; justify-content: flex-end;
+    scrollbar-width: none;
+  }
+  .bar-actions::-webkit-scrollbar { display: none; }
+  .provenance { font-size: .58rem; padding: .5rem .9rem; }
+
+  /* The document is what the viewer came for. On a narrow screen the readers
+     become a strip you swipe rather than a column you scroll past. */
+  #lenses {
+    display: flex; overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  #lenses::-webkit-scrollbar { display: none; }
+  .lens-btn {
+    flex: 0 0 11rem;
+    scroll-snap-align: start;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+  }
+  .lens-btn[aria-current="true"] { border-left-color: transparent; border-bottom-color: var(--warm); }
+  .lens-name .tag { display: none; }
+  .mandate { margin-top: 1rem; padding-top: .9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+  .note { opacity: 1; }
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <span class="wordmark"><span class="iris" aria-hidden="true"></span><b>THE LENS</b></span>
+  <span class="doc" id="bar-doc"></span>
+  <span class="bar-actions">
+    <a class="chip mono" href="report.html" style="text-decoration:none">the study</a>
+    <button class="chip mono" id="btn-source">read something else</button>
+    <button class="chip mono" id="btn-order" aria-pressed="false" title="Show the document in the order this reader reaches it (R)">reading order</button>
+    <button class="chip mono" id="btn-plain" aria-pressed="false" title="Drop every effect and show the words as written (P)">plain text</button>
+  </span>
+</header>
+
+<section class="drawer" id="drawer" data-open="false" aria-label="Read something else">
+  <div class="drawer-in">
+    <h2>Give it something to read.</h2>
+    <p class="hint">A URL, or paste the text straight in. It gets split into clauses, then each
+      reader scores every clause for how hard it pulls their eye, whether it is good or bad news
+      <em>for their mandate</em>, how much unease it raises, and which clauses they take in as
+      one idea. The reader you are wearing is scored first; the other six arrive behind it.</p>
+
+    <div class="field-row">
+      <input type="url" id="in-url" placeholder="https://…  an annual report, a press release, a filing">
+      <button class="go" id="go-url">Read the page</button>
+    </div>
+    <div class="field-row">
+      <textarea id="in-text" placeholder="…or paste the text here. Six clauses minimum — below that every reader is allowed to find everything important, and they stop disagreeing."></textarea>
+      <button class="go" id="go-text">Read this text</button>
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    <div class="presets" id="presets"><span class="mono">from the study</span></div>
+  </div>
+</section>
+
+<main class="stage">
+  <nav class="rail" aria-label="Readers">
+    <div class="rail-title mono">whose eyes</div>
+    <div id="lenses"></div>
+    <div class="mandate" id="mandate"></div>
+  </nav>
+
+  <div class="reading" id="reading" data-order="false">
+    <div class="doc-head">
+      <span class="eyebrow mono" id="doc-eyebrow"></span>
+      <h1 id="doc-title"></h1>
+      <p class="through">through the eyes of <b id="doc-through"></b></p>
+    </div>
+
+    <div class="order-flag">
+      <b>Reading order, not document order.</b> The sentences are arranged by how soon this
+      reader reaches them. The words are unchanged; their sequence is not the author's.
+    </div>
+
+    <div class="prose" id="prose" data-plain="false"></div>
+  </div>
+</main>
+
+<footer class="provenance mono" id="provenance" data-mode="study">
+  <span class="dot" aria-hidden="true"></span>
+  <span id="prov-text"></span>
+  <a href="../../docs/calibration.md">what is measured vs modelled</a>
+</footer>
+
+<script>
+const DATA = /*__LENS_DATA__*/;
+
+/* ───────────────────────────────────────────────────────────────────────────
+   The render model.
+
+   Every channel is a straight function of one scored value. Nothing is
+   normalised per reader — that matters. A lay reader's field really is flatter
+   than an expert's, and rescaling each reader to fill the same range would
+   erase the one result that reproduced on all five documents (findings 2.3:
+   every expert more concentrated than the lay reader, thirty out of thirty).
+   So the retail investor's page is meant to look uniformly legible, and the
+   credit analyst's is meant to be mostly gone.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const BLUR_T = 0.32;    // below this a clause starts to go out of focus
+const BLUR_MAX = 3.4;   // px, at salience zero
+
+const COLD = [0x63, 0xAF, 0xD6];
+const WARM = [0xE5, 0xA4, 0x4F];
+const NEUTRAL = [0xED, 0xE9, 0xDF];
+
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const mix = (a, b, t) => a.map((x, i) => Math.round(x + (b[i] - x) * t));
+const rgb = (c) => `rgb(${c[0]},${c[1]},${c[2]})`;
+
+function styleOf(unit) {
+  const s = unit.salience;
+  const v = unit.valence;
+
+  // Size and weight: the two channels a reader feels before reading anything.
+  const fs = 0.76 + s * 0.92;
+  const fw = Math.round(300 + s * 320);
+
+  // Opacity with a gamma, so the middle of the range stays readable and only
+  // the genuinely ignored clauses fall away.
+  const op = clamp(0.13 + 0.87 * Math.pow(s, 0.7), 0.13, 1);
+
+  // Blur below an absolute threshold — see the note above about not rescaling.
+  const bl = s >= BLUR_T ? 0 : Math.pow((BLUR_T - s) / BLUR_T, 1.3) * BLUR_MAX;
+
+  // Colour temperature carries valence; salience gates how much of it shows, so
+  // a clause the reader skimmed never shouts a judgement it did not make.
+  const target = v < 0 ? COLD : WARM;
+  const gate = clamp(s * Math.abs(v) * 2.2, 0, 1);
+  const col = rgb(mix(NEUTRAL, target, gate));
+
+  // Arousal as typographic tension, not a third colour.
+  const ls = (unit.arousal * 0.018).toFixed(4) + 'em';
+
+  return { fs, fw, op, bl, col, ls };
+}
+
+/* ── state ──────────────────────────────────────────────────────────────── */
+
+const PERSONAS = DATA.personas;
+const byId = Object.fromEntries(PERSONAS.map(p => [p.id, p]));
+
+const state = {
+  docId: DATA.default_doc,
+  personaId: DATA.default_persona,
+  live: null,              // { doc_id, title, clauses } when reading something new
+  fields: {},              // persona id -> field, for the live document
+  status: {},              // persona id -> 'pending' | 'ready' | 'failed'
+  order: false,
+  plain: false,
+};
+
+function currentDoc() {
+  if (state.live) {
+    return { id: state.live.doc_id, title: state.live.title, texts: state.live.clauses,
+             comparisons: [], live: true, truncated_from: state.live.truncated_from };
+  }
+  const d = DATA.documents[state.docId];
+  return { id: d.id, title: d.title, texts: d.texts, comparisons: d.comparisons, live: false };
+}
+
+function fieldFor(personaId) {
+  if (state.live) return state.fields[personaId] || null;
+  const d = DATA.documents[state.docId];
+  return d.fields.find(f => f.persona_id === personaId) || null;
+}
+
+/* ── the combs ──────────────────────────────────────────────────────────── */
+
+function buildLenses() {
+  const host = document.getElementById('lenses');
+  host.innerHTML = '';
+  for (const p of PERSONAS) {
+    const btn = document.createElement('button');
+    btn.className = 'lens-btn';
+    btn.dataset.persona = p.id;
+    btn.innerHTML =
+      `<span class="lens-name">${p.label}` +
+      `<span class="tag">${p.expert ? 'expert' : 'untrained'}</span></span>` +
+      `<span class="comb" aria-hidden="true"></span>`;
+    btn.addEventListener('click', () => selectPersona(p.id));
+    host.appendChild(btn);
+  }
+}
+
+function paintCombs() {
+  const n = currentDoc().texts.length;
+  for (const p of PERSONAS) {
+    const btn = document.querySelector(`.lens-btn[data-persona="${p.id}"]`);
+    const comb = btn.querySelector('.comb');
+    const field = fieldFor(p.id);
+    const st = state.live ? (state.status[p.id] || 'pending') : 'ready';
+
+    btn.dataset.state = field ? 'ready' : st;
+    btn.setAttribute('aria-current', String(p.id === state.personaId));
+
+    if (comb.children.length !== n) {
+      comb.innerHTML = '';
+      for (let i = 0; i < n; i++) comb.appendChild(document.createElement('i'));
+    }
+    [...comb.children].forEach((tick, i) => {
+      const s = field ? field.units[i].salience : 0.08;
+      tick.style.setProperty('--h', (6 + s * 94) + '%');
+    });
+  }
+}
+
+/* ── the mandate card ───────────────────────────────────────────────────── */
+
+function paintMandate() {
+  const p = byId[state.personaId];
+  const host = document.getElementById('mandate');
+  const wide = window.innerWidth > 900;
+  host.innerHTML = `
+    <details ${wide ? 'open' : ''}>
+    <summary><h2>${p.label}</h2></summary>
+    <p>${p.mandate}</p>
+    <dl>
+      <dt>what losing looks like</dt><dd>${p.loss_function}</dd>
+      <dt>reads for</dt>
+      <dd><ul>${p.reads_for.map(r => `<li>${r}</li>`).join('')}</ul></dd>
+      <dt>horizon</dt><dd>${p.time_horizon}</dd>
+    </dl></details>`;
+}
+
+/* ── the document ───────────────────────────────────────────────────────── */
+
+function conflictNotes(doc, personaId) {
+  /* On the study's documents there are no notes in the reader's voice — those
+     come from a live reading. What there is instead is measured: the clauses
+     where this reader and another are both confident and pointing opposite
+     ways. That is the study's headline result, so the page shows it rather
+     than inventing commentary. */
+  const out = {};
+  for (const c of doc.comparisons) {
+    if (!c.personas.includes(personaId)) continue;
+    const other = c.personas.find(x => x !== personaId);
+    // `valence_conflicts` is a list of clause indices: both readers confident,
+    // opposite signs. See cmp.field.StimulusFieldSet.comparisons.
+    for (const i of c.valence_conflicts) {
+      (out[i] = out[i] || []).push(byId[other] ? byId[other].label : other);
+    }
+  }
+  return out;
+}
+
+function render() {
+  const doc = currentDoc();
+  const field = fieldFor(state.personaId);
+  const persona = byId[state.personaId];
+  const prose = document.getElementById('prose');
+
+  document.getElementById('doc-title').textContent = doc.title;
+  document.getElementById('doc-through').textContent = persona.label;
+  document.getElementById('bar-doc').innerHTML =
+    `<em>${doc.title}</em> · ${doc.texts.length} clauses`;
+  document.getElementById('doc-eyebrow').textContent =
+    doc.live ? 'read live' : 'from the study';
+
+  paintCombs();
+  paintMandate();
+  paintProvenance(doc);
+
+  if (!field) {
+    prose.innerHTML = `<p class="note" style="opacity:1">
+      <span class="who">not yet</span>
+      ${state.status[state.personaId] === 'failed'
+        ? `The ${persona.label} could not finish reading this. Pick the reader again to retry.`
+        : `The ${persona.label} is reading it now.`}</p>`;
+    return;
+  }
+
+  // Positions the clauses are laid out in: document order, or this reader's.
+  const indices = doc.texts.map((_, i) => i);
+  if (state.order) indices.sort((a, b) => field.units[a].order - field.units[b].order);
+
+  const notes = doc.live
+    ? Object.fromEntries(Object.entries(field.notes || {}).map(([k, v]) => [Number(k), v]))
+    : {};
+  const conflicts = doc.live ? {} : conflictNotes(doc, state.personaId);
+
+  const first = measure(prose);
+
+  prose.innerHTML = '';
+  let group = null;
+  let groupChunk = null;
+  const groupOf = new Map();   // clause index -> the block it was rendered into
+
+  for (const i of indices) {
+    const unit = field.units[i];
+    // In reading order every clause stands alone; chunks are a property of the
+    // page as written, and re-sorting would make them claim an adjacency the
+    // reader never had.
+    const chunkKey = state.order ? `r${i}` : unit.chunk;
+
+    if (group === null || chunkKey !== groupChunk) {
+      group = document.createElement('span');
+      group.className = 'chunk';
+      group.dataset.clause = i;
+      prose.appendChild(group);
+      groupChunk = chunkKey;
+      group.style.setProperty('--rule-o', unit.arousal.toFixed(2));
+      group.style.setProperty('--rule', styleOf(unit).col);
+      if (state.order) {
+        const rank = document.createElement('span');
+        rank.className = 'rank mono';
+        rank.textContent = String(unit.order + 1).padStart(2, '0');
+        group.appendChild(rank);
+      }
+    }
+    groupOf.set(i, group);
+
+    const span = document.createElement('span');
+    span.className = 'clause';
+    span.tabIndex = 0;
+    span.textContent = doc.texts[i] + ' ';
+    const st = styleOf(unit);
+    span.style.setProperty('--fs', st.fs.toFixed(3) + 'rem');
+    span.style.setProperty('--fw', st.fw);
+    span.style.setProperty('--op', st.op.toFixed(3));
+    span.style.setProperty('--bl', st.bl.toFixed(2) + 'px');
+    span.style.setProperty('--col', st.col);
+    span.style.setProperty('--ls', st.ls);
+    span.title = `salience ${unit.salience.toFixed(2)} · ` +
+      `${unit.valence >= 0 ? 'good' : 'bad'} news for this mandate ${unit.valence.toFixed(2)} · ` +
+      `alarm ${unit.arousal.toFixed(2)}`;
+    group.appendChild(span);
+  }
+
+  annotate(field, groupOf, notes, conflicts, persona);
+  flip(prose, first);
+}
+
+/* ── annotations ────────────────────────────────────────────────────────────
+   Two rules, both learned from getting it wrong. A note goes at the *end* of
+   the block it belongs to, never between two clauses the reader took in as one
+   idea — an annotation that splits a chunk contradicts the thing the chunk is
+   there to show. And there are at most four on a document, one to a block: the
+   same sentence repeated down the margin is wallpaper, and the point of a note
+   is that this clause in particular stopped somebody.
+   ──────────────────────────────────────────────────────────────────────── */
+
+const MAX_NOTES = 4;
+
+function annotate(field, groupOf, notes, conflicts, persona) {
+  const candidates = [];
+  for (const [key, text] of Object.entries(notes)) {
+    candidates.push({ i: Number(key), kind: 'voice', text });
+  }
+  for (const [key, others] of Object.entries(conflicts)) {
+    candidates.push({ i: Number(key), kind: 'conflict', others });
+  }
+
+  candidates.sort((a, b) => field.units[b.i].salience - field.units[a.i].salience);
+
+  const used = new Set();
+  let placed = 0;
+  for (const c of candidates) {
+    if (placed >= MAX_NOTES) break;
+    const group = groupOf.get(c.i);
+    if (!group || used.has(group)) continue;
+    used.add(group);
+    placed++;
+
+    const note = document.createElement('span');
+    if (c.kind === 'voice') {
+      note.className = 'note';
+      note.innerHTML = `<span class="who">${persona.label}</span>${escapeHtml(c.text)}`;
+    } else {
+      note.className = 'note conflict';
+      const who = c.others.map(o => `<b>${o}</b>`);
+      const list = who.length > 1
+        ? who.slice(0, -1).join(', ') + ' and ' + who[who.length - 1]
+        : who[0];
+      note.innerHTML = `<span class="who">disagreement</span>` +
+        `The ${list} read this the opposite way — both confident, opposite signs.`;
+    }
+    group.appendChild(note);
+  }
+}
+
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+/* ── FLIP, so the reshuffle is something you watch happen ───────────────── */
+
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function measure(prose) {
+  if (reduced) return null;
+  const out = new Map();
+  prose.querySelectorAll('.chunk').forEach(el => {
+    out.set(el.dataset.clause, el.getBoundingClientRect());
+  });
+  return out;
+}
+
+function flip(prose, first) {
+  if (!first || reduced) return;
+  prose.querySelectorAll('.chunk').forEach(el => {
+    const was = first.get(el.dataset.clause);
+    if (!was) return;
+    const now = el.getBoundingClientRect();
+    const dx = was.left - now.left;
+    const dy = was.top - now.top;
+    if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+    el.animate(
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+      { duration: 700, easing: 'cubic-bezier(.22,.61,.36,1)' }
+    );
+  });
+}
+
+/* ── provenance, which is never optional ────────────────────────────────── */
+
+function paintProvenance(doc) {
+  const el = document.getElementById('provenance');
+  const text = document.getElementById('prov-text');
+  if (doc.live) {
+    el.dataset.mode = 'live';
+    text.innerHTML = `<b>Live reading — one sample.</b> Scored just now by Claude Opus 5. ` +
+      `No median, no second opinion, reliability unmeasurable. Modelled from role ` +
+      `mandates, not recordings of real experts.`;
+  } else {
+    el.dataset.mode = 'study';
+    const p = DATA.documents[state.docId].provenance;
+    text.innerHTML = `<b>From the study — five independent samples per reader, median.</b> ` +
+      `${p.reliability_measured ? 'Reliability measured (α 0.90–0.98 on the hero note).' : ''} ` +
+      `Modelled from role mandates, not recordings of real experts.`;
+  }
+}
+
+/* ── interaction ────────────────────────────────────────────────────────── */
+
+function selectPersona(id) {
+  const retry = id === state.personaId && state.status[id] === 'failed';
+  state.personaId = id;
+  render();
+  writeHash();
+  if (retry) attendOne(id);
+}
+
+function setDoc(id) {
+  state.live = null;
+  state.fields = {};
+  state.status = {};
+  state.docId = id;
+  render();
+  writeHash();
+}
+
+document.getElementById('btn-plain').addEventListener('click', (e) => {
+  state.plain = !state.plain;
+  document.getElementById('prose').dataset.plain = String(state.plain);
+  e.currentTarget.setAttribute('aria-pressed', String(state.plain));
+  writeHash();
+});
+
+document.getElementById('btn-order').addEventListener('click', (e) => {
+  state.order = !state.order;
+  document.getElementById('reading').dataset.order = String(state.order);
+  e.currentTarget.setAttribute('aria-pressed', String(state.order));
+  render();
+  writeHash();
+});
+
+const drawer = document.getElementById('drawer');
+document.getElementById('btn-source').addEventListener('click', () => {
+  const open = drawer.dataset.open !== 'true';
+  drawer.dataset.open = String(open);
+  if (open) document.getElementById('in-url').focus();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.target.matches('input, textarea')) {
+    if (e.key === 'Escape') e.target.blur();
+    return;
+  }
+  const k = e.key.toLowerCase();
+  if (k === 'p') document.getElementById('btn-plain').click();
+  if (k === 'r') document.getElementById('btn-order').click();
+  if (k === 'escape') drawer.dataset.open = 'false';
+  if (k >= '1' && k <= '7') selectPersona(PERSONAS[Number(k) - 1].id);
+});
+
+/* ── talking to the local server ────────────────────────────────────────── */
+
+function say(message, tone) {
+  const el = document.getElementById('status');
+  el.textContent = message;
+  el.dataset.tone = tone || '';
+}
+
+async function post(path, body) {
+  const response = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error || `${response.status}`);
+  return payload;
+}
+
+async function readSomething(body, button) {
+  button.disabled = true;
+  say('Splitting it into clauses…');
+  try {
+    const doc = await post('/api/ingest', body);
+    state.live = doc;
+    state.fields = {};
+    state.status = Object.fromEntries(PERSONAS.map(p => [p.id, 'pending']));
+    drawer.dataset.open = 'false';
+    render();
+
+    let message = `${doc.clauses.length} clauses. The ${byId[state.personaId].label} is reading first.`;
+    if (doc.truncated_from) {
+      message += ` Only the first ${doc.clauses.length} of ${doc.truncated_from} are shown — ` +
+        `past that, one attention budget spread that thin is flat for every reader.`;
+    }
+    say(message);
+
+    // The reader on screen first, then the rest in parallel behind it.
+    await attendOne(state.personaId);
+    PERSONAS.filter(p => p.id !== state.personaId).forEach(p => attendOne(p.id));
+  } catch (err) {
+    say(describe(err), 'bad');
+    state.live = null;
+    render();
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function describe(err) {
+  const m = String(err.message || err);
+  if (m.includes('Failed to fetch') || m.includes('NetworkError')) {
+    return 'No server. Run `uv run --extra scoring python -m cmp.server` from pipeline/, ' +
+           'then open http://127.0.0.1:8420/. The five documents below need no server.';
+  }
+  return m;
+}
+
+async function attendOne(personaId) {
+  if (!state.live) return;
+  const docId = state.live.doc_id;
+  state.status[personaId] = 'pending';
+  paintCombs();
+  try {
+    const field = await post('/api/attend', { doc_id: docId, persona_id: personaId });
+    if (!state.live || state.live.doc_id !== docId) return;  // viewer moved on
+    state.fields[personaId] = field;
+    state.status[personaId] = 'ready';
+    if (personaId === state.personaId) render(); else paintCombs();
+  } catch (err) {
+    if (!state.live || state.live.doc_id !== docId) return;
+    state.status[personaId] = 'failed';
+    paintCombs();
+    if (personaId === state.personaId) render();
+    say(`${byId[personaId].label}: ${describe(err)}`, 'bad');
+  }
+}
+
+document.getElementById('go-url').addEventListener('click', (e) => {
+  const url = document.getElementById('in-url').value.trim();
+  if (!url) return say('Give it a URL first.', 'bad');
+  readSomething({ url }, e.currentTarget);
+});
+
+document.getElementById('go-text').addEventListener('click', (e) => {
+  const text = document.getElementById('in-text').value.trim();
+  if (!text) return say('Paste something first.', 'bad');
+  readSomething({ text }, e.currentTarget);
+});
+
+/* ── boot ───────────────────────────────────────────────────────────────── */
+
+const presets = document.getElementById('presets');
+for (const id of DATA.order) {
+  const btn = document.createElement('button');
+  btn.className = 'chip mono';
+  btn.textContent = DATA.documents[id].title.split('—')[0].trim();
+  btn.addEventListener('click', () => {
+    setDoc(id);
+    drawer.dataset.open = 'false';
+    say('');
+  });
+  presets.appendChild(btn);
+}
+
+/* ── the address bar carries the reading ────────────────────────────────────
+   Which document, whose eyes, and which modes — so a particular reading can be
+   sent to somebody. Only the study's documents survive a link; a live reading
+   lives in the cache on the machine that made it and is deliberately not
+   shareable, because its provenance does not travel with a URL.
+   ──────────────────────────────────────────────────────────────────────── */
+
+function readHash() {
+  const params = new URLSearchParams(location.hash.slice(1));
+  const doc = params.get('doc');
+  const persona = params.get('eyes');
+  if (doc && DATA.documents[doc]) state.docId = doc;
+  if (persona && byId[persona]) state.personaId = persona;
+  state.order = params.get('order') === '1';
+  state.plain = params.get('plain') === '1';
+
+  document.getElementById('reading').dataset.order = String(state.order);
+  document.getElementById('prose').dataset.plain = String(state.plain);
+  document.getElementById('btn-order').setAttribute('aria-pressed', String(state.order));
+  document.getElementById('btn-plain').setAttribute('aria-pressed', String(state.plain));
+}
+
+function writeHash() {
+  if (state.live) return;  // a live reading is not a link
+  const params = new URLSearchParams();
+  params.set('doc', state.docId);
+  params.set('eyes', state.personaId);
+  if (state.order) params.set('order', '1');
+  if (state.plain) params.set('plain', '1');
+  history.replaceState(null, '', '#' + params.toString());
+}
+
+buildLenses();
+readHash();
+render();
+writeHash();
+</script>
+</body>
+</html>
