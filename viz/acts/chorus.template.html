@@ -36,6 +36,7 @@
   --data:    "IBM Plex Mono", ui-monospace, monospace;
 
   --measure: 34rem;
+  --doc-base: 1.06rem;
   --ease:    cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -136,53 +137,42 @@ section { padding: 5.5rem 0; position: relative; }
 
 /* ── the instrument ──────────────────────────────────────── */
 
-.stage {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(1rem, 3vw, 2.5rem);
-  align-items: start;
-}
+/* The filing is set as prose, the way it would actually be read.
+   Nothing sits beside it any more: the encoding IS the typesetting.
 
-.doc { position: relative; }
-.sentence {
-  display: block;
-  padding: 0.3rem 0.7rem;
-  margin: 0 0 0.15rem -0.7rem;
-  border-left: 2px solid transparent;
-  color: #6E7688;
-  font-size: 1rem;
-  line-height: 1.5;
-  transition: color 0.45s var(--ease), border-color 0.45s var(--ease), background 0.45s var(--ease);
+     type size = how much of the reader's attention the sentence commands
+     hue       = valence, the one colour code (cold blue bad, warm amber good)
+     dim/small = not reached yet
+
+   line-height is locked in rem rather than left unitless, so a sentence
+   swelling mid-run rewraps the paragraph horizontally without the whole
+   column jolting up and down under the eye that is reading it. */
+
+.doc {
+  max-width: 42rem;
+  font-size: var(--doc-base);
+  line-height: 2.15rem;
+  text-align: left;
+  text-wrap: pretty;
 }
-.sentence .idx {
-  font-family: var(--data);
-  font-size: 0.6rem;
-  color: #3C4557;
-  margin-right: 0.6rem;
-  vertical-align: 0.15em;
-  font-variant-numeric: tabular-nums;
+.sentence {
+  font-size: calc(var(--doc-base) * 0.88);
+  color: #6E7688;
+  padding: 0 0.05em;
+  border-radius: 2px;
+  transition: font-size 0.5s var(--ease),
+              color 0.5s var(--ease),
+              background 0.4s var(--ease);
 }
 /* Reached: the sentence lifts out of the ground. Hue is valence. */
-.sentence.is-hit { color: var(--paper); background: rgba(255,255,255,0.025); }
-.sentence.is-hit.v-cold { border-left-color: var(--cold); }
-.sentence.is-hit.v-warm { border-left-color: var(--warm); }
-.sentence.is-now { color: #FFFBF2; background: rgba(127,209,193,0.07); }
-
-.lanes { position: sticky; top: 1rem; }
-.lanes svg { display: block; overflow: visible; }
-.lane-label {
-  font-family: var(--data);
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
-  fill: var(--muted);
-  text-transform: uppercase;
-}
-.lane-label.is-active { fill: var(--signal); }
-.lane-rail { stroke: var(--ground-edge); stroke-width: 1; }
-.lane-thread { fill: none; stroke: var(--muted-bright); stroke-width: 1; opacity: 0.45; }
-.lane-thread.is-active { stroke: var(--signal); opacity: 0.9; }
-.dot { transition: opacity 0.3s var(--ease); }
-.lane-head { fill: var(--signal); }
+.sentence.is-hit { color: var(--paper); }
+.sentence.is-hit.v-cold { color: var(--cold); }
+.sentence.is-hit.v-warm { color: var(--warm); }
+/* Sentences with readers on both sides are NOT marked in the type. It was
+   tried: on the Meridian filing 29 of the 30 qualify, so the mark fired
+   almost everywhere and encoded nothing. The count stays in the readout,
+   where a number can say "29 of 30" and a texture cannot. */
+.sentence.is-now { background: rgba(127,209,193,0.09); }
 
 /* ── controls ────────────────────────────────────────────── */
 
@@ -255,7 +245,12 @@ button.primary:hover { background: rgba(127,209,193,0.12); }
 .legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; vertical-align: -0.06em; margin-right: 0.45rem; }
 .legend .c { background: var(--cold); }
 .legend .w { background: var(--warm); }
-.legend .s { background: var(--muted-bright); }
+.legend .a {
+  background: none; width: auto; height: auto; border-radius: 0;
+  font-family: var(--text); font-size: 1.05rem; letter-spacing: 0;
+  text-transform: none; color: var(--paper); line-height: 1;
+}
+
 
 .note {
   border-left: 2px solid var(--ground-edge);
@@ -268,8 +263,7 @@ footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.88rem; }
 footer a { color: var(--signal); }
 
 @media (max-width: 800px) {
-  .stage { grid-template-columns: 1fr; }
-  .lanes { position: relative; overflow-x: auto; }
+  :root { --doc-base: 1rem; }
   .opening-row { grid-template-columns: 1fr; gap: 0.1rem; }
 }
 
@@ -303,9 +297,11 @@ footer a { color: var(--signal); }
     <p class="eyebrow">The instrument</p>
     <h2>Watch them go</h2>
     <p class="lede" style="margin-bottom:2rem;">
-      The filing is typeset once and never moves. Only the reading moves. Each
-      thread descends its own lane, touching sentences in the order that reader
-      reaches for them — biggest claim on their attention first.
+      The filing is set as continuous prose and never re-flows into a list. Only
+      the reading moves. As a reader reaches each sentence — biggest claim on
+      their attention first — that sentence takes on its weight in the type:
+      how large it grows is how much of that reader's attention it commands, and
+      its colour is how they read it.
     </p>
 
     <div class="docpick" id="docpick" role="group" aria-label="Choose a filing"></div>
@@ -319,15 +315,12 @@ footer a { color: var(--signal); }
     </div>
     <p class="readout" id="readout"></p>
 
-    <div class="stage">
-      <div class="doc" id="doc"></div>
-      <div class="lanes" id="lanes"></div>
-    </div>
+    <div class="doc" id="doc"></div>
 
     <div class="legend">
       <span><i class="c"></i>bad news, to this reader</span>
       <span><i class="w"></i>good news, to this reader</span>
-      <span><i class="s"></i>dot size = share of attention</span>
+      <span><i class="a">Aa</i>type size = share of attention</span>
     </div>
 
     <div class="finish" id="finish"></div>
@@ -341,17 +334,21 @@ footer a { color: var(--signal); }
     <p class="eyebrow">What you are looking at</p>
     <h2>Order of reaching, not a gaze trace</h2>
     <p>
-      No eyes were tracked. A reader's thread visits the sentences in descending
-      order of how much of that reader's attention the sentence commands, so the
-      sequence is a <strong>ranking of pull</strong>, not a timeline. Nobody read
-      this document in five seconds, and the spacing between touches is even
-      because rank has no clock.
+      No eyes were tracked. A reader arrives at the sentences in descending order
+      of how much of that reader's attention each one commands, so the sequence is
+      a <strong>ranking of pull</strong>, not a timeline. Nobody read this document
+      in five seconds, and the spacing between arrivals is even because rank has no
+      clock. Type size carries that same ranking, so the finished paragraph is a
+      picture of one reader's attention with the clock taken out. With all seven
+      running, size is the <strong>mean</strong> across the readers who have got
+      there — the filing's average loudness, not any one person's.
     </p>
     <p class="note" id="provenance"></p>
     <p class="small" style="margin-top:1.75rem;">
-      The threads still cross, and that is the whole point: the disagreement is
-      about <em>where to look</em>, and it is real in the data whether or not a
-      stopwatch was ever involved.
+      Send all seven and the same paragraph swells in seven different places at
+      once, and that is the whole point: the disagreement is about <em>where to
+      look</em>, and it is real in the data whether or not a stopwatch was ever
+      involved.
     </p>
   </div>
 </section>
@@ -381,17 +378,21 @@ const NAMES = {
 const LAY = "retail-investor";
 
 const $ = (id) => document.getElementById(id);
-const docEl = $("doc"), lanesEl = $("lanes"), readoutEl = $("readout"),
+const docEl = $("doc"), readoutEl = $("readout"),
       finishEl = $("finish"), openingEl = $("opening");
 
 let current = DATA.default_doc;
 let speed = 1;
 let timer = null;
 let soloId = null;
+let scale = (v) => SIZE_MIN + v * SIZE_SPAN;
 
-const NS = "http://www.w3.org/2000/svg";
-const svgEl = (t, a) => { const e = document.createElementNS(NS, t);
-  for (const k in a) e.setAttribute(k, a[k]); return e; };
+/* Type size runs from 0.88× the body size to 1.74×, normalised across the
+   whole reading so the scale is actually used. Raw salience clusters around
+   0.37 and a mean across seven readers clusters harder still — mapped
+   straight to points, thirty sentences would come out nearly the same size
+   and the encoding would say nothing. */
+const SIZE_MIN = 0.88, SIZE_SPAN = 0.86;
 
 /* seq[r] = sentence indices, in the order that reader reaches for them.
    `order` is a per-sentence rank, so sorting by it recovers the sequence. */
@@ -428,64 +429,48 @@ function buildOpening() {
 function buildDoc() {
   const f = fixture();
   docEl.innerHTML = "";
+  // One paragraph, sentences as inline spans separated by a real space, so
+  // the filing wraps and reads as the document it is.
+  const para = document.createElement("p");
+  para.style.margin = "0";
   f.stimulus.texts.forEach((t, i) => {
-    const p = document.createElement("p");
-    p.className = "sentence";
-    p.id = "s" + i;
-    p.innerHTML = `<span class="idx">${String(i).padStart(2, "0")}</span>${t}`;
-    docEl.appendChild(p);
+    const span = document.createElement("span");
+    span.className = "sentence";
+    span.id = "s" + i;
+    span.title = "sentence " + String(i).padStart(2, "0");
+    span.textContent = t;
+    para.appendChild(span);
+    if (i < f.stimulus.texts.length - 1) para.appendChild(document.createTextNode(" "));
   });
+  docEl.appendChild(para);
 }
 
-/* ── the lanes ───────────────────────────────────────────── */
-let laneGeom = null;
+/* ── the reading ────────────────────────────────────────── */
+let run = null;
 
-function buildLanes() {
+function buildRun() {
   const f = fixture();
-  const n = f.stimulus.texts.length;
-  const laneW = 30, padTop = 26;
-
-  // y of each sentence, measured from the real typeset column so the
-  // threads line up with the text rather than approximating it.
-  const base = docEl.getBoundingClientRect().top;
-  const ys = [];
-  for (let i = 0; i < n; i++) {
-    const r = $("s" + i).getBoundingClientRect();
-    ys.push(r.top - base + r.height / 2);
-  }
-  const h = docEl.getBoundingClientRect().height;
-  const w = laneW * f.fields.length;
-
-  lanesEl.innerHTML = "";
-  const svg = svgEl("svg", { width: w, height: h + padTop, viewBox: `0 0 ${w} ${h + padTop}` });
-
   const groups = {};
-  f.fields.forEach((fld, r) => {
-    const x = r * laneW + laneW / 2;
-    const g = svgEl("g", {});
-    g.appendChild(svgEl("line", { x1: x, y1: padTop, x2: x, y2: h + padTop, class: "lane-rail" }));
-
-    const label = svgEl("text", {
-      x: 0, y: 0, class: "lane-label",
-      transform: `translate(${x + 3},${padTop - 8}) rotate(-90)`,
-      "text-anchor": "start"
-    });
-    label.textContent = NAMES[fld.persona_id];
-    // Labels rotate up out of the lane head; keep them readable at the top.
-    label.setAttribute("transform", `translate(${x + 3.5},${padTop - 10}) rotate(-90)`);
-    svg.appendChild(g);
-
-    const thread = svgEl("path", { class: "lane-thread", d: "" });
-    const dots = svgEl("g", {});
-    const head = svgEl("circle", { class: "lane-head", r: 0, cx: x, cy: padTop });
-    svg.appendChild(thread); svg.appendChild(dots); svg.appendChild(head);
-    svg.appendChild(label);
-
-    groups[fld.persona_id] = { x, thread, dots, head, label, seq: sequence(fld), field: fld };
+  f.fields.forEach((fld) => {
+    groups[fld.persona_id] = { seq: sequence(fld), field: fld };
   });
+  run = { groups, n: f.stimulus.texts.length };
+}
 
-  lanesEl.appendChild(svg);
-  laneGeom = { svg, groups, ys, padTop, n, laneW };
+/* The size scale is fixed before a run starts, from the values that run will
+   finish on — the per-sentence salience for one reader, or the mean across
+   all seven. Rescaling as readers arrive would make settled sentences twitch
+   for reasons that have nothing to do with them. */
+function sizeScale(ids) {
+  const finals = [];
+  for (let i = 0; i < run.n; i++) {
+    let sum = 0;
+    ids.forEach((id) => { sum += run.groups[id].field.units[i].salience; });
+    finals.push(sum / ids.length);
+  }
+  const lo = Math.min(...finals), hi = Math.max(...finals);
+  const span = hi - lo;
+  return (v) => SIZE_MIN + (span > 1e-6 ? (v - lo) / span : 0.5) * SIZE_SPAN;
 }
 
 /* ── playback ────────────────────────────────────────────── */
@@ -493,80 +478,58 @@ function clearRun() {
   if (timer) { clearInterval(timer); timer = null; }
   document.querySelectorAll(".sentence").forEach((s) => {
     s.className = "sentence";
+    s.style.fontSize = "";
     delete s.dataset.nc; delete s.dataset.nw; delete s.dataset.split;
+    delete s.dataset.ssum; delete s.dataset.sn;
   });
-  if (!laneGeom) return;
-  for (const k in laneGeom.groups) {
-    const g = laneGeom.groups[k];
-    g.thread.setAttribute("d", "");
-    g.thread.classList.remove("is-active");
-    g.dots.innerHTML = "";
-    g.head.setAttribute("r", 0);
-    g.label.classList.remove("is-active");
-  }
   finishEl.innerHTML = "";
 }
 
 function valenceClass(v) { return v < -0.02 ? "v-cold" : (v > 0.02 ? "v-warm" : ""); }
-function valenceColour(v) {
-  if (v < -0.02) return "#6BB3EE";
-  if (v > 0.02) return "#F0A055";
-  return "#9AA6BB";
-}
-
 function step(ids, k) {
-  const f = fixture();
-  const { groups, ys, padTop } = laneGeom;
+  const { groups } = run;
+
+  // Only the sentences being arrived at on THIS step glow, in every mode:
+  // with all seven running you watch the paragraph light up in seven places
+  // at once, which is the finding.
+  document.querySelectorAll(".sentence.is-now").forEach((el) => el.classList.remove("is-now"));
 
   ids.forEach((id) => {
     const g = groups[id];
     if (k >= g.seq.length) return;
     const si = g.seq[k];
     const u = g.field.units[si];
-    const y = ys[si] + padTop;
-
-    // extend the thread
-    const d = g.thread.getAttribute("d");
-    g.thread.setAttribute("d", (d ? d + " L" : "M") + g.x + "," + y.toFixed(1));
-
-    // dot: radius from salience, hue from valence
-    const dot = svgEl("circle", {
-      cx: g.x, cy: y, r: (1.4 + u.salience * 4.6).toFixed(2),
-      fill: valenceColour(u.valence),
-      "fill-opacity": (0.25 + u.salience * 0.6).toFixed(2),
-      class: "dot"
-    });
-    g.dots.appendChild(dot);
-    g.head.setAttribute("cx", g.x);
-    g.head.setAttribute("cy", y);
-    g.head.setAttribute("r", 2.6);
-
     const el = $("s" + si);
-    if (el) {
-      el.classList.add("is-hit");
-      // In chorus mode seven readers touch the same sentence and they do not
-      // agree about it. Adding each reader's valence class in turn left most
-      // sentences carrying both, with stylesheet order silently picking the
-      // winner — so the whole filing rendered as good news.
-      //
-      // Tint by MAJORITY, not by the strongest single reading. Magnitude is
-      // the wrong rule here: on "operating cash flow fell to $88m" five of the
-      // seven read badly, but the short seller's +0.85 is the largest number
-      // in the column — and that is an interest, not a perception. Letting it
-      // win would paint a cash-flow collapse as good news.
-      const nc = Number(el.dataset.nc || 0) + (u.valence < -0.02 ? 1 : 0);
-      const nw = Number(el.dataset.nw || 0) + (u.valence >  0.02 ? 1 : 0);
-      el.dataset.nc = nc; el.dataset.nw = nw;
-      if (nc && nw) el.dataset.split = "1";
-      el.classList.remove("v-cold", "v-warm");
-      if (nc > nw) el.classList.add("v-cold");
-      else if (nw > nc) el.classList.add("v-warm");
-      else if (nc) el.classList.add(valenceClass(u.valence) || "v-cold");
-      if (ids.length === 1) {
-        document.querySelectorAll(".sentence.is-now").forEach((s) => s.classList.remove("is-now"));
-        el.classList.add("is-now");
-      }
-    }
+    if (!el) return;
+
+    el.classList.add("is-hit");
+    el.classList.add("is-now");
+
+    // Size: the mean salience over the readers who have arrived so far, which
+    // ends at the true mean once every thread has been everywhere.
+    const ssum = Number(el.dataset.ssum || 0) + u.salience;
+    const sn   = Number(el.dataset.sn || 0) + 1;
+    el.dataset.ssum = ssum; el.dataset.sn = sn;
+    el.style.fontSize = "calc(var(--doc-base) * " + scale(ssum / sn).toFixed(3) + ")";
+
+    // In chorus mode seven readers touch the same sentence and they do not
+    // agree about it. Adding each reader's valence class in turn left most
+    // sentences carrying both, with stylesheet order silently picking the
+    // winner — so the whole filing rendered as good news.
+    //
+    // Tint by MAJORITY, not by the strongest single reading. Magnitude is
+    // the wrong rule here: on "operating cash flow fell to $88m" five of the
+    // seven read badly, but the short seller's +0.85 is the largest number
+    // in the column — and that is an interest, not a perception. Letting it
+    // win would paint a cash-flow collapse as good news.
+    const nc = Number(el.dataset.nc || 0) + (u.valence < -0.02 ? 1 : 0);
+    const nw = Number(el.dataset.nw || 0) + (u.valence >  0.02 ? 1 : 0);
+    el.dataset.nc = nc; el.dataset.nw = nw;
+    if (nc && nw) el.dataset.split = "1";
+    el.classList.remove("v-cold", "v-warm");
+    if (nc > nw) el.classList.add("v-cold");
+    else if (nw > nc) el.classList.add("v-warm");
+    else if (nc) el.classList.add(valenceClass(u.valence) || "v-cold");
   });
 
   // readout
@@ -581,8 +544,8 @@ function step(ids, k) {
     }
   } else {
     const split = document.querySelectorAll(".sentence[data-split]").length;
-    readoutEl.innerHTML = `<b>All seven</b> · reach ${Math.min(k + 1, laneGeom.n)} of ${laneGeom.n}` +
-      ` — every thread is on the same step, and they are nowhere near each other.` +
+    readoutEl.innerHTML = `<b>All seven</b> · reach ${Math.min(k + 1, run.n)} of ${run.n}` +
+      ` — every reader is on the same step, and they are nowhere near each other.` +
       (split ? `<br><b>${split}</b> ${split === 1 ? "sentence has" : "sentences have"}` +
                ` readers on both sides; the tint shows the majority reading.` : "");
   }
@@ -594,7 +557,7 @@ function finishOrder(ids) {
   const f = fixture();
   finishEl.innerHTML = "";
   const rows = ids.map((id) => {
-    const g = laneGeom.groups[id];
+    const g = run.groups[id];
     const last = g.seq[g.seq.length - 1];
     return { id, last, text: f.stimulus.texts[last] };
   });
@@ -617,13 +580,10 @@ function finishOrder(ids) {
 
 function play(ids, label) {
   clearRun();
-  ids.forEach((id) => {
-    laneGeom.groups[id].thread.classList.add("is-active");
-    laneGeom.groups[id].label.classList.add("is-active");
-  });
+  scale = sizeScale(ids);
   $("mode-label").textContent = label;
 
-  const n = laneGeom.n;
+  const n = run.n;
   if (REDUCED) {
     for (let k = 0; k < n; k++) step(ids, k);
     finishOrder(ids);
@@ -637,7 +597,7 @@ function play(ids, label) {
   }, 160 / speed);
 }
 
-function playChorus() { play(Object.keys(laneGeom.groups), "chorus · seven threads"); soloId = null; syncSolo(); }
+function playChorus() { play(Object.keys(run.groups), "chorus · all seven"); soloId = null; syncSolo(); }
 function playSolo(id) { soloId = id; play([id], "solo · " + NAMES[id]); syncSolo(); }
 
 function syncSolo() {
@@ -678,8 +638,8 @@ function load() {
   buildDoc();
   buildDocPick();
   buildSoloButtons();
+  buildRun();
   requestAnimationFrame(() => {
-    buildLanes();
     $("provenance").textContent = fixture().provenance.summary;
     $("fixture-name").textContent = current + ".json";
     readoutEl.innerHTML = "Pick a reader, or send all seven at once.";
@@ -698,12 +658,4 @@ $("speed").onclick = () => {
 
 buildOpening();
 load();
-
-// Threads are measured against the typeset column, so a resize must remeasure.
-let rz;
-window.addEventListener("resize", () => {
-  clearTimeout(rz);
-  rz = setTimeout(() => { clearRun(); buildLanes(); }, 180);
-});
-document.fonts && document.fonts.ready.then(() => { clearRun(); buildLanes(); });
 </script>
