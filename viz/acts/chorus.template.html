@@ -289,12 +289,15 @@ strong { font-weight: 600; color: #FFFBF2; }
    register cannot make the column jump; the size range is narrow
    enough (0.89 -> 1.36) that 2rem of leading still reads as prose
    rather than the double-spacing the old 1.8x range forced. */
-.doc { font-size: var(--doc-base); line-height: 2rem; text-wrap: pretty; }
+/* Leading is locked in rem and sized for the largest sentence the
+   scale can produce (1.48 x --doc-base), so a line carrying one
+   never collides with its neighbour and the column never jumps. */
+.doc { font-size: var(--doc-base); line-height: 2.2rem; text-wrap: pretty; }
 .doc p { margin: 0; }
 
 .sentence {
-  font-size: calc(var(--doc-base) * 0.89);
-  font-variation-settings: "opsz" 10, "wght" 300;
+  font-size: calc(var(--doc-base) * 0.55);
+  font-variation-settings: "opsz" 8, "wght" 300;
   color: #5C6478;
   opacity: 0.44;
   padding: 0 0.04em;
@@ -396,7 +399,7 @@ footer a { color: var(--signal); }
 }
 @media (max-width: 620px) {
   :root { --doc-base: 1.0625rem; }
-  .doc { line-height: 1.75rem; }
+  .doc { line-height: 1.95rem; }
   .wall { gap: 0.6rem; }
   .finish-row { grid-template-columns: 2rem 1fr; }
   .finish-row .note { grid-column: 2; }
@@ -521,16 +524,18 @@ let litSentence = null;  // sentence index under pointer/focus
 let timer = null, finishTimer = null;
 
 /* ── the encoding ─────────────────────────────────────────────
-   Size range is narrow (0.89 -> 1.36) and the range given up is
-   repaid on Newsreader's optical-size axis, 10 -> 44. opsz changes
-   a sentence's REGISTER — text cut to display cut — which is a far
-   larger perceptual jump than the 0.2rem of size it replaces, and
-   it is optically correct rather than decorative. Weight rides the
-   same number so a grown sentence does not go thin.
+   Size runs 0.55 -> 1.48 of the body size: a 2.7x range, so the
+   sentence a reader barely registers is genuinely tiny beside the
+   one they lean on. The optical-size axis rides alongside it, 8 ->
+   44, which is what keeps the range from being merely big — opsz
+   changes a sentence's REGISTER, text cut to display cut, so the
+   small end stays a sturdy readable text face instead of a shrunk
+   display one. Weight rides the same number so a grown sentence
+   does not go thin.
 
    The tiles use a wider size range because their job is silhouette,
    not legibility. */
-const READ = { size: [0.89, 1.36], opsz: [10, 44], wght: [300, 620], track: [0, -0.014] };
+const READ = { size: [0.55, 1.48], opsz: [8, 44], wght: [300, 620], track: [0, -0.014] };
 const TILE = { size: [0.80, 2.05], opsz: [8, 40],  wght: [300, 640], track: [0, -0.01] };
 
 const lerp = (r, t) => r[0] + (r[1] - r[0]) * t;
