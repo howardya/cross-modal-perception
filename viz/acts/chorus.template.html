@@ -36,7 +36,10 @@
   --data:    "IBM Plex Mono", ui-monospace, monospace;
 
   --measure: 34rem;
-  --doc-base: 1.06rem;
+  --doc-base: 1.12rem;
+  /* A settle, not a slide: fast out of the gate, long tail. Used for every
+     property a sentence changes when a reader arrives at it. */
+  --ease-soft: cubic-bezier(0.16, 0.84, 0.34, 1);
   --ease:    cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -151,28 +154,59 @@ section { padding: 5.5rem 0; position: relative; }
 .doc {
   max-width: 42rem;
   font-size: var(--doc-base);
-  line-height: 2.15rem;
+  /* Locked in rem, and generous: the largest sentence runs to 1.8× the body
+     size, so the line box has to hold it without the column breathing. */
+  line-height: 2.5rem;
   text-align: left;
   text-wrap: pretty;
 }
 .sentence {
-  font-size: calc(var(--doc-base) * 0.88);
+  font-size: calc(var(--doc-base) * 0.86);
+  font-weight: 300;
   color: #6E7688;
+  opacity: 0.5;
   padding: 0 0.05em;
-  border-radius: 2px;
-  transition: font-size 0.5s var(--ease),
-              color 0.5s var(--ease),
-              background 0.4s var(--ease);
+  /* Slower than the cadence that drives it (see STEP_SLOW/STEP_FAST): a
+     sentence is still settling when the next one is reached, which is what
+     makes the paragraph feel read rather than repainted. */
+  transition: font-size 0.9s var(--ease-soft),
+              font-weight 0.9s var(--ease-soft),
+              letter-spacing 0.9s var(--ease-soft),
+              color 0.7s var(--ease-soft),
+              opacity 0.7s var(--ease-soft),
+              text-shadow 1.5s ease-out;
 }
 /* Reached: the sentence lifts out of the ground. Hue is valence. */
-.sentence.is-hit { color: var(--paper); }
+.sentence.is-hit { color: var(--paper); opacity: 1; }
 .sentence.is-hit.v-cold { color: var(--cold); }
 .sentence.is-hit.v-warm { color: var(--warm); }
 /* Sentences with readers on both sides are NOT marked in the type. It was
    tried: on the Meridian filing 29 of the 30 qualify, so the mark fired
    almost everywhere and encoded nothing. The count stays in the readout,
    where a number can say "29 of 30" and a texture cannot. */
-.sentence.is-now { background: rgba(127,209,193,0.09); }
+/* Arrival. A bloom in the sentence's OWN colour — currentColor, so the glow
+   is the valence code and not a second thing to learn. The teal box this
+   replaces read as a text selection, and it put chrome colour on data.
+   The class is removed on the next step; the long text-shadow transition
+   turns that removal into a fade rather than a blink. */
+.sentence.is-now { text-shadow: 0 0 26px currentColor, 0 0 8px currentColor; }
+
+/* How far through the reading we are. Chrome, so teal. */
+.progress {
+  height: 1px;
+  background: var(--ground-edge);
+  margin: 0 0 2.25rem;
+  max-width: 42rem;
+  overflow: hidden;
+}
+.progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--signal);
+  opacity: 0.65;
+  transition: width 0.4s linear;
+}
 
 /* ── controls ────────────────────────────────────────────── */
 
@@ -314,6 +348,7 @@ footer a { color: var(--signal); }
       <span class="small" id="mode-label" style="font-family:var(--data);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)"></span>
     </div>
     <p class="readout" id="readout"></p>
+    <div class="progress"><i id="progress-bar"></i></div>
 
     <div class="doc" id="doc"></div>
 
@@ -384,6 +419,10 @@ const docEl = $("doc"), readoutEl = $("readout"),
 let current = DATA.default_doc;
 let speed = 1;
 let timer = null;
+// The blind-spot list lands 900ms after the last sentence. Tracked separately
+// so that hitting Replay inside that window cannot drop the old run's list
+// on top of the new one.
+let finishTimer = null;
 let soloId = null;
 let scale = (v) => SIZE_MIN + v * SIZE_SPAN;
 
@@ -392,7 +431,25 @@ let scale = (v) => SIZE_MIN + v * SIZE_SPAN;
    0.37 and a mean across seven readers clusters harder still — mapped
    straight to points, thirty sentences would come out nearly the same size
    and the encoding would say nothing. */
-const SIZE_MIN = 0.88, SIZE_SPAN = 0.86;
+const SIZE_MIN = 0.86, SIZE_SPAN = 0.94;
+
+/* Weight rides the same number as size. Newsreader carries a 200–700 axis,
+   so this is one variation of one typeface, not a second encoding — it just
+   keeps a large sentence from going thin and papery as it grows. */
+const WEIGHT_MIN = 300, WEIGHT_SPAN = 260;
+
+/* The cadence. It used to be a flat 160ms metronome, which was faster than
+   the 500ms transition it was driving: three sentences were always mid-change
+   and the paragraph churned instead of being read.
+   Now the interval DECAYS. A reader arrives in descending order of pull, so
+   the first reaches are the ones that matter and they are given room; the
+   long tail of sentences nobody cares about goes by quickly. The pacing
+   carries the same ranking the type does. ~13s for thirty sentences. */
+const STEP_SLOW = 760, STEP_FAST = 190, STEP_CURVE = 1.35;
+function stepDelay(k, n) {
+  const t = n > 1 ? k / (n - 1) : 1;
+  return (STEP_FAST + (STEP_SLOW - STEP_FAST) * Math.pow(1 - t, STEP_CURVE)) / speed;
+}
 
 /* seq[r] = sentence indices, in the order that reader reaches for them.
    `order` is a per-sentence rank, so sorting by it recovers the sequence. */
@@ -475,14 +532,16 @@ function sizeScale(ids) {
 
 /* ── playback ────────────────────────────────────────────── */
 function clearRun() {
-  if (timer) { clearInterval(timer); timer = null; }
+  if (timer) { clearTimeout(timer); timer = null; }
+  if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
   document.querySelectorAll(".sentence").forEach((s) => {
     s.className = "sentence";
-    s.style.fontSize = "";
+    s.style.fontSize = ""; s.style.fontWeight = ""; s.style.letterSpacing = "";
     delete s.dataset.nc; delete s.dataset.nw; delete s.dataset.split;
     delete s.dataset.ssum; delete s.dataset.sn;
   });
   finishEl.innerHTML = "";
+  $("progress-bar").style.width = "0";
 }
 
 function valenceClass(v) { return v < -0.02 ? "v-cold" : (v > 0.02 ? "v-warm" : ""); }
@@ -510,7 +569,11 @@ function step(ids, k) {
     const ssum = Number(el.dataset.ssum || 0) + u.salience;
     const sn   = Number(el.dataset.sn || 0) + 1;
     el.dataset.ssum = ssum; el.dataset.sn = sn;
+    const norm = (scale(ssum / sn) - SIZE_MIN) / SIZE_SPAN;
     el.style.fontSize = "calc(var(--doc-base) * " + scale(ssum / sn).toFixed(3) + ")";
+    el.style.fontWeight = Math.round(WEIGHT_MIN + norm * WEIGHT_SPAN);
+    // Optical: display sizes want to be set tighter than text sizes.
+    el.style.letterSpacing = (-0.012 * norm).toFixed(4) + "em";
 
     // In chorus mode seven readers touch the same sentence and they do not
     // agree about it. Adding each reader's valence class in turn left most
@@ -531,6 +594,8 @@ function step(ids, k) {
     else if (nw > nc) el.classList.add("v-warm");
     else if (nc) el.classList.add(valenceClass(u.valence) || "v-cold");
   });
+
+  $("progress-bar").style.width = ((k + 1) / run.n * 100).toFixed(1) + "%";
 
   // readout
   if (ids.length === 1) {
@@ -590,11 +655,18 @@ function play(ids, label) {
     return;
   }
   let k = 0;
-  timer = setInterval(() => {
+  const tick = () => {
     step(ids, k);
     k++;
-    if (k >= n) { clearInterval(timer); timer = null; finishOrder(ids); }
-  }, 160 / speed);
+    if (k >= n) {
+      timer = null;
+      // Let the last sentence finish settling before the blind spots land.
+      finishTimer = setTimeout(() => { finishTimer = null; finishOrder(ids); }, 900);
+      return;
+    }
+    timer = setTimeout(tick, stepDelay(k, n));
+  };
+  tick();
 }
 
 function playChorus() { play(Object.keys(run.groups), "chorus · all seven"); soloId = null; syncSolo(); }
@@ -650,10 +722,12 @@ function load() {
 
 $("chorus-btn").onclick = playChorus;
 $("replay").onclick = () => { soloId ? playSolo(soloId) : playChorus(); };
+const SPEEDS = [1, 2, 0.5];
 $("speed").onclick = () => {
-  speed = speed === 1 ? 2 : 1;
+  speed = SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length];
   $("speed").textContent = "×" + speed;
-  $("speed").setAttribute("aria-pressed", String(speed === 2));
+  // Pressed means "not the default cadence", either way off it.
+  $("speed").setAttribute("aria-pressed", String(speed !== 1));
 };
 
 buildOpening();
