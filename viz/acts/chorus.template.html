@@ -7,16 +7,28 @@
 /* ─────────────────────────────────────────────────────────────
    Seven Readers, One Filing
 
-   Committed dark ground, inherited from the study's demo page:
-   salience is luminance, and on a light ground "less attended"
-   would mean washing out. On dark it means receding, which is
-   what an unattended clause actually feels like.
+   Committed dark ground: salience is luminance, and on a light
+   ground "less attended" would mean washing out. On dark it
+   means receding, which is what an unattended clause feels like.
 
-   ONE colour code, learned once: hue carries valence only
-   (cold blue = bad news for this reader, warm amber = good).
-   Readers carry no colour. They are told apart by lane
-   position and name — a second chromatic code would compete
-   with the first and break under colour-vision deficiency.
+   ONE colour code, learned once: hue carries valence only, and
+   valence is MANDATE-RELATIVE — cold is "hurts my mandate",
+   warm is "helps it". That distinction is not pedantry: the
+   short seller scores collapsing operating cash flow at +0.85.
+   A legend reading "good news / bad news" would be flatly wrong
+   for two of the seven readers.
+
+   Readers carry no colour. They are told apart by position,
+   name, and a mono sigil — a second chromatic code would
+   compete with the first and break under colour-vision
+   deficiency. Teal is chrome and never a data value.
+
+   NOTHING IS AVERAGED ACROSS READERS. A mean over the seven
+   destroys 49% of the variance in this document (77% in
+   aldercroft), is anti-correlated with the retail investor at
+   ρ = -0.18, and produces a top-8 that contains no reader's
+   actual top-8. It is a profile nobody has. Where all seven
+   must be shown at once, they are shown as seven things.
    ───────────────────────────────────────────────────────────── */
 
 :root {
@@ -35,12 +47,10 @@
   --text:    "Newsreader", Georgia, serif;
   --data:    "IBM Plex Mono", ui-monospace, monospace;
 
-  --measure: 34rem;
-  --doc-base: 1.12rem;
-  /* A settle, not a slide: fast out of the gate, long tail. Used for every
-     property a sentence changes when a reader arrives at it. */
+  --measure:  34rem;
+  --doc-base: 1.1875rem;
   --ease-soft: cubic-bezier(0.16, 0.84, 0.34, 1);
-  --ease:    cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease:      cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -50,31 +60,35 @@ body {
   background: var(--ground);
   color: var(--paper);
   font-family: var(--text);
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  font-variation-settings: "opsz" 16;
   -webkit-font-smoothing: antialiased;
 }
 
+/* A neutral vignette. The two tinted washes this replaces put teal
+   and cold-blue light behind a field whose whole claim is that hue
+   means valence and nothing else. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background:
-    radial-gradient(120% 70% at 50% 0%, rgba(127,209,193,0.05), transparent 60%),
-    radial-gradient(90% 60% at 50% 100%, rgba(107,179,238,0.04), transparent 60%);
+  background: radial-gradient(140% 90% at 50% 0%, rgba(255,255,255,0.022), transparent 65%);
 }
 
 main { position: relative; z-index: 1; }
 
 .wrap { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem; }
-.wrap--wide { max-width: 64rem; }
+.wrap--wide { max-width: 72rem; padding: 0 2rem; }
 
+/* Three mono sizes, and they mean state / explanation / label.
+   Never mixed: the old page had five registers at one size. */
 .eyebrow {
   font-family: var(--data);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 1.25rem;
@@ -82,309 +96,388 @@ main { position: relative; z-index: 1; }
 
 h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; }
 
+/* A masthead, not a heading: bigger, lighter, harder terminals
+   (low SOFT), display optical size. */
 h1 {
-  font-size: clamp(2.6rem, 8vw, 5.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.025em;
-  font-variation-settings: "SOFT" 22, "WONK" 1, "opsz" 120;
-  margin-bottom: 1.75rem;
+  font-size: clamp(3rem, 11vw, 7.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  font-variation-settings: "SOFT" 8, "WONK" 1, "opsz" 144, "wght" 300;
+  margin-bottom: 2rem;
 }
-
 h2 {
-  font-size: clamp(1.9rem, 4.4vw, 3rem);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  font-variation-settings: "SOFT" 18, "WONK" 1, "opsz" 80;
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  font-variation-settings: "SOFT" 30, "WONK" 1, "opsz" 72, "wght" 400;
   margin-bottom: 1rem;
 }
-
-h3 { font-size: 1.28rem; font-variation-settings: "SOFT" 12, "WONK" 0, "opsz" 30; margin-bottom: 0.5rem; }
+h3 { font-size: 1.25rem; font-variation-settings: "SOFT" 12, "WONK" 0, "opsz" 30, "wght" 450; margin-bottom: 0.5rem; }
 
 p { margin: 0 0 1.1rem; }
-.lede { font-size: 1.2rem; color: #C8C4BA; max-width: 32rem; }
-.small { font-size: 0.92rem; color: var(--muted-bright); }
+.lede { font-size: 1.375rem; line-height: 1.55; color: #C8C4BA; max-width: 26rem; font-variation-settings: "opsz" 28, "wght" 300; }
+.small { font-size: 0.9375rem; color: var(--muted-bright); }
 em { font-style: italic; }
 strong { font-weight: 600; color: #FFFBF2; }
 
-section { padding: 5.5rem 0; position: relative; }
+/* Rhythm is structure, not punctuation: the hero breathes, the
+   instrument arrives tight under its own heading, the coda opens out. */
+.hero       { min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 6rem 0 4rem; }
+.instrument-sec { padding: 3.5rem 0 4.5rem; }
+.coda       { padding: 7rem 0 5rem; }
 .rule { height: 1px; background: var(--ground-edge); border: 0; margin: 0; }
 
-.hero { min-height: 86vh; display: flex; flex-direction: column; justify-content: center; padding: 5rem 0 3rem; }
+/* ── THE WALL ─────────────────────────────────────────────────
+   Seven miniature typesettings of the whole filing, side by side,
+   permanently. The text is far too small to read and that is the
+   point: what is legible is the SHAPE of an attention. Nothing is
+   combined, so nothing is lost — seven readings, seven objects.
 
-/* The hero states the finding as a list of opening moves — the
-   thing the page exists to show, before any control appears. */
-.opening {
-  margin: 2.5rem 0 0;
-  padding: 1.5rem 0 0;
-  border-top: 1px solid var(--ground-edge);
+   The tiles use a wider size range than the reading column does,
+   because their job is silhouette rather than legibility. */
+/* Intrinsic, not scripted. An inline grid-template-columns set from the
+   reader count would win against every media query below it, which is how
+   seven tiles ended up crushed together at 560px. auto-fit reflows on its
+   own and does not care how many readers a fixture ships. */
+.wall {
   display: grid;
-  gap: 0.55rem;
-}
-.opening-row {
-  display: grid;
-  grid-template-columns: 11.5rem 3rem 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
   gap: 0.75rem;
-  align-items: baseline;
-  font-family: var(--data);
-  font-size: 0.76rem;
-  opacity: 0;
-  transform: translateY(6px);
-  animation: rise 0.7s var(--ease) forwards;
+  margin: 2.5rem 0 0;
 }
-@keyframes rise { to { opacity: 1; transform: none; } }
-.opening-row .who { color: var(--muted-bright); letter-spacing: 0.04em; }
-.opening-row .at  { color: var(--signal); font-variant-numeric: tabular-nums; }
-.opening-row .what { font-family: var(--text); font-size: 0.98rem; color: var(--paper); }
-.opening-row.is-lay .who { color: var(--warm); }
-.opening-row.is-lay .at  { color: var(--warm); }
-
-/* ── the instrument ──────────────────────────────────────── */
-
-/* The filing is set as prose, the way it would actually be read.
-   Nothing sits beside it any more: the encoding IS the typesetting.
-
-     type size = how much of the reader's attention the sentence commands
-     hue       = valence, the one colour code (cold blue bad, warm amber good)
-     dim/small = not reached yet
-
-   line-height is locked in rem rather than left unitless, so a sentence
-   swelling mid-run rewraps the paragraph horizontally without the whole
-   column jolting up and down under the eye that is reading it. */
-
-.doc {
-  max-width: 42rem;
-  font-size: var(--doc-base);
-  /* Locked in rem, and generous: the largest sentence runs to 1.8× the body
-     size, so the line box has to hold it without the column breathing. */
-  line-height: 2.5rem;
-  text-align: left;
-  text-wrap: pretty;
-}
-.sentence {
-  font-size: calc(var(--doc-base) * 0.86);
-  font-weight: 300;
-  color: #6E7688;
-  opacity: 0.5;
-  padding: 0 0.05em;
-  /* Slower than the cadence that drives it (see STEP_SLOW/STEP_FAST): a
-     sentence is still settling when the next one is reached, which is what
-     makes the paragraph feel read rather than repainted. */
-  transition: font-size 0.9s var(--ease-soft),
-              font-weight 0.9s var(--ease-soft),
-              letter-spacing 0.9s var(--ease-soft),
-              color 0.7s var(--ease-soft),
-              opacity 0.7s var(--ease-soft),
-              text-shadow 1.5s ease-out;
-}
-/* Reached: the sentence lifts out of the ground. Hue is valence. */
-.sentence.is-hit { color: var(--paper); opacity: 1; }
-.sentence.is-hit.v-cold { color: var(--cold); }
-.sentence.is-hit.v-warm { color: var(--warm); }
-/* Sentences with readers on both sides are NOT marked in the type. It was
-   tried: on the Meridian filing 29 of the 30 qualify, so the mark fired
-   almost everywhere and encoded nothing. The count stays in the readout,
-   where a number can say "29 of 30" and a texture cannot. */
-/* Arrival. A bloom in the sentence's OWN colour — currentColor, so the glow
-   is the valence code and not a second thing to learn. The teal box this
-   replaces read as a text selection, and it put chrome colour on data.
-   The class is removed on the next step; the long text-shadow transition
-   turns that removal into a fade rather than a blink. */
-.sentence.is-now { text-shadow: 0 0 26px currentColor, 0 0 8px currentColor; }
-
-/* How far through the reading we are. Chrome, so teal. */
-.progress {
-  height: 1px;
-  background: var(--ground-edge);
-  margin: 0 0 2.25rem;
-  max-width: 42rem;
+.tile { min-width: 0; }
+.tile-art {
+  background: rgba(255,255,255,0.012);
+  border-top: 1px solid var(--ground-edge);
+  padding: 0.7rem 0.6rem 0.8rem;
+  height: 15rem;
   overflow: hidden;
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
 }
-.progress i {
+/* Leading is relative to the tile's own type size, which is measured to
+   fit (see fitTiles) rather than guessed: the five fixtures run 1,269 to
+   5,431 characters, a 4.3x range, so no fixed size fits them all. */
+.tile-art p { margin: 0; line-height: 1.24em; font-size: var(--tile-base); text-align: justify; hyphens: auto; }
+.tile-name {
+  font-family: var(--data);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.6rem;
   display: block;
-  height: 100%;
-  width: 0;
-  background: var(--signal);
-  opacity: 0.65;
-  transition: width 0.4s linear;
+  transition: color 0.3s var(--ease);
+}
+.tile.is-lay .tile-name { color: var(--muted-bright); }
+.tile.is-active .tile-art { background: rgba(255,255,255,0.035); border-top-color: var(--signal); }
+.tile.is-active .tile-name { color: var(--paper); }
+.tile-art .w {
+  font-size: calc(var(--tile-base) * var(--k, 0.8));
+  line-height: 1;
+  font-variation-settings: "opsz" var(--o, 8), "wght" var(--w, 300);
+  color: var(--tint, #5C6478);
+  opacity: var(--a, 0.42);
+}
+.wall-key {
+  font-family: var(--data);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 1.5rem 0 0;
+  max-width: 44rem;
+  line-height: 1.75;
 }
 
-/* ── controls ────────────────────────────────────────────── */
+/* ── THE INSTRUMENT ───────────────────────────────────────────
+   A document with a scholarly apparatus. The filing holds the
+   centre on a real measure and never moves; everything that is
+   machinery lives in the margins, typeset rather than chromed. */
+.instrument {
+  display: grid;
+  grid-template-columns: [rail] 11rem [gap] 2.5rem [text] minmax(0, 33rem) [notes] minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+  position: relative;
+}
+.rail { position: sticky; top: 2.5rem; }
+.rail-head {
+  font-family: var(--data);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--ground-edge);
+}
 
-.controls {
-  display: flex;
-  flex-wrap: wrap;
+/* A cast list, not a filter bar. No fills, no radii, no chips. */
+.reader {
+  all: unset;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
   gap: 0.5rem;
-  align-items: center;
-  margin: 2rem 0 1rem;
+  padding: 0.55rem 0;
+  cursor: pointer;
+  border-bottom: 1px solid var(--ground-edge);
+  transition: border-color 0.3s var(--ease);
 }
-button {
-  background: none;
-  border: 1px solid var(--ground-edge);
-  border-radius: 3px;
-  padding: 0.5rem 0.9rem;
+.reader .name {
+  font-family: var(--text);
+  font-size: 1.0625rem;
+  font-variation-settings: "opsz" 14, "wght" 400;
+  color: var(--muted-bright);
+  transition: color 0.3s var(--ease), font-variation-settings 0.3s var(--ease);
+}
+.reader .n {
+  font-family: var(--data);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.reader:hover .name, .reader:focus-visible .name { color: var(--paper); }
+.reader:focus-visible { outline: 1px solid var(--signal); outline-offset: 4px; }
+.reader[aria-pressed="true"] { border-bottom-color: var(--signal); }
+.reader[aria-pressed="true"] .name { color: var(--paper); font-variation-settings: "opsz" 32, "wght" 520; }
+/* The one reader who is not paid to read is set below the line. The
+   layout says it before the copy does. */
+.reader--lay { margin-top: 1.1rem; padding-top: 0.9rem; border-top: 1px solid var(--ground-edge); }
+
+/* Transport as a chapter rule. One control, three honest states,
+   no media-player glyph, no speed toggle, no progress bar. */
+.transport {
+  all: unset;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  font-variation-settings: "opsz" 24, "SOFT" 40, "WONK" 0, "wght" 400;
+  color: var(--muted-bright);
+  padding: 0.85rem 0;
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--ground-edge);
+  border-bottom: 1px solid var(--ground-edge);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), letter-spacing 0.3s var(--ease);
+}
+.transport:hover { color: var(--paper); border-color: var(--muted); letter-spacing: 0.012em; }
+.transport:focus-visible { outline: 1px solid var(--signal); outline-offset: 3px; }
+
+.doc-col { grid-column: text; }
+.docline {
+  font-family: var(--data);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 2rem;
+}
+.docline button {
+  all: unset;
   cursor: pointer;
   color: var(--muted-bright);
-  font-family: var(--data);
-  font-size: 0.66rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+  border-bottom: 1px solid var(--ground-edge);
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
 }
-button:hover { border-color: var(--signal); color: var(--paper); }
-button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-button[aria-pressed="true"] { border-color: var(--signal); background: rgba(127,209,193,0.09); color: var(--signal); }
-button.primary { border-color: var(--signal); color: var(--signal); }
-button.primary:hover { background: rgba(127,209,193,0.12); }
+.docline button:hover { color: var(--paper); border-bottom-color: var(--muted); }
+.docline button:focus-visible { outline: 1px solid var(--signal); outline-offset: 3px; }
+.docline button[aria-pressed="true"] { color: var(--paper); border-bottom-color: var(--signal); }
+
+/* The reading column. Leading locked in rem so a sentence changing
+   register cannot make the column jump; the size range is narrow
+   enough (0.89 -> 1.36) that 2rem of leading still reads as prose
+   rather than the double-spacing the old 1.8x range forced. */
+.doc { font-size: var(--doc-base); line-height: 2rem; text-wrap: pretty; }
+.doc p { margin: 0; }
+
+.sentence {
+  font-size: calc(var(--doc-base) * 0.89);
+  font-variation-settings: "opsz" 10, "wght" 300;
+  color: #5C6478;
+  opacity: 0.44;
+  padding: 0 0.04em;
+  transition: font-size 0.95s var(--ease-soft),
+              font-variation-settings 0.95s var(--ease-soft),
+              letter-spacing 0.95s var(--ease-soft),
+              color 0.7s var(--ease-soft),
+              opacity 0.7s var(--ease-soft),
+              text-shadow 1.6s ease-out;
+}
+/* Resting state: a plain, readable filing. This is what a viewer who never
+   touches anything sees, so it must look like a document rather than the
+   half-lit "not yet reached" state — that state only ever existed to serve a
+   playback this page no longer runs on the prose. */
+.doc.is-plain .sentence {
+  font-size: var(--doc-base);
+  font-variation-settings: "opsz" 16, "wght" 380;
+  letter-spacing: 0;
+  color: #B9BDC7;
+  opacity: 1;
+}
+.sentence.is-hit { opacity: 1; color: var(--paper); }
+.sentence.is-hit.v-cold { color: var(--cold); }
+.sentence.is-hit.v-warm { color: var(--warm); }
+/* Arrival: a bloom in the sentence's OWN colour, so the glow is the
+   valence code rather than a second thing to learn. */
+.sentence.is-now { text-shadow: 0 0 20px currentColor, 0 0 6px currentColor; }
+/* The fourth channel, and it costs no colour. Contested = at least one
+   reader who is ACTUALLY LOOKING (salience >= 0.5) reads it at <= -0.4
+   while another, also looking, reads it at >= +0.4. Fires on 13 of 30
+   here. The old +/-0.02 rule fired on 29 of 30 and said nothing. */
+.sentence.is-contested { font-style: italic; }
+.sentence:focus-visible { outline: none; }
+.sentence:hover, .sentence.is-lit {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+/* The notes track: what makes the page interrogable at rest, which is
+   the difference between an artefact and a demo. */
+.notes { grid-column: notes; padding-left: 2.5rem; position: sticky; top: 2.5rem; }
+.note-block { font-family: var(--data); font-size: 0.75rem; line-height: 1.85; color: var(--muted); letter-spacing: 0.03em; }
+.note-block b { color: var(--paper); font-weight: 500; }
+.note-sentence { color: var(--muted-bright); font-family: var(--text); font-size: 0.9375rem; line-height: 1.5; letter-spacing: 0; display: block; margin-bottom: 0.9rem; }
+.note-row { display: grid; grid-template-columns: 1fr auto auto; gap: 0.75rem; font-variant-numeric: tabular-nums; }
+.note-row .s { color: var(--muted-bright); }
+.note-row .v-cold { color: var(--cold); }
+.note-row .v-warm { color: var(--warm); }
+.note-hint { color: var(--muted); opacity: 0.8; }
 
 .readout {
   font-family: var(--data);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   color: var(--muted);
-  min-height: 2.6rem;
-  margin-top: 0.4rem;
-  line-height: 1.6;
+  min-height: 2.4rem;
+  margin: 1.5rem 0 0;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
 }
 .readout b { color: var(--paper); font-weight: 500; }
 
-/* Finishing order, dropped as each reader lands. */
-.finish { display: grid; gap: 0.3rem; margin-top: 1.25rem; }
+.finish { display: grid; gap: 0.35rem; margin-top: 2rem; }
 .finish-row {
   font-family: var(--data);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--muted-bright);
   display: grid;
-  grid-template-columns: 1.6rem 11rem 1fr;
+  grid-template-columns: 2rem 11rem 1fr;
   gap: 0.6rem;
   opacity: 0;
   transform: translateY(4px);
   transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
 }
 .finish-row.is-in { opacity: 1; transform: none; }
-.finish-row .rank { color: var(--signal); font-variant-numeric: tabular-nums; }
+.finish-row .rank { color: var(--muted); font-variant-numeric: tabular-nums; }
 .finish-row .note { color: var(--muted); }
 
-.docpick { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  font-family: var(--data);
-  font-size: 0.64rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 1.75rem;
-}
-.legend i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; vertical-align: -0.06em; margin-right: 0.45rem; }
-.legend .c { background: var(--cold); }
-.legend .w { background: var(--warm); }
-.legend .a {
-  background: none; width: auto; height: auto; border-radius: 0;
-  font-family: var(--text); font-size: 1.05rem; letter-spacing: 0;
-  text-transform: none; color: var(--paper); line-height: 1;
-}
-
-
 .note {
-  border-left: 2px solid var(--ground-edge);
+  border-left: 1px solid var(--ground-edge);
   padding-left: 1.25rem;
   color: var(--muted-bright);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
 }
 
-footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.88rem; }
+footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.875rem; }
 footer a { color: var(--signal); }
 
-@media (max-width: 800px) {
-  :root { --doc-base: 1rem; }
-  .opening-row { grid-template-columns: 1fr; gap: 0.1rem; }
+@media (max-width: 1080px) {
+  .instrument { grid-template-columns: [rail] 10rem [gap] 1.75rem [text] minmax(0, 1fr); }
+  .notes { grid-column: 1 / -1; padding-left: 0; position: static; margin-top: 2.5rem; }
+}
+@media (max-width: 900px) {
+  .instrument { grid-template-columns: 1fr; }
+  .rail { position: static; margin-bottom: 2.5rem; }
+  .doc-col { grid-column: 1; }
+  .tile-art { height: 11rem; }
+}
+@media (max-width: 620px) {
+  :root { --doc-base: 1.0625rem; }
+  .doc { line-height: 1.75rem; }
+  .wall { gap: 0.6rem; }
+  .finish-row { grid-template-columns: 2rem 1fr; }
+  .finish-row .note { grid-column: 2; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 </style>
-
 <main>
 
 <section class="hero">
-  <div class="wrap">
+  <div class="wrap wrap--wide">
     <p class="eyebrow">Cross-modal perception · the chorus</p>
     <h1>Seven readers,<br>one filing</h1>
     <p class="lede">
-      Meridian Logistics reports its fourth quarter. Thirty sentences, identical
-      for everybody. Here is the first sentence each reader reaches for.
+      Meridian Logistics reports its fourth quarter. Thirty sentences,
+      identical for everybody. Here is that one paragraph, set seven times —
+      once in each reader's attention.
     </p>
-    <div class="opening" id="opening"></div>
-    <p class="small" style="margin-top:1.75rem; max-width:32rem;">
-      Six different opening moves. Only one reader starts at the headline — and it
-      is the only one of the seven who is not paid to read.
-    </p>
+
+    <div class="wall" id="wall"></div>
+
+    <p class="wall-key" id="wall-key"></p>
   </div>
 </section>
 
 <hr class="rule">
 
-<section>
+<section class="instrument-sec">
   <div class="wrap wrap--wide">
     <p class="eyebrow">The instrument</p>
-    <h2>Watch them go</h2>
-    <p class="lede" style="margin-bottom:2rem;">
-      The filing is set as continuous prose and never re-flows into a list. Only
-      the reading moves. As a reader reaches each sentence — biggest claim on
-      their attention first — that sentence takes on its weight in the type:
-      how large it grows is how much of that reader's attention it commands, and
-      its colour is how they read it.
-    </p>
+    <h2>Read it as one of them</h2>
 
-    <div class="docpick" id="docpick" role="group" aria-label="Choose a filing"></div>
+    <div class="instrument" style="margin-top:2.5rem">
 
-    <div class="controls">
-      <button class="primary" id="chorus-btn">▶ All seven at once</button>
-      <button id="replay">Replay</button>
-      <button id="speed" aria-pressed="false">×1</button>
-      <span style="flex:1"></span>
-      <span class="small" id="mode-label" style="font-family:var(--data);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)"></span>
+      <div class="rail">
+        <p class="rail-head">The seven</p>
+        <div id="roster"></div>
+        <button class="transport" id="transport">All seven at once</button>
+      </div>
+
+      <div class="doc-col">
+        <p class="docline" id="docline"></p>
+        <div class="doc" id="doc"></div>
+        <p class="readout" id="readout"></p>
+        <div class="finish" id="finish"></div>
+      </div>
+
+      <div class="notes">
+        <div class="note-block" id="notes"></div>
+      </div>
+
     </div>
-    <p class="readout" id="readout"></p>
-    <div class="progress"><i id="progress-bar"></i></div>
-
-    <div class="doc" id="doc"></div>
-
-    <div class="legend">
-      <span><i class="c"></i>bad news, to this reader</span>
-      <span><i class="w"></i>good news, to this reader</span>
-      <span><i class="a">Aa</i>type size = share of attention</span>
-    </div>
-
-    <div class="finish" id="finish"></div>
   </div>
 </section>
 
 <hr class="rule">
 
-<section>
+<section class="coda">
   <div class="wrap">
     <p class="eyebrow">What you are looking at</p>
-    <h2>Order of reaching, not a gaze trace</h2>
+    <h2>A ranking of pull, not a gaze trace</h2>
     <p>
-      No eyes were tracked. A reader arrives at the sentences in descending order
-      of how much of that reader's attention each one commands, so the sequence is
-      a <strong>ranking of pull</strong>, not a timeline. Nobody read this document
-      in five seconds, and the spacing between arrivals is even because rank has no
-      clock. Type size carries that same ranking, so the finished paragraph is a
-      picture of one reader's attention with the clock taken out. With all seven
-      running, size is the <strong>mean</strong> across the readers who have got
-      there — the filing's average loudness, not any one person's.
+      No eyes were tracked. A reader arrives at the sentences in descending
+      order of how much of that reader's attention each one commands, so the
+      order is a <strong>ranking of pull</strong> and nothing else — it is the
+      salience column sorted, which is why nothing on this page spends a second
+      channel on it. Type size and optical size carry that same ranking, so a
+      finished paragraph is a picture of one reader's attention with no clock
+      in it at all.
+    </p>
+    <p>
+      The seven are never averaged. A mean across readers would throw away
+      <strong>49%</strong> of the variation in this filing — the disagreement
+      between readers about a given sentence is as large as the difference
+      between sentences — and the resulting profile matches no reader's own top
+      eight. Where all seven have to appear at once they appear as seven
+      objects, above.
     </p>
     <p class="note" id="provenance"></p>
-    <p class="small" style="margin-top:1.75rem;">
-      Send all seven and the same paragraph swells in seven different places at
-      once, and that is the whole point: the disagreement is about <em>where to
-      look</em>, and it is real in the data whether or not a stopwatch was ever
-      involved.
-    </p>
   </div>
 </section>
 
@@ -410,91 +503,151 @@ const NAMES = {
   "financial-journalist": "Financial journalist",
   "retail-investor":      "Retail investor"
 };
+const SIGIL = {
+  "credit-analyst": "CA", "equity-pm": "EQ", "risk-officer": "RO",
+  "distressed-investor": "DI", "short-seller": "SS",
+  "financial-journalist": "FJ", "retail-investor": "RI"
+};
 const LAY = "retail-investor";
 
 const $ = (id) => document.getElementById(id);
-const docEl = $("doc"), readoutEl = $("readout"),
-      finishEl = $("finish"), openingEl = $("opening");
+const docEl = $("doc"), readoutEl = $("readout"), finishEl = $("finish"),
+      wallEl = $("wall"), rosterEl = $("roster"), notesEl = $("notes");
 
 let current = DATA.default_doc;
-let speed = 1;
-let timer = null;
-// The blind-spot list lands 900ms after the last sentence. Tracked separately
-// so that hitting Replay inside that window cannot drop the old run's list
-// on top of the new one.
-let finishTimer = null;
-let soloId = null;
-let scale = (v) => SIZE_MIN + v * SIZE_SPAN;
+let pinned = null;       // reader id pinned by click
+let hovered = null;      // reader id under pointer/focus
+let litSentence = null;  // sentence index under pointer/focus
+let timer = null, finishTimer = null;
 
-/* Type size runs from 0.88× the body size to 1.74×, normalised across the
-   whole reading so the scale is actually used. Raw salience clusters around
-   0.37 and a mean across seven readers clusters harder still — mapped
-   straight to points, thirty sentences would come out nearly the same size
-   and the encoding would say nothing. */
-const SIZE_MIN = 0.86, SIZE_SPAN = 0.94;
+/* ── the encoding ─────────────────────────────────────────────
+   Size range is narrow (0.89 -> 1.36) and the range given up is
+   repaid on Newsreader's optical-size axis, 10 -> 44. opsz changes
+   a sentence's REGISTER — text cut to display cut — which is a far
+   larger perceptual jump than the 0.2rem of size it replaces, and
+   it is optically correct rather than decorative. Weight rides the
+   same number so a grown sentence does not go thin.
 
-/* Weight rides the same number as size. Newsreader carries a 200–700 axis,
-   so this is one variation of one typeface, not a second encoding — it just
-   keeps a large sentence from going thin and papery as it grows. */
-const WEIGHT_MIN = 300, WEIGHT_SPAN = 260;
+   The tiles use a wider size range because their job is silhouette,
+   not legibility. */
+const READ = { size: [0.89, 1.36], opsz: [10, 44], wght: [300, 620], track: [0, -0.014] };
+const TILE = { size: [0.80, 2.05], opsz: [8, 40],  wght: [300, 640], track: [0, -0.01] };
 
-/* The cadence. It used to be a flat 160ms metronome, which was faster than
-   the 500ms transition it was driving: three sentences were always mid-change
-   and the paragraph churned instead of being read.
-   Now the interval DECAYS. A reader arrives in descending order of pull, so
-   the first reaches are the ones that matter and they are given room; the
-   long tail of sentences nobody cares about goes by quickly. The pacing
-   carries the same ranking the type does. ~13s for thirty sentences. */
-const STEP_SLOW = 760, STEP_FAST = 190, STEP_CURVE = 1.35;
-function stepDelay(k, n) {
-  const t = n > 1 ? k / (n - 1) : 1;
-  return (STEP_FAST + (STEP_SLOW - STEP_FAST) * Math.pow(1 - t, STEP_CURVE)) / speed;
-}
+const lerp = (r, t) => r[0] + (r[1] - r[0]) * t;
 
-/* seq[r] = sentence indices, in the order that reader reaches for them.
-   `order` is a per-sentence rank, so sorting by it recovers the sequence. */
+/* seq[r] = sentence indices in the order that reader reaches for them.
+   `order` is a tie-broken rank of descending salience and carries no
+   information salience does not — it is used for the roster counts and
+   the blind-spot list, never as a second visual channel. */
 function sequence(field) {
-  return field.units
-    .map((u, i) => [i, u.order])
-    .sort((a, b) => a[1] - b[1])
-    .map((p) => p[0]);
+  return field.units.map((u, i) => [i, u.order]).sort((a, b) => a[1] - b[1]).map((p) => p[0]);
 }
-
 function fixture() { return DATA.docs[current]; }
+function fieldOf(id) { return fixture().fields.find((f) => f.persona_id === id); }
 
-/* ── hero: first move per reader ─────────────────────────── */
-function buildOpening() {
-  const f = DATA.docs[DATA.default_doc];
-  const rows = f.fields.map((fld) => {
-    const first = sequence(fld)[0];
-    return { id: fld.persona_id, s: first, text: f.stimulus.texts[first] };
+/* Salience normalised WITHIN a reader, because the field means "share of
+   this reader's attention" and a shared 0..1 scale would flatten everyone:
+   nothing in the data is ever near zero. */
+function scaleFor(field) {
+  const ss = field.units.map((u) => u.salience);
+  const lo = Math.min(...ss), hi = Math.max(...ss), span = hi - lo;
+  return (v) => (span > 1e-6 ? (v - lo) / span : 0.5);
+}
+function valenceClass(v) { return v < -0.02 ? "v-cold" : (v > 0.02 ? "v-warm" : ""); }
+
+/* Contested: at least one reader who is ACTUALLY LOOKING reads it hard one
+   way while another, also looking, reads it hard the other. Both thresholds
+   matter — the project's own conflict rule. 13 of 30 on this filing. */
+const LOOKING = 0.5, HARD = 0.4;
+function contested(i) {
+  let neg = false, pos = false;
+  fixture().fields.forEach((f) => {
+    const u = f.units[i];
+    if (u.salience < LOOKING) return;
+    if (u.valence <= -HARD) neg = true;
+    if (u.valence >=  HARD) pos = true;
   });
-  openingEl.innerHTML = "";
-  rows.forEach((r, i) => {
-    const div = document.createElement("div");
-    div.className = "opening-row" + (r.id === LAY ? " is-lay" : "");
-    div.style.animationDelay = (REDUCED ? 0 : 120 + i * 110) + "ms";
-    const short = r.text.length > 74 ? r.text.slice(0, 73).trim() + "…" : r.text;
-    div.innerHTML = `<span class="who">${NAMES[r.id]}</span>` +
-                    `<span class="at">s${String(r.s).padStart(2, "0")}</span>` +
-                    `<span class="what">${short}</span>`;
-    openingEl.appendChild(div);
+  return neg && pos;
+}
+
+/* ── the wall: seven tiles, nothing combined ──────────────── */
+function buildWall() {
+  const f = fixture();
+  wallEl.innerHTML = "";
+  f.fields.forEach((fld) => {
+    const norm = scaleFor(fld);
+    const tile = document.createElement("div");
+    tile.className = "tile" + (fld.persona_id === LAY ? " is-lay" : "");
+    tile.dataset.tile = fld.persona_id;
+
+    const art = document.createElement("div");
+    art.className = "tile-art";
+    const para = document.createElement("p");
+    f.stimulus.texts.forEach((t, i) => {
+      const u = fld.units[i], k = norm(u.salience);
+      const w = document.createElement("span");
+      w.className = "w";
+      w.style.setProperty("--k", lerp(TILE.size, k).toFixed(3));
+      w.style.setProperty("--o", Math.round(lerp(TILE.opsz, k)));
+      w.style.setProperty("--w", Math.round(lerp(TILE.wght, k)));
+      w.style.setProperty("--a", (0.34 + k * 0.66).toFixed(2));
+      w.style.setProperty("--tint",
+        u.valence < -0.02 ? "var(--cold)" : (u.valence > 0.02 ? "var(--warm)" : "var(--muted-bright)"));
+      w.textContent = t + " ";
+      para.appendChild(w);
+    });
+    art.appendChild(para);
+
+    const name = document.createElement("span");
+    name.className = "tile-name";
+    name.textContent = NAMES[fld.persona_id] || fld.persona_id;
+
+    tile.appendChild(art); tile.appendChild(name);
+    wallEl.appendChild(tile);
+  });
+
+  const n = f.fields.length;
+  $("wall-key").innerHTML =
+    `One paragraph, ${n} exposures. The words are too small to read, which is the point — ` +
+    `what is legible is the shape of an attention. Type size and weight are share of that ` +
+    `reader's attention; colour is <span style="color:var(--cold)">hurts my mandate</span> / ` +
+    `<span style="color:var(--warm)">helps my mandate</span>, which is not the same as bad and ` +
+    `good news: the short seller reads collapsing cash flow as help. Readers have no colour ` +
+    `of their own.`;
+}
+
+/* The whole filing has to land inside the frame, and the fixtures run from
+   1,269 to 5,431 characters — a 4.3x range no constant survives. So measure:
+   text area scales with the square of the type size, which makes sqrt(overflow)
+   the correct step and converges in about three passes. */
+function fitTiles() {
+  document.querySelectorAll(".tile-art").forEach((art) => {
+    const para = art.firstElementChild;
+    if (!para) return;
+    let base = 0.30;
+    for (let i = 0; i < 8; i++) {
+      art.style.setProperty("--tile-base", base.toFixed(4) + "rem");
+      const target = art.clientHeight * 0.96;
+      if (!target) return;
+      const r = para.scrollHeight / target;
+      if (r > 0.82 && r <= 1) break;
+      const step = Math.min(1.18, Math.max(0.82, 1 / Math.sqrt(r)));
+      base = Math.min(0.6, Math.max(0.05, base * step));
+    }
   });
 }
 
-/* ── the document ────────────────────────────────────────── */
+/* ── the reading column ───────────────────────────────────── */
 function buildDoc() {
   const f = fixture();
   docEl.innerHTML = "";
-  // One paragraph, sentences as inline spans separated by a real space, so
-  // the filing wraps and reads as the document it is.
   const para = document.createElement("p");
-  para.style.margin = "0";
   f.stimulus.texts.forEach((t, i) => {
     const span = document.createElement("span");
-    span.className = "sentence";
+    span.className = "sentence" + (contested(i) ? " is-contested" : "");
     span.id = "s" + i;
-    span.title = "sentence " + String(i).padStart(2, "0");
+    span.tabIndex = 0;
+    span.dataset.i = i;
     span.textContent = t;
     para.appendChild(span);
     if (i < f.stimulus.texts.length - 1) para.appendChild(document.createTextNode(" "));
@@ -502,234 +655,242 @@ function buildDoc() {
   docEl.appendChild(para);
 }
 
-/* ── the reading ────────────────────────────────────────── */
-let run = null;
-
-function buildRun() {
+/* Apply one reader's reading to the prose. No timer, no queue: this is a
+   function of the reader, not of elapsed time. `null` returns the filing
+   to a plain document. */
+function typeset(id) {
   const f = fixture();
-  const groups = {};
-  f.fields.forEach((fld) => {
-    groups[fld.persona_id] = { seq: sequence(fld), field: fld };
-  });
-  run = { groups, n: f.stimulus.texts.length };
-}
+  const fld = id && fieldOf(id);
+  const norm = fld && scaleFor(fld);
+  docEl.classList.toggle("is-plain", !fld);
 
-/* The size scale is fixed before a run starts, from the values that run will
-   finish on — the per-sentence salience for one reader, or the mean across
-   all seven. Rescaling as readers arrive would make settled sentences twitch
-   for reasons that have nothing to do with them. */
-function sizeScale(ids) {
-  const finals = [];
-  for (let i = 0; i < run.n; i++) {
-    let sum = 0;
-    ids.forEach((id) => { sum += run.groups[id].field.units[i].salience; });
-    finals.push(sum / ids.length);
-  }
-  const lo = Math.min(...finals), hi = Math.max(...finals);
-  const span = hi - lo;
-  return (v) => SIZE_MIN + (span > 1e-6 ? (v - lo) / span : 0.5) * SIZE_SPAN;
-}
-
-/* ── playback ────────────────────────────────────────────── */
-function clearRun() {
-  if (timer) { clearTimeout(timer); timer = null; }
-  if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
-  document.querySelectorAll(".sentence").forEach((s) => {
-    s.className = "sentence";
-    s.style.fontSize = ""; s.style.fontWeight = ""; s.style.letterSpacing = "";
-    delete s.dataset.nc; delete s.dataset.nw; delete s.dataset.split;
-    delete s.dataset.ssum; delete s.dataset.sn;
-  });
-  finishEl.innerHTML = "";
-  $("progress-bar").style.width = "0";
-}
-
-function valenceClass(v) { return v < -0.02 ? "v-cold" : (v > 0.02 ? "v-warm" : ""); }
-function step(ids, k) {
-  const { groups } = run;
-
-  // Only the sentences being arrived at on THIS step glow, in every mode:
-  // with all seven running you watch the paragraph light up in seven places
-  // at once, which is the finding.
-  document.querySelectorAll(".sentence.is-now").forEach((el) => el.classList.remove("is-now"));
-
-  ids.forEach((id) => {
-    const g = groups[id];
-    if (k >= g.seq.length) return;
-    const si = g.seq[k];
-    const u = g.field.units[si];
-    const el = $("s" + si);
+  f.stimulus.texts.forEach((t, i) => {
+    const el = $("s" + i);
     if (!el) return;
-
-    el.classList.add("is-hit");
-    el.classList.add("is-now");
-
-    // Size: the mean salience over the readers who have arrived so far, which
-    // ends at the true mean once every thread has been everywhere.
-    const ssum = Number(el.dataset.ssum || 0) + u.salience;
-    const sn   = Number(el.dataset.sn || 0) + 1;
-    el.dataset.ssum = ssum; el.dataset.sn = sn;
-    const norm = (scale(ssum / sn) - SIZE_MIN) / SIZE_SPAN;
-    el.style.fontSize = "calc(var(--doc-base) * " + scale(ssum / sn).toFixed(3) + ")";
-    el.style.fontWeight = Math.round(WEIGHT_MIN + norm * WEIGHT_SPAN);
-    // Optical: display sizes want to be set tighter than text sizes.
-    el.style.letterSpacing = (-0.012 * norm).toFixed(4) + "em";
-
-    // In chorus mode seven readers touch the same sentence and they do not
-    // agree about it. Adding each reader's valence class in turn left most
-    // sentences carrying both, with stylesheet order silently picking the
-    // winner — so the whole filing rendered as good news.
-    //
-    // Tint by MAJORITY, not by the strongest single reading. Magnitude is
-    // the wrong rule here: on "operating cash flow fell to $88m" five of the
-    // seven read badly, but the short seller's +0.85 is the largest number
-    // in the column — and that is an interest, not a perception. Letting it
-    // win would paint a cash-flow collapse as good news.
-    const nc = Number(el.dataset.nc || 0) + (u.valence < -0.02 ? 1 : 0);
-    const nw = Number(el.dataset.nw || 0) + (u.valence >  0.02 ? 1 : 0);
-    el.dataset.nc = nc; el.dataset.nw = nw;
-    if (nc && nw) el.dataset.split = "1";
-    el.classList.remove("v-cold", "v-warm");
-    if (nc > nw) el.classList.add("v-cold");
-    else if (nw > nc) el.classList.add("v-warm");
-    else if (nc) el.classList.add(valenceClass(u.valence) || "v-cold");
-  });
-
-  $("progress-bar").style.width = ((k + 1) / run.n * 100).toFixed(1) + "%";
-
-  // readout
-  if (ids.length === 1) {
-    const g = groups[ids[0]];
-    if (k < g.seq.length) {
-      const si = g.seq[k];
-      const u = g.field.units[si];
-      readoutEl.innerHTML = `<b>${NAMES[ids[0]]}</b> · reach ${k + 1} of ${g.seq.length}` +
-        ` · sentence ${String(si).padStart(2, "0")} · attention ${u.salience.toFixed(2)}` +
-        ` · reads it as ${u.valence < 0 ? "bad" : (u.valence > 0 ? "good" : "neutral")} news`;
+    if (!fld) {
+      el.style.fontSize = ""; el.style.fontVariationSettings = ""; el.style.letterSpacing = "";
+      el.classList.remove("is-hit", "v-cold", "v-warm");
+      return;
     }
-  } else {
-    const split = document.querySelectorAll(".sentence[data-split]").length;
-    readoutEl.innerHTML = `<b>All seven</b> · reach ${Math.min(k + 1, run.n)} of ${run.n}` +
-      ` — every reader is on the same step, and they are nowhere near each other.` +
-      (split ? `<br><b>${split}</b> ${split === 1 ? "sentence has" : "sentences have"}` +
-               ` readers on both sides; the tint shows the majority reading.` : "");
-  }
+    const u = fld.units[i], k = norm(u.salience);
+    el.style.fontSize = "calc(var(--doc-base) * " + lerp(READ.size, k).toFixed(3) + ")";
+    el.style.fontVariationSettings =
+      '"opsz" ' + Math.round(lerp(READ.opsz, k)) + ', "wght" ' + Math.round(lerp(READ.wght, k));
+    el.style.letterSpacing = lerp(READ.track, k).toFixed(4) + "em";
+    el.classList.add("is-hit");
+    el.classList.remove("v-cold", "v-warm");
+    const c = valenceClass(u.valence);
+    if (c) el.classList.add(c);
+  });
 }
 
-function finishOrder(ids) {
-  // Where each reader ends up: the last sentence they get to is the one
-  // they care least about. That is a finding, not a footnote.
+function activeReader() { return pinned || hovered; }
+
+function render() {
+  const id = activeReader();
+  typeset(id);
+  document.querySelectorAll("[data-tile]").forEach((t) => {
+    t.classList.toggle("is-active", t.dataset.tile === id);
+  });
+  document.querySelectorAll("[data-reader]").forEach((b) => {
+    b.setAttribute("aria-pressed", String(b.dataset.reader === pinned));
+  });
+  renderNotes();
+  renderReadout(id);
+}
+
+function renderReadout(id) {
+  if (timer) return;
+  if (!id) {
+    const n = fixture().stimulus.texts.length;
+    const c = fixture().stimulus.texts.filter((_, i) => contested(i)).length;
+    readoutEl.innerHTML =
+      `<b>${n}</b> sentences · <b>${fixture().fields.length}</b> readers · ` +
+      `<b>${c}</b> read hard in both directions by readers who are actually looking, set in italic. ` +
+      `Take a name from the list to read the filing as that person.`;
+    return;
+  }
+  const fld = fieldOf(id), norm = scaleFor(fld);
+  const heavy = fld.units.filter((u) => norm(u.salience) >= 0.5).length;
+  const cold = fld.units.filter((u) => u.valence < -0.02).length;
+  readoutEl.innerHTML =
+    `<b>${NAMES[id]}</b> · leans on ${heavy} of ${fld.units.length} sentences · ` +
+    `reads ${cold} of them as against their mandate` +
+    (pinned ? " · <span class=\"note-hint\">click the name again, or Esc, to let go</span>" : "");
+}
+
+function renderNotes() {
+  const i = litSentence;
+  if (i === null) {
+    notesEl.innerHTML =
+      `<span class="note-hint">Point at any sentence to see what all ` +
+      `${fixture().fields.length} readers do with it.</span>`;
+    return;
+  }
+  const f = fixture();
+  const rows = f.fields.map((fld) => ({ id: fld.persona_id, u: fld.units[i] }))
+                       .sort((a, b) => b.u.salience - a.u.salience);
+  notesEl.innerHTML =
+    `<span class="note-sentence">${f.stimulus.texts[i]}</span>` +
+    `<div class="note-row" style="color:var(--muted);margin-bottom:0.35rem">` +
+      `<span>reader</span><span>attn</span><span>val</span></div>` +
+    rows.map((r) =>
+      `<div class="note-row"><span class="s">${NAMES[r.id]}</span>` +
+      `<span>${r.u.salience.toFixed(2)}</span>` +
+      `<span class="${valenceClass(r.u.valence) || "s"}">${r.u.valence >= 0 ? "+" : ""}${r.u.valence.toFixed(2)}</span></div>`
+    ).join("") +
+    (contested(i) ? `<p style="margin:0.9rem 0 0"><span class="note-hint">Contested: ` +
+      `read hard both ways by readers who are actually looking at it.</span></p>` : "");
+}
+
+/* ── the roster ───────────────────────────────────────────── */
+function buildRoster() {
+  const f = fixture();
+  rosterEl.innerHTML = "";
+  f.fields.forEach((fld) => {
+    const id = fld.persona_id;
+    const b = document.createElement("button");
+    b.className = "reader" + (id === LAY ? " reader--lay" : "");
+    b.dataset.reader = id;
+    b.setAttribute("aria-pressed", "false");
+    b.innerHTML = `<span class="name">${NAMES[id] || id}</span>` +
+                  `<span class="n">${SIGIL[id] || ""}</span>`;
+    b.onmouseenter = () => { hovered = id; render(); };
+    b.onmouseleave = () => { hovered = null; render(); };
+    b.onfocus      = () => { hovered = id; render(); };
+    b.onblur       = () => { hovered = null; render(); };
+    b.onclick      = () => { pinned = (pinned === id ? null : id); stop(); render(); };
+    rosterEl.appendChild(b);
+  });
+}
+
+/* ── the one flourish ─────────────────────────────────────────
+   Playback lives on the WALL, where simultaneity is real: seven
+   readings filling in at once, each in its own encoding. It cannot
+   live on the reading column, because a single column would need one
+   size per sentence and that means averaging seven readers into a
+   profile none of them has. */
+function stop() {
+  if (timer) { clearInterval(timer); timer = null; }
+  if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
+  $("transport").textContent = "All seven at once";
+  document.querySelectorAll(".tile-art .w").forEach((w) => w.style.removeProperty("visibility"));
+}
+
+function playWall() {
+  stop();
+  finishEl.innerHTML = "";
+  const f = fixture();
+  const n = f.stimulus.texts.length;
+  const seqs = f.fields.map((fld) => ({ id: fld.persona_id, seq: sequence(fld) }));
+  const cells = {};
+  f.fields.forEach((fld) => {
+    const tile = document.querySelector(`[data-tile="${fld.persona_id}"]`);
+    cells[fld.persona_id] = Array.from(tile.querySelectorAll(".w"));
+  });
+
+  if (REDUCED) { finishOrder(); return; }
+
+  Object.values(cells).forEach((arr) => arr.forEach((w) => { w.style.visibility = "hidden"; }));
+  $("transport").textContent = "Reading…";
+  let k = 0;
+  timer = setInterval(() => {
+    seqs.forEach((s) => {
+      const si = s.seq[k];
+      if (si !== undefined && cells[s.id][si]) cells[s.id][si].style.visibility = "";
+    });
+    readoutEl.innerHTML = `<b>All ${seqs.length}</b> · reach ${k + 1} of ${n} — ` +
+      `every reader is on the same step, and they are nowhere near each other.`;
+    k++;
+    if (k >= n) {
+      clearInterval(timer); timer = null;
+      $("transport").textContent = "Again";
+      finishTimer = setTimeout(() => { finishTimer = null; finishOrder(); render(); }, 700);
+    }
+  }, 190);
+}
+
+/* Where each reader stops looking. The last sentence they get to is the
+   one they care least about, which is a finding and not a footnote. */
+function finishOrder() {
   const f = fixture();
   finishEl.innerHTML = "";
-  const rows = ids.map((id) => {
-    const g = run.groups[id];
-    const last = g.seq[g.seq.length - 1];
-    return { id, last, text: f.stimulus.texts[last] };
-  });
-  rows.forEach((r, i) => {
+  f.fields.forEach((fld, i) => {
+    const seq = sequence(fld);
+    const last = seq[seq.length - 1];
+    const text = f.stimulus.texts[last];
     const div = document.createElement("div");
     div.className = "finish-row";
-    const short = r.text.length > 62 ? r.text.slice(0, 61).trim() + "…" : r.text;
-    div.innerHTML = `<span class="rank">s${String(r.last).padStart(2, "0")}</span>` +
-                    `<span>${NAMES[r.id]}</span>` +
+    const short = text.length > 58 ? text.slice(0, 57).trim() + "…" : text;
+    div.innerHTML = `<span class="rank">s${String(last).padStart(2, "0")}</span>` +
+                    `<span>${NAMES[fld.persona_id]}</span>` +
                     `<span class="note">never gets to: ${short}</span>`;
     finishEl.appendChild(div);
-    setTimeout(() => div.classList.add("is-in"), REDUCED ? 0 : 90 * i);
+    setTimeout(() => div.classList.add("is-in"), REDUCED ? 0 : 80 * i);
   });
   const cap = document.createElement("p");
   cap.className = "small";
-  cap.style.marginTop = "1rem";
+  cap.style.cssText = "margin-top:1rem;font-size:0.8125rem;color:var(--muted)";
   cap.textContent = "The last sentence each reader reaches — their blind spot on this filing.";
   finishEl.appendChild(cap);
 }
 
-function play(ids, label) {
-  clearRun();
-  scale = sizeScale(ids);
-  $("mode-label").textContent = label;
-
-  const n = run.n;
-  if (REDUCED) {
-    for (let k = 0; k < n; k++) step(ids, k);
-    finishOrder(ids);
-    return;
-  }
-  let k = 0;
-  const tick = () => {
-    step(ids, k);
-    k++;
-    if (k >= n) {
-      timer = null;
-      // Let the last sentence finish settling before the blind spots land.
-      finishTimer = setTimeout(() => { finishTimer = null; finishOrder(ids); }, 900);
-      return;
-    }
-    timer = setTimeout(tick, stepDelay(k, n));
-  };
-  tick();
-}
-
-function playChorus() { play(Object.keys(run.groups), "chorus · all seven"); soloId = null; syncSolo(); }
-function playSolo(id) { soloId = id; play([id], "solo · " + NAMES[id]); syncSolo(); }
-
-function syncSolo() {
-  document.querySelectorAll("[data-solo]").forEach((b) => {
-    b.setAttribute("aria-pressed", String(b.dataset.solo === soloId));
-  });
-}
-
-/* ── document switcher ───────────────────────────────────── */
-function buildDocPick() {
-  const el = $("docpick");
-  el.innerHTML = "";
-  DATA.order.forEach((id) => {
+/* ── the document line ────────────────────────────────────── */
+function buildDocLine() {
+  const el = $("docline");
+  el.innerHTML = "Reading: ";
+  DATA.order.forEach((id, i) => {
     const b = document.createElement("button");
     b.textContent = DATA.docs[id].stimulus.title.split("—")[0].trim();
     b.setAttribute("aria-pressed", String(id === current));
     b.onclick = () => { current = id; load(); };
     el.appendChild(b);
-  });
-}
-
-function buildSoloButtons() {
-  const wrapEl = document.querySelector(".controls");
-  // rebuilt with the doc, since the roster is per-fixture
-  document.querySelectorAll("[data-solo]").forEach((b) => b.remove());
-  const anchor = $("speed");
-  fixture().fields.slice().reverse().forEach((fld) => {
-    const b = document.createElement("button");
-    b.dataset.solo = fld.persona_id;
-    b.textContent = NAMES[fld.persona_id] || fld.persona_id;
-    b.onclick = () => playSolo(fld.persona_id);
-    anchor.after(b);
+    if (i < DATA.order.length - 1) el.appendChild(document.createTextNode(" · "));
   });
 }
 
 function load() {
-  clearRun();
+  stop();
+  pinned = null; hovered = null; litSentence = null;
+  buildWall();
   buildDoc();
-  buildDocPick();
-  buildSoloButtons();
-  buildRun();
-  requestAnimationFrame(() => {
-    $("provenance").textContent = fixture().provenance.summary;
-    $("fixture-name").textContent = current + ".json";
-    readoutEl.innerHTML = "Pick a reader, or send all seven at once.";
-    $("mode-label").textContent = "";
-    syncSolo();
-  });
+  buildRoster();
+  buildDocLine();
+  finishEl.innerHTML = "";
+  $("provenance").textContent = fixture().provenance.summary;
+  $("fixture-name").textContent = current + ".json";
+  render();
+  requestAnimationFrame(fitTiles);
 }
 
-$("chorus-btn").onclick = playChorus;
-$("replay").onclick = () => { soloId ? playSolo(soloId) : playChorus(); };
-const SPEEDS = [1, 2, 0.5];
-$("speed").onclick = () => {
-  speed = SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length];
-  $("speed").textContent = "×" + speed;
-  // Pressed means "not the default cadence", either way off it.
-  $("speed").setAttribute("aria-pressed", String(speed !== 1));
-};
+/* Sentence inspection: pointer and keyboard both, and it works with
+   nothing playing and nothing selected — the page is interrogable at rest. */
+docEl.addEventListener("mouseover", (e) => {
+  const el = e.target.closest(".sentence");
+  if (!el) return;
+  litSentence = Number(el.dataset.i); renderNotes();
+});
+docEl.addEventListener("mouseleave", () => { litSentence = null; renderNotes(); });
+docEl.addEventListener("focusin", (e) => {
+  const el = e.target.closest(".sentence");
+  if (!el) return;
+  document.querySelectorAll(".sentence.is-lit").forEach((s) => s.classList.remove("is-lit"));
+  el.classList.add("is-lit");
+  litSentence = Number(el.dataset.i); renderNotes();
+});
+docEl.addEventListener("focusout", (e) => {
+  const el = e.target.closest(".sentence");
+  if (el) el.classList.remove("is-lit");
+});
 
-buildOpening();
+$("transport").onclick = () => { (timer ? stop() : playWall()); };
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && (pinned || timer)) { pinned = null; stop(); render(); }
+});
+
 load();
+
+document.fonts && document.fonts.ready.then(fitTiles);
+let rz;
+window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(fitTiles, 160); });
 </script>
