@@ -25,6 +25,7 @@ number in the study.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -32,6 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VIZ = ROOT / "viz"
 OUT = VIZ / "dist"
+SITE = VIZ / "site"
 FIXTURE = ROOT / "fixtures" / "meridian-q4.json"
 
 DEMO_PLACEHOLDER = "/*__FIELD_DATA__*/"
@@ -182,11 +184,73 @@ def build_lens() -> None:
           f"{len(payload['documents'])} documents, {len(payload['personas'])} readers)")
 
 
+
+
+# ── the hosted copy ──────────────────────────────────────────────────────
+# Every page in dist/ is a Claude Artifact *fragment*: no doctype, no <html>,
+# <head> or <body>, because the artifact runtime injects that skeleton at
+# publish time. That is required there and wrong everywhere else — served raw
+# from a web server the pages parse in quirks mode, and with no viewport meta
+# every phone lays them out at ~980px and zooms out, so none of the responsive
+# breakpoints ever fire.
+#
+# site/ is the same pages wrapped in the skeleton the artifact runtime would
+# have supplied, byte for byte, so the hosted copy renders identically to the
+# published one. dist/ stays unwrapped and remains what gets published as an
+# artifact. Neither is committed; both are rebuilt from the fixtures.
+RESET = (
+    ":root{color-scheme:light}"
+    "body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;"
+    "background:#faf9f5;color:#141413}"
+    "img{max-width:100%}"
+    "[hidden]:not([hidden=until-found]){display:none!important}"
+)
+
+
+def _wrap(title: str, fragment: str) -> str:
+    """Wrap one fragment in a standalone document.
+
+    The fragment keeps its own <title>, which is inert in <body> once the head
+    carries one; its <link rel=stylesheet> and <style> work in body in every
+    browser. Splitting the fragment instead would need a head/body boundary,
+    and report.html has no <main> to split on.
+    """
+    return (
+        "<!doctype html>\n"
+        '<html lang="en">\n'
+        "<head>\n"
+        '<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+        f"<title>{title}</title>\n"
+        f"<style>{RESET}</style>\n"
+        "</head>\n"
+        "<body>\n" + fragment + "\n</body>\n</html>\n"
+    )
+
+
+def build_site() -> None:
+    pages = sorted(OUT.glob("*.html"))
+    if not pages:
+        raise SystemExit("no pages in viz/dist; run the builders first")
+    SITE.mkdir(parents=True, exist_ok=True)
+    for src in pages:
+        html = src.read_text()
+        m = re.search(r"<title>(.*?)</title>", html, re.S)
+        if not m:
+            raise SystemExit(f"{src.name} has no <title>; the hosted copy needs one")
+        (SITE / src.name).write_text(_wrap(m.group(1).strip(), html))
+    # Stop GitHub Pages running the built pages through Jekyll.
+    (SITE / ".nojekyll").write_text("")
+    kb = sum((SITE / p.name).stat().st_size for p in pages) / 1024
+    print(f"wrapped viz/site/      ({len(pages)} pages, {kb:.0f} KB total)")
+
+
 def main() -> int:
     build_demo()
     build_acts()
     build_report()
     build_lens()
+    build_site()
     return 0
 
 

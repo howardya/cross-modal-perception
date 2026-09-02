@@ -1,0 +1,60 @@
+name: Deploy pages
+
+# The pages are generated, never committed: viz/dist holds the artifact
+# fragments and viz/site the standalone copies, both rebuilt from the fixtures
+# on every push. That is the same guarantee the build gives locally — a page
+# cannot drift from the data it claims to show, because there is no stored
+# page to drift.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; a half-finished site is worse than a stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The report and lens pages are built inside the pipeline's own
+      # environment (see viz/build.py), so uv has to be present.
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: pipeline/uv.lock
+
+      - name: Run the pipeline's tests
+        working-directory: pipeline
+        run: uv run --frozen pytest -q
+
+      - name: Build the pages
+        run: python3 viz/build.py
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: viz/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
