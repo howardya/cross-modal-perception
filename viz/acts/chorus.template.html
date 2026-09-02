@@ -1,7 +1,7 @@
 <title>Seven Readers, One Filing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ─────────────────────────────────────────────────────────────
@@ -32,8 +32,8 @@
    ───────────────────────────────────────────────────────────── */
 
 :root {
+  color-scheme: dark;
   --ground:        #0C0F16;
-  --ground-lift:   #141926;
   --ground-edge:   #202737;
   --paper:         #E9E5DB;
   --muted:         #737E93;
@@ -55,8 +55,20 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* The browser default is blue, which is --cold, which on this page means
+   "hurts my mandate". Selecting a sentence must not recolour it into a claim. */
+::selection { background: #263043; color: #F4F1E8; text-shadow: none; }
+
+html { background: var(--ground); }
+
+/* The axes below are the encoding, not decoration: if a fallback face is
+   substituted, font-variation-settings is inert and the wght/opsz ramps
+   vanish silently. Every axis write is paired with a real font-weight so
+   the weight half survives, and synthesis is off so a missing italic
+   fails visibly rather than being faked. */
 body {
   margin: 0;
+  font-synthesis: none;
   background: var(--ground);
   color: var(--paper);
   font-family: var(--text);
@@ -118,7 +130,8 @@ p { margin: 0 0 1.1rem; }
 .lede { font-size: 1.375rem; line-height: 1.55; color: #C8C4BA; max-width: 26rem; font-variation-settings: "opsz" 28, "wght" 300; }
 .small { font-size: 0.9375rem; color: var(--muted-bright); }
 em { font-style: italic; }
-strong { font-weight: 600; color: #FFFBF2; }
+strong { font-weight: 600; font-variation-settings: "wght" 600; color: #FFFBF2; }
+b { font-variation-settings: "wght" 560; }
 
 /* Rhythm is structure, not punctuation: the hero breathes, the
    instrument arrives tight under its own heading, the coda opens out. */
@@ -126,6 +139,37 @@ strong { font-weight: 600; color: #FFFBF2; }
 .instrument-sec { padding: 3.5rem 0 4.5rem; }
 .coda       { padding: 7rem 0 5rem; }
 .rule { height: 1px; background: var(--ground-edge); border: 0; margin: 0; }
+
+/* ── THE FLIP ─────────────────────────────────────────────────
+   The page's surprise, above the fold, before any interaction: one
+   sentence set twice, in two readers' colours. Size follows each
+   reader's own attention (both are high here, which is the point —
+   they are not disagreeing because one of them skimmed it), and hue
+   carries the whole argument. Chosen from the data, not hardcoded:
+   see sharpestFlip(), which prefers a professional-vs-lay conflict
+   because that is the study's headline finding, and falls back to
+   the largest conflict of any kind. */
+.flip { margin: 3rem 0 0; max-width: 64rem; }
+.flip-pair {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
+  align-items: start; margin: 1.25rem 0 1.5rem;
+}
+.flip-side { border-top: 1px solid var(--ground-edge); padding-top: 0.9rem; }
+.flip-who {
+  font-family: var(--data); font-size: 0.6875rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.8rem;
+}
+.flip-line {
+  font-family: var(--text); line-height: 1.28; margin: 0 0 0.8rem;
+  font-variation-settings: "opsz" 40, "wght" 480; font-weight: 480;
+  text-wrap: pretty;
+}
+.flip-val { font-family: var(--data); font-size: 0.6875rem; color: var(--muted); letter-spacing: 0.04em; }
+.flip-line.v-cold { color: var(--cold); }
+.flip-line.v-warm { color: var(--warm); }
+.flip-say { max-width: 33rem; color: var(--muted-bright); font-size: 1.0625rem; }
+.flip-say b { color: var(--paper); font-weight: 500; }
+@media (max-width: 700px) { .flip-pair { grid-template-columns: 1fr; gap: 1.75rem; } }
 
 /* ── THE WALL ─────────────────────────────────────────────────
    Seven miniature typesettings of the whole filing, side by side,
@@ -157,7 +201,7 @@ strong { font-weight: 600; color: #FFFBF2; }
 /* Leading is relative to the tile's own type size, which is measured to
    fit (see fitTiles) rather than guessed: the five fixtures run 1,269 to
    5,431 characters, a 4.3x range, so no fixed size fits them all. */
-.tile-art p { margin: 0; line-height: 1.24em; font-size: var(--tile-base); text-align: justify; hyphens: auto; }
+.tile-art p { margin: 0; line-height: 1.24em; font-size: var(--tile-base); text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
 .tile-name {
   font-family: var(--data);
   font-size: 0.6875rem;
@@ -267,6 +311,7 @@ strong { font-weight: 600; color: #FFFBF2; }
 .transport:focus-visible { outline: 1px solid var(--signal); outline-offset: 3px; }
 
 .doc-col { grid-column: text; }
+.instrument.is-compare .doc-col, .instrument.is-compare .notes { display: none; }
 .docline {
   font-family: var(--data);
   font-size: 0.75rem;
@@ -285,14 +330,24 @@ strong { font-weight: 600; color: #FFFBF2; }
 .docline button:focus-visible { outline: 1px solid var(--signal); outline-offset: 3px; }
 .docline button[aria-pressed="true"] { color: var(--paper); border-bottom-color: var(--signal); }
 
-/* The reading column. Leading locked in rem so a sentence changing
-   register cannot make the column jump; the size range is narrow
-   enough (0.89 -> 1.36) that 2rem of leading still reads as prose
-   rather than the double-spacing the old 1.8x range forced. */
-/* Leading is locked in rem and sized for the largest sentence the
-   scale can produce (1.75 x --doc-base), so a line carrying one
-   never collides with its neighbour and the column never jumps. */
-.doc { font-size: var(--doc-base); line-height: 2.3rem; text-wrap: pretty; }
+/* The reading column.
+
+   Leading is proportional, not locked. The locked 2.3rem box was sized
+   for the largest sentence the scale could produce, which meant an 8px
+   sentence sat in a 36.8px line — 4.6x leading, so the low-attention
+   passages read as holes punched in the page — while a 33px sentence
+   sat in the same box at 1.10x and came out cramped. The measure was
+   only correct at one point on the scale. Proportional leading gives
+   every run the leading its own size wants.
+
+   The range came down with it, 4.17x to 2.3x. That range had been
+   widened twice, and the reason it kept needing to be widened was that
+   size was carrying the encoding alone: is-hit was forcing every
+   sentence to full opacity, so the luminance channel this file opens by
+   claiming was never reaching the instrument. With brightness restored
+   (see typeset) four channels share the work and size no longer has to
+   shout. */
+.doc { font-size: var(--doc-base); line-height: 1.55; text-wrap: pretty; }
 .doc p { margin: 0; }
 
 .sentence {
@@ -305,8 +360,7 @@ strong { font-weight: 600; color: #FFFBF2; }
               font-variation-settings 0.95s var(--ease-soft),
               letter-spacing 0.95s var(--ease-soft),
               color 0.7s var(--ease-soft),
-              opacity 0.7s var(--ease-soft),
-              text-shadow 1.6s ease-out;
+              opacity 0.7s var(--ease-soft);
 }
 /* Resting state: a plain, readable filing. This is what a viewer who never
    touches anything sees, so it must look like a document rather than the
@@ -319,23 +373,95 @@ strong { font-weight: 600; color: #FFFBF2; }
   color: #B9BDC7;
   opacity: 1;
 }
-.sentence.is-hit { opacity: 1; color: var(--paper); }
+/* Salience is luminance — the claim the file opens with. is-hit is added to
+   EVERY sentence when a reader is active, so forcing opacity:1 here was
+   flattening all thirty to one brightness and leaving size to carry the
+   encoding alone. Opacity is now written per sentence in typeset(), on the
+   wall's own formula. Cold and warm are near-isoluminant (1.06:1), so hue
+   spends no luminance and luminance is free to mean attention. */
+.sentence.is-hit { color: var(--paper); }
 .sentence.is-hit.v-cold { color: var(--cold); }
 .sentence.is-hit.v-warm { color: var(--warm); }
-/* Arrival: a bloom in the sentence's OWN colour, so the glow is the
-   valence code rather than a second thing to learn. */
-.sentence.is-now { text-shadow: 0 0 20px currentColor, 0 0 6px currentColor; }
 /* The fourth channel, and it costs no colour. Contested = at least one
    reader who is ACTUALLY LOOKING (salience >= 0.5) reads it at <= -0.4
    while another, also looking, reads it at >= +0.4. Fires on 13 of 30
    here. The old +/-0.02 rule fired on 29 of 30 and said nothing. */
 .sentence.is-contested { font-style: italic; }
-.sentence:focus-visible { outline: none; }
+/* Focus must not be the same mark as hover, and a 1px 40%-alpha underline
+   under 8px type on near-black is not perceivable. --signal is chrome. */
+.sentence:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; border-radius: 1px; }
 .sentence:hover, .sentence.is-lit {
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   text-underline-offset: 0.22em;
   text-decoration-thickness: 1px;
+}
+
+/* ── THE COMPARE VIEW ────────────────────────────
+   The one thing the single-reader instrument cannot do. Reading as one
+   reader at a time makes the flip a memory test: you have to hold a
+   colour in your head across a pointer move. Here both readings are on
+   screen at once.
+
+   Each row is its own grid, so the two cells of a sentence are always
+   the same height and always on the same line. That matters more than
+   it sounds: sentence sizes differ per reader, so two flowing columns
+   would drift out of register within a few sentences and the whole
+   comparison would be lost.
+
+   This view is openly an instrument, not a filing — the single-reader
+   view keeps the prose. It uses a narrower size range than the reading
+   column, because here the argument is carried by hue and the job of
+   size is only to keep the rows honest. */
+.cmp { grid-column: text / -1; --cmp-base: 1.0625rem; }
+.cmp-bar {
+  border-bottom: 1px solid var(--ground-edge); padding-bottom: 0.7rem; margin-bottom: 0.25rem;
+}
+.cmp-tools { display: flex; justify-content: flex-end; margin-bottom: 0.6rem; }
+.cmp-names { display: grid; grid-template-columns: 1.25rem 1fr 1fr; gap: 0 1.75rem; }
+.cmp-names span {
+  font-family: var(--data); font-size: 0.6875rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--paper);
+}
+.cmp-only {
+  all: unset; cursor: pointer; font-family: var(--data); font-size: 0.6875rem;
+  letter-spacing: 0.06em; color: var(--muted-bright); border-bottom: 1px solid var(--ground-edge);
+}
+.cmp-only:hover { color: var(--paper); }
+.cmp-only:focus-visible { outline: 1px solid var(--signal); outline-offset: 3px; }
+.cmp-only[aria-pressed="true"] { color: var(--paper); border-bottom-color: var(--signal); }
+
+.cmp-row {
+  display: grid; grid-template-columns: 1.25rem 1fr 1fr; gap: 0 1.75rem;
+  align-items: start; padding: 0.5rem 0; border-bottom: 1px solid rgba(32,39,55,0.55);
+}
+.cmp-tick { border-left: 1px solid transparent; height: 100%; }
+.cmp-row.is-conflict .cmp-tick { border-left-color: var(--signal); }
+.cmp-row.is-conflict { background: rgba(255,255,255,0.016); }
+.cmp-cell {
+  font-family: var(--text); line-height: 1.4; text-wrap: pretty;
+  font-size: var(--cmp-base); color: var(--paper);
+}
+.cmp-cell.v-cold { color: var(--cold); }
+.cmp-cell.v-warm { color: var(--warm); }
+.cmp.only-conflict .cmp-row:not(.is-conflict) { display: none; }
+.cmp-note {
+  font-family: var(--data); font-size: 0.75rem; color: var(--muted);
+  letter-spacing: 0.03em; line-height: 1.75; margin: 1.25rem 0 0;
+}
+.cmp-note b { color: var(--paper); font-weight: 500; }
+
+/* The picker is the same cast list, in two slots. */
+.cmp-slot-lab {
+  font-family: var(--data); font-size: 0.6875rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); margin: 1.25rem 0 0.25rem;
+}
+.reader--slot { padding: 0.4rem 0; }
+.reader--slot .name { font-size: 0.9375rem; }
+
+@media (max-width: 900px) {
+  .cmp { grid-column: 1; --cmp-base: 0.9375rem; }
+  .cmp-row, .cmp-names { grid-template-columns: 0.75rem 1fr 1fr; gap: 0 0.9rem; }
 }
 
 /* The notes track: what makes the page interrogable at rest, which is
@@ -348,7 +474,7 @@ strong { font-weight: 600; color: #FFFBF2; }
 .note-row .s { color: var(--muted-bright); }
 .note-row .v-cold { color: var(--cold); }
 .note-row .v-warm { color: var(--warm); }
-.note-hint { color: var(--muted); opacity: 0.8; }
+.note-hint { color: var(--muted); }
 
 .readout {
   font-family: var(--data);
@@ -385,6 +511,7 @@ strong { font-weight: 600; color: #FFFBF2; }
 }
 
 footer { padding: 4rem 0 6rem; color: var(--muted); font-size: 0.875rem; }
+.mono-s { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.04em; }
 footer a { color: var(--signal); }
 
 @media (max-width: 1080px) {
@@ -399,7 +526,6 @@ footer a { color: var(--signal); }
 }
 @media (max-width: 620px) {
   :root { --doc-base: 1.125rem; }
-  .doc { line-height: 2.05rem; }
   .wall { gap: 0.6rem; }
   .finish-row { grid-template-columns: 2rem 1fr; }
   .finish-row .note { grid-column: 2; }
@@ -409,21 +535,25 @@ footer a { color: var(--signal); }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 </style>
-<main>
+<main lang="en">
 
 <section class="hero">
   <div class="wrap wrap--wide">
     <p class="eyebrow">Cross-modal perception · the chorus</p>
     <h1>Seven readers,<br>one filing</h1>
-    <p class="lede">
-      Meridian Logistics reports its fourth quarter. Thirty sentences,
-      identical for everybody. Here is that one paragraph, set seven times —
-      once in each reader's attention.
-    </p>
+    <p class="lede" id="lede"></p>
+
+    <div class="flip" id="flip"></div>
 
     <div class="wall" id="wall"></div>
 
     <p class="wall-key" id="wall-key"></p>
+
+    <!-- The transport lives with the wall it animates. It used to sit in the
+         instrument rail, ~814px below on desktop and ~1,700px on a phone, so
+         the one flourish on the page played entirely off-screen. -->
+    <button class="transport" id="transport">All seven at once</button>
+    <div class="finish" id="finish"></div>
   </div>
 </section>
 
@@ -437,20 +567,31 @@ footer a { color: var(--signal); }
     <div class="instrument" style="margin-top:2.5rem">
 
       <div class="rail">
-        <p class="rail-head">The seven</p>
+        <p class="rail-head" id="rail-head">The seven</p>
         <div id="roster"></div>
-        <button class="transport" id="transport">All seven at once</button>
+        <div id="cmp-pick" hidden></div>
+        <button class="transport" id="cmp-toggle">Compare two readers</button>
       </div>
 
       <div class="doc-col">
         <p class="docline" id="docline"></p>
         <div class="doc" id="doc"></div>
-        <p class="readout" id="readout"></p>
-        <div class="finish" id="finish"></div>
+        <p class="readout" id="readout" aria-live="polite"></p>
       </div>
 
       <div class="notes">
-        <div class="note-block" id="notes"></div>
+        <div class="note-block" id="notes" aria-live="polite"></div>
+      </div>
+
+      <div class="cmp" id="compare" hidden>
+        <div class="cmp-bar">
+          <div class="cmp-tools">
+            <button class="cmp-only" id="cmp-only" aria-pressed="false">only where they disagree</button>
+          </div>
+          <div class="cmp-names"><span></span><span id="cmp-name-a"></span><span id="cmp-name-b"></span></div>
+        </div>
+        <div id="cmp-rows"></div>
+        <p class="cmp-note" id="cmp-note" aria-live="polite"></p>
       </div>
 
     </div>
@@ -462,23 +603,17 @@ footer a { color: var(--signal); }
 <section class="coda">
   <div class="wrap">
     <p class="eyebrow">What you are looking at</p>
-    <h2>A ranking of pull, not a gaze trace</h2>
-    <p>
+    <h2>What an average would delete</h2>
+    <p id="averaging"></p>
+    <p id="blindspot"></p>
+    <p class="small" style="margin-top:2rem">
       No eyes were tracked. A reader arrives at the sentences in descending
       order of how much of that reader's attention each one commands, so the
       order is a <strong>ranking of pull</strong> and nothing else — it is the
       salience column sorted, which is why nothing on this page spends a second
-      channel on it. Type size and optical size carry that same ranking, so a
-      finished paragraph is a picture of one reader's attention with no clock
-      in it at all.
-    </p>
-    <p>
-      The seven are never averaged. A mean across readers would throw away
-      <strong>49%</strong> of the variation in this filing — the disagreement
-      between readers about a given sentence is as large as the difference
-      between sentences — and the resulting profile matches no reader's own top
-      eight. Where all seven have to appear at once they appear as seven
-      objects, above.
+      channel on it. Type size, optical size and brightness carry that same
+      ranking, so a finished paragraph is a picture of one reader's attention
+      with no clock in it at all.
     </p>
     <p class="note" id="provenance"></p>
   </div>
@@ -486,7 +621,20 @@ footer a { color: var(--signal); }
 
 <footer>
   <div class="wrap wrap--wide">
-    <p>Cross-Modal Perception · built from <span style="font-family:var(--data);font-size:0.85em" id="fixture-name"></span>. This page holds no scores of its own.</p>
+    <p>
+      <strong>Cross-Modal Perception.</strong> Seven reading mandates across five documents,
+      five independent runs each — 175 scorings, reproducible at Krippendorff's
+      <span class="mono-s">α 0.79–0.98</span>. Two of the five documents were written for this
+      study; <strong>three are real SEC filings nobody here wrote</strong>. Every reading is
+      checked against an expectation derived from the literature, and the three documents that
+      fail that check are written up rather than tuned away.
+    </p>
+    <p class="small">
+      No practitioner has yet checked any of this against their own reading. A mismatch would
+      be the most useful result the project could produce.
+    </p>
+    <!-- Byline goes here: name, and a link to the repo or write-up if you want one. -->
+    <p>Built from <span class="mono-s" id="fixture-name"></span>. This page holds no scores of its own.</p>
   </div>
 </footer>
 
@@ -496,6 +644,7 @@ footer a { color: var(--signal); }
 const DATA = /*__CHORUS_DATA__*/;
 
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const HOVER   = window.matchMedia("(hover: hover)").matches;
 
 const NAMES = {
   "credit-analyst":       "Credit analyst",
@@ -514,21 +663,37 @@ const SIGIL = {
 const LAY = "retail-investor";
 
 const $ = (id) => document.getElementById(id);
+
+/* The fixtures are prose scraped from real filings. Nothing in the five
+   committed ones contains < or &, but "leverage < 3.0x" in a future one
+   would swallow the rest of a notes panel, so the innerHTML sinks that
+   take fixture text escape it. */
+const esc = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const name_of = (id) => NAMES[id] || id;
 const docEl = $("doc"), readoutEl = $("readout"), finishEl = $("finish"),
       wallEl = $("wall"), rosterEl = $("roster"), notesEl = $("notes");
 
 let current = DATA.default_doc;
+/* Credit analyst vs short seller, not vs the retail investor: on the hero
+   filing those two disagree outright on nine sentences where both are looking,
+   against exactly one for the professional/lay pair. The lay conflict is the
+   sharper single moment — it is what the hero shows — but it makes a thin
+   comparison. Two experts reading the same collapse in opposite directions
+   fills the view. Both fall back if a document lacks them. */
+let compareOn = false, cmpA = "credit-analyst", cmpB = "short-seller", onlyConflict = false;
 let pinned = null;       // reader id pinned by click
 let hovered = null;      // reader id under pointer/focus
 let litSentence = null;  // sentence index under pointer/focus
 let timer = null, finishTimer = null;
 
 /* ── the encoding ─────────────────────────────────────────────
-   Size runs 0.42 -> 1.75 of the body size: a 4.2x range, so the
-   sentence a reader barely registers is a whisper beside the one
-   they lean on. The optical-size axis is driven across almost its
-   whole travel alongside it, 6 -> 60, and that is what makes a
-   range this wide affordable rather than merely violent: opsz
+   Size runs 0.62 -> 1.42 of the body size: a 2.3x range, so the
+   sentence a reader barely registers is a murmur beside the one
+   they lean on — and still legible, which a 4.2x range did not
+   leave it. Size is one of four channels here, not the only one:
+   brightness runs 0.30 -> 1.00 with it (typeset), and the
+   optical-size axis is driven across almost its whole travel,
+   9 -> 60. That is what makes the range affordable at all: opsz
    changes a sentence's REGISTER, text cut to display cut, so the
    small end is a face actually cut for 8px rather than a display
    face shrunk to it, and the large end is a true display cut
@@ -537,8 +702,8 @@ let timer = null, finishTimer = null;
 
    The tiles use a wider size range because their job is silhouette,
    not legibility. */
-const READ = { size: [0.42, 1.75], opsz: [6, 60], wght: [300, 640], track: [0, -0.016] };
-const TILE = { size: [0.80, 2.05], opsz: [8, 40],  wght: [300, 640], track: [0, -0.01] };
+const READ = { size: [0.62, 1.42], opsz: [9, 60], wght: [300, 640], track: [0, -0.016] };
+const TILE = { size: [0.80, 2.05], opsz: [9, 40],  wght: [300, 640], track: [0, -0.01] };
 
 const lerp = (r, t) => r[0] + (r[1] - r[0]) * t;
 
@@ -550,6 +715,38 @@ function sequence(field) {
   return field.units.map((u, i) => [i, u.order]).sort((a, b) => a[1] - b[1]).map((p) => p[0]);
 }
 function fixture() { return DATA.docs[current]; }
+const NUMWORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven",
+                  "eight", "nine", "ten", "eleven", "twelve"];
+const numword = (k) => NUMWORDS[k] || String(k);
+function docTitle(id) { return DATA.docs[id].stimulus.title.split("\u2014")[0].trim(); }
+
+/* The sentence two readers read hardest in opposite directions, both of them
+   actually looking. Prefers a conflict involving the one untrained reader —
+   professional-vs-lay is the study's headline finding — and otherwise takes
+   the largest conflict of any kind. Returns null if a document has none. */
+function sharpestFlip() {
+  const f = fixture();
+  let best = null;
+  for (let a = 0; a < f.fields.length; a++) {
+    for (let b = a + 1; b < f.fields.length; b++) {
+      const fa = f.fields[a], fb = f.fields[b];
+      for (let i = 0; i < f.stimulus.texts.length; i++) {
+        const ua = fa.units[i], ub = fb.units[i];
+        if (ua.salience < LOOKING || ub.salience < LOOKING) continue;
+        if (ua.valence * ub.valence >= 0) continue;
+        if (Math.abs(ua.valence) < HARD || Math.abs(ub.valence) < HARD) continue;
+        const lay = (fa.persona_id === LAY || fb.persona_id === LAY) ? 1 : 0;
+        const gap = Math.abs(ua.valence - ub.valence);
+        if (!best || lay > best.lay || (lay === best.lay && gap > best.gap)) {
+          const warm = ua.valence > 0 ? [fa, ua] : [fb, ub];
+          const cold = ua.valence > 0 ? [fb, ub] : [fa, ua];
+          best = { i, gap, lay, warm, cold };
+        }
+      }
+    }
+  }
+  return best;
+}
 function fieldOf(id) { return fixture().fields.find((f) => f.persona_id === id); }
 
 /* Salience normalised WITHIN a reader, because the field means "share of
@@ -577,6 +774,42 @@ function contested(i) {
   return neg && pos;
 }
 
+/* The lede and the coda used to be hardcoded to Meridian, so one click on the
+   document switcher left the page asserting "Thirty sentences" over a 20-sentence
+   filing. Everything numeric is now read from the fixture on screen. */
+function buildLede() {
+  const f = fixture();
+  $("lede").innerHTML =
+    `${esc(f.stimulus.title)}. <strong>${f.stimulus.texts.length}</strong> sentences, ` +
+    `identical for everybody. Here is that one paragraph, set ${numword(f.fields.length)} ` +
+    `times — once in each reader's attention.`;
+}
+
+function buildFlip() {
+  const el = $("flip"), f = fixture(), best = sharpestFlip();
+  if (!best) { el.innerHTML = ""; el.hidden = true; return; }
+  el.hidden = false;
+  const text = f.stimulus.texts[best.i];
+  const side = ([fld, u], cls) => {
+    const k = scaleFor(fld)(u.salience);
+    const size = (1.12 + k * 0.5).toFixed(2);
+    return `<div class="flip-side">` +
+      `<span class="flip-who">${esc(name_of(fld.persona_id))}</span>` +
+      `<p class="flip-line ${cls}" style="font-size:clamp(1.05rem, 2.4vw, ${size}rem)">` +
+        `\u201c${esc(text)}\u201d</p>` +
+      `<span class="flip-val">attention ${u.salience.toFixed(2)} \u00b7 ` +
+        `reads it ${u.valence >= 0 ? "+" : ""}${u.valence.toFixed(2)}</span></div>`;
+  };
+  el.innerHTML =
+    `<p class="eyebrow" style="margin-bottom:0">One sentence, read twice</p>` +
+    `<div class="flip-pair">${side(best.warm, "v-warm")}${side(best.cold, "v-cold")}</div>` +
+    `<p class="flip-say">Same sentence, same filing. ` +
+    `<b>${esc(name_of(best.warm[0].persona_id))}</b> reads it as good news for the job they do; ` +
+    `<b>${esc(name_of(best.cold[0].persona_id))}</b> reads it as bad news for theirs. ` +
+    `Neither of them has misread it — and neither is skimming: both are in the top of ` +
+    `their own attention. That gap is what this page is about.</p>`;
+}
+
 /* ── the wall: seven tiles, nothing combined ──────────────── */
 function buildWall() {
   const f = fixture();
@@ -589,6 +822,12 @@ function buildWall() {
 
     const art = document.createElement("div");
     art.className = "tile-art";
+    /* The tile is a picture of an attention, not a copy of the filing to be read
+       aloud — seven copies is ~16k characters of duplicate speech on Meridian and
+       ~38k on Alamo. role="img" prunes the subtree. */
+    art.setAttribute("role", "img");
+    art.setAttribute("aria-label",
+      name_of(fld.persona_id) + ": the whole filing, set at the size this reader gave each sentence.");
     const para = document.createElement("p");
     f.stimulus.texts.forEach((t, i) => {
       const u = fld.units[i], k = norm(u.salience);
@@ -607,7 +846,7 @@ function buildWall() {
 
     const name = document.createElement("span");
     name.className = "tile-name";
-    name.textContent = NAMES[fld.persona_id] || fld.persona_id;
+    name.textContent = name_of(fld.persona_id);
 
     tile.appendChild(art); tile.appendChild(name);
     wallEl.appendChild(tile);
@@ -631,11 +870,16 @@ function fitTiles() {
   document.querySelectorAll(".tile-art").forEach((art) => {
     const para = art.firstElementChild;
     if (!para) return;
+    /* clientHeight is the PADDING box; scrollHeight is the paragraph's content
+       height. Comparing the two accepted a tile with ~11% of its text clipped
+       under overflow:hidden, stopping mid-word at the bottom edge. */
+    const cs = getComputedStyle(art);
+    const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
     let base = 0.30;
     for (let i = 0; i < 8; i++) {
       art.style.setProperty("--tile-base", base.toFixed(4) + "rem");
-      const target = art.clientHeight * 0.96;
-      if (!target) return;
+      const target = art.clientHeight - pad;
+      if (!(target > 0)) return;
       const r = para.scrollHeight / target;
       if (r > 0.82 && r <= 1) break;
       const step = Math.min(1.18, Math.max(0.82, 1 / Math.sqrt(r)));
@@ -676,6 +920,7 @@ function typeset(id) {
     if (!el) return;
     if (!fld) {
       el.style.fontSize = ""; el.style.fontVariationSettings = ""; el.style.letterSpacing = "";
+      el.style.opacity = ""; el.style.fontWeight = "";
       el.classList.remove("is-hit", "v-cold", "v-warm");
       return;
     }
@@ -684,6 +929,11 @@ function typeset(id) {
     el.style.fontVariationSettings =
       '"opsz" ' + Math.round(lerp(READ.opsz, k)) + ', "wght" ' + Math.round(lerp(READ.wght, k));
     el.style.letterSpacing = lerp(READ.track, k).toFixed(4) + "em";
+    // Luminance carries salience alongside size; the wall's formula, so the two
+    // halves of the page read on one encoding.
+    el.style.opacity = (0.30 + k * 0.70).toFixed(3);
+    // Paired with the axis write above so the ramp survives a fallback face.
+    el.style.fontWeight = String(Math.round(lerp(READ.wght, k)));
     el.classList.add("is-hit");
     el.classList.remove("v-cold", "v-warm");
     const c = valenceClass(u.valence);
@@ -721,7 +971,7 @@ function renderReadout(id) {
   const heavy = fld.units.filter((u) => norm(u.salience) >= 0.5).length;
   const cold = fld.units.filter((u) => u.valence < -0.02).length;
   readoutEl.innerHTML =
-    `<b>${NAMES[id]}</b> · leans on ${heavy} of ${fld.units.length} sentences · ` +
+    `<b>${esc(name_of(id))}</b> · leans on ${heavy} of ${fld.units.length} sentences · ` +
     `reads ${cold} of them as against their mandate` +
     (pinned ? " · <span class=\"note-hint\">click the name again, or Esc, to let go</span>" : "");
 }
@@ -738,16 +988,213 @@ function renderNotes() {
   const rows = f.fields.map((fld) => ({ id: fld.persona_id, u: fld.units[i] }))
                        .sort((a, b) => b.u.salience - a.u.salience);
   notesEl.innerHTML =
-    `<span class="note-sentence">${f.stimulus.texts[i]}</span>` +
+    `<span class="note-sentence">${esc(f.stimulus.texts[i])}</span>` +
     `<div class="note-row" style="color:var(--muted);margin-bottom:0.35rem">` +
       `<span>reader</span><span>attn</span><span>val</span></div>` +
     rows.map((r) =>
-      `<div class="note-row"><span class="s">${NAMES[r.id]}</span>` +
+      `<div class="note-row"><span class="s">${esc(name_of(r.id))}</span>` +
       `<span>${r.u.salience.toFixed(2)}</span>` +
       `<span class="${valenceClass(r.u.valence) || "s"}">${r.u.valence >= 0 ? "+" : ""}${r.u.valence.toFixed(2)}</span></div>`
     ).join("") +
     (contested(i) ? `<p style="margin:0.9rem 0 0"><span class="note-hint">Contested: ` +
       `read hard both ways by readers who are actually looking at it.</span></p>` : "");
+}
+
+/* ── the compare view ─────────────────────── */
+const CMP = { size: [0.62, 1.18], opsz: [9, 40], wght: [300, 620] };
+
+function cmpIds() {
+  const have = fixture().fields.map((f) => f.persona_id);
+  const a = have.includes(cmpA) ? cmpA : have[0];
+  const b = have.includes(cmpB) ? cmpB : (have.find((x) => x !== a) || have[0]);
+  return [a, b];
+}
+
+/* Opposite-signed, both readers actually looking, both reading it hard — the
+   project's own conflict rule, applied to a pair rather than to all seven. */
+function conflictsBetween(fa, fb) {
+  const out = [];
+  fa.units.forEach((ua, i) => {
+    const ub = fb.units[i];
+    if (ua.salience < LOOKING || ub.salience < LOOKING) return;
+    if (ua.valence * ub.valence >= 0) return;
+    if (Math.abs(ua.valence) < HARD || Math.abs(ub.valence) < HARD) return;
+    out.push(i);
+  });
+  return out;
+}
+
+function buildComparePick() {
+  const el = $("cmp-pick"), f = fixture(), sel = cmpIds();
+  el.innerHTML = "";
+  [["First reader", 0], ["Second reader", 1]].forEach(([label, slot]) => {
+    const h = document.createElement("p");
+    h.className = "cmp-slot-lab";
+    h.textContent = label;
+    el.appendChild(h);
+    f.fields.forEach((fld) => {
+      const id = fld.persona_id;
+      const btn = document.createElement("button");
+      btn.className = "reader reader--slot" + (id === LAY ? " reader--lay" : "");
+      btn.setAttribute("aria-pressed", String(id === sel[slot]));
+      btn.innerHTML = '<span class="name">' + esc(name_of(id)) + "</span>" +
+                      '<span class="n">' + esc(SIGIL[id] || "") + "</span>";
+      btn.onclick = () => {
+        // Picking a reader already in the other slot swaps them rather than
+        // collapsing the comparison onto one person.
+        if (slot === 0) { if (id === cmpB) cmpB = cmpA; cmpA = id; }
+        else            { if (id === cmpA) cmpA = cmpB; cmpB = id; }
+        buildComparePick();
+        renderCompare();
+      };
+      el.appendChild(btn);
+    });
+  });
+}
+
+function renderCompare() {
+  const f = fixture(), ids = cmpIds();
+  const fa = fieldOf(ids[0]), fb = fieldOf(ids[1]);
+  const na = scaleFor(fa), nb = scaleFor(fb);
+  const conflict = new Set(conflictsBetween(fa, fb));
+  $("cmp-name-a").textContent = name_of(ids[0]);
+  $("cmp-name-b").textContent = name_of(ids[1]);
+
+  const cell = (norm, u, text) => {
+    const k = norm(u.salience);
+    const v = u.valence < -0.02 ? " v-cold" : (u.valence > 0.02 ? " v-warm" : "");
+    const w = Math.round(lerp(CMP.wght, k));
+    return '<span class="cmp-cell' + v + '" style="' +
+      "font-size:calc(var(--cmp-base) * " + lerp(CMP.size, k).toFixed(3) + ");" +
+      "font-variation-settings:'opsz' " + Math.round(lerp(CMP.opsz, k)) + ",'wght' " + w + ";" +
+      "font-weight:" + w + ";" +
+      "opacity:" + (0.34 + k * 0.66).toFixed(3) + '">' + esc(text) + "</span>";
+  };
+
+  $("cmp-rows").innerHTML = f.stimulus.texts.map((t, i) =>
+    '<div class="cmp-row' + (conflict.has(i) ? " is-conflict" : "") + '">' +
+    '<span class="cmp-tick"></span>' +
+    cell(na, fa.units[i], t) + cell(nb, fb.units[i], t) + "</div>").join("");
+
+  $("compare").classList.toggle("only-conflict", onlyConflict);
+  $("cmp-only").setAttribute("aria-pressed", String(onlyConflict));
+
+  const c = conflict.size;
+  $("cmp-note").innerHTML = c
+    ? "<b>" + c + "</b> of " + f.stimulus.texts.length + " sentences are read hard in " +
+      "opposite directions by these two, with both of them actually looking — marked in " +
+      "the gutter. Size is how much of that reader the sentence took; colour is whether it " +
+      "helps or hurts the job they are paid to do. Nothing here is averaged."
+    : "These two never read the same sentence in opposite directions on this filing. " +
+      "Try another pair — the conflicts are mostly professional against the untrained reader.";
+}
+
+function setCompare(on) {
+  compareOn = on;
+  $("compare").hidden = !on;
+  $("roster").hidden = on;
+  $("cmp-pick").hidden = !on;
+  $("rail-head").textContent = on ? "Two of them" : "The seven";
+  $("cmp-toggle").textContent = on ? "Back to one reader" : "Compare two readers";
+  document.querySelector(".instrument").classList.toggle("is-compare", on);
+  if (on) { pinned = null; hovered = null; stop(); buildComparePick(); renderCompare(); }
+  render();
+}
+
+/* The coda used to assert a hardcoded "49%" and "matches no reader's own top
+   eight" over whichever of the five documents was on screen. Both are now
+   computed from the fixture being shown.
+
+   The second claim was also the weaker one. It is true only in the sense that
+   no reader's overlap with the mean is a full 8/8: on the hero filing the mean
+   is a good model of six of the seven readers (5-7 of each professional's top
+   eight) and a bad model of exactly one — the untrained reader, at 2/8. That
+   is the finding worth stating, and it is what the paragraph says now. */
+function meanTopOverlap(f, k) {
+  const n = f.stimulus.texts.length;
+  const mean = f.stimulus.texts.map((_, i) =>
+    f.fields.reduce((a, fld) => a + fld.units[i].salience, 0) / f.fields.length);
+  const topK = (arr) => {
+    const idx = arr.map((v, i) => [i, v]).sort((a, b) => b[1] - a[1]).slice(0, k);
+    return new Set(idx.map((x) => x[0]));
+  };
+  const m = topK(mean);
+  return f.fields.map((fld) => ({
+    id: fld.persona_id,
+    lay: fld.persona_id === LAY,
+    overlap: [...topK(fld.units.map((u) => u.salience))].filter((i) => m.has(i)).length
+  }));
+}
+
+/* Share of the variation in salience that a per-sentence mean does NOT carry:
+   1 - (variance of the sentence means / variance of every reader-sentence
+   score). It is the part of the data that exists only as disagreement. */
+function disagreementShare(f) {
+  const vals = [], means = [];
+  f.stimulus.texts.forEach((_, i) => {
+    const col = f.fields.map((fld) => fld.units[i].salience);
+    col.forEach((v) => vals.push(v));
+    means.push(col.reduce((a, b) => a + b, 0) / col.length);
+  });
+  const pvar = (a) => {
+    const m = a.reduce((x, y) => x + y, 0) / a.length;
+    return a.reduce((x, y) => x + (y - m) * (y - m), 0) / a.length;
+  };
+  const tot = pvar(vals);
+  return tot > 1e-9 ? Math.round(100 * (1 - pvar(means) / tot)) : 0;
+}
+
+/* A sentence that appears in no reader's top eight at all — and among those,
+   the one they came closest to noticing. A shared blind spot, not a footnote. */
+function sharedBlindSpot(f, k) {
+  const n = f.stimulus.texts.length;
+  const tops = f.fields.map((fld) => new Set(
+    fld.units.map((u, i) => [i, u.salience]).sort((a, b) => b[1] - a[1]).slice(0, k).map((x) => x[0])));
+  let best = null;
+  for (let i = 0; i < n; i++) {
+    if (tops.some((t) => t.has(i))) continue;
+    const mean = f.fields.reduce((a, fld) => a + fld.units[i].salience, 0) / f.fields.length;
+    if (!best || mean > best.mean) best = { i, mean };
+  }
+  return best;
+}
+
+function buildCoda() {
+  const f = fixture();
+  const k = Math.min(8, Math.max(1, Math.round(f.stimulus.texts.length / 4)));
+  const rows = meanTopOverlap(f, k);
+  const lay = rows.find((r) => r.lay);
+  const pros = rows.filter((r) => !r.lay).map((r) => r.overlap);
+  const lo = Math.min(...pros), hi = Math.max(...pros);
+  const share = disagreementShare(f);
+
+  $("averaging").innerHTML =
+    `The ${numword(f.fields.length)} are never averaged, and not because an average is ` +
+    `imprecise. ` +
+    `<strong>${share}%</strong> of the variation here is disagreement between readers about ` +
+    `the same sentence rather than difference between sentences — so a mean throws away most ` +
+    `of what is on this page. ` +
+    (lay
+      ? `And look at who it throws away. Take the top ${numword(k)} sentences of the averaged ` +
+        `profile: it recovers ${lo === hi ? lo : lo + " to " + hi} of every professional's own ` +
+        `top ${numword(k)}, ` +
+        `and <strong>${lay.overlap} of ${k}</strong> for the ${esc(name_of(lay.id)).toLowerCase()}. ` +
+        `Averaging these readers produces a reader who happens to be a professional, and then ` +
+        `reports that as the neutral view. The one voice it deletes is the only untrained one ` +
+        `in the room.`
+      : `Where all ${numword(f.fields.length)} have to appear at once they appear as ` +
+        `${numword(f.fields.length)} objects, above.`);
+
+  const bs = sharedBlindSpot(f, k);
+  $("blindspot").innerHTML = bs
+    ? `Every reader also has a last sentence — the one they reach only because they have run ` +
+      `out of document. Some nobody reaches at all. ` +
+      `<em>“${esc(f.stimulus.texts[bs.i])}”</em> is in none of the ` +
+      `${numword(f.fields.length)} readers' top ${numword(k)}. ` +
+      `A shared blind spot is not the same thing as a ` +
+      `safe one — and it is the one thing no single pair of eyes on this page can show you.`
+    : `On this filing every sentence lands in someone's top ${numword(k)}: there is no clause ` +
+      `the ${numword(f.fields.length)} of them all walk past.`;
 }
 
 /* ── the roster ───────────────────────────────────────────── */
@@ -760,13 +1207,22 @@ function buildRoster() {
     b.className = "reader" + (id === LAY ? " reader--lay" : "");
     b.dataset.reader = id;
     b.setAttribute("aria-pressed", "false");
-    b.innerHTML = `<span class="name">${NAMES[id] || id}</span>` +
+    b.innerHTML = `<span class="name">${esc(name_of(id))}</span>` +
                   `<span class="n">${SIGIL[id] || ""}</span>`;
-    b.onmouseenter = () => { hovered = id; render(); };
-    b.onmouseleave = () => { hovered = null; render(); };
+    // Touch fires a synthetic mouseenter before click, and no second mouseenter
+    // on a re-tap of the same name — so without clearing `hovered` here, tapping
+    // a pinned reader again cleared the pin while the document stayed typeset.
+    if (HOVER) {
+      b.onmouseenter = () => { hovered = id; render(); };
+      b.onmouseleave = () => { hovered = null; render(); };
+    }
     b.onfocus      = () => { hovered = id; render(); };
     b.onblur       = () => { hovered = null; render(); };
-    b.onclick      = () => { pinned = (pinned === id ? null : id); stop(); render(); };
+    b.onclick      = () => {
+      pinned = (pinned === id ? null : id);
+      if (!pinned) hovered = null;
+      stop(); render();
+    };
     rosterEl.appendChild(b);
   });
 }
@@ -778,6 +1234,7 @@ function buildRoster() {
    size per sentence and that means averaging seven readers into a
    profile none of them has. */
 function stop() {
+  readoutEl.setAttribute("aria-live", "polite");
   if (timer) { clearInterval(timer); timer = null; }
   if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
   $("transport").textContent = "All seven at once";
@@ -796,10 +1253,18 @@ function playWall() {
     cells[fld.persona_id] = Array.from(tile.querySelectorAll(".w"));
   });
 
-  if (REDUCED) { finishOrder(); return; }
+  if (REDUCED) {
+    // Still say something happened: the button and readout are the only feedback.
+    $("transport").textContent = "Again";
+    readoutEl.innerHTML = `<b>All ${seqs.length}</b> \u00b7 every reader's last sentence, below.`;
+    finishOrder();
+    return;
+  }
 
+  // The loop rewrites the readout 30 times; announcing each would be unusable.
+  readoutEl.setAttribute("aria-live", "off");
   Object.values(cells).forEach((arr) => arr.forEach((w) => { w.style.visibility = "hidden"; }));
-  $("transport").textContent = "Reading…";
+  $("transport").textContent = "Reading\u2026";
   let k = 0;
   timer = setInterval(() => {
     seqs.forEach((s) => {
@@ -814,7 +1279,7 @@ function playWall() {
       $("transport").textContent = "Again";
       finishTimer = setTimeout(() => { finishTimer = null; finishOrder(); render(); }, 700);
     }
-  }, 190);
+  }, 110);
 }
 
 /* Where each reader stops looking. The last sentence they get to is the
@@ -830,8 +1295,8 @@ function finishOrder() {
     div.className = "finish-row";
     const short = text.length > 58 ? text.slice(0, 57).trim() + "…" : text;
     div.innerHTML = `<span class="rank">s${String(last).padStart(2, "0")}</span>` +
-                    `<span>${NAMES[fld.persona_id]}</span>` +
-                    `<span class="note">never gets to: ${short}</span>`;
+                    `<span>${esc(name_of(fld.persona_id))}</span>` +
+                    `<span class="note">never gets to: ${esc(short)}</span>`;
     finishEl.appendChild(div);
     setTimeout(() => div.classList.add("is-in"), REDUCED ? 0 : 80 * i);
   });
@@ -859,6 +1324,10 @@ function buildDocLine() {
 function load() {
   stop();
   pinned = null; hovered = null; litSentence = null;
+  buildLede();
+  buildFlip();
+  buildCoda();
+  if (compareOn) { buildComparePick(); renderCompare(); }
   buildWall();
   buildDoc();
   buildRoster();
@@ -888,16 +1357,25 @@ docEl.addEventListener("focusin", (e) => {
 docEl.addEventListener("focusout", (e) => {
   const el = e.target.closest(".sentence");
   if (el) el.classList.remove("is-lit");
+  litSentence = null; renderNotes();
 });
 
-$("transport").onclick = () => { (timer ? stop() : playWall()); };
+$("transport").onclick = () => { if (timer) { stop(); render(); } else playWall(); };
+$("cmp-toggle").onclick = () => setCompare(!compareOn);
+$("cmp-only").onclick = () => { onlyConflict = !onlyConflict; renderCompare(); };
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && (pinned || timer)) { pinned = null; stop(); render(); }
+  if (e.key === "Escape" && (pinned || hovered || timer)) { pinned = null; hovered = null; stop(); render(); }
 });
 
 load();
 
 document.fonts && document.fonts.ready.then(fitTiles);
-let rz;
-window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(fitTiles, 160); });
+/* Safari's pinch-zoom fires no resize event, and the tiles' art boxes are a fixed
+   height, so observing the wall cannot feed back into its own size. */
+if (window.ResizeObserver) {
+  new ResizeObserver(() => fitTiles()).observe(wallEl);
+} else {
+  let rz;
+  window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(fitTiles, 160); });
+}
 </script>
